@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://bb6sjcfnkkl5w"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_wj85b"]
+
+[resource]
+script = ExtResource("1_wj85b")
+movementCost = 3
+attackCost = 3
+attackDamage = 3
+flankingModifier = 1.0
+maxHealthPoints = 10

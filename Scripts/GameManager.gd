@@ -3,6 +3,7 @@ class_name GameManager
 
 @onready var cycleTimer: Timer = $CycleTimer
 
+# Column 0 is the frontline
 static var playerUnitMatrix
 static var enemyUnitMatrix
 
@@ -22,12 +23,13 @@ func _ready():
 	cycleTimer.timeout.connect(CycleProcess)
 
 
+# first index is the column, second index is the row
 func Make2DArray(h, w):
 	var output = []
-	output.resize(h)
-	for i in range(h):
+	output.resize(w)
+	for i in range(w):
 		var newlist = []
-		newlist.resize(w)
+		newlist.resize(h)
 		output[i] = newlist
 	
 	return output
@@ -36,9 +38,6 @@ func Make2DArray(h, w):
 func InitializeMatrix():
 	playerUnitMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyUnitMatrix = Make2DArray(matrixHeight, matrixWidth)
-	
-	playerDamageMatrix = Make2DArray(matrixHeight, matrixWidth)
-	enemyDamageMatrix = Make2DArray(matrixHeight, matrixWidth)
 	
 	playerEffectMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyEffectMatrix = Make2DArray(matrixHeight, matrixWidth)
@@ -57,8 +56,29 @@ func CycleProcess():
 	# 2. apply effect matrix
 	
 	# 3. generate damage matrix
+	playerDamageMatrix = Make2DArray(matrixHeight, matrixWidth)
+	enemyDamageMatrix = Make2DArray(matrixHeight, matrixWidth)
 	
-	# 4. apply effect matrix
+	# go through all units and set damage matrix
+	for col in range(matrixWidth):
+		for row in range(matrixWidth):
+			if playerUnitMatrix[col][row] != null:
+				var targetCoord = FindAttackTarget(true, row, playerUnitMatrix[col][row].data.attackRange)
+				if targetCoord != null:
+					enemyDamageMatrix[targetCoord.x][targetCoord.y] += playerUnitMatrix[col][row].data.attackDamage
+			
+			if enemyUnitMatrix[col][row] != null:
+				var targetCoord = FindAttackTarget(false, row, enemyUnitMatrix[col][row].data.attackRange)
+				if targetCoord != null:
+					playerDamageMatrix[targetCoord.x][targetCoord.y] += enemyUnitMatrix[col][row].data.attackDamage
+				
+	# 4. apply damage matrix
+	for col in range(matrixWidth):
+		for row in range(matrixWidth):
+			if playerUnitMatrix[col][row] != null:
+				playerUnitMatrix[col][row].ReceiveHit(playerDamageMatrix[col][row])
+			if enemyUnitMatrix[col][row] != null:
+				enemyUnitMatrix[col][row].ReceiveHit(enemyDamageMatrix[col][row])
 	
 	# 5. process movement
 	
@@ -70,31 +90,38 @@ func CycleProcess():
 # returns a vector containing the row col position of an attack target
 # returns null if no units are found
 # checkCols means how many columns it can search away from itself
-func FindAttackTarget(isPlayer: bool, curRow, curCol, checkCols: int = 1):
-	# which direction to increase column index
-	# right (positive) for player
-	# left (negative) for enemy
-	var h_dir: int = 1
-	
+func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 	var checkingMatrix = enemyUnitMatrix
 	if !isPlayer:
 		checkingMatrix = playerUnitMatrix
-		h_dir = -1
 		
-	for i in range(checkCols):
-		if i + curCol < 0 or i + curCol > matrixWidth:
-			# column index is out of bounds.
-			break
+	for col_offset in range(checkCols):
+		var checkingColumn = checkingMatrix[col_offset]
+		for i in range(len(checkingColumn)):
+			var upper: Unit = null
+			var lower: Unit = null
 			
-		# add to row
-		var v_offset: int = 0
-		var dir: int = 1
-		while true:
-			if curRow + h_offset > 0 and curRow + h_offset < matrixHeight
+			if curRow + i < len(checkingColumn):
+				upper = checkingColumn[curRow + i]
+			if curRow - i >= 0:
+				lower = checkingColumn[curRow - i]
 			
-			if dir < 0:
-				# move onto next h offset if checked below
-				h_offset += 1
-				
-			dir *= -1
-	return
+			# both exists return the one that has lower HP
+			if upper != null and lower != null:
+				if upper.currentHealthPoints < lower.currentHealthPoints:
+					return Vector2(col_offset, curRow + i)
+				elif upper.currentHealthPoints > lower.currentHealthPoints:
+					return Vector2(col_offset, curRow - i)
+				else:
+					var rng = randi()
+					if rng%2 == 0:
+						return Vector2(col_offset, curRow + i)
+					else:
+						return Vector2(col_offset, curRow - i)
+			else:
+				if upper != null:
+					return Vector2(col_offset, curRow + i)
+				if lower != null:
+					return Vector2(col_offset, curRow - i)
+		
+	return null

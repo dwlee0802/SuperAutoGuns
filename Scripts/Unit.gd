@@ -5,9 +5,9 @@ var data: UnitData
 
 var currentHealthPoints: int
 
-var movementCyclesLeft: int
+var movementCyclesLeft: int = 0
 
-var attackCyclesLeft: int
+var attackCyclesLeft: int = 0
 
 
 func _init(_data):

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://x43u62wux25t"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_ocacp"]
+
+[resource]
+script = ExtResource("1_ocacp")
+movementCost = 2
+attackCost = 2
+attackDamage = 1
+flankingModifier = 1.5
+maxHealthPoints = 8
