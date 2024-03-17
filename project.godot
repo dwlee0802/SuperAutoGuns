@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="SuperAutoGuns"
+run/main_scene="res://Scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1600
+window/size/viewport_height=900
 
 [rendering]
 

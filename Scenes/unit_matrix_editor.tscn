@@ -1,0 +1,205 @@
+[gd_scene load_steps=4 format=3 uid="uid://coifsflvvq3my"]
+
+[ext_resource type="PackedScene" uid="uid://kn2dwn5oqocd" path="res://Scenes/unit_slot.tscn" id="1_mevg1"]
+[ext_resource type="Script" path="res://Scenes/UnitMatrixEditor.gd" id="1_wfjgy"]
+[ext_resource type="PackedScene" uid="uid://dckjus8x2dn7h" path="res://Scenes/unit_card.tscn" id="2_thwlo"]
+
+[node name="UnitMatrixEditor" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+script = ExtResource("1_wfjgy")
+
+[node name="UnitMatrix" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="UnitMatrix"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UnitMatrix"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Army Layout"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UnitMatrix"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FirstColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
+layout_mode = 2
+
+[node name="UnitSlot" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot2" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot3" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot4" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="SecondColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
+layout_mode = 2
+
+[node name="UnitSlot" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot2" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot3" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot4" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="ThirdColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
+layout_mode = 2
+
+[node name="UnitSlot" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot2" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot3" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="UnitSlot4" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+layout_mode = 2
+
+[node name="Reserve" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Reserve"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Reserve"]
+layout_mode = 0
+offset_right = 62.0
+offset_bottom = 23.0
+text = "Reserve"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Reserve"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="UnitCard" parent="Reserve/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard2" parent="Reserve/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard3" parent="Reserve/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard4" parent="Reserve/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard5" parent="Reserve/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard6" parent="Reserve/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Reinforcement" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 84)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="Reinforcement"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Reinforcement"]
+layout_mode = 0
+offset_right = 115.0
+offset_bottom = 23.0
+text = "Reinforcement"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Reinforcement"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="UnitCard" parent="Reinforcement/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard2" parent="Reinforcement/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard3" parent="Reinforcement/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard4" parent="Reinforcement/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard5" parent="Reinforcement/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="UnitCard6" parent="Reinforcement/HBoxContainer" instance=ExtResource("2_thwlo")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
