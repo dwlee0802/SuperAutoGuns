@@ -1,7 +1,6 @@
 extends Control
-class_name GameManager
 
-@onready var cycleTimer: Timer = $CycleTimer
+static var cycleTimer: Timer
 
 # Column 0 is the frontline
 static var playerUnitMatrix
@@ -16,17 +15,18 @@ static var playerEffectMatrix
 static var enemyEffectMatrix
 
 # temporary value for the size of the matrix
-var matrixWidth: int = 3
-var matrixHeight: int = 4
+static var matrixWidth: int = 3
+static var matrixHeight: int = 4
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	cycleTimer.timeout.connect(CycleProcess)
+static func _static_init():
+	cycleTimer = Timer.new()
+	#cycleTimer.timeout.connect(CycleProcess)
+	InitializeMatrix()
 
-
+	
 # first index is the column, second index is the row
-func Make2DArray(h, w):
+static func Make2DArray(h, w):
 	var output = []
 	output.resize(w)
 	for i in range(w):
@@ -37,7 +37,7 @@ func Make2DArray(h, w):
 	return output
 
 
-func InitializeMatrix():
+static func InitializeMatrix():
 	playerUnitMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyUnitMatrix = Make2DArray(matrixHeight, matrixWidth)
 	
@@ -52,7 +52,7 @@ func InitializeMatrix():
 # 4. apply effect matrix
 # 5. process movement
 # stop cycle timer if one side wins
-func CycleProcess():
+static func CycleProcess():
 	# 1. generate effect matrix
 	
 	# 2. apply effect matrix
@@ -92,7 +92,7 @@ func CycleProcess():
 # returns a vector containing the row col position of an attack target
 # returns null if no units are found
 # checkCols means how many columns it can search away from itself
-func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
+static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 	var checkingMatrix = enemyUnitMatrix
 	if !isPlayer:
 		checkingMatrix = playerUnitMatrix
@@ -131,3 +131,13 @@ func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 
 static func AddReserveUnit(data: UnitData):
 	playerReserves.append(Unit.new(data))
+
+
+static func UnitCount(unitMatrix):
+	var output = 0
+	for i in range(unitMatrix.size()):
+		for j in range(unitMatrix[i].size()):
+			if unitMatrix[i][j] != null:
+				output += 1
+	
+	return output

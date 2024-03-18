@@ -16,7 +16,7 @@ var reinforcementOptionCount: int = 5
 func _ready():
 	$Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Germany))
 	GenerateReinforcementOptions(Enums.Nation.Germany)
-	GenerateGrid(3,5)
+	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
 
 
 # makes a grid with specified width and height slots
@@ -31,6 +31,7 @@ func GenerateGrid(colCount: int, rowCount: int):
 			var newSlot: UnitSlot = slotScene.instantiate()
 			newCol.add_child(newSlot)
 			newSlot.dropped.connect(ExportReserve)
+			newSlot.dropped.connect(ExportUnitMatrix)
 		unitMatrix.add_child(newCol)
 		
 	
@@ -40,8 +41,19 @@ func ImportUnitMatrix():
 	
 
 # returns the state of the unit matrix
-func ExportUnitMatrix():
-	pass
+func ExportUnitMatrix(isPlayer: bool = true):
+	# column index
+	for col in range(unitMatrix.get_child_count()):
+		# row index
+		for row in range(unitMatrix.get_child(col).get_child_count()):
+			if isPlayer:
+				if unitMatrix.get_child(col).get_child(row).get_child_count() == 2:
+					var unit_there = unitMatrix.get_child(col).get_child(row).get_child(1)
+					GameManager.playerUnitMatrix[col][row] = unit_there.unit
+				else:
+					GameManager.playerUnitMatrix[col][row] = null
+	
+	print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
 
 
 # make unit icons based on player's reserves
