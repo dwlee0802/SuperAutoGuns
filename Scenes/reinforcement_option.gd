@@ -9,6 +9,9 @@ func SetData(data: UnitData):
 	$Label.text = unitData.name
 
 
+# add to reserve
+# update UI
 func _pressed():
+	print("eh")
 	# add unit to reserve
-	pass
+	GameManager.AddReserveUnit(unitData)

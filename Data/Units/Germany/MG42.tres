@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://bvrrwat8v41m7"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_4ccwy"]
+
+[resource]
+script = ExtResource("1_4ccwy")
+name = "MG42"
+movementCost = 5
+attackCost = 1
+attackDamage = 2
+attackRange = 1
+flankingModifier = 1.2
+maxHealthPoints = 6

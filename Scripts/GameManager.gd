@@ -7,6 +7,8 @@ class_name GameManager
 static var playerUnitMatrix
 static var enemyUnitMatrix
 
+static var playerReserves = []
+
 static var playerDamageMatrix
 static var enemyDamageMatrix
 
@@ -125,3 +127,7 @@ func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 					return Vector2(col_offset, curRow - i)
 		
 	return null
+
+
+static func AddReserveUnit(data: UnitData):
+	playerReserves.append(Unit.new(data))

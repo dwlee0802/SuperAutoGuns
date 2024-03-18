@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dckjus8x2dn7h"]
 
+[ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
-[ext_resource type="Script" path="res://Scenes/UnitCard.gd" id="1_xd7oy"]
 
 [node name="UnitCard" type="Control"]
 texture_filter = 1
@@ -18,7 +18,9 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_xd7oy")
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("1_lsm36")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 self_modulate = Color(0.435294, 0.588235, 0.937255, 1)

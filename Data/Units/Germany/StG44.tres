@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://kx65bldwiarj"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_vnwl5"]
+
+[resource]
+script = ExtResource("1_vnwl5")
+name = "StG44"
+movementCost = 3
+attackCost = 2
+attackDamage = 1
+attackRange = 1
+flankingModifier = 1.5
+maxHealthPoints = 10
