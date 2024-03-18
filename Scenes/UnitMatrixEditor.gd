@@ -36,8 +36,19 @@ func GenerateGrid(colCount: int, rowCount: int):
 		
 	
 # reads the unit matrix in Game and shows it in the UI
-func ImportUnitMatrix():
-	pass
+# untested!
+func ImportUnitMatrix(isPlayer: bool = true):
+	# column index
+	for col in range(unitMatrix.get_child_count()):
+		# row index
+		for row in range(unitMatrix.get_child(col).get_child_count()):
+			if isPlayer:
+				if GameManager.playerUnitMatrix[col][row] != null:
+					var newCard = unitCardScene.instantiate()
+					newCard.SetUnit(GameManager.playerUnitMatrix[col][row])
+					unitMatrix.get_child(col).get_child(row).add_child(newCard)
+	
+	print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
 	
 
 # returns the state of the unit matrix
