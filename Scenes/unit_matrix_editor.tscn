@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://coifsflvvq3my"]
+[gd_scene load_steps=4 format=3 uid="uid://coifsflvvq3my"]
 
 [ext_resource type="PackedScene" uid="uid://kn2dwn5oqocd" path="res://Scenes/unit_slot.tscn" id="1_mevg1"]
 [ext_resource type="Script" path="res://Scenes/UnitMatrixEditor.gd" id="1_wfjgy"]
+[ext_resource type="Script" path="res://Scenes/ReserveContainer.gd" id="3_tlsj4"]
 
 [node name="UnitMatrixEditor" type="VBoxContainer"]
 anchors_preset = 15
@@ -92,6 +93,7 @@ layout_mode = 2
 [node name="Reserve" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="Reserve"]
 layout_mode = 1
@@ -100,6 +102,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Reserve"]
 layout_mode = 0
@@ -115,6 +118,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+script = ExtResource("3_tlsj4")
 
 [node name="Reinforcement" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 84)

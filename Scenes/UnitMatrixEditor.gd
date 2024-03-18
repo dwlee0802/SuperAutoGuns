@@ -1,7 +1,10 @@
 extends VBoxContainer
 class_name UnitMatrixEditor
 
+@onready var unitMatrix = $UnitMatrix/HBoxContainer
+
 var unitCardScene = load("res://Scenes/unit_card.tscn")
+var slotScene = load("res://Scenes/unit_slot.tscn")
 
 @onready var reinforcementUI = $Reinforcement/HBoxContainer
 var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
@@ -13,7 +16,23 @@ var reinforcementOptionCount: int = 5
 func _ready():
 	$Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Germany))
 	GenerateReinforcementOptions(Enums.Nation.Germany)
+	GenerateGrid(3,5)
+
+
+# makes a grid with specified width and height slots
+func GenerateGrid(colCount: int, rowCount: int):
+	# clear preexisting grid
+	while unitMatrix.get_child_count() > 0:
+		unitMatrix.remove_child(unitMatrix.get_child(0))
 	
+	for i in range(colCount):
+		var newCol = VBoxContainer.new()
+		for j in range(rowCount):
+			var newSlot: UnitSlot = slotScene.instantiate()
+			newCol.add_child(newSlot)
+			newSlot.dropped.connect(ExportReserve)
+		unitMatrix.add_child(newCol)
+		
 	
 # reads the unit matrix in Game and shows it in the UI
 func ImportUnitMatrix():
@@ -42,6 +61,7 @@ func ExportReserve():
 	for child in reserveUI.get_children():
 		newReserve.append(child)
 	GameManager.playerReserves = newReserve
+	print("current reserve count: " + str(newReserve.size()))
 	
 
 # populate reinforcement option buttons
