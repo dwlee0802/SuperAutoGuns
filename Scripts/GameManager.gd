@@ -1,4 +1,5 @@
 extends Control
+class_name GameManager
 
 static var cycleTimer: Timer
 
@@ -18,12 +19,17 @@ static var enemyEffectMatrix
 static var matrixWidth: int = 3
 static var matrixHeight: int = 4
 
+static var cycleCount: int = 0
+
 
 static func _static_init():
-	cycleTimer = Timer.new()
-	#cycleTimer.timeout.connect(CycleProcess)
 	InitializeMatrix()
 
+
+func _ready():
+	cycleTimer = $CycleTimer
+	GameManager.cycleTimer.timeout.connect(CycleProcess)
+	
 	
 # first index is the column, second index is the row
 static func Make2DArray(h, w):
@@ -85,6 +91,8 @@ static func CycleProcess():
 	# 5. process movement
 	
 	# stop cycle timer if one side wins
+	cycleCount += 1
+	print("cycle " + str(cycleCount) + " done")
 	pass
 
 

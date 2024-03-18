@@ -12,3 +12,4 @@ grow_vertical = 2
 script = ExtResource("1_su57y")
 
 [node name="CycleTimer" type="Timer" parent="."]
+autostart = true
