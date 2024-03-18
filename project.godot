@@ -14,6 +14,10 @@ config/name="SuperAutoGuns"
 run/main_scene="res://Scenes/game.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 
+[autoload]
+
+DataManager="*res://Scripts/DataManager.gd"
+
 [display]
 
 window/size/viewport_width=1600

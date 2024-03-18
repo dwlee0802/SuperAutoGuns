@@ -4,8 +4,10 @@
 
 [resource]
 script = ExtResource("1_ocacp")
+name = "MP40"
 movementCost = 2
 attackCost = 2
 attackDamage = 1
+attackRange = 1
 flankingModifier = 1.5
 maxHealthPoints = 8

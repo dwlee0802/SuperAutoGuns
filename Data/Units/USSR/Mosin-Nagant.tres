@@ -4,8 +4,10 @@
 
 [resource]
 script = ExtResource("1_le3gt")
+name = "Mosin-Nagant"
 movementCost = 2
 attackCost = 3
 attackDamage = 2
+attackRange = 1
 flankingModifier = 1.0
 maxHealthPoints = 1

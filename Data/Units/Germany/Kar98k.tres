@@ -4,8 +4,10 @@
 
 [resource]
 script = ExtResource("1_wj85b")
+name = "Kar98k"
 movementCost = 3
 attackCost = 3
 attackDamage = 3
+attackRange = 1
 flankingModifier = 1.0
 maxHealthPoints = 10

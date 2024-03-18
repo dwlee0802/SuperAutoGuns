@@ -1,6 +1,8 @@
 extends Resource
 class_name UnitData
 
+@export var name: String = "Null"
+
 @export var movementCost: int = 1
 
 @export var attackCost: int = 1
