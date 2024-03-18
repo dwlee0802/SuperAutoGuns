@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://kn2dwn5oqocd"]
+[gd_scene load_steps=3 format=3 uid="uid://kn2dwn5oqocd"]
 
+[ext_resource type="Script" path="res://Scenes/unit_slot.gd" id="1_flcne"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_wd3c4"]
 
 [node name="UnitSlot" type="Control"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_flcne")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 self_modulate = Color(1, 1, 1, 0.278431)
