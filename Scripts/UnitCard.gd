@@ -10,9 +10,11 @@ func SetUnit(_unit: Unit):
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
-	#set_drag_preview(make_drag_preview())
+	set_drag_preview(make_drag_preview())
 	return self
 	
 
 func make_drag_preview() -> TextureRect:
-	pass
+	var newT = TextureRect.new()
+	newT.size = Vector2(64,64)
+	return newT

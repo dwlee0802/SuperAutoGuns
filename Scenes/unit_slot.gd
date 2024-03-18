@@ -11,9 +11,15 @@ func _process(delta):
 	pass
 
 
-func _can_drop_data(at_position, data):
-	pass
+func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
+	if data is UnitCard:
+		return true
+		
+	return false
 
 
+# make unit card into self's child
 func _drop_data(at_position, data):
-	pass
+	data.get_parent().remove_child(data)
+	add_child(data)
+	data.position = Vector2.ZERO

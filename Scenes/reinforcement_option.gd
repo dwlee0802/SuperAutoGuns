@@ -12,6 +12,5 @@ func SetData(data: UnitData):
 # add to reserve
 # update UI
 func _pressed():
-	print("eh")
 	# add unit to reserve
 	GameManager.AddReserveUnit(unitData)
