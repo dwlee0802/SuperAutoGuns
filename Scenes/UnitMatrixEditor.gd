@@ -1,6 +1,8 @@
 extends VBoxContainer
 class_name UnitMatrixEditor
 
+@export var isPlayer: bool
+
 @onready var unitMatrix = $UnitMatrix/HBoxContainer
 
 var unitCardScene = load("res://Scenes/unit_card.tscn")
@@ -37,34 +39,51 @@ func GenerateGrid(colCount: int, rowCount: int):
 	
 # reads the unit matrix in Game and shows it in the UI
 # untested!
-func ImportUnitMatrix(isPlayer: bool = true):
+func ImportUnitMatrix():
+	var currentMatrix
+	if isPlayer:
+		currentMatrix = GameManager.playerUnitMatrix
+	else:
+		currentMatrix = GameManager.enemyUnitMatrix
+		
 	# column index
 	for col in range(unitMatrix.get_child_count()):
 		# row index
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if isPlayer:
-				if GameManager.playerUnitMatrix[col][row] != null:
+				if currentMatrix[col][row] != null:
 					var newCard = unitCardScene.instantiate()
-					newCard.SetUnit(GameManager.playerUnitMatrix[col][row])
+					newCard.SetUnit(currentMatrix[col][row])
 					unitMatrix.get_child(col).get_child(row).add_child(newCard)
 	
-	print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
+	if isPlayer:
+		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
+	else:
+		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
 	
 
 # returns the state of the unit matrix
-func ExportUnitMatrix(isPlayer: bool = true):
+func ExportUnitMatrix():
+	var currentMatrix
+	if isPlayer:
+		currentMatrix = GameManager.playerUnitMatrix
+	else:
+		currentMatrix = GameManager.enemyUnitMatrix
+		
 	# column index
 	for col in range(unitMatrix.get_child_count()):
 		# row index
 		for row in range(unitMatrix.get_child(col).get_child_count()):
-			if isPlayer:
-				if unitMatrix.get_child(col).get_child(row).get_child_count() == 2:
-					var unit_there = unitMatrix.get_child(col).get_child(row).get_child(1)
-					GameManager.playerUnitMatrix[col][row] = unit_there.unit
-				else:
-					GameManager.playerUnitMatrix[col][row] = null
-	
-	print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
+			if unitMatrix.get_child(col).get_child(row).get_child_count() == 2:
+				var unit_there = unitMatrix.get_child(col).get_child(row).get_child(1)
+				currentMatrix[col][row] = unit_there.unit
+			else:
+				currentMatrix[col][row] = null
+						
+	if isPlayer:
+		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
+	else:
+		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
 
 
 # make unit icons based on player's reserves
@@ -72,8 +91,14 @@ func ImportReserve():
 	# clear children
 	while reserveUI.get_child_count() > 0:
 		reserveUI.remove_child(reserveUI.get_child(0))
+	
+	var reserve
+	if isPlayer:
+		reserve = GameManager.playerReserves
+	else:
+		reserve = GameManager.enemyReserves
 		
-	for unit: Unit in GameManager.playerReserves:
+	for unit: Unit in reserve:
 		var newCard: UnitCard = unitCardScene.instantiate()
 		newCard.SetUnit(unit)
 		reserveUI.add_child(newCard)
@@ -83,7 +108,12 @@ func ExportReserve():
 	var newReserve = []
 	for child in reserveUI.get_children():
 		newReserve.append(child)
-	GameManager.playerReserves = newReserve
+	
+	if isPlayer:
+		GameManager.playerReserves = newReserve
+	else:
+		GameManager.enemyReserves = newReserve
+		
 	print("current reserve count: " + str(newReserve.size()))
 	
 
@@ -95,6 +125,7 @@ func GenerateReinforcementOptions(nation: Enums.Nation):
 		
 	for i in range(reinforcementOptionCount):
 		var newOption: ReinforcementOptionButton = reinforcementOptionButton.instantiate()
+		newOption.isPlayer = isPlayer
 		newOption.SetData(DataManager.unitDict[nation].pick_random())
 		reinforcementUI.add_child(newOption)
 		newOption.pressed.connect(ImportReserve)

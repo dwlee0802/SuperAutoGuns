@@ -8,6 +8,8 @@ static var unitDict = {}
 
 # Called when the node enters the scene tree for the first time.
 static func _static_init():
+	print("Start data import\n\n")
+	
 	var germany_path = unit_resources_path + "/" + Enums.NationToString(Enums.Nation.Germany) + "/"
 	var dir = DirAccess.open(germany_path)
 	dir.list_dir_begin()
@@ -46,3 +48,5 @@ static func _static_init():
 	
 	for item in unitDict[Enums.Nation.USSR]:
 		print(item.name)
+	
+	print("\n\nEnd of data import.\n\n")

@@ -14,9 +14,8 @@ script = ExtResource("1_su57y")
 
 [node name="CycleTimer" type="Timer" parent="."]
 one_shot = true
-autostart = true
 
-[node name="UnitMatrixEditor" parent="." instance=ExtResource("2_3hgcu")]
+[node name="PlayerUnitMatrixEditor" parent="." instance=ExtResource("2_3hgcu")]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 1
 anchors_preset = 6
@@ -26,8 +25,9 @@ anchor_bottom = 0.5
 offset_top = -338.0
 offset_bottom = 338.0
 grow_horizontal = 0
+isPlayer = true
 
-[node name="UnitMatrixEditor2" parent="." instance=ExtResource("2_3hgcu")]
+[node name="EnemyUnitMatrixEditor" parent="." instance=ExtResource("2_3hgcu")]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 1
 anchors_preset = 4

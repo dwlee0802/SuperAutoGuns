@@ -8,6 +8,7 @@ static var playerUnitMatrix
 static var enemyUnitMatrix
 
 static var playerReserves = []
+static var enemyReserves = []
 
 static var playerDamageMatrix
 static var enemyDamageMatrix
@@ -78,17 +79,25 @@ static func CycleProcess():
 	playerDamageMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyDamageMatrix = Make2DArray(matrixHeight, matrixWidth)
 	
+	# initialize to zero
+	for col in playerDamageMatrix:
+		col.fill(0)
+	for col in enemyDamageMatrix:
+		col.fill(0)
+		
 	# go through all units and set damage matrix
 	for col in range(matrixWidth):
 		for row in range(matrixWidth):
 			if playerUnitMatrix[col][row] != null:
 				var targetCoord = FindAttackTarget(true, row, playerUnitMatrix[col][row].data.attackRange)
 				if targetCoord != null:
+					print("attack target: " + str(targetCoord))
 					enemyDamageMatrix[targetCoord.x][targetCoord.y] += playerUnitMatrix[col][row].data.attackDamage
 			
 			if enemyUnitMatrix[col][row] != null:
 				var targetCoord = FindAttackTarget(false, row, enemyUnitMatrix[col][row].data.attackRange)
 				if targetCoord != null:
+					print("attack target: " + str(targetCoord))
 					playerDamageMatrix[targetCoord.x][targetCoord.y] += enemyUnitMatrix[col][row].data.attackDamage
 				
 	# 4. apply damage matrix
@@ -99,11 +108,16 @@ static func CycleProcess():
 			if enemyUnitMatrix[col][row] != null:
 				enemyUnitMatrix[col][row].ReceiveHit(enemyDamageMatrix[col][row])
 	
+	ClearDeadUnits(playerUnitMatrix)
+	ClearDeadUnits(enemyUnitMatrix)
+	
 	# 5. process movement
 	
 	# stop cycle timer if one side wins
 	cycleCount += 1
-	print("cycle " + str(cycleCount) + " done")
+	print("Player damage matrix:")
+	print(playerDamageMatrix)
+	print("cycle " + str(cycleCount) + " done\n")
 	pass
 
 
@@ -144,12 +158,15 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 					return Vector2(col_offset, curRow + i)
 				if lower != null:
 					return Vector2(col_offset, curRow - i)
-		
+	
 	return null
 
 
-static func AddReserveUnit(data: UnitData):
-	playerReserves.append(Unit.new(data))
+static func AddReserveUnit(data: UnitData, isPlayer: bool):
+	if isPlayer:
+		playerReserves.append(Unit.new(data))
+	else:
+		enemyReserves.append(Unit.new(data))
 
 
 static func UnitCount(unitMatrix):
@@ -160,3 +177,13 @@ static func UnitCount(unitMatrix):
 				output += 1
 	
 	return output
+
+
+# go through the unit matrix and unassign dead units
+static func ClearDeadUnits(unitMatrix):
+	for i in range(unitMatrix.size()):
+		for j in range(unitMatrix[i].size()):
+			if unitMatrix[i][j] != null:
+				if unitMatrix[i][j].isDead:
+					unitMatrix[i][j] = null
+				

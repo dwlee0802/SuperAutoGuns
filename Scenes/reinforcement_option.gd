@@ -3,6 +3,8 @@ class_name ReinforcementOptionButton
 
 var unitData: UnitData
 
+@export var isPlayer: bool
+
 
 func SetData(data: UnitData):
 	unitData = data
@@ -13,4 +15,5 @@ func SetData(data: UnitData):
 # update UI
 func _pressed():
 	# add unit to reserve
-	GameManager.AddReserveUnit(unitData)
+	GameManager.AddReserveUnit(unitData, isPlayer)
+		
