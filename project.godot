@@ -23,6 +23,10 @@ DataManager="*res://Scripts/DataManager.gd"
 window/size/viewport_width=1600
 window/size/viewport_height=900
 
+[editor]
+
+movie_writer/movie_file="/Users/CKIRUser/Videos/sdafasd"
+
 [rendering]
 
 renderer/rendering_method="mobile"

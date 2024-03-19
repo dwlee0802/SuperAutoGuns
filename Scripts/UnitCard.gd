@@ -30,4 +30,5 @@ func UpdateHealthLabel():
 
 
 func SetAttackLine(pos):
-	attackLine.set_point_position(1, pos)
+	attackLine.set_point_position(1, pos - global_position)
+	attackLine.get_node("AnimationPlayer").play("attack_animation")

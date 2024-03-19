@@ -160,5 +160,5 @@ func UpdateAttackLines():
 					if targetCard == null:
 						continue
 					
-					unitCard.attackLine.set_point_position(1, targetCard.global_position - unitCard.global_position + Vector2(32, 32))
+					unitCard.SetAttackLine(targetCard.global_position + Vector2(32, 32))
 					unitCard.attackLine.visible = true
