@@ -13,6 +13,7 @@ grow_vertical = 2
 script = ExtResource("1_su57y")
 
 [node name="CycleTimer" type="Timer" parent="."]
+wait_time = 0.5
 
 [node name="PlayerUnitMatrixEditor" parent="." instance=ExtResource("2_3hgcu")]
 custom_minimum_size = Vector2(700, 0)

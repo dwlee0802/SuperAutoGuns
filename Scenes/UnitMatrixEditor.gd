@@ -158,7 +158,7 @@ func UpdateAttackLines():
 						targetCard = GameManager.enemyEditor.GetUnitCardAt(attackCoord.x, attackCoord.y)
 					
 					if targetCard == null:
-						return
+						continue
 					
 					unitCard.attackLine.set_point_position(1, targetCard.global_position - unitCard.global_position + Vector2(32, 32))
 					unitCard.attackLine.visible = true
