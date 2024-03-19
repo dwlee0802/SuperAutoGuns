@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=3 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
+[ext_resource type="PackedScene" uid="uid://coifsflvvq3my" path="res://Scenes/unit_matrix_editor.tscn" id="2_3hgcu"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -12,4 +13,59 @@ grow_vertical = 2
 script = ExtResource("1_su57y")
 
 [node name="CycleTimer" type="Timer" parent="."]
+one_shot = true
 autostart = true
+
+[node name="UnitMatrixEditor" parent="." instance=ExtResource("2_3hgcu")]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -338.0
+offset_bottom = 338.0
+grow_horizontal = 0
+
+[node name="UnitMatrixEditor2" parent="." instance=ExtResource("2_3hgcu")]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_right = 0.0
+anchor_bottom = 0.5
+offset_top = -338.0
+offset_right = 700.0
+offset_bottom = 338.0
+grow_horizontal = 1
+
+[node name="AutoToggleButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -22.5
+offset_top = 100.0
+offset_right = 22.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+toggle_mode = true
+text = "Auto"
+
+[node name="ProcessSingleCycleButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -15.5
+offset_right = 45.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Next Cycle"

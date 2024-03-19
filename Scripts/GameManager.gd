@@ -29,8 +29,19 @@ static func _static_init():
 func _ready():
 	cycleTimer = $CycleTimer
 	GameManager.cycleTimer.timeout.connect(CycleProcess)
+	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
+	$ProcessSingleCycleButton.pressed.connect(CycleProcess)
 	
-	
+
+func _on_cycle_timer_timeout():
+	if $AutoToggleButton.button_pressed:
+		if cycleTimer.is_stopped():
+			cycleTimer.start()
+	else:
+		if !cycleTimer.is_stopped():
+			cycleTimer.stop()
+		
+		
 # first index is the column, second index is the row
 static func Make2DArray(h, w):
 	var output = []
