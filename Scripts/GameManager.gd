@@ -121,6 +121,7 @@ static func CycleProcess():
 	pass
 
 
+# TODO This needs fixing! Edge cases not working
 # when inputted a position on the matrix
 # returns a vector containing the row col position of an attack target
 # returns null if no units are found

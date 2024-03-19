@@ -16,4 +16,5 @@ func SetData(data: UnitData):
 func _pressed():
 	# add unit to reserve
 	GameManager.AddReserveUnit(unitData, isPlayer)
+	queue_free()
 		
