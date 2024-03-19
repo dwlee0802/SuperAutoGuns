@@ -2,6 +2,7 @@ extends Control
 class_name GameManager
 
 static var cycleTimer: Timer
+static var cycleLabel: Label
 
 # Column 0 is the frontline
 static var playerUnitMatrix
@@ -35,6 +36,7 @@ static func _static_init():
 
 func _ready():
 	cycleTimer = $CycleTimer
+	cycleLabel = $CycleCountLabel
 	$AutoToggleButton.pressed.connect(_on_cycle_timer_timeout)
 	GameManager.cycleTimer.timeout.connect(CycleProcess)
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
@@ -50,6 +52,10 @@ func _on_cycle_timer_timeout():
 		if cycleTimer.is_stopped():
 			cycleTimer.start()
 	else:
+		if !cycleTimer.is_stopped():
+			cycleTimer.stop()
+	
+	if UnitCount(playerUnitMatrix) == 0 or UnitCount(enemyUnitMatrix) == 0:
 		if !cycleTimer.is_stopped():
 			cycleTimer.stop()
 		
@@ -134,10 +140,13 @@ static func CycleProcess():
 	
 	# stop cycle timer if one side wins
 	cycleCount += 1
-	print("Player damage matrix:")
-	print(playerDamageMatrix)
+	cycleLabel.text = "Cycle: " + str(cycleCount)
 	print("cycle " + str(cycleCount) + " done\n")
-	pass
+	
+	if UnitCount(playerUnitMatrix) == 0 or UnitCount(enemyUnitMatrix) == 0:
+		print("Battle over! stopping cycle.")
+		if !cycleTimer.is_stopped():
+			cycleTimer.stop()
 
 
 # TODO This needs fixing! Edge cases not working
