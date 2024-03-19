@@ -29,12 +29,15 @@ static func _static_init():
 
 func _ready():
 	cycleTimer = $CycleTimer
+	$AutoToggleButton.pressed.connect(_on_cycle_timer_timeout)
 	GameManager.cycleTimer.timeout.connect(CycleProcess)
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	$ProcessSingleCycleButton.pressed.connect(CycleProcess)
 	
 
 func _on_cycle_timer_timeout():
+	print("cycle")
+	# auto cycle mode is true
 	if $AutoToggleButton.button_pressed:
 		if cycleTimer.is_stopped():
 			cycleTimer.start()
@@ -87,7 +90,7 @@ static func CycleProcess():
 		
 	# go through all units and set damage matrix
 	for col in range(matrixWidth):
-		for row in range(matrixWidth):
+		for row in range(matrixHeight):
 			if playerUnitMatrix[col][row] != null:
 				var targetCoord = FindAttackTarget(true, row, playerUnitMatrix[col][row].data.attackRange)
 				if targetCoord != null:
@@ -102,7 +105,7 @@ static func CycleProcess():
 				
 	# 4. apply damage matrix
 	for col in range(matrixWidth):
-		for row in range(matrixWidth):
+		for row in range(matrixHeight):
 			if playerUnitMatrix[col][row] != null:
 				playerUnitMatrix[col][row].ReceiveHit(playerDamageMatrix[col][row])
 			if enemyUnitMatrix[col][row] != null:
@@ -149,6 +152,7 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 				elif upper.currentHealthPoints > lower.currentHealthPoints:
 					return Vector2(col_offset, curRow - i)
 				else:
+					# return random one
 					var rng = randi()
 					if rng%2 == 0:
 						return Vector2(col_offset, curRow + i)
