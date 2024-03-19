@@ -13,12 +13,18 @@ static var enemyReserves = []
 static var playerDamageMatrix
 static var enemyDamageMatrix
 
+static var playerAttackTargetMatrix
+static var enemyAttackTargetMatrix
+
 static var playerEffectMatrix
 static var enemyEffectMatrix
 
 # temporary value for the size of the matrix
 static var matrixWidth: int = 3
 static var matrixHeight: int = 4
+
+static var playerEditor: UnitMatrixEditor
+static var enemyEditor: UnitMatrixEditor
 
 static var cycleCount: int = 0
 
@@ -33,6 +39,8 @@ func _ready():
 	GameManager.cycleTimer.timeout.connect(CycleProcess)
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	$ProcessSingleCycleButton.pressed.connect(CycleProcess)
+	playerEditor = $PlayerUnitMatrixEditor
+	enemyEditor = $EnemyUnitMatrixEditor
 	
 
 func _on_cycle_timer_timeout():
@@ -65,6 +73,9 @@ static func InitializeMatrix():
 	playerEffectMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyEffectMatrix = Make2DArray(matrixHeight, matrixWidth)
 	
+	playerAttackTargetMatrix = Make2DArray(matrixHeight, matrixWidth)
+	enemyAttackTargetMatrix = Make2DArray(matrixHeight, matrixWidth)
+	
 	
 # calculate one cycle of the battle
 # 1. generate effect matrix
@@ -96,13 +107,15 @@ static func CycleProcess():
 				if targetCoord != null:
 					print("attack target: " + str(targetCoord))
 					enemyDamageMatrix[targetCoord.x][targetCoord.y] += playerUnitMatrix[col][row].data.attackDamage
-			
+					playerAttackTargetMatrix[col][row] = targetCoord
+					
 			if enemyUnitMatrix[col][row] != null:
 				var targetCoord = FindAttackTarget(false, row, enemyUnitMatrix[col][row].data.attackRange)
 				if targetCoord != null:
 					print("attack target: " + str(targetCoord))
 					playerDamageMatrix[targetCoord.x][targetCoord.y] += enemyUnitMatrix[col][row].data.attackDamage
-				
+					enemyAttackTargetMatrix[col][row] = targetCoord
+					
 	# 4. apply damage matrix
 	for col in range(matrixWidth):
 		for row in range(matrixHeight):
@@ -113,6 +126,9 @@ static func CycleProcess():
 	
 	ClearDeadUnits(playerUnitMatrix)
 	ClearDeadUnits(enemyUnitMatrix)
+	
+	playerEditor.UpdateAttackLines()
+	enemyEditor.UpdateAttackLines()
 	
 	# 5. process movement
 	

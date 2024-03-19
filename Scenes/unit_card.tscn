@@ -57,3 +57,9 @@ theme_override_font_sizes/font_size = 10
 text = "HP: 100"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="AttackLine" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(32, 32, 230, -65)
+width = 5.0
+default_color = Color(0.486275, 0, 0, 0.568627)

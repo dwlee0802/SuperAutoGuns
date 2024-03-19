@@ -129,3 +129,36 @@ func GenerateReinforcementOptions(nation: Enums.Nation):
 		newOption.SetData(DataManager.unitDict[nation].pick_random())
 		reinforcementUI.add_child(newOption)
 		newOption.pressed.connect(ImportReserve)
+
+
+func GetUnitCardAt(col, row):
+	var slot = unitMatrix.get_child(col).get_child(row)
+	if slot.get_child_count() > 1:
+		return slot.get_child(1)
+	else:
+		return null
+
+
+func UpdateAttackLines():
+	var mat = GameManager.playerAttackTargetMatrix
+	if !isPlayer:
+		mat = GameManager.enemyAttackTargetMatrix
+	
+	for i in range(mat.size()):
+		for j in range(mat[i].size()):
+			var unitCard: UnitCard = GetUnitCardAt(i, j)
+			if unitCard != null:
+				unitCard.attackLine.visible = false
+				if mat[i][j] != null:
+					var attackCoord = mat[i][j]
+					var targetCard
+					if !isPlayer:
+						targetCard = GameManager.playerEditor.GetUnitCardAt(attackCoord.x, attackCoord.y)
+					else:
+						targetCard = GameManager.enemyEditor.GetUnitCardAt(attackCoord.x, attackCoord.y)
+					
+					if targetCard == null:
+						return
+					
+					unitCard.attackLine.set_point_position(1, targetCard.global_position - unitCard.global_position + Vector2(32, 32))
+					unitCard.attackLine.visible = true
