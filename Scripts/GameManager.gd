@@ -109,14 +109,14 @@ static func CycleProcess():
 	for col in range(matrixWidth):
 		for row in range(matrixHeight):
 			if playerUnitMatrix[col][row] != null:
-				var targetCoord = FindAttackTarget(true, row, playerUnitMatrix[col][row].data.attackRange)
+				var targetCoord = FindAttackTarget(true, row, playerUnitMatrix[col][row].data.attackRange - col)
 				if targetCoord != null:
 					print("attack target: " + str(targetCoord))
 					enemyDamageMatrix[targetCoord.x][targetCoord.y] += playerUnitMatrix[col][row].data.attackDamage
 					playerAttackTargetMatrix[col][row] = targetCoord
 					
 			if enemyUnitMatrix[col][row] != null:
-				var targetCoord = FindAttackTarget(false, row, enemyUnitMatrix[col][row].data.attackRange)
+				var targetCoord = FindAttackTarget(false, row, enemyUnitMatrix[col][row].data.attackRange - col)
 				if targetCoord != null:
 					print("attack target: " + str(targetCoord))
 					playerDamageMatrix[targetCoord.x][targetCoord.y] += enemyUnitMatrix[col][row].data.attackDamage
@@ -137,6 +137,41 @@ static func CycleProcess():
 	enemyEditor.UpdateAttackLines()
 	
 	# 5. process movement
+	# check to see if slot directly in front is free
+	# if it is, reduce movement cost
+	# if it isnt, set movement cost to max
+	# if movement cost is zero, move it forward
+	# skip first col since nowhere to move
+	for col in range(1, matrixWidth):
+		for row in range(matrixHeight):
+			if playerUnitMatrix[col][row] != null:
+				if playerUnitMatrix[col - 1][row] != null:
+					playerUnitMatrix[col][row].movementCyclesLeft = playerUnitMatrix[col][row].data.movementCost
+					print("here")
+				else:
+					if playerUnitMatrix[col][row].movementCyclesLeft == 0:
+						# move forward
+						playerUnitMatrix[col - 1][row] = playerUnitMatrix[col][row]
+						playerUnitMatrix[col][row] = null
+						playerUnitMatrix[col - 1][row].movementCyclesLeft = playerUnitMatrix[col - 1][row].data.movementCost
+						print("unit advanced!")
+					else:
+						playerUnitMatrix[col][row].movementCyclesLeft -= 1
+						print("unit advancing in " + str(playerUnitMatrix[col][row].movementCyclesLeft) + " cycles.")
+			if enemyUnitMatrix[col][row] != null:
+				if enemyUnitMatrix[col - 1][row] != null:
+					enemyUnitMatrix[col][row].movementCyclesLeft = enemyUnitMatrix[col][row].data.movementCost
+				else:
+					if enemyUnitMatrix[col][row].movementCyclesLeft == 0:
+						# move forward
+						enemyUnitMatrix[col - 1][row] = enemyUnitMatrix[col][row]
+						enemyUnitMatrix[col][row] = null
+						enemyUnitMatrix[col - 1][row].movementCyclesLeft = enemyUnitMatrix[col - 1][row].data.movementCost
+					else:
+						enemyUnitMatrix[col][row].movementCyclesLeft -= 1
+	
+	playerEditor.ImportUnitMatrix()
+	enemyEditor.ImportUnitMatrix()
 	
 	# stop cycle timer if one side wins
 	cycleCount += 1

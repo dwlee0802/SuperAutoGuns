@@ -10,6 +10,7 @@ func SetUnit(_unit: Unit):
 	unit = _unit
 	$Name.text = unit.data.name
 	UpdateHealthLabel()
+	UpdateMovementLabel()
 	unit.received_hit.connect(UpdateHealthLabel)
 	unit.unit_dead.connect(queue_free)
 
@@ -29,6 +30,15 @@ func UpdateHealthLabel():
 	$HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints)
 
 
+func UpdateMovementLabel():
+	var label = $MovementLabel
+	label.text = "Movement: " + str(unit.movementCyclesLeft + 1)
+	if unit.movementCyclesLeft == unit.data.movementCost:
+		label.visible = false
+	else:
+		label.visible = true
+		
+		
 func SetAttackLine(pos):
 	attackLine.set_point_position(1, pos - global_position)
 	attackLine.get_node("AnimationPlayer").play("attack_animation")

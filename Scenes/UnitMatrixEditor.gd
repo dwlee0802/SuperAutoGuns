@@ -40,6 +40,12 @@ func GenerateGrid(colCount: int, rowCount: int):
 # reads the unit matrix in Game and shows it in the UI
 # untested!
 func ImportUnitMatrix():
+	# clear unit cards
+	for col in unitMatrix.get_children():
+		for slot in col.get_children():
+			if slot.get_child_count() > 1:
+				slot.get_child(1).queue_free()
+		
 	var currentMatrix
 	if isPlayer:
 		currentMatrix = GameManager.playerUnitMatrix
@@ -50,11 +56,10 @@ func ImportUnitMatrix():
 	for col in range(unitMatrix.get_child_count()):
 		# row index
 		for row in range(unitMatrix.get_child(col).get_child_count()):
-			if isPlayer:
-				if currentMatrix[col][row] != null:
-					var newCard = unitCardScene.instantiate()
-					newCard.SetUnit(currentMatrix[col][row])
-					unitMatrix.get_child(col).get_child(row).add_child(newCard)
+			if currentMatrix[col][row] != null:
+				var newCard = unitCardScene.instantiate()
+				newCard.SetUnit(currentMatrix[col][row])
+				unitMatrix.get_child(col).get_child(row).add_child(newCard)
 	
 	if isPlayer:
 		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
@@ -162,3 +167,16 @@ func UpdateAttackLines():
 					
 					unitCard.SetAttackLine(targetCard.global_position + Vector2(32, 32))
 					unitCard.attackLine.visible = true
+
+
+func UpdateMovementLabels():
+	var mat = GameManager.playerUnitMatrix
+	if !isPlayer:
+		mat = GameManager.enemyUnitMatrix
+	
+	for i in range(mat.size()):
+		for j in range(mat[i].size()):
+			var unitCard: UnitCard = GetUnitCardAt(i, j)
+			if unitCard != null:
+				unitCard.UpdateMovementLabel()
+			

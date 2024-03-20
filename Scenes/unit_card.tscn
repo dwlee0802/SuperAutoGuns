@@ -3,6 +3,21 @@
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
 
+[sub_resource type="Animation" id="Animation_gelro"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_6e68y"]
 resource_name = "attack_animation"
 length = 0.5
@@ -17,21 +32,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0.666667, 0, 0, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_gelro"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0vtvq"]
@@ -94,6 +94,19 @@ theme_override_font_sizes/font_size = 10
 text = "HP: 100"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="MovementLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+text = "Movment: 3"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AttackLine" type="Line2D" parent="."]
 self_modulate = Color(1, 1, 1, 0)
