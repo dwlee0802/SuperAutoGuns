@@ -111,16 +111,28 @@ static func CycleProcess():
 			if playerUnitMatrix[col][row] != null:
 				var targetCoord = FindAttackTarget(true, row, playerUnitMatrix[col][row].data.attackRange - col)
 				if targetCoord != null:
-					print("attack target: " + str(targetCoord))
-					enemyDamageMatrix[targetCoord.x][targetCoord.y] += playerUnitMatrix[col][row].data.attackDamage
-					playerAttackTargetMatrix[col][row] = targetCoord
+					if playerUnitMatrix[col][row].attackCyclesLeft == 0:
+						print(playerUnitMatrix[col][row].name + " attacked: " + str(targetCoord))
+						enemyDamageMatrix[targetCoord.x][targetCoord.y] += playerUnitMatrix[col][row].data.attackDamage
+						playerAttackTargetMatrix[col][row] = targetCoord
+						playerUnitMatrix[col][row].attackCyclesLeft = playerUnitMatrix[col][row].data.attackCost
+					else:
+						playerUnitMatrix[col][row].attackCyclesLeft -= 1
+				else:
+					playerUnitMatrix[col][row].attackCyclesLeft = playerUnitMatrix[col][row].data.attackCost
 					
 			if enemyUnitMatrix[col][row] != null:
 				var targetCoord = FindAttackTarget(false, row, enemyUnitMatrix[col][row].data.attackRange - col)
 				if targetCoord != null:
-					print("attack target: " + str(targetCoord))
-					playerDamageMatrix[targetCoord.x][targetCoord.y] += enemyUnitMatrix[col][row].data.attackDamage
-					enemyAttackTargetMatrix[col][row] = targetCoord
+					if enemyUnitMatrix[col][row].attackCyclesLeft == 0:
+						print(enemyUnitMatrix[col][row].name + " attacked: " + str(targetCoord))
+						playerDamageMatrix[targetCoord.x][targetCoord.y] += enemyUnitMatrix[col][row].data.attackDamage
+						enemyAttackTargetMatrix[col][row] = targetCoord
+						enemyUnitMatrix[col][row].attackCyclesLeft = enemyUnitMatrix[col][row].data.attackCost
+					else:
+						enemyUnitMatrix[col][row].attackCyclesLeft -= 1
+				else:
+					enemyUnitMatrix[col][row].attackCyclesLeft = enemyUnitMatrix[col][row].data.attackCost
 					
 	# 4. apply damage matrix
 	for col in range(matrixWidth):

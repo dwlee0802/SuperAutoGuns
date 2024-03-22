@@ -179,4 +179,16 @@ func UpdateMovementLabels():
 			var unitCard: UnitCard = GetUnitCardAt(i, j)
 			if unitCard != null:
 				unitCard.UpdateMovementLabel()
+				
+				
+func UpdateAttackLabels():
+	var mat = GameManager.playerUnitMatrix
+	if !isPlayer:
+		mat = GameManager.enemyUnitMatrix
+	
+	for i in range(mat.size()):
+		for j in range(mat[i].size()):
+			var unitCard: UnitCard = GetUnitCardAt(i, j)
+			if unitCard != null:
+				unitCard.UpdateAttackLabel()
 			

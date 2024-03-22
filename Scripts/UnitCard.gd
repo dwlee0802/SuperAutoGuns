@@ -11,6 +11,7 @@ func SetUnit(_unit: Unit):
 	$Name.text = unit.data.name
 	UpdateHealthLabel()
 	UpdateMovementLabel()
+	UpdateAttackLabel()
 	unit.received_hit.connect(UpdateHealthLabel)
 	unit.unit_dead.connect(queue_free)
 
@@ -37,7 +38,16 @@ func UpdateMovementLabel():
 		label.visible = false
 	else:
 		label.visible = true
-		
+	
+
+func UpdateAttackLabel():
+	var label = $AttackLabel
+	label.text = "Attack in: " + str(unit.attackCyclesLeft + 1)
+	if unit.attackCyclesLeft == unit.data.attackCost:
+		label.visible = false
+	else:
+		label.visible = true
+	
 		
 func SetAttackLine(pos):
 	attackLine.set_point_position(1, pos - global_position)
