@@ -38,11 +38,15 @@ func _ready():
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
 	$AutoToggleButton.pressed.connect(_on_cycle_timer_timeout)
+	
 	GameManager.cycleTimer.timeout.connect(CycleProcess)
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
+	
 	$ProcessSingleCycleButton.pressed.connect(CycleProcess)
+	
 	playerEditor = $PlayerUnitMatrixEditor
 	enemyEditor = $EnemyUnitMatrixEditor
+	
 	
 
 func _on_cycle_timer_timeout():
@@ -145,9 +149,6 @@ static func CycleProcess():
 	ClearDeadUnits(playerUnitMatrix)
 	ClearDeadUnits(enemyUnitMatrix)
 	
-	playerEditor.UpdateAttackLines()
-	enemyEditor.UpdateAttackLines()
-	
 	# 5. process movement
 	# check to see if slot directly in front is free
 	# if it is, reduce movement cost
@@ -184,6 +185,9 @@ static func CycleProcess():
 	
 	playerEditor.ImportUnitMatrix()
 	enemyEditor.ImportUnitMatrix()
+	
+	playerEditor.UpdateAttackLines()
+	enemyEditor.UpdateAttackLines()
 	
 	# stop cycle timer if one side wins
 	cycleCount += 1
@@ -263,4 +267,3 @@ static func ClearDeadUnits(unitMatrix):
 			if unitMatrix[i][j] != null:
 				if unitMatrix[i][j].isDead:
 					unitMatrix[i][j] = null
-				

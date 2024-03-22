@@ -5,6 +5,8 @@ var unit: Unit
 
 @onready var attackLine: Line2D = $AttackLine
 
+var damagePopupScene = load("res://Scenes/damage_popup.tscn")
+
 
 func SetUnit(_unit: Unit):
 	unit = _unit
@@ -12,7 +14,7 @@ func SetUnit(_unit: Unit):
 	UpdateHealthLabel()
 	UpdateMovementLabel()
 	UpdateAttackLabel()
-	unit.received_hit.connect(UpdateHealthLabel)
+	unit.received_hit.connect(MakeDamagePopup)
 	unit.unit_dead.connect(queue_free)
 
 
@@ -31,6 +33,17 @@ func UpdateHealthLabel():
 	$HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints)
 
 
+func MakeDamagePopup(amount):
+	if amount == 0:
+		return
+		
+	var newPopup = damagePopupScene.instantiate()
+	newPopup.global_position = global_position
+	newPopup.get_node("Label").text = str(amount)
+	newPopup.get_node("AnimationPlayer").play("damage_popup_animation")
+	get_tree().root.add_child(newPopup)
+	
+	
 func UpdateMovementLabel():
 	var label = $MovementLabel
 	label.text = "Movement: " + str(unit.movementCyclesLeft + 1)

@@ -9,7 +9,7 @@ var movementCyclesLeft: int = 0
 
 var attackCyclesLeft: int = 0
 
-signal received_hit
+signal received_hit(amount)
 
 signal unit_dead
 
@@ -34,7 +34,7 @@ func ResetStats():
 func ReceiveHit(amount):
 	print("received hit of " + str(amount))
 	currentHealthPoints -= amount
-	received_hit.emit()
+	received_hit.emit(amount)
 	if currentHealthPoints <= 0:
 		unit_dead.emit()
 		isDead = true
