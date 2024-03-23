@@ -7,6 +7,8 @@ var unit: Unit
 
 var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 
+@onready var attackAnimationPlayer: AnimationPlayer = $AttackAnimaitonPlayer
+
 
 func SetUnit(_unit: Unit):
 	unit = _unit
@@ -23,8 +25,12 @@ func SetUnit(_unit: Unit):
 	unit.unit_dead.connect(queue_free)
 	
 	if unit.attackCyclesLeft < 0:
-		$AttackAnimaitonPlayer.play("attack_animation")
-		$AttackAnimaitonPlayer.animation_finished.connect(OnAttackAnimationFinished)
+		if unit.isPlayer:
+			attackAnimationPlayer.play("attack_animation_left")
+		else:
+			attackAnimationPlayer.play("attack_animation_right")
+			
+		attackAnimationPlayer.animation_finished.connect(OnAttackAnimationFinished)
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
@@ -85,7 +91,7 @@ func UpdateAttackLine():
 
 
 func OnAttackAnimationFinished(animName):
-	if animName == "attack_animation":
+	if animName == "attack_animation_left" or animName == "attack_animation_right":
 		unit.Attack()
 		UpdateAttackLine()
 		

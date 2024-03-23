@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dckjus8x2dn7h"]
+[gd_scene load_steps=11 format=3 uid="uid://dckjus8x2dn7h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
@@ -67,22 +67,6 @@ tracks/1/keys = {
 "values": [false]
 }
 
-[sub_resource type="Animation" id="Animation_xnhfc"]
-resource_name = "attack_animation"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0001, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 7.46426, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 0), Vector2(20, 0), Vector2(0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_sk0rq"]
 resource_name = "hit_animation"
 length = 0.2
@@ -99,10 +83,43 @@ tracks/0/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_xnhfc"]
+resource_name = "attack_animation_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 7.46426, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(25, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_33cfl"]
+resource_name = "attack_animation_left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureRect:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0001, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 7.46426, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-25, 0), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hohpx"]
 _data = {
 "RESET": SubResource("Animation_bjrsn"),
-"attack_animation": SubResource("Animation_xnhfc"),
+"attack_animation_left": SubResource("Animation_33cfl"),
+"attack_animation_right": SubResource("Animation_xnhfc"),
 "hit_animation": SubResource("Animation_sk0rq")
 }
 

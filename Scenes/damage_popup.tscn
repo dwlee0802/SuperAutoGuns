@@ -77,9 +77,10 @@ _data = {
 
 [node name="DamagePopup" type="Node2D"]
 texture_filter = 1
+scale = Vector2(2, 2)
 
 [node name="Label" type="Label" parent="."]
-self_modulate = Color(1, 0, 0, 0)
+self_modulate = Color(1, 0, 0, 1)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
