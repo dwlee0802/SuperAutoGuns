@@ -7,34 +7,24 @@ var unit: Unit
 
 var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 
-static var instanceCount: int = 0
-
 
 func SetUnit(_unit: Unit):
 	unit = _unit
+	
+	# update info ui for this unit
 	$TextureRect/Name.text = unit.data.name
 	UpdateHealthLabel(0)
 	UpdateMovementLabel()
 	UpdateAttackLabel()
-	unit.received_hit.connect(MakeDamagePopup)
+	
+	# connect signals
 	unit.received_hit.connect(UpdateHealthLabel)
+	unit.received_hit.connect(MakeDamagePopup)
+	unit.unit_dead.connect(queue_free)
 	
 	if unit.attackCyclesLeft < 0:
-		print("attack!")
 		$AttackAnimaitonPlayer.play("attack_animation")
-		var target = null
-		if unit.isPlayer:
-			target = GameManager.enemyEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
-		else:
-			target = GameManager.playerEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
-		
-		if target != null:
-			unit.Attack()
-			SetAttackLine(target.global_position)
-	
-	if unit.isDead:
-		GameManager.RemoveUnit(unit)
-		queue_free()
+		$AttackAnimaitonPlayer.animation_finished.connect(OnAttackAnimationFinished)
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
@@ -82,7 +72,25 @@ func UpdateAttackLabel():
 		label.visible = true
 	
 		
-func SetAttackLine(pos):
-	$AttackLine.set_point_position(1, pos - global_position + Vector2(32,32))
+func UpdateAttackLine():
+	var target = null
+	if unit.isPlayer:
+		target = GameManager.enemyEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
+	else:
+		target = GameManager.playerEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
+	
+	if target == null:
+		return
+		
+	$AttackLine.set_point_position(1, target.global_position - global_position + Vector2(32,32))
 	$AttackLine.get_node("AnimationPlayer").play("attack_animation")
 
+
+func OnAttackAnimationFinished(animName):
+	if animName == "attack_animation":
+		unit.Attack()
+		UpdateAttackLine()
+		
+		
+func UnitDied():
+	queue_free()

@@ -1,4 +1,3 @@
-extends Node
 class_name Unit
 
 var isPlayer: bool
@@ -26,7 +25,6 @@ var isMoving: bool = false
 func _init(_player, _data):
 	if _data == null:
 		print("ERROR! No data in Unit.")
-		queue_free()
 		return
 		
 	data = _data
@@ -41,15 +39,17 @@ func ResetStats():
 
 
 func ReceiveHit(amount):
-	print("received hit of " + str(amount))
+	print(data.name + "received hit of " + str(amount))
 	currentHealthPoints -= amount
 	received_hit.emit(amount)
+	
 	if currentHealthPoints <= 0:
 		unit_dead.emit()
-		print("dead!")
 		isDead = true
+		# remove data
+		GameManager.RemoveUnit(self)
 		
-
+		
 func Attack():
 	var target
 	if isPlayer:
@@ -61,5 +61,3 @@ func Attack():
 		target.ReceiveHit(data.attackDamage)
 		
 	attackCyclesLeft = data.attackCost
-	
-	print(target)

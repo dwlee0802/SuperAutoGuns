@@ -24,18 +24,20 @@ func _ready():
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):
 	# clear preexisting grid
-	while unitMatrix.get_child_count() > 0:
-		unitMatrix.get_child(0).queue_free()
-		unitMatrix.remove_child(unitMatrix.get_child(0))
+	var cols = unitMatrix.get_children()
+	for item in cols:
+		item.queue_free()
 	
 	for i in range(colCount):
 		var newCol = VBoxContainer.new()
 		for j in range(rowCount):
 			var newSlot: UnitSlot = slotScene.instantiate()
 			newCol.add_child(newSlot)
+			newSlot.reparent(newCol)
 			newSlot.dropped.connect(ExportReserve)
 			newSlot.dropped.connect(ExportUnitMatrix)
 		unitMatrix.add_child(newCol)
+		newCol.reparent(unitMatrix)
 		
 	
 # reads the unit matrix in Game and shows it in the UI
@@ -44,10 +46,11 @@ func ImportUnitMatrix():
 	# clear unit cards
 	for col in unitMatrix.get_children():
 		for slot in col.get_children():
-			if slot.get_child_count() > 1:
-				for i in range(1, slot.get_child_count()):
-					slot.get_child(i).queue_free()
-		
+			for i in range(slot.get_child_count()):
+				var target = slot.get_child(i)
+				if !(target is TextureRect):
+					target.queue_free()
+						
 	var currentMatrix
 	if isPlayer:
 		currentMatrix = GameManager.playerUnitMatrix
@@ -61,6 +64,7 @@ func ImportUnitMatrix():
 			if currentMatrix[col][row] != null:
 				var newCard = unitCardScene.instantiate()
 				unitMatrix.get_child(col).get_child(row).add_child(newCard)
+				newCard.reparent(unitMatrix.get_child(col).get_child(row))
 				newCard.SetUnit(currentMatrix[col][row])
 	
 	if isPlayer:
@@ -68,6 +72,8 @@ func ImportUnitMatrix():
 	else:
 		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
 
+	print_orphan_nodes()
+	
 	
 # returns the state of the unit matrix
 func ExportUnitMatrix():
@@ -96,8 +102,9 @@ func ExportUnitMatrix():
 # make unit icons based on player's reserves
 func ImportReserve():
 	# clear children
-	while reserveUI.get_child_count() > 0:
-		reserveUI.remove_child(reserveUI.get_child(0))
+	var children = reserveUI.get_child_count()
+	for item in children:
+		item.queue_free()
 	
 	var reserve
 	if isPlayer:
@@ -127,8 +134,9 @@ func ExportReserve():
 # populate reinforcement option buttons
 func GenerateReinforcementOptions(nation: Enums.Nation):
 	# clear children
-	while reinforcementUI.get_child_count() > 0:
-		reinforcementUI.remove_child(reinforcementUI.get_child(0))
+	var children = reinforcementUI.get_child_count()
+	for item in children:
+		item.queue_free()
 		
 	for i in range(reinforcementOptionCount):
 		var newOption: ReinforcementOptionButton = reinforcementOptionButton.instantiate()

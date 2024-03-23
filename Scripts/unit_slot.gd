@@ -15,5 +15,6 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 func _drop_data(_at_position, data):
 	data.get_parent().remove_child(data)
 	add_child(data)
+	data.reparent(self)
 	data.position = Vector2.ZERO
 	dropped.emit()

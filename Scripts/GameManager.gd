@@ -89,12 +89,23 @@ static func InitializeMatrix():
 	
 	
 static func CycleProcess():
-	ClearDeadUnits(playerUnitMatrix)
-	ClearDeadUnits(playerUnitMatrix)
-	
+	# update unit attack and movement costs
 	UnitBehaviorProcess(playerUnitMatrix)
 	UnitBehaviorProcess(enemyUnitMatrix)
 	
+	# modify grid according to unit movement
+	ApplyUnitMovement(playerUnitMatrix)
+	ApplyUnitMovement(enemyUnitMatrix)
+	
+	# generate damage matrix
+	playerDamageMatrix = GenerateDamageMatrix(enemyUnitMatrix)
+	enemyDamageMatrix = GenerateDamageMatrix(playerUnitMatrix)
+	
+	# reload editor UI to apply unit movement
+	# unit cards on instantiation play unit attack animations if appropriate
+	# when units' attack animation ends, their attack function is called
+	# need to disable player messing with the editor while animations are playing
+	# units get removed themselves when they die
 	playerEditor.ImportUnitMatrix()
 	enemyEditor.ImportUnitMatrix()
 	
@@ -137,14 +148,37 @@ static func UnitBehaviorProcess(unitMatrix):
 						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
 				# can move
 				else:
-					if unitMatrix[col][row].movementCyclesLeft == 0:
+					unitMatrix[col][row].movementCyclesLeft -= 1
+	
+
+static func ApplyUnitMovement(unitMatrix):
+	for col in range(len(unitMatrix)):
+		for row in range(len(unitMatrix[col])):
+			if unitMatrix[col][row] != null:
+				if unitMatrix[col][row].movementCyclesLeft < 0:
+					# make sure
+					if col != 1 and unitMatrix[col - 1][row] == null:
 						# move forward
 						unitMatrix[col - 1][row] = unitMatrix[col][row]
 						unitMatrix[col][row] = null
 						unitMatrix[col - 1][row].movementCyclesLeft = unitMatrix[col - 1][row].data.movementCost
 					else:
-						unitMatrix[col][row].movementCyclesLeft -= 1
+						print("ERROR! Unit movement cycle is below zero even though it cannot move.")
+				
+				
+static func GenerateDamageMatrix(unitMatrix):
+	var output = Make2DArray(matrixHeight, matrixWidth)
 	
+	for col in range(len(unitMatrix)):
+		for row in range(len(unitMatrix[col])):
+			output[col][row] = 0
+			if unitMatrix[col][row] != null:
+				if unitMatrix[col][row].attackCyclesLeft < 0:
+					# make sure
+					output[col][row] = unitMatrix[col][row].data.attackDamage
+	
+	return output
+
 	
 # TODO This needs fixing! Edge cases not working
 # when inputted a position on the matrix
