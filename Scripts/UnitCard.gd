@@ -55,6 +55,7 @@ func MakeDamagePopup(amount):
 	newPopup.global_position = global_position + Vector2(32, 32) + Vector2(randi_range(-10, 10), randi_range(-10, 10))
 	newPopup.get_node("Label").text = str(amount)
 	newPopup.get_node("AnimationPlayer").play("damage_popup_animation")
+	$HitAnimaitonPlayer.play("hit_animation")
 	get_tree().current_scene.add_child(newPopup)
 	
 	

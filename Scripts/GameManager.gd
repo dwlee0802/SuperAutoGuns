@@ -141,6 +141,7 @@ static func UnitBehaviorProcess(unitMatrix):
 					
 					# valid attack target exists
 					if target != null:
+						print(target)
 						unitMatrix[col][row].attackTargetCoord = target
 						unitMatrix[col][row].attackCyclesLeft -= 1
 					# no target. reset value
@@ -180,7 +181,7 @@ static func GenerateDamageMatrix(unitMatrix):
 	return output
 
 	
-# TODO This needs fixing! Edge cases not working
+# TODO This needs fixing! Returning value when there isnt anything!!
 # when inputted a position on the matrix
 # returns a vector containing the row col position of an attack target
 # returns null if no units are found
@@ -203,6 +204,7 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 			
 			# both exists return the one that has lower HP
 			if upper != null and lower != null:
+				print("1")
 				if upper.currentHealthPoints < lower.currentHealthPoints:
 					return Vector2(col_offset, curRow + i)
 				elif upper.currentHealthPoints > lower.currentHealthPoints:
@@ -215,6 +217,7 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 					else:
 						return Vector2(col_offset, curRow - i)
 			else:
+				print("2")
 				if upper != null:
 					return Vector2(col_offset, curRow + i)
 				if lower != null:
@@ -258,4 +261,5 @@ static func RemoveUnit(unit: Unit):
 		for row in range(matrixHeight):
 			if mat[col][row] == unit:
 				mat[col][row] = null
+				print("removed " + unit.data.name)
 				return

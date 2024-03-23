@@ -232,3 +232,4 @@ libraries = {
 libraries = {
 "": SubResource("AnimationLibrary_hohpx")
 }
+speed_scale = 2.0
