@@ -71,8 +71,6 @@ func ImportUnitMatrix():
 		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
 	else:
 		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
-
-	print_orphan_nodes()
 	
 	
 # returns the state of the unit matrix
@@ -102,7 +100,7 @@ func ExportUnitMatrix():
 # make unit icons based on player's reserves
 func ImportReserve():
 	# clear children
-	var children = reserveUI.get_child_count()
+	var children = reserveUI.get_children()
 	for item in children:
 		item.queue_free()
 	

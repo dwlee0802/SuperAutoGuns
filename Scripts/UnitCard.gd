@@ -42,8 +42,6 @@ func UpdateHealthLabel(_num):
 
 
 func MakeDamagePopup(amount):
-	print("caller name: " + name)
-	print("caller parent name: " + get_parent().name)
 	if amount == 0:
 		return
 		

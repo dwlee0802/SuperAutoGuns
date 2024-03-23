@@ -39,7 +39,7 @@ func ResetStats():
 
 
 func ReceiveHit(amount):
-	print(data.name + "received hit of " + str(amount))
+	print(data.name + " received hit of " + str(amount))
 	currentHealthPoints -= amount
 	received_hit.emit(amount)
 	

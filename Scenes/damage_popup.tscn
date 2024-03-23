@@ -56,6 +56,18 @@ tracks/2/keys = {
 "method": &"queue_free"
 }]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_oauac"]
 _data = {
@@ -67,7 +79,7 @@ _data = {
 texture_filter = 1
 
 [node name="Label" type="Label" parent="."]
-self_modulate = Color(1, 0, 0, 1)
+self_modulate = Color(1, 0, 0, 0)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -79,6 +91,7 @@ offset_right = 20.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/outline_size = 2
 text = "10"
 horizontal_alignment = 1
 vertical_alignment = 1

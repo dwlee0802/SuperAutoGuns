@@ -59,7 +59,7 @@ func _on_cycle_timer_timeout():
 		if !cycleTimer.is_stopped():
 			cycleTimer.stop()
 	
-	if UnitCount(playerUnitMatrix) == 0 or UnitCount(enemyUnitMatrix) == 0:
+	if GameManager.UnitCount(playerUnitMatrix) == 0 or GameManager.UnitCount(enemyUnitMatrix) == 0:
 		if !cycleTimer.is_stopped():
 			cycleTimer.stop()
 			$AutoToggleButton.button_pressed = false
@@ -157,7 +157,7 @@ static func ApplyUnitMovement(unitMatrix):
 			if unitMatrix[col][row] != null:
 				if unitMatrix[col][row].movementCyclesLeft < 0:
 					# make sure
-					if col != 1 and unitMatrix[col - 1][row] == null:
+					if col != 0 and unitMatrix[col - 1][row] == null:
 						# move forward
 						unitMatrix[col - 1][row] = unitMatrix[col][row]
 						unitMatrix[col][row] = null
