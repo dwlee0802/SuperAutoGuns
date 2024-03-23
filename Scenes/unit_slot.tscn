@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://kn2dwn5oqocd"]
 
-[ext_resource type="Script" path="res://Scenes/unit_slot.gd" id="1_flcne"]
+[ext_resource type="Script" path="res://Scripts/unit_slot.gd" id="1_flcne"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_wd3c4"]
 
 [node name="UnitSlot" type="Control"]

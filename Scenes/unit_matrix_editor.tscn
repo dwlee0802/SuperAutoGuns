@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://coifsflvvq3my"]
 
 [ext_resource type="PackedScene" uid="uid://kn2dwn5oqocd" path="res://Scenes/unit_slot.tscn" id="1_mevg1"]
-[ext_resource type="Script" path="res://Scenes/UnitMatrixEditor.gd" id="1_wfjgy"]
-[ext_resource type="Script" path="res://Scenes/ReserveContainer.gd" id="3_tlsj4"]
+[ext_resource type="Script" path="res://Scripts/UnitMatrixEditor.gd" id="1_w08ki"]
+[ext_resource type="Script" path="res://Scripts/ReserveContainer.gd" id="3_6f72e"]
 
 [node name="UnitMatrixEditor" type="VBoxContainer"]
 anchors_preset = 15
@@ -11,7 +11,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
-script = ExtResource("1_wfjgy")
+script = ExtResource("1_w08ki")
 
 [node name="UnitMatrix" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 500)
@@ -118,7 +118,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
-script = ExtResource("3_tlsj4")
+script = ExtResource("3_6f72e")
 
 [node name="Reinforcement" type="Control" parent="."]
 custom_minimum_size = Vector2(0, 84)

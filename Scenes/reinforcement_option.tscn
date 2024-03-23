@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://6vjuvidiqfx6"]
 
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_h55kq"]
-[ext_resource type="Script" path="res://Scenes/reinforcement_option.gd" id="2_36vq8"]
+[ext_resource type="Script" path="res://Scripts/reinforcement_option.gd" id="2_36vq8"]
 
 [node name="ReinforcementOptionButton\\" type="TextureButton"]
 self_modulate = Color(1, 0.733333, 0.380392, 1)

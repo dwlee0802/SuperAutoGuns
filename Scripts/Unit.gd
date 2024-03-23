@@ -1,6 +1,8 @@
 extends Node
 class_name Unit
 
+var isPlayer: bool
+
 var data: UnitData
 
 var currentHealthPoints: int
@@ -9,19 +11,26 @@ var movementCyclesLeft: int = 0
 
 var attackCyclesLeft: int = 0
 
+# holds the col and row index of attack target in enemy's matrix
+var attackTargetCoord: Vector2
+
 signal received_hit(amount)
 
 signal unit_dead
 
 var isDead: bool = false
 
+var isMoving: bool = false
 
-func _init(_data):
+
+func _init(_player, _data):
 	if _data == null:
+		print("ERROR! No data in Unit.")
 		queue_free()
 		return
 		
 	data = _data
+	isPlayer = _player
 	ResetStats()
 	
 
@@ -37,4 +46,20 @@ func ReceiveHit(amount):
 	received_hit.emit(amount)
 	if currentHealthPoints <= 0:
 		unit_dead.emit()
+		print("dead!")
 		isDead = true
+		
+
+func Attack():
+	var target
+	if isPlayer:
+		target = GameManager.enemyUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
+	else:
+		target = GameManager.playerUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
+	
+	if target != null:
+		target.ReceiveHit(data.attackDamage)
+		
+	attackCyclesLeft = data.attackCost
+	
+	print(target)

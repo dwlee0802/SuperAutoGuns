@@ -17,14 +17,15 @@ var reinforcementOptionCount: int = 5
 
 func _ready():
 	$Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Germany))
-	GenerateReinforcementOptions(Enums.Nation.Germany)
 	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
+	GenerateReinforcementOptions(Enums.Nation.Germany)
 
 
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):
 	# clear preexisting grid
 	while unitMatrix.get_child_count() > 0:
+		unitMatrix.get_child(0).queue_free()
 		unitMatrix.remove_child(unitMatrix.get_child(0))
 	
 	for i in range(colCount):
@@ -44,7 +45,8 @@ func ImportUnitMatrix():
 	for col in unitMatrix.get_children():
 		for slot in col.get_children():
 			if slot.get_child_count() > 1:
-				slot.get_child(1).queue_free()
+				for i in range(1, slot.get_child_count()):
+					slot.get_child(i).queue_free()
 		
 	var currentMatrix
 	if isPlayer:
@@ -58,15 +60,15 @@ func ImportUnitMatrix():
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if currentMatrix[col][row] != null:
 				var newCard = unitCardScene.instantiate()
-				newCard.SetUnit(currentMatrix[col][row])
 				unitMatrix.get_child(col).get_child(row).add_child(newCard)
+				newCard.SetUnit(currentMatrix[col][row])
 	
 	if isPlayer:
 		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
 	else:
 		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
-	
 
+	
 # returns the state of the unit matrix
 func ExportUnitMatrix():
 	var currentMatrix
