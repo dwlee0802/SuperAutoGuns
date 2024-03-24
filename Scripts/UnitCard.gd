@@ -9,6 +9,8 @@ var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 
 @onready var attackAnimationPlayer: AnimationPlayer = $AttackAnimaitonPlayer
 
+static var selected: UnitCard
+
 
 func SetUnit(_unit: Unit):
 	unit = _unit
@@ -126,4 +128,10 @@ func UnitDied():
 func _input(event):
 	if event is InputEventMouse:
 		if event.is_pressed() and event.button_mask == MOUSE_BUTTON_LEFT:
-			print("hi")
+			if UnitCard.selected == null:
+				UnitCard.selected = self
+			else:
+				# swap positions with selected
+				UnitCard.selected = null
+				
+			print(UnitCard.selected)
