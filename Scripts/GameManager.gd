@@ -22,12 +22,18 @@ static var enemyEffectMatrix
 
 # temporary value for the size of the matrix
 static var matrixWidth: int = 3
-static var matrixHeight: int = 4
+static var matrixHeight: int = 8
 
 static var playerEditor: UnitMatrixEditor
 static var enemyEditor: UnitMatrixEditor
 
 static var cycleCount: int = 0
+
+static var captureStatusUI: CaptureStatusUI
+
+static var totalSectorsCount: int = 10
+
+static var playerCapturedSectorsCount: int = 5
 
 
 static func _static_init():
@@ -47,6 +53,7 @@ func _ready():
 	playerEditor = $PlayerUnitMatrixEditor
 	enemyEditor = $EnemyUnitMatrixEditor
 	
+	captureStatusUI = $CaptureStatusUI
 	
 
 func _on_cycle_timer_timeout():
@@ -114,11 +121,26 @@ static func CycleProcess():
 	cycleLabel.text = "Cycle: " + str(cycleCount)
 	print("cycle " + str(cycleCount) + " done\n")
 	
-	if UnitCount(playerUnitMatrix) == 0 or UnitCount(enemyUnitMatrix) == 0:
-		print("Battle over! stopping cycle.")
+	# draw
+	var playerCount = UnitCount(playerUnitMatrix)
+	var enemyCount = UnitCount(enemyUnitMatrix)
+	
+	if playerCount == 0 or enemyCount == 0:
 		if !cycleTimer.is_stopped():
+			print("Battle over! stopping cycle.")
 			cycleTimer.stop()
-
+		
+		if playerCount == 0 and enemyCount == 0:
+			print("Draw. Defender wins.")
+		if playerCount == 0 and enemyCount != 0:
+			print("enemy wins battle.")
+			playerCapturedSectorsCount -= 1
+		if playerCount != 0 and enemyCount == 0:
+			print("player wins battle.")
+			playerCapturedSectorsCount += 1
+		
+		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
+		
 
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement

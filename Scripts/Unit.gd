@@ -59,5 +59,7 @@ func Attack():
 	
 	if target != null:
 		target.ReceiveHit(data.attackDamage)
+	else:
+		print("target null")
 		
 	attackCyclesLeft = data.attackCost

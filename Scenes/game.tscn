@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=4 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://coifsflvvq3my" path="res://Scenes/unit_matrix_editor.tscn" id="2_3hgcu"]
+[ext_resource type="Script" path="res://Scenes/ProcessUI.gd" id="3_5ya5i"]
 
 [node name="Game" type="Control"]
 layout_mode = 3
@@ -84,3 +85,30 @@ offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
 text = "Cycle: 0"
+
+[node name="CaptureStatusUI" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+script = ExtResource("3_5ya5i")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CaptureStatusUI"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -20.0
+offset_right = 300.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
