@@ -121,3 +121,9 @@ func OnAttackAnimationFinished(animName):
 		
 func UnitDied():
 	queue_free()
+
+
+func _input(event):
+	if event is InputEventMouse:
+		if event.is_pressed() and event.button_mask == MOUSE_BUTTON_LEFT:
+			print("hi")
