@@ -19,7 +19,11 @@ func _ready():
 	$Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Germany))
 	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
 	GenerateReinforcementOptions(Enums.Nation.Germany)
-
+	if isPlayer:
+		$UnitMatrix/Label.text = "Player Army Layout"
+	else:
+		$UnitMatrix/Label.text = "Enemy Army Layout"
+		
 
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):

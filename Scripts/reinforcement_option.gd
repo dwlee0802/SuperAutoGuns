@@ -14,7 +14,12 @@ func SetData(data: UnitData):
 # add to reserve
 # update UI
 func _pressed():
+	# check if theres enough funds
+	if GameManager.playerFunds < unitData.purchaseCost:
+		print("not enough funds!")
+		return
+	
 	# add unit to reserve
 	GameManager.AddReserveUnit(unitData, isPlayer)
+	GameManager.ChangeFunds(unitData.purchaseCost, isPlayer)
 	queue_free()
-		

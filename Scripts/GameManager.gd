@@ -35,6 +35,12 @@ static var totalSectorsCount: int = 10
 
 static var playerCapturedSectorsCount: int = 5
 
+# economy stuff
+static var playerFunds: int = 0
+static var enemyFunds: int = 0
+
+static var baseIncomeAmount: int = 10
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -290,3 +296,22 @@ static func RemoveUnit(unit: Unit):
 				mat[col][row] = null
 				print("removed " + unit.data.name)
 				return
+
+
+static func AddIncome():
+	var playerDist = playerCapturedSectorsCount
+	var enemyDist = totalSectorsCount - playerCapturedSectorsCount
+	
+	playerFunds += baseIncomeAmount
+	enemyFunds += baseIncomeAmount
+
+
+static func ChangeFunds(amount, isPlayer: bool = true):
+	if isPlayer:
+		playerFunds += amount
+		print("changed player funds by " + str(amount))
+		print("New value: " + str(playerFunds))
+	else:
+		enemyFunds += amount
+		print("changed enemy funds by " + str(amount))
+		print("New value: " + str(enemyFunds))
