@@ -21,6 +21,7 @@ func _ready():
 	$Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Germany))
 	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
 	GenerateReinforcementOptions(Enums.Nation.Germany)
+	UpdateFundsLabel()
 	if isPlayer:
 		$UnitMatrix/Label.text = "Player Army Layout"
 	else:
@@ -161,6 +162,7 @@ func GenerateReinforcementOptions(nation: Enums.Nation):
 		newOption.SetData(DataManager.unitDict[nation].pick_random())
 		reinforcementUI.add_child(newOption)
 		newOption.pressed.connect(ImportReserve)
+		newOption.pressed.connect(UpdateFundsLabel)
 
 
 func GetUnitCardAt(col, row):
@@ -219,3 +221,10 @@ func UpdateAttackLabels():
 			if unitCard != null:
 				unitCard.UpdateAttackLabel()
 			
+
+func UpdateFundsLabel():
+	var label = $Reinforcement/FundsLabel
+	if isPlayer:
+		label.text = "Funds: " + str(GameManager.playerFunds)
+	else:
+		label.text = "Funds: " + str(GameManager.enemyFunds)

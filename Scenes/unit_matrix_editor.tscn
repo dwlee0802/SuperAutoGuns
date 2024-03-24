@@ -161,3 +161,13 @@ offset_bottom = 15.5
 grow_horizontal = 0
 grow_vertical = 2
 text = "Reroll"
+
+[node name="FundsLabel" type="Label" parent="Reinforcement"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 1600.0
+grow_vertical = 0
+text = "Funds: 0"

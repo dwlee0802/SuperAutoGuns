@@ -299,8 +299,8 @@ static func RemoveUnit(unit: Unit):
 
 
 static func AddIncome():
-	var playerDist = playerCapturedSectorsCount
-	var enemyDist = totalSectorsCount - playerCapturedSectorsCount
+	var _playerDist = playerCapturedSectorsCount
+	var _enemyDist = totalSectorsCount - playerCapturedSectorsCount
 	
 	playerFunds += baseIncomeAmount
 	enemyFunds += baseIncomeAmount

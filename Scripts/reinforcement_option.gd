@@ -21,5 +21,5 @@ func _pressed():
 	
 	# add unit to reserve
 	GameManager.AddReserveUnit(unitData, isPlayer)
-	GameManager.ChangeFunds(unitData.purchaseCost, isPlayer)
+	GameManager.ChangeFunds(-unitData.purchaseCost, isPlayer)
 	queue_free()
