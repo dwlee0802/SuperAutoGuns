@@ -28,6 +28,7 @@ offset_right = 700.0
 offset_bottom = 338.0
 grow_horizontal = 1
 isPlayer = true
+invertY = true
 
 [node name="PlayerFundsLabel" type="Label" parent="PlayerUnitMatrixEditor"]
 layout_mode = 2

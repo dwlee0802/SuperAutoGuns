@@ -3,6 +3,8 @@ class_name UnitMatrixEditor
 
 @export var isPlayer: bool
 
+@export var invertY: bool = false
+
 @onready var unitMatrix = $UnitMatrix/HBoxContainer
 
 var unitCardScene = load("res://Scenes/unit_card.tscn")
@@ -67,9 +69,16 @@ func ImportUnitMatrix():
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if currentMatrix[col][row] != null:
 				var newCard = unitCardScene.instantiate()
-				unitMatrix.get_child(col).get_child(row).add_child(newCard)
-				newCard.reparent(unitMatrix.get_child(col).get_child(row))
-				newCard.SetUnit(currentMatrix[col][row])
+				# add from back if y inverted
+				if invertY:
+					unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row).add_child(newCard)
+					newCard.reparent(unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row))
+					newCard.SetUnit(currentMatrix[col][row])
+				else:
+					unitMatrix.get_child(col).get_child(row).add_child(newCard)
+					newCard.reparent(unitMatrix.get_child(col).get_child(row))
+					newCard.SetUnit(currentMatrix[col][row])
+					
 	
 	if isPlayer:
 		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
@@ -91,9 +100,15 @@ func ExportUnitMatrix():
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if unitMatrix.get_child(col).get_child(row).get_child_count() == 2:
 				var unit_there = unitMatrix.get_child(col).get_child(row).get_child(1)
-				currentMatrix[col][row] = unit_there.unit
+				if invertY:
+					currentMatrix[unitMatrix.get_child_count() - 1 - col][row] = unit_there.unit
+				else:
+					currentMatrix[col][row] = unit_there.unit
 			else:
-				currentMatrix[col][row] = null
+				if invertY:
+					currentMatrix[unitMatrix.get_child_count() - 1 - col][row] = null
+				else:
+					currentMatrix[col][row] = null
 						
 	if isPlayer:
 		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
