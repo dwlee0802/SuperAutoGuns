@@ -143,7 +143,7 @@ func ImportReserve():
 func ExportReserve():
 	var newReserve = []
 	for child in reserveUI.get_children():
-		newReserve.append(child)
+		newReserve.append(child.unit)
 	
 	if isPlayer:
 		GameManager.playerReserves = newReserve

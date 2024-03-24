@@ -55,6 +55,14 @@ func _drop_data(_at_position, data):
 	var otherParent = data.get_parent()
 	data.reparent(get_parent())
 	reparent(otherParent)
+	data.position = Vector2.ZERO
+	position = Vector2.ZERO
+	
+	# export unit matrix or reserve
+	if get_parent() is UnitSlot:
+		get_parent().dropped.emit()
+	if get_parent() is ReserveContainer:
+		get_parent().dropped.emit()
 	
 	
 func UpdateHealthLabel(_num):
