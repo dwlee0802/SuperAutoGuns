@@ -46,7 +46,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="FirstColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
-modulate = Color(1, 0, 1, 1)
 layout_mode = 2
 
 [node name="UnitSlot" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]

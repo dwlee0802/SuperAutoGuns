@@ -22,6 +22,10 @@ func _ready():
 	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
 	GenerateReinforcementOptions(Enums.Nation.Germany)
 	UpdateFundsLabel()
+	
+	$Reserve/HBoxContainer.dropped.connect(ExportReserve)
+	$Reserve/HBoxContainer.dropped.connect(ExportUnitMatrix)
+	
 	if isPlayer:
 		$UnitMatrix/Label.text = "Player Army Layout"
 	else:

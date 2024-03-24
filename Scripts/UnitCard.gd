@@ -36,13 +36,27 @@ func SetUnit(_unit: Unit):
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	set_drag_preview(make_drag_preview())
 	return self
-	
+
 
 func make_drag_preview() -> TextureRect:
 	var newT = TextureRect.new()
 	return newT
 
 
+func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
+	if data is UnitCard:
+		return true
+		
+	return false
+
+
+# swap positions
+func _drop_data(_at_position, data):
+	var otherParent = data.get_parent()
+	data.reparent(get_parent())
+	reparent(otherParent)
+	
+	
 func UpdateHealthLabel(_num):
 	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints)
 
