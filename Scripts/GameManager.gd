@@ -141,6 +141,11 @@ static func CycleProcess():
 		
 		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
 		
+		if playerCapturedSectorsCount == totalSectorsCount:
+			print("player wins game!")
+		if playerCapturedSectorsCount == 0:
+			print("enemy wins game!")
+
 
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement
