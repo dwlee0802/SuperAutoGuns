@@ -1,10 +1,27 @@
 extends EnemyAI
+class_name EnemyAI_Randomizer
 
 var unitsByPriority = []
 
 
 func _init(cols, rows):
 	super._init(cols, rows)
+
+
+func InitializeUnitPriorityList():
+	for i in range(Enums.unitTypeCount):
+		var list = []
+		unitsByPriority.append(list)
+	
+	
+func ImportUnits(unitMatrix):
+	InitializeUnitPriorityList()
+	
+	for col in range(len(unitMatrix)):
+		for row in range(len(unitMatrix[col])):
+			if unitMatrix[col][row] != null:
+				var unit: Unit = unitMatrix[col][row]
+				unitsByPriority[unit.data.type].append(unit)
 
 
 # returns a 2D array of units

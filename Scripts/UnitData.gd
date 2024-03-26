@@ -16,3 +16,5 @@ class_name UnitData
 @export var flankingModifier: float = 1
 
 @export var maxHealthPoints: int = 1
+
+@export var type: Enums.UnitType
