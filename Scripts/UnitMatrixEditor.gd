@@ -169,6 +169,10 @@ func GenerateReinforcementOptions(nation: Enums.Nation):
 		newOption.pressed.connect(UpdateFundsLabel)
 
 
+func GetReinforcementOptions():
+	return reinforcementUI.get_children()
+	
+	
 func GetUnitCardAt(col, row):
 	var slot = unitMatrix.get_child(col).get_child(row)
 	if slot.get_child_count() > 1:

@@ -41,9 +41,12 @@ static var enemyFunds: int = 200
 
 static var baseIncomeAmount: int = 10
 
+static var enemyAI
+
 
 static func _static_init():
 	InitializeMatrix()
+	enemyAI = EnemyAI_Randomizer.new()
 
 
 func _ready():
@@ -102,6 +105,9 @@ static func InitializeMatrix():
 	
 	
 static func CycleProcess():
+	if enemyAI is EnemyAI_Randomizer:
+		enemyAI.GenerateUnitMatrix()
+		
 	# update unit attack and movement costs
 	UnitBehaviorProcess(playerUnitMatrix)
 	UnitBehaviorProcess(enemyUnitMatrix)
@@ -131,6 +137,8 @@ static func CycleProcess():
 	var playerCount = UnitCount(playerUnitMatrix)
 	var enemyCount = UnitCount(enemyUnitMatrix)
 	
+	EnemyAI_Randomizer.lostLastBattle = false
+	
 	if playerCount == 0 or enemyCount == 0:
 		if !cycleTimer.is_stopped():
 			print("Battle over! stopping cycle.")
@@ -144,6 +152,7 @@ static func CycleProcess():
 		if playerCount != 0 and enemyCount == 0:
 			print("player wins battle.")
 			playerCapturedSectorsCount += 1
+			EnemyAI_Randomizer.lostLastBattle = true
 		
 		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
 		
