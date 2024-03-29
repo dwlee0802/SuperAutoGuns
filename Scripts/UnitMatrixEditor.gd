@@ -116,9 +116,9 @@ func ExportUnitMatrix():
 					currentMatrix[col][row] = null
 						
 	if isPlayer:
-		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
+		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)) + "\n")
 	else:
-		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
+		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)) + "\n")
 
 
 # make unit icons based on player's reserves

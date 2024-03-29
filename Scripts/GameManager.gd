@@ -4,6 +4,11 @@ class_name GameManager
 static var cycleTimer: Timer
 static var cycleLabel: Label
 
+static var cycleTime: float = 1
+static var cycleCount: int = 0
+
+static var battleCount: int = 0
+
 # Column 0 is the frontline
 static var playerUnitMatrix
 static var enemyUnitMatrix
@@ -27,8 +32,6 @@ static var matrixHeight: int = 8
 static var playerEditor: UnitMatrixEditor
 static var enemyEditor: UnitMatrixEditor
 
-static var cycleCount: int = 0
-
 static var captureStatusUI: CaptureStatusUI
 
 static var totalSectorsCount: int = 10
@@ -36,12 +39,13 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 10
-static var enemyFunds: int = 10
+static var playerFunds: int = 0
+static var enemyFunds: int = 0
 
 static var baseIncomeAmount: int = 10
 
 static var enemyAI
+
 
 
 static func _static_init():
@@ -53,10 +57,9 @@ func _ready():
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
 	
-	GameManager.cycleTimer.timeout.connect(CycleProcess)
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
-	$ProcessBattleButton.pressed.connect(_on_cycle_timer_timeout)
+	$ProcessBattleButton.pressed.connect(_on_battle_process_button_pressed)
 	
 	playerEditor = $PlayerUnitMatrixEditor
 	enemyEditor = $EnemyUnitMatrixEditor
@@ -65,25 +68,35 @@ func _ready():
 	
 
 func _on_cycle_timer_timeout():
-	# auto cycle mode is true
-	if !$ProcessBattleButton.button_pressed:
-		if cycleTimer.is_stopped():
-			print("Starting battle process.")
-			cycleTimer.start()
-			$ProcessBattleButton/InProcessLabel.visible = true
+	# if battle is finished, stop timer
+	if GameManager.CycleProcess():
+		print("\n***End Battle Process***\n\n")
+		cycleTimer.stop()
+		$ProcessBattleButton/InProcessLabel.visible = false
 	else:
-		if !cycleTimer.is_stopped():
-			cycleTimer.stop()
-	
-	if GameManager.UnitCount(playerUnitMatrix) == 0 or GameManager.UnitCount(enemyUnitMatrix) == 0:
-		if !cycleTimer.is_stopped():
-			cycleTimer.stop()
-			$ProcessBattleButton/InProcessLabel.visible = false
-			$ProcessBattleButton.button_pressed = false
+		if cycleTimer.is_stopped():
+			cycleTimer.start(GameManager.cycleTime)
+			$ProcessBattleButton/InProcessLabel.visible = true
 		
 
+# called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
-	pass
+	# add funds to both sides
+	GameManager.AddIncome()
+	
+	# process enemy AI
+	if enemyAI != null:
+		enemyAI.GenerateUnitMatrix()
+		enemyEditor.ImportReserve()
+	
+	# process first cycle
+	print("***Starting Battle Process***\n")
+	GameManager.battleCount+= 1
+	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
+	print("Battle #" + str(GameManager.battleCount))
+	if cycleTimer.is_stopped():
+		cycleTimer.start(0)
+		$ProcessBattleButton/InProcessLabel.visible = true
 	
 	
 # first index is the column, second index is the row
@@ -108,13 +121,13 @@ static func InitializeMatrix():
 	playerAttackTargetMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyAttackTargetMatrix = Make2DArray(matrixHeight, matrixWidth)
 	
-	
+
+# returns true if battle is over
 static func CycleProcess():
-	if enemyAI is EnemyAI_Randomizer:
-		AddIncome()
-		enemyAI.GenerateUnitMatrix()
-		enemyEditor.ImportReserve()
-		
+	# stop cycle timer if one side wins
+	cycleCount += 1
+	cycleLabel.text = "Cycle: " + str(cycleCount)
+	
 	# update unit attack and movement costs
 	UnitBehaviorProcess(playerUnitMatrix)
 	UnitBehaviorProcess(enemyUnitMatrix)
@@ -127,6 +140,8 @@ static func CycleProcess():
 	playerDamageMatrix = GenerateDamageMatrix(enemyUnitMatrix)
 	enemyDamageMatrix = GenerateDamageMatrix(playerUnitMatrix)
 	
+	print("\nCycle #" + str(cycleCount))
+	
 	# reload editor UI to apply unit movement
 	# unit cards on instantiation play unit attack animations if appropriate
 	# when units' attack animation ends, their attack function is called
@@ -135,22 +150,12 @@ static func CycleProcess():
 	playerEditor.ImportUnitMatrix()
 	enemyEditor.ImportUnitMatrix()
 	
-	# stop cycle timer if one side wins
-	cycleCount += 1
-	cycleLabel.text = "Cycle: " + str(cycleCount)
-	print("cycle " + str(cycleCount) + " done\n")
-	
-	# draw
 	var playerCount = UnitCount(playerUnitMatrix)
 	var enemyCount = UnitCount(enemyUnitMatrix)
 	
 	EnemyAI_Randomizer.lostLastBattle = false
 	
 	if playerCount == 0 or enemyCount == 0:
-		if !cycleTimer.is_stopped():
-			print("Battle over! stopping cycle.")
-			cycleTimer.stop()
-		
 		if playerCount == 0 and enemyCount == 0:
 			print("Draw. Defender wins.")
 		if playerCount == 0 and enemyCount != 0:
@@ -163,11 +168,15 @@ static func CycleProcess():
 		
 		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
 		
+		print("Capture status: " + str(playerCapturedSectorsCount) + " / " + str(totalSectorsCount - playerCapturedSectorsCount))
 		if playerCapturedSectorsCount == totalSectorsCount:
 			print("player wins game!")
 		if playerCapturedSectorsCount == 0:
 			print("enemy wins game!")
-
+		
+		return true
+	
+	return false
 
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement
@@ -322,8 +331,8 @@ static func ChangeFunds(amount, isPlayer: bool = true):
 	if isPlayer:
 		playerFunds += amount
 		print("changed player funds by " + str(amount))
-		print("New value: " + str(playerFunds))
+		print("New value: " + str(playerFunds) + "\n")
 	else:
 		enemyFunds += amount
 		print("changed enemy funds by " + str(amount))
-		print("New value: " + str(enemyFunds))
+		print("New value: " + str(enemyFunds) + "\n")

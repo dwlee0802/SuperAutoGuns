@@ -39,7 +39,7 @@ func ResetStats():
 
 
 func ReceiveHit(amount):
-	print(data.name + " received hit of " + str(amount))
+	print(str(self) + " received hit of " + str(amount))
 	currentHealthPoints -= amount
 	received_hit.emit(amount)
 	
@@ -63,3 +63,9 @@ func Attack():
 		print("target null")
 		
 	attackCyclesLeft = data.attackCost
+
+
+func _to_string():
+	var output = data.name
+	output += "(" + str(currentHealthPoints) + "/" + str(data.maxHealthPoints) + ")"
+	return output

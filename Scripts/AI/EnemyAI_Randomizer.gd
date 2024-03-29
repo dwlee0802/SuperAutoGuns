@@ -41,14 +41,19 @@ func ExportReserve():
 		
 # returns a 2D array of units
 func GenerateUnitMatrix():
+	print("***Starting Enemy AI Process***\n")
+	
 	# pick reinforcement option
+	print("Enemy AI: Picking reinforcement options\n")
 	ChooseReinforcementOption()
 	
+	print("Enemy AI: Getting current unit matrix\n")
 	ImportUnits(GameManager.enemyUnitMatrix)
 	
 	# reset enemy unit matrix
 	GameManager.enemyUnitMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth)
 	
+	print("Enemy AI: Generating unit matrix\n")
 	# if lost last time, add new units and shuffle list
 	AddReserveUnits()
 	
@@ -77,6 +82,7 @@ func GenerateUnitMatrix():
 				
 	# repeat this for set number of times and return best option
 	
+	print("***Finished Enemy AI Process***\n\n")
 	return
 
 

@@ -27,12 +27,15 @@ func SetUnit(_unit: Unit):
 	unit.unit_dead.connect(queue_free)
 	
 	if unit.attackCyclesLeft < 0:
+		if unit.attackTargetCoord == null:
+			return
+			
+		attackAnimationPlayer.animation_finished.connect(OnAttackAnimationFinished)
 		if unit.isPlayer:
 			attackAnimationPlayer.play("attack_animation_left")
 		else:
 			attackAnimationPlayer.play("attack_animation_right")
 			
-		attackAnimationPlayer.animation_finished.connect(OnAttackAnimationFinished)
 
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
