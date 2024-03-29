@@ -54,6 +54,11 @@ func GenerateUnitMatrix():
 			var col: int = unitPlacedCount / GameManager.matrixHeight
 			var row: int = unitPlacedCount % GameManager.matrixHeight
 			
+			if col >= GameManager.matrixHeight:
+				break
+			if unitPlacedCount >= GameManager.matrixHeight * GameManager.matrixWidth:
+				break
+				
 			GameManager.enemyUnitMatrix[col][row] = unit
 			
 			unitPlacedCount += 1
