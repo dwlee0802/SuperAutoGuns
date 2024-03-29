@@ -50,23 +50,7 @@ grow_horizontal = 0
 layout_mode = 2
 text = "Enemy Funds: 0"
 
-[node name="AutoToggleButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -22.5
-offset_top = 100.0
-offset_right = 22.5
-offset_bottom = 15.5
-grow_horizontal = 2
-grow_vertical = 2
-toggle_mode = true
-text = "Auto"
-
-[node name="ProcessSingleCycleButton" type="Button" parent="."]
+[node name="ProcessBattleButton" type="Button" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -79,7 +63,25 @@ offset_right = 45.0
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Next Cycle"
+toggle_mode = true
+text = "Process Battle"
+
+[node name="InProcessLabel" type="Label" parent="ProcessBattleButton"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.885
+anchor_right = 0.5
+anchor_bottom = 2.335
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "In Process..."
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CycleCountLabel" type="Label" parent="."]
 layout_mode = 1

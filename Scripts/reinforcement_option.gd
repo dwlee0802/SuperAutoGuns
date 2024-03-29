@@ -31,6 +31,7 @@ func PurchseUnit():
 	# add unit to reserve
 	GameManager.AddReserveUnit(unitData, isPlayer)
 	GameManager.ChangeFunds(-unitData.purchaseCost, isPlayer)
+	pressed.emit()
 	queue_free()
 	return true
 	

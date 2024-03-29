@@ -133,5 +133,3 @@ func _input(event):
 			else:
 				# swap positions with selected
 				UnitCard.selected = null
-				
-			print(UnitCard.selected)

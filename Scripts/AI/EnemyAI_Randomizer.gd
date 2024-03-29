@@ -7,6 +7,7 @@ static var lostLastBattle: bool = false
 
 
 func InitializeUnitPriorityList():
+	unitsByPriority = []
 	for i in range(Enums.unitTypeCount):
 		var list = []
 		unitsByPriority.append(list)
@@ -29,7 +30,14 @@ func AddReserveUnits():
 	
 	for item: Unit in reserve:
 		unitsByPriority[item.data.type].append(item)
-		
+	
+
+# place the units leftover into reserve
+func ExportReserve():
+	for type in range(unitsByPriority.size()):
+		for unit: Unit in unitsByPriority[type]:
+			GameManager.enemyReserves.append(unit)
+	
 		
 # returns a 2D array of units
 func GenerateUnitMatrix():
@@ -61,8 +69,12 @@ func GenerateUnitMatrix():
 				
 			GameManager.enemyUnitMatrix[col][row] = unit
 			
+			var index = GameManager.enemyReserves.find(unit)
+			if index >= 0:
+				GameManager.enemyReserves.remove_at(index)
+			
 			unitPlacedCount += 1
-		
+				
 	# repeat this for set number of times and return best option
 	
 	return
@@ -82,7 +94,6 @@ func ShuffleUnits():
 func ChooseReinforcementOption():
 	var options = GameManager.enemyEditor.GetReinforcementOptions()
 	options.shuffle()
-	var count = options.size()
 	
 	for item: ReinforcementOptionButton in options:
 		if !item.PurchseUnit():

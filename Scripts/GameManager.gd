@@ -36,8 +36,8 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 200
-static var enemyFunds: int = 50
+static var playerFunds: int = 10
+static var enemyFunds: int = 10
 
 static var baseIncomeAmount: int = 10
 
@@ -52,12 +52,11 @@ static func _static_init():
 func _ready():
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
-	$AutoToggleButton.pressed.connect(_on_cycle_timer_timeout)
 	
 	GameManager.cycleTimer.timeout.connect(CycleProcess)
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
-	$ProcessSingleCycleButton.pressed.connect(CycleProcess)
+	$ProcessBattleButton.pressed.connect(_on_cycle_timer_timeout)
 	
 	playerEditor = $PlayerUnitMatrixEditor
 	enemyEditor = $EnemyUnitMatrixEditor
@@ -66,11 +65,12 @@ func _ready():
 	
 
 func _on_cycle_timer_timeout():
-	print("cycle")
 	# auto cycle mode is true
-	if $AutoToggleButton.button_pressed:
+	if !$ProcessBattleButton.button_pressed:
 		if cycleTimer.is_stopped():
+			print("Starting battle process.")
 			cycleTimer.start()
+			$ProcessBattleButton/InProcessLabel.visible = true
 	else:
 		if !cycleTimer.is_stopped():
 			cycleTimer.stop()
@@ -78,9 +78,14 @@ func _on_cycle_timer_timeout():
 	if GameManager.UnitCount(playerUnitMatrix) == 0 or GameManager.UnitCount(enemyUnitMatrix) == 0:
 		if !cycleTimer.is_stopped():
 			cycleTimer.stop()
-			$AutoToggleButton.button_pressed = false
+			$ProcessBattleButton/InProcessLabel.visible = false
+			$ProcessBattleButton.button_pressed = false
 		
-		
+
+func _on_battle_process_button_pressed():
+	pass
+	
+	
 # first index is the column, second index is the row
 static func Make2DArray(h, w):
 	var output = []
@@ -106,7 +111,9 @@ static func InitializeMatrix():
 	
 static func CycleProcess():
 	if enemyAI is EnemyAI_Randomizer:
+		AddIncome()
 		enemyAI.GenerateUnitMatrix()
+		enemyEditor.ImportReserve()
 		
 	# update unit attack and movement costs
 	UnitBehaviorProcess(playerUnitMatrix)
@@ -183,7 +190,6 @@ static func UnitBehaviorProcess(unitMatrix):
 					
 					# valid attack target exists
 					if target != null:
-						print(target)
 						unitMatrix[col][row].attackTargetCoord = target
 						unitMatrix[col][row].attackCyclesLeft -= 1
 					# no target. reset value
@@ -246,7 +252,6 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 			
 			# both exists return the one that has lower HP
 			if upper != null and lower != null:
-				print("1")
 				if upper.currentHealthPoints < lower.currentHealthPoints:
 					return Vector2(col_offset, curRow + i)
 				elif upper.currentHealthPoints > lower.currentHealthPoints:
@@ -259,7 +264,6 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 					else:
 						return Vector2(col_offset, curRow - i)
 			else:
-				print("2")
 				if upper != null:
 					return Vector2(col_offset, curRow + i)
 				if lower != null:
@@ -303,7 +307,6 @@ static func RemoveUnit(unit: Unit):
 		for row in range(matrixHeight):
 			if mat[col][row] == unit:
 				mat[col][row] = null
-				print("removed " + unit.data.name)
 				return
 
 
