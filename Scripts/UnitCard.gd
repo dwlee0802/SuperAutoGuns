@@ -11,6 +11,10 @@ var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 
 static var selected: UnitCard
 
+static var dragging: bool = false
+
+@onready var selectionIndicator = $TextureRect/SelectionIndicator
+
 
 func SetUnit(_unit: Unit):
 	unit = _unit
@@ -37,9 +41,9 @@ func SetUnit(_unit: Unit):
 			attackAnimationPlayer.play("attack_animation_right")
 			
 
-
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	set_drag_preview(make_drag_preview())
+	UnitCard.dragging = true
 	return self
 
 
@@ -57,6 +61,10 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 
 # swap positions
 func _drop_data(_at_position, data):
+	# do nothing if self
+	if data == self:
+		return
+		
 	var otherParent = data.get_parent()
 	data.reparent(get_parent())
 	reparent(otherParent)
@@ -68,6 +76,9 @@ func _drop_data(_at_position, data):
 		get_parent().dropped.emit()
 	if get_parent() is ReserveContainer:
 		get_parent().dropped.emit()
+	
+	UnitCard.selected = null
+	UnitCard.dragging = false
 	
 	
 func UpdateHealthLabel(_num):
@@ -129,10 +140,18 @@ func UnitDied():
 
 
 func _input(event):
+	if UnitCard.selected == self:
+		selectionIndicator.visible = true
+	else:
+		selectionIndicator.visible = false
+
+		
+func _gui_input(event):
 	if event is InputEventMouse:
-		if event.is_pressed() and event.button_mask == MOUSE_BUTTON_LEFT:
+		if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
 			if UnitCard.selected == null:
 				UnitCard.selected = self
 			else:
-				# swap positions with selected
-				UnitCard.selected = null
+				# already selected exists. swap positions
+				if !UnitCard.dragging:
+					_drop_data(Vector2.ZERO, UnitCard.selected)

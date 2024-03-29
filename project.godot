@@ -18,6 +18,10 @@ config/features=PackedStringArray("4.2", "Mobile")
 
 DataManager="*res://Scripts/DataManager.gd"
 
+[debug]
+
+gdscript/warnings/integer_division=0
+
 [display]
 
 window/size/viewport_width=1600
@@ -26,6 +30,14 @@ window/size/viewport_height=900
 [editor]
 
 movie_writer/movie_file="/Users/CKIRUser/Videos/sdafasd"
+
+[input]
+
+left_click={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(109, 13),"global_position":Vector2(113, 54),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+]
+}
 
 [rendering]
 
