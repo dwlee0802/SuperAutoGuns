@@ -139,7 +139,7 @@ func UnitDied():
 	queue_free()
 
 
-func _input(event):
+func _input(_event):
 	if UnitCard.selected == self:
 		selectionIndicator.visible = true
 	else:

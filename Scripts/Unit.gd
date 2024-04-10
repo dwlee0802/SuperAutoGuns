@@ -69,3 +69,10 @@ func _to_string():
 	var output = data.name
 	output += "(" + str(currentHealthPoints) + "/" + str(data.maxHealthPoints) + ")"
 	return output
+
+
+func Duplicate():
+	var clone = Unit.new(isPlayer, data)
+	clone.currentHealthPoints = currentHealthPoints
+	
+	return clone

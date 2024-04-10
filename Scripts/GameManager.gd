@@ -13,6 +13,9 @@ static var battleCount: int = 0
 static var playerUnitMatrix
 static var enemyUnitMatrix
 
+static var playerUnitMatrixBackup
+static var enemyUnitMatrixBackup
+
 static var playerReserves = []
 static var enemyReserves = []
 
@@ -73,6 +76,9 @@ func _on_cycle_timer_timeout():
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
 		$ProcessBattleButton/InProcessLabel.visible = false
+		ImportUnitMatrixBackup()
+		playerEditor.ImportUnitMatrix()
+		enemyEditor.ImportUnitMatrix()
 	else:
 		if cycleTimer.is_stopped():
 			cycleTimer.start(GameManager.cycleTime)
@@ -89,6 +95,18 @@ func _on_battle_process_button_pressed():
 		enemyAI.GenerateUnitMatrix()
 		enemyEditor.ImportReserve()
 	
+	# back up unit matrix
+	playerUnitMatrixBackup = playerUnitMatrix.duplicate(true)
+	enemyUnitMatrixBackup = enemyUnitMatrix.duplicate(true)
+	
+	# deep copy units
+	for col in range(matrixWidth):
+		for row in range(matrixHeight):
+			if playerUnitMatrixBackup[col][row] != null:
+				playerUnitMatrixBackup[col][row] = playerUnitMatrixBackup[col][row].Duplicate()
+			if enemyUnitMatrixBackup[col][row] != null:
+				enemyUnitMatrixBackup[col][row] = enemyUnitMatrixBackup[col][row].Duplicate()
+	
 	# process first cycle
 	print("***Starting Battle Process***\n")
 	GameManager.battleCount+= 1
@@ -97,6 +115,28 @@ func _on_battle_process_button_pressed():
 	if cycleTimer.is_stopped():
 		cycleTimer.start(0)
 		$ProcessBattleButton/InProcessLabel.visible = true
+	
+
+static func ImportUnitMatrixBackup():
+	for col in range(matrixWidth):
+		for row in range(matrixHeight):
+			if playerUnitMatrixBackup[col][row] != null:
+				# the unit was routed last battle
+				if playerUnitMatrix[col][row] == null:
+					playerUnitMatrixBackup[col][row].currentHealthPoints = 0
+				else:
+					playerUnitMatrixBackup[col][row].currentHealthPoints = playerUnitMatrix[col][row].currentHealthPoints
+			if enemyUnitMatrixBackup[col][row] != null:
+				if enemyUnitMatrix[col][row] == null:
+					enemyUnitMatrixBackup[col][row].currentHealthPoints = 0
+				else:
+					enemyUnitMatrixBackup[col][row].currentHealthPoints = enemyUnitMatrix[col][row].currentHealthPoints
+	
+	# assign backup to unit matrix
+	enemyUnitMatrix = enemyUnitMatrixBackup
+	playerUnitMatrix = playerUnitMatrixBackup
+	
+	print("Imported backup unit matrix")
 	
 	
 # first index is the column, second index is the row
@@ -250,21 +290,21 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 		
 	for col_offset in range(checkCols):
 		var checkingColumn = checkingMatrix[col_offset]
-		for i in range(len(checkingColumn)):
+		for i in range(matrixHeight):
 			var upper: Unit = null
 			var lower: Unit = null
 			
-			if curRow + i < len(checkingColumn):
-				upper = checkingColumn[curRow + i]
+			if curRow + i < matrixHeight:
+				lower = checkingColumn[curRow + i]
 			if curRow - i >= 0:
-				lower = checkingColumn[curRow - i]
+				upper = checkingColumn[curRow - i]
 			
 			# both exists return the one that has lower HP
 			if upper != null and lower != null:
 				if upper.currentHealthPoints < lower.currentHealthPoints:
-					return Vector2(col_offset, curRow + i)
-				elif upper.currentHealthPoints > lower.currentHealthPoints:
 					return Vector2(col_offset, curRow - i)
+				elif upper.currentHealthPoints > lower.currentHealthPoints:
+					return Vector2(col_offset, curRow + i)
 				else:
 					# return random one
 					var rng = randi()
@@ -274,9 +314,12 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 						return Vector2(col_offset, curRow - i)
 			else:
 				if upper != null:
-					return Vector2(col_offset, curRow + i)
-				if lower != null:
 					return Vector2(col_offset, curRow - i)
+				if lower != null:
+					return Vector2(col_offset, curRow + i)
+					
+				if upper == null and lower == null:
+					print("both null for " + str(i))
 	
 	return null
 
