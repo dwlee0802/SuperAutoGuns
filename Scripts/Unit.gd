@@ -39,7 +39,14 @@ func ResetStats():
 
 
 func ReceiveHit(amount):
-	print(str(self) + " received hit of " + str(amount))
+	var consoleOutput: String
+	if isPlayer:
+		consoleOutput = "(Player)"
+	else:
+		consoleOutput = "(Enemy)"
+		
+	print(consoleOutput + str(self) + " received hit of " + str(amount))
+	
 	currentHealthPoints -= amount
 	received_hit.emit(amount)
 	
@@ -49,7 +56,45 @@ func ReceiveHit(amount):
 		# remove data
 		GameManager.RemoveUnit(self)
 		
+
+func Heal(amount = 0):
+	if amount == 0:
+		return
 		
+	var consoleOutput: String
+	if isPlayer:
+		consoleOutput = "(Player)"
+	else:
+		consoleOutput = "(Enemy)"
+		
+	print(consoleOutput + str(self) + " healed for " + str(amount))
+	
+	currentHealthPoints += amount
+	
+	if currentHealthPoints > data.maxHealthPoints:
+		currentHealthPoints = data.maxHealthPoints
+		
+		
+func RatioHeal(ratio: float = 0):
+	if ratio == 0:
+		return
+		
+	var consoleOutput: String
+	if isPlayer:
+		consoleOutput = "(Player)"
+	else:
+		consoleOutput = "(Enemy)"
+	
+	var amount = int(data.maxHealthPoints * ratio)
+	
+	currentHealthPoints += amount
+	
+	if currentHealthPoints > data.maxHealthPoints:
+		currentHealthPoints = data.maxHealthPoints
+		
+	print(consoleOutput + str(self) + " healed " + str(ratio) + " of max health(" + str(amount) + ")")
+	
+	
 func Attack():
 	var target
 	if isPlayer:

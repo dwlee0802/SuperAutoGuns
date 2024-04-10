@@ -47,8 +47,10 @@ static var enemyFunds: int = 0
 
 static var baseIncomeAmount: int = 10
 
-static var enemyAI
+static var autoHealRatio: float = 0.1
+static var autoHealAmount: int = 1
 
+static var enemyAI
 
 
 static func _static_init():
@@ -76,7 +78,8 @@ func _on_cycle_timer_timeout():
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
 		$ProcessBattleButton/InProcessLabel.visible = false
-		ImportUnitMatrixBackup()
+		GameManager.ImportUnitMatrixBackup()
+		GameManager.HealUnits()
 		playerEditor.ImportUnitMatrix()
 		enemyEditor.ImportUnitMatrix()
 	else:
@@ -137,6 +140,16 @@ static func ImportUnitMatrixBackup():
 	playerUnitMatrix = playerUnitMatrixBackup
 	
 	print("Imported backup unit matrix")
+	
+	
+static func HealUnits():
+	print("\nUnit Auto Heal\n")
+	for col in range(matrixWidth):
+		for row in range(matrixHeight):
+			if enemyUnitMatrix[col][row] != null:
+				enemyUnitMatrix[col][row].Heal(autoHealAmount)
+			if playerUnitMatrix[col][row] != null:
+				playerUnitMatrix[col][row].Heal(autoHealAmount)
 	
 	
 # first index is the column, second index is the row
@@ -235,7 +248,7 @@ static func UnitBehaviorProcess(unitMatrix):
 					unitMatrix[col][row].movementCyclesLeft = unitMatrix[col][row].data.movementCost
 					
 					# check if able to attack
-					var target = FindAttackTarget(true, row, unitMatrix[col][row].data.attackRange - col)
+					var target = FindAttackTarget(unitMatrix[col][row].isPlayer, row, unitMatrix[col][row].data.attackRange - col)
 					
 					# valid attack target exists
 					if target != null:
@@ -287,7 +300,7 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 	var checkingMatrix = enemyUnitMatrix
 	if !isPlayer:
 		checkingMatrix = playerUnitMatrix
-		
+	
 	for col_offset in range(checkCols):
 		var checkingColumn = checkingMatrix[col_offset]
 		for i in range(matrixHeight):
@@ -317,9 +330,6 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 					return Vector2(col_offset, curRow - i)
 				if lower != null:
 					return Vector2(col_offset, curRow + i)
-					
-				if upper == null and lower == null:
-					print("both null for " + str(i))
 	
 	return null
 

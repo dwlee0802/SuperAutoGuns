@@ -82,7 +82,7 @@ func _drop_data(_at_position, data):
 	
 	
 func UpdateHealthLabel(_num):
-	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints)
+	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints)
 
 
 func MakeDamagePopup(amount):
