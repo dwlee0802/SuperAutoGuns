@@ -82,6 +82,7 @@ func _on_cycle_timer_timeout():
 		GameManager.HealUnits()
 		playerEditor.ImportUnitMatrix()
 		enemyEditor.ImportUnitMatrix()
+		cycleCount = 0
 	else:
 		if cycleTimer.is_stopped():
 			cycleTimer.start(GameManager.cycleTime)

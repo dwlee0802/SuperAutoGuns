@@ -213,6 +213,7 @@ offset_bottom = 64.0
 texture = ExtResource("1_oy87j")
 
 [node name="SelectionIndicator" type="TextureRect" parent="TextureRect"]
+visible = false
 self_modulate = Color(0.407843, 1, 0.552941, 0.372549)
 custom_minimum_size = Vector2(70, 70)
 layout_mode = 1
