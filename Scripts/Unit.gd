@@ -21,6 +21,8 @@ var isDead: bool = false
 
 var isMoving: bool = false
 
+var stackCount: int = 1
+
 
 func _init(_player, _data):
 	if _data == null:

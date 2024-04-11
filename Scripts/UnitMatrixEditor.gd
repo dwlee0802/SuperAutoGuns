@@ -174,7 +174,14 @@ func GetReinforcementOptions():
 	
 	
 func GetUnitCardAt(col, row):
-	var slot = unitMatrix.get_child(col).get_child(row)
+	var slot
+	
+	# count from back if inverted
+	if invertY:
+		slot = unitMatrix.get_child(GameManager.matrixWidth - 1 - col).get_child(row)
+	else:
+		slot = unitMatrix.get_child(col).get_child(row)
+		
 	if slot.get_child_count() > 1:
 		return slot.get_child(1)
 	else:

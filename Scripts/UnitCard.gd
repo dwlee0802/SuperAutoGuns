@@ -138,20 +138,20 @@ func OnAttackAnimationFinished(animName):
 func UnitDied():
 	queue_free()
 
+#
+#func _input(_event):
+	#if UnitCard.selected == self:
+		#selectionIndicator.visible = true
+	#else:
+		#selectionIndicator.visible = false
 
-func _input(_event):
-	if UnitCard.selected == self:
-		selectionIndicator.visible = true
-	else:
-		selectionIndicator.visible = false
-
-		
-func _gui_input(event):
-	if event is InputEventMouse:
-		if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
-			if UnitCard.selected == null:
-				UnitCard.selected = self
-			else:
-				# already selected exists. swap positions
-				if !UnitCard.dragging:
-					_drop_data(Vector2.ZERO, UnitCard.selected)
+		#
+#func _gui_input(event):
+	#if event is InputEventMouse:
+		#if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
+			#if UnitCard.selected == null:
+				#UnitCard.selected = self
+			#else:
+				## already selected exists. swap positions
+				#if !UnitCard.dragging:
+					#_drop_data(Vector2.ZERO, UnitCard.selected)
