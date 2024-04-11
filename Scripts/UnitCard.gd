@@ -13,6 +13,13 @@ static var selected: UnitCard
 
 @onready var selectionIndicator = $TextureRect/SelectionIndicator
 
+@onready var controlButtons = $ControlButtons
+
+
+func _ready():
+	controlButtons.get_node("MergeButton").pressed.connect(_merge_button_pressed)
+	controlButtons.get_node("SwapButton").pressed.connect(_swap_button_pressed)
+	
 
 func SetUnit(_unit: Unit):
 	unit = _unit
@@ -65,14 +72,17 @@ func _drop_data(_at_position, data):
 	var otherParent = data.get_parent()
 	data.reparent(get_parent())
 	reparent(otherParent)
-	data.position = Vector2.ZERO
-	position = Vector2.ZERO
 	
 	# export unit matrix or reserve
 	if get_parent() is UnitSlot:
 		get_parent().dropped.emit()
 	if get_parent() is ReserveContainer:
 		get_parent().dropped.emit()
+	
+	# swapping inside reserve container
+	if !(get_parent() is ReserveContainer and data.get_parent() is ReserveContainer):
+		data.position = Vector2.ZERO
+		position = Vector2.ZERO
 	
 	
 func UpdateHealthLabel(_num):
@@ -133,6 +143,17 @@ func UnitDied():
 	queue_free()
 
 
+# check to see if unit card should hide control buttons
+# such situations are:
+# we are no longer selected
+# pressed left click not on the buttons
+# pressed on the button
+## right clicked elsewhere
+#func _input(event):
+	#if Input.is_action_just_pressed("left_click") or Input.is_action_just_pressed("right_click"):
+		#controlButtons.visible = false
+	
+	
 func _gui_input(event):
 	if !unit.isPlayer:
 		return
@@ -151,13 +172,13 @@ func _gui_input(event):
 		
 		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
 			# check if merging is available: same type
-			print("do stuff to " + name)
 			if UnitCard.selected.unit.data != unit.data:
 				# swap positions immediately
 				_drop_data(Vector2.ZERO, UnitCard.selected)
 			else:
 				# show context menu
-				pass
+				if UnitCard.selected != self:
+					controlButtons.visible = true
 
 
 func _unhandled_key_input(event):
@@ -167,3 +188,16 @@ func _unhandled_key_input(event):
 				UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
 				
 			UnitCard.selected = null
+
+
+func _merge_button_pressed():
+	print("merge")
+	controlButtons.visible = false
+	
+
+func _swap_button_pressed():
+	print("swap")
+	if UnitCard.selected != null:
+		_drop_data(Vector2.ZERO, UnitCard.selected)
+	
+	controlButtons.visible = false

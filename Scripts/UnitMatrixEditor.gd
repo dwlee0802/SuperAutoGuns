@@ -31,10 +31,6 @@ func _ready():
 	else:
 		$UnitMatrix/Label.text = "Enemy Army Layout"
 		
-
-func _process(delta):
-	print(UnitCard.selected != null)
-	
 	
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):
@@ -145,6 +141,8 @@ func ImportReserve():
 	
 	
 	# free reference
+	if UnitCard.selected != null:
+		UnitCard.selected.selectionIndicator.visible = false
 	UnitCard.selected = null
 	
 
