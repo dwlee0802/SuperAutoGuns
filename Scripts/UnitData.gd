@@ -3,7 +3,13 @@ class_name UnitData
 
 @export var name: String = "Null"
 
+@export var type: Enums.UnitType
+
 @export var purchaseCost: int = 3
+
+
+@export_group("Combat Stats")
+@export var maxHealthPoints: int = 1
 
 @export var movementCost: int = 1
 
@@ -13,8 +19,7 @@ class_name UnitData
 
 @export var attackRange: int = 1
 
-@export var flankingModifier: float = 1
+@export var flankingAttackModifier: float = 0
+@export var flankingDefenseModifier: float = 0
 
-@export var maxHealthPoints: int = 1
 
-@export var type: Enums.UnitType

@@ -204,10 +204,8 @@ func _merge_button_pressed():
 		# export unit matrix or reserve
 		if get_parent() is UnitSlot:
 			get_parent().dropped.emit()
-			print("1")
 		if get_parent() is ReserveContainer:
 			get_parent().dropped.emit()
-			print("2")
 			
 
 func _swap_button_pressed():
