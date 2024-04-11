@@ -11,8 +11,6 @@ var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 
 static var selected: UnitCard
 
-static var dragging: bool = false
-
 @onready var selectionIndicator = $TextureRect/SelectionIndicator
 
 
@@ -43,7 +41,6 @@ func SetUnit(_unit: Unit):
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	set_drag_preview(make_drag_preview())
-	UnitCard.dragging = true
 	return self
 
 
@@ -76,9 +73,6 @@ func _drop_data(_at_position, data):
 		get_parent().dropped.emit()
 	if get_parent() is ReserveContainer:
 		get_parent().dropped.emit()
-	
-	UnitCard.selected = null
-	UnitCard.dragging = false
 	
 	
 func UpdateHealthLabel(_num):
@@ -138,20 +132,38 @@ func OnAttackAnimationFinished(animName):
 func UnitDied():
 	queue_free()
 
-#
-#func _input(_event):
-	#if UnitCard.selected == self:
-		#selectionIndicator.visible = true
-	#else:
-		#selectionIndicator.visible = false
 
-		#
-#func _gui_input(event):
-	#if event is InputEventMouse:
-		#if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
-			#if UnitCard.selected == null:
-				#UnitCard.selected = self
-			#else:
-				## already selected exists. swap positions
-				#if !UnitCard.dragging:
-					#_drop_data(Vector2.ZERO, UnitCard.selected)
+func _gui_input(event):
+	if !unit.isPlayer:
+		return
+		
+	if event is InputEventMouse:
+		if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
+			if UnitCard.selected == self:
+				# unselect
+				$TextureRect/SelectionIndicator.visible = false
+				UnitCard.selected = null
+			else:
+				if UnitCard.selected != null:
+					UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
+				UnitCard.selected = self
+				$TextureRect/SelectionIndicator.visible = true
+		
+		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
+			# check if merging is available: same type
+			print("do stuff to " + name)
+			if UnitCard.selected.unit.data != unit.data:
+				# swap positions immediately
+				_drop_data(Vector2.ZERO, UnitCard.selected)
+			else:
+				# show context menu
+				pass
+
+
+func _unhandled_key_input(event):
+	if event is InputEventKey:
+		if event.keycode == KEY_ESCAPE and event.pressed:
+			if UnitCard.selected != null:
+				UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
+				
+			UnitCard.selected = null

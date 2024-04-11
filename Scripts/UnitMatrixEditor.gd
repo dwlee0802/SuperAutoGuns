@@ -32,6 +32,10 @@ func _ready():
 		$UnitMatrix/Label.text = "Enemy Army Layout"
 		
 
+func _process(delta):
+	print(UnitCard.selected != null)
+	
+	
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):
 	# clear preexisting grid
@@ -138,7 +142,11 @@ func ImportReserve():
 		var newCard: UnitCard = unitCardScene.instantiate()
 		newCard.SetUnit(unit)
 		reserveUI.add_child(newCard)
-		
+	
+	
+	# free reference
+	UnitCard.selected = null
+	
 
 func ExportReserve():
 	var newReserve = []
