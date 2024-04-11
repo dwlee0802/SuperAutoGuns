@@ -52,6 +52,9 @@ static var autoHealAmount: int = 1
 
 static var enemyAI
 
+# -1 is player victory 0 is draw 1 is enemy victory
+static var lastBattleResult: int = 0
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -83,6 +86,16 @@ func _on_cycle_timer_timeout():
 		playerEditor.ImportUnitMatrix()
 		enemyEditor.ImportUnitMatrix()
 		cycleCount = 0
+		
+		# update battle result
+		var resultLabel = $BattleResultLabel
+		resultLabel.visible = true
+		if lastBattleResult == -1:
+			resultLabel.text = "Player Victory"
+		elif lastBattleResult == 0:
+			resultLabel.text = "Draw"
+		elif lastBattleResult == 1:
+			resultLabel.text = "Enemy Victory"
 	else:
 		if cycleTimer.is_stopped():
 			cycleTimer.start(GameManager.cycleTime)
@@ -212,13 +225,16 @@ static func CycleProcess():
 	if playerCount == 0 or enemyCount == 0:
 		if playerCount == 0 and enemyCount == 0:
 			print("Draw. Defender wins.")
+			lastBattleResult = 0
 		if playerCount == 0 and enemyCount != 0:
 			print("enemy wins battle.")
 			playerCapturedSectorsCount -= 1
+			lastBattleResult = 1
 		if playerCount != 0 and enemyCount == 0:
 			print("player wins battle.")
 			playerCapturedSectorsCount += 1
 			EnemyAI_Randomizer.lostLastBattle = true
+			lastBattleResult = -1
 		
 		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
 		
