@@ -377,6 +377,9 @@ static func ClearDeadUnits(unitMatrix):
 					unitMatrix[i][j] = null
 
 
+# remove unit from unit matrix
+# returns true if unit was removed successfully
+# false if unit was not found
 static func RemoveUnit(unit: Unit):
 	var mat = playerUnitMatrix
 	if !unit.isPlayer:
@@ -386,9 +389,24 @@ static func RemoveUnit(unit: Unit):
 		for row in range(matrixHeight):
 			if mat[col][row] == unit:
 				mat[col][row] = null
-				return
+				return true
+	
+	return false
 
 
+static func RemoveUnitFromReserve(unit: Unit):
+	var reserve = playerReserves
+	if !unit.isPlayer:
+		reserve = enemyReserves
+	
+	var loc = reserve.find(unit)
+	if loc < 0:
+		return false
+	else:
+		reserve.remove_at(loc)
+		return true
+		
+		
 static func ResetFunds():
 	playerFunds = 0
 	enemyFunds = 0

@@ -193,7 +193,22 @@ func _unhandled_key_input(event):
 func _merge_button_pressed():
 	print("merge")
 	controlButtons.visible = false
+	if UnitCard.selected != null:
+		unit.Merge(UnitCard.selected.unit)
 	
+		# destroy other card
+		UnitCard.selected.get_parent().remove_child(UnitCard.selected)
+		UnitCard.selected.queue_free()
+		UnitCard.selected = null
+		
+		# export unit matrix or reserve
+		if get_parent() is UnitSlot:
+			get_parent().dropped.emit()
+			print("1")
+		if get_parent() is ReserveContainer:
+			get_parent().dropped.emit()
+			print("2")
+			
 
 func _swap_button_pressed():
 	print("swap")

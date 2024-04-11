@@ -139,7 +139,6 @@ func ImportReserve():
 		newCard.SetUnit(unit)
 		reserveUI.add_child(newCard)
 	
-	
 	# free reference
 	if UnitCard.selected != null:
 		UnitCard.selected.selectionIndicator.visible = false

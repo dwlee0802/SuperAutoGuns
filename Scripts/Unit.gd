@@ -112,6 +112,24 @@ func Attack():
 	attackCyclesLeft = data.attackCost
 
 
+# merge with otherUnit
+#
+func Merge(otherUnit: Unit):
+	stackCount += otherUnit.stackCount
+	print("\n" + str(otherUnit) + " and " + str(self) + " merged. New stack size: " + str(stackCount) + "\n")
+	
+	# remove other unit
+	# otherunit's parent is unit slot
+	## otherunit's parent is reserve
+	#if GameManager.RemoveUnit(otherUnit):
+		#return
+	#else:
+		#if GameManager.RemoveUnitFromReserve(otherUnit):
+			#return
+		#else:
+			#print("ERROR! Merged unit but couldn't remove it from memory.")
+
+
 func _to_string():
 	var output = data.name
 	output += "(" + str(currentHealthPoints) + "/" + str(data.maxHealthPoints) + ")"
