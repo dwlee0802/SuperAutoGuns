@@ -12,7 +12,7 @@ var slotScene = load("res://Scenes/unit_slot.tscn")
 
 @onready var reinforcementUI = $Reinforcement/HBoxContainer
 var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
-var reinforcementOptionCount: int = 5
+var reinforcementOptionCount: int = 10
 
 @onready var reserveUI = $Reserve/HBoxContainer
 

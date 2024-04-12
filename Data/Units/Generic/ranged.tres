@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://rjv7siqadca0"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_y52ge"]
+
+[resource]
+script = ExtResource("1_y52ge")
+name = "Ranged"
+type = 2
+purchaseCost = 3
+maxHealthPoints = 8
+movementCost = 5
+attackCost = 5
+attackRange = 2
+attackDamage = 4
+flankingAttackModifier = -1.0
+defense = 0
+flankingDefenseModifier = 0.0

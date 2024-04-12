@@ -42,8 +42,8 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 10
-static var enemyFunds: int = 0
+static var playerFunds: int = 30
+static var enemyFunds: int = 20
 
 static var baseIncomeAmount: int = 10
 
