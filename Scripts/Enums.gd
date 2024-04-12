@@ -1,13 +1,15 @@
 extends Node
 class_name Enums
 
-enum Nation {Germany, USSR}
+enum Nation {Germany, USSR, Generic}
 
 static func NationToString(num: Nation):
 	if num == Nation.Germany:
 		return "Germany"
 	if num == Nation.USSR:
 		return "USSR"
+	if num == Nation.Generic:
+		return "Generic"
 
 
 enum UnitType {Infantry, Armor, Support}

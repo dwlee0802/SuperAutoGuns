@@ -40,12 +40,17 @@ func ResetStats():
 	currentHealthPoints = data.maxHealthPoints
 
 
-func ReceiveHit(amount):
+func ReceiveHit(amount, isFlank: bool = false):
 	var consoleOutput: String
 	if isPlayer:
 		consoleOutput = "(Player)"
 	else:
 		consoleOutput = "(Enemy)"
+	
+	if isFlank:
+		amount -= data.defense + data.flankingDefenseModifier
+	else:
+		amount -= data.defense
 		
 	print(consoleOutput + str(self) + " received hit of " + str(amount))
 	
@@ -97,7 +102,7 @@ func RatioHeal(ratio: float = 0):
 	print(consoleOutput + str(self) + " healed " + str(ratio) + " of max health(" + str(amount) + ")")
 	
 	
-func Attack():
+func Attack(isFlank: bool = false):
 	var target
 	if isPlayer:
 		target = GameManager.enemyUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
@@ -105,7 +110,10 @@ func Attack():
 		target = GameManager.playerUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
 	
 	if target != null:
-		target.ReceiveHit(data.attackDamage)
+		if isFlank:
+			target.ReceiveHit(data.attackDamage + data.flankingAttackModifier)
+		else:
+			target.ReceiveHit(data.attackDamage)
 	else:
 		print("target null")
 		

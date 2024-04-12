@@ -30,6 +30,7 @@ static func _static_init():
 	for item in unitDict[Enums.Nation.Germany]:
 		print(item.name)
 	
+	
 	var ussr_path = unit_resources_path + "/" + Enums.NationToString(Enums.Nation.USSR) + "/"
 	dir = DirAccess.open(ussr_path)
 	dir.list_dir_begin()
@@ -49,4 +50,28 @@ static func _static_init():
 	for item in unitDict[Enums.Nation.USSR]:
 		print(item.name)
 	
+	ImportUnits(Enums.Nation.Generic)
+	
 	print("\n***End of data import***\n\n")
+
+
+static func ImportUnits(nation: Enums.Nation):
+	var path = unit_resources_path + "/" + Enums.NationToString(nation) + "/"
+	var dir = DirAccess.open(path)
+	dir.list_dir_begin()
+	var filename = dir.get_next()
+	var germany_units = []
+	
+	while filename != "":
+		var fullpath = path + filename
+		var newthing = load(fullpath)
+		germany_units.append(newthing)
+		filename = dir.get_next()
+		
+	unitDict[nation] = germany_units
+	
+	print("Imported " + str(unitDict[nation].size()) + " units for " + Enums.NationToString(nation))
+	
+	
+	for item in unitDict[nation]:
+		print(item.name)

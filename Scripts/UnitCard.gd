@@ -119,7 +119,7 @@ func UpdateAttackLabel():
 		label.visible = true
 	
 		
-func UpdateAttackLine():
+func UpdateAttackLine(isFlanking: bool = false):
 	var target = null
 	if unit.isPlayer:
 		target = GameManager.enemyEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
@@ -131,13 +131,21 @@ func UpdateAttackLine():
 		
 	$AttackLine.set_point_position(1, target.global_position - global_position + Vector2(32,32))
 	$AttackLine.get_node("AnimationPlayer").play("attack_animation")
+	
+	if isFlanking:
+		$AttackLine.default_color = Color.DARK_GOLDENROD
 
 
 func OnAttackAnimationFinished(animName):
 	if animName == "attack_animation_left" or animName == "attack_animation_right":
-		unit.Attack()
-		UpdateAttackLine()
-		
+		var selfCoord = GameManager.GetCoord(unit)
+		if selfCoord != null:
+			unit.Attack(selfCoord.y != unit.attackTargetCoord.y)
+			UpdateAttackLine(selfCoord.y != unit.attackTargetCoord.y)
+		else:
+			unit.Attack()
+			UpdateAttackLine()
+			
 		
 func UnitDied():
 	queue_free()

@@ -429,3 +429,17 @@ static func ChangeFunds(amount, isPlayer: bool = true):
 		enemyFunds += amount
 		print("changed enemy funds by " + str(amount))
 		print("New value: " + str(enemyFunds) + "\n")
+
+
+# returns the input unit's coordinates on the unit matrix
+static func GetCoord(unit):
+	var checkingMatrix = enemyUnitMatrix
+	if unit.isPlayer:
+		checkingMatrix = playerUnitMatrix
+		
+	for col in range(matrixWidth):
+		for row in range(matrixHeight):
+			if checkingMatrix[col][row] == unit:
+				return Vector2(col, row)
+	
+	return null

@@ -31,7 +31,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0.666667, 0, 0, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0vtvq"]
@@ -238,6 +238,7 @@ default_color = Color(0.486275, 0, 0, 0.568627)
 libraries = {
 "": SubResource("AnimationLibrary_0vtvq")
 }
+speed_scale = 0.7
 
 [node name="AttackAnimaitonPlayer" type="AnimationPlayer" parent="."]
 libraries = {

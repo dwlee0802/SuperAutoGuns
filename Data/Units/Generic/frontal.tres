@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://mnqt5vv2d6jc"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_w0bjv"]
+
+[resource]
+script = ExtResource("1_w0bjv")
+name = "Frontal"
+type = 0
+purchaseCost = 3
+maxHealthPoints = 10
+movementCost = 4
+attackCost = 4
+attackRange = 1
+attackDamage = 4
+flankingAttackModifier = -1.0
+defense = 1
+flankingDefenseModifier = -1.0

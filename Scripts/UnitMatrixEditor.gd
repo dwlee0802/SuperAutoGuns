@@ -20,7 +20,7 @@ var reinforcementOptionCount: int = 5
 func _ready():
 	$Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Germany))
 	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
-	GenerateReinforcementOptions(Enums.Nation.Germany)
+	GenerateReinforcementOptions(Enums.Nation.Generic)
 	UpdateFundsLabel()
 	
 	$Reserve/HBoxContainer.dropped.connect(ExportReserve)
