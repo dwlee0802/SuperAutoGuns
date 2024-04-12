@@ -162,6 +162,20 @@ theme_override_font_sizes/font_size = 10
 text = "unit name"
 horizontal_alignment = 1
 
+[node name="CombatStats" type="Label" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 11.0
+offset_bottom = 11.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 9
+text = "ATK: 0 DFS: 0"
+horizontal_alignment = 1
+
 [node name="HealthPointsLabel" type="Label" parent="TextureRect"]
 layout_mode = 1
 anchors_preset = 15
@@ -176,7 +190,6 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="MovementLabel" type="Label" parent="TextureRect"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -190,7 +203,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AttackLabel" type="Label" parent="TextureRect"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

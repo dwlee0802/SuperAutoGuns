@@ -15,6 +15,12 @@ static var selected: UnitCard
 
 @onready var controlButtons = $ControlButtons
 
+static var deathEffect
+
+
+static func _static_init():
+	deathEffect = load("res://Scenes/death_effect.tscn")
+	
 
 func _ready():
 	controlButtons.get_node("MergeButton").pressed.connect(_merge_button_pressed)
@@ -29,11 +35,12 @@ func SetUnit(_unit: Unit):
 	UpdateHealthLabel(0)
 	UpdateMovementLabel()
 	UpdateAttackLabel()
+	UpdateCombatStatsLabel()
 	
 	# connect signals
 	unit.received_hit.connect(UpdateHealthLabel)
 	unit.received_hit.connect(MakeDamagePopup)
-	unit.unit_dead.connect(queue_free)
+	unit.unit_dead.connect(UnitDied)
 	
 	if unit.attackCyclesLeft < 0:
 		if unit.attackTargetCoord == null:
@@ -118,7 +125,16 @@ func UpdateAttackLabel():
 	else:
 		label.visible = true
 	
-		
+
+func UpdateCombatStatsLabel():
+	var label = $TextureRect/CombatStats
+	var text = "ATK: {atk} DFS: {dfs}"
+	var atk = unit.data.attackDamage
+	var dfs = unit.data.defense
+	
+	label.text = text.format({"atk": atk, "dfs": dfs})
+	
+	
 func UpdateAttackLine(isFlanking: bool = false):
 	var target = null
 	if unit.isPlayer:
@@ -148,6 +164,10 @@ func OnAttackAnimationFinished(animName):
 			
 		
 func UnitDied():
+	var neweffect: GPUParticles2D = deathEffect.instantiate()
+	neweffect.global_position = global_position
+	get_tree().root.add_child(neweffect)
+	neweffect.emitting = true
 	queue_free()
 
 

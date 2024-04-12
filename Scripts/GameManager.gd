@@ -42,8 +42,8 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 30
-static var enemyFunds: int = 20
+static var playerFunds: int = 10
+static var enemyFunds: int = 0
 
 static var baseIncomeAmount: int = 10
 
@@ -51,6 +51,7 @@ static var autoHealRatio: float = 0.1
 static var autoHealAmount: int = 1
 
 static var enemyAI
+static var playerAI
 
 # -1 is player victory 0 is draw 1 is enemy victory
 static var lastBattleResult: int = 0
@@ -59,6 +60,7 @@ static var lastBattleResult: int = 0
 static func _static_init():
 	InitializeMatrix()
 	enemyAI = EnemyAI_Randomizer.new()
+	playerAI = EnemyAI_Randomizer.new()
 
 
 func _ready():
@@ -111,6 +113,9 @@ func _on_battle_process_button_pressed():
 	if enemyAI != null:
 		enemyAI.GenerateUnitMatrix()
 		enemyEditor.ImportReserve()
+	if playerAI != null:
+		# do stuff
+		pass
 	
 	# back up unit matrix
 	playerUnitMatrixBackup = playerUnitMatrix.duplicate(true)

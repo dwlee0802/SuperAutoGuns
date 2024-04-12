@@ -161,7 +161,7 @@ func ExportReserve():
 # populate reinforcement option buttons
 func GenerateReinforcementOptions(nation: Enums.Nation):
 	# clear children
-	var children = reinforcementUI.get_child_count()
+	var children = reinforcementUI.get_children()
 	for item in children:
 		item.queue_free()
 		
@@ -172,7 +172,7 @@ func GenerateReinforcementOptions(nation: Enums.Nation):
 		reinforcementUI.add_child(newOption)
 		newOption.pressed.connect(ImportReserve)
 		newOption.pressed.connect(UpdateFundsLabel)
-
+	
 
 func GetReinforcementOptions():
 	return reinforcementUI.get_children()
