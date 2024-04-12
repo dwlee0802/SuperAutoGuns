@@ -25,7 +25,7 @@ func SetUnit(_unit: Unit):
 	unit = _unit
 	
 	# update info ui for this unit
-	$TextureRect/Name.text = unit.data.name
+	$TextureRect/Name.text = unit.data.name + str(unit.stackCount)
 	UpdateHealthLabel(0)
 	UpdateMovementLabel()
 	UpdateAttackLabel()
@@ -86,7 +86,7 @@ func _drop_data(_at_position, data):
 	
 	
 func UpdateHealthLabel(_num):
-	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints)
+	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints * unit.stackCount)
 
 
 func MakeDamagePopup(amount):
@@ -212,8 +212,19 @@ func _merge_button_pressed():
 		# export unit matrix or reserve
 		if get_parent() is UnitSlot:
 			get_parent().dropped.emit()
+			
+			if unit.isPlayer:
+				GameManager.playerEditor.ImportUnitMatrix()
+			else:
+				GameManager.enemyEditor.ImportUnitMatrix()
+				
 		if get_parent() is ReserveContainer:
 			get_parent().dropped.emit()
+			
+			if unit.isPlayer:
+				GameManager.playerEditor.ImportReserve()
+			else:
+				GameManager.enemyEditor.ImportReserve()
 			
 
 func _swap_button_pressed():

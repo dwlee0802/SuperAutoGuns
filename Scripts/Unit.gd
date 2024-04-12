@@ -78,8 +78,8 @@ func Heal(amount = 0):
 	
 	currentHealthPoints += amount
 	
-	if currentHealthPoints > data.maxHealthPoints:
-		currentHealthPoints = data.maxHealthPoints
+	if currentHealthPoints > data.maxHealthPoints * stackCount:
+		currentHealthPoints = data.maxHealthPoints * stackCount
 		
 		
 func RatioHeal(ratio: float = 0):
@@ -124,6 +124,7 @@ func Attack(isFlank: bool = false):
 #
 func Merge(otherUnit: Unit):
 	stackCount += otherUnit.stackCount
+	Heal(otherUnit.currentHealthPoints)
 	print("\n" + str(otherUnit) + " and " + str(self) + " merged. New stack size: " + str(stackCount) + "\n")
 	
 	# remove other unit
@@ -139,8 +140,8 @@ func Merge(otherUnit: Unit):
 
 
 func _to_string():
-	var output = data.name
-	output += "(" + str(currentHealthPoints) + "/" + str(data.maxHealthPoints) + ")"
+	var output = data.name + str(stackCount)
+	output += "(" + str(currentHealthPoints) + "/" + str(data.maxHealthPoints * stackCount) + ")"
 	return output
 
 
