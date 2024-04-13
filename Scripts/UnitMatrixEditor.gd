@@ -75,8 +75,7 @@ func ImportUnitMatrix():
 		# row index
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if currentMatrix[col][row] != null:
-				var newCard: UnitCard = unitCardScene.instantiate()
-				newCard.clicked.connect(UpdateHealCost)
+				var newCard: UnitCard = _InstantiateUnitCard()
 				# add from back if y inverted
 				if invertY:
 					unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row).add_child(newCard)
@@ -138,8 +137,7 @@ func ImportReserve():
 		reserve = GameManager.enemyReserves
 		
 	for unit: Unit in reserve:
-		var newCard: UnitCard = unitCardScene.instantiate()
-		newCard.clicked.connect(UpdateHealCost)
+		var newCard: UnitCard = _InstantiateUnitCard()
 		newCard.SetUnit(unit)
 		reserveUI.add_child(newCard)
 	
@@ -256,10 +254,42 @@ func UpdateFundsLabel():
 
 func UpdateHealCost():
 	var label = $HealButton
+	label.disabled = true
 	if isPlayer:
-		var text = "Heal Cost: {num}"
-		label.text = text.format({"num": GameManager.healCostPerStackCount * UnitCard.selected.unit.stackCount})
+		if UnitCard.selected != null:
+			var amount = GameManager.healCostPerStackCount * UnitCard.selected.unit.stackCount
+			var text = "Heal Cost: {num}"
+			label.text = text.format({"num": amount})
+			if amount <= GameManager.playerFunds and UnitCard.selected.unit.currentHealthPoints < UnitCard.selected.unit.data.maxHealthPoints:
+				label.disabled = false
+		else:
+			label.text = "Heal"
 
 
 func _heal_unit_button_pressed():
-	pass
+	if isPlayer:
+		HealUnit(UnitCard.selected)
+	
+	
+func HealUnit(unitCard: UnitCard):
+	var amount = GameManager.healCostPerStackCount * unitCard.unit.stackCount
+	if unitCard.unit.isPlayer:
+		if GameManager.playerFunds >= amount:
+			GameManager.ChangeFunds(-amount)
+			unitCard.unit.RatioHeal(1)
+		else:
+			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
+	
+	ImportReserve()
+	ImportUnitMatrix()
+	UpdateHealCost()
+
+
+# make new card and connect signals
+func _InstantiateUnitCard() -> UnitCard:
+	var newCard: UnitCard = unitCardScene.instantiate()
+	newCard.clicked.connect(UpdateHealCost)
+	newCard.merged.connect(UpdateHealCost)
+	newCard.merged.connect(ImportUnitMatrix)
+	newCard.merged.connect(ImportReserve)
+	return newCard

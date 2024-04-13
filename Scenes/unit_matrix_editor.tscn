@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://Scripts/ReserveContainer.gd" id="3_6f72e"]
 
 [node name="UnitMatrixEditor" type="VBoxContainer"]
+texture_filter = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -172,6 +173,8 @@ grow_vertical = 0
 text = "Funds: 0"
 
 [node name="HealButton" type="Button" parent="."]
+custom_minimum_size = Vector2(120, 31)
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Heal (Cost: 0)"
+alignment = 0

@@ -19,6 +19,8 @@ static var deathEffect
 
 signal clicked
 
+signal merged 
+
 
 static func _static_init():
 	deathEffect = load("res://Scenes/death_effect.tscn")
@@ -235,20 +237,22 @@ func _merge_button_pressed():
 		# export unit matrix or reserve
 		if get_parent() is UnitSlot:
 			get_parent().dropped.emit()
-			
-			if unit.isPlayer:
-				GameManager.playerEditor.ImportUnitMatrix()
-			else:
-				GameManager.enemyEditor.ImportUnitMatrix()
+			#
+			#if unit.isPlayer:
+				#GameManager.playerEditor.ImportUnitMatrix()
+			#else:
+				#GameManager.enemyEditor.ImportUnitMatrix()
 				
 		if get_parent() is ReserveContainer:
 			get_parent().dropped.emit()
-			
-			if unit.isPlayer:
-				GameManager.playerEditor.ImportReserve()
-			else:
-				GameManager.enemyEditor.ImportReserve()
-			
+			#
+			#if unit.isPlayer:
+				#GameManager.playerEditor.ImportReserve()
+			#else:
+				#GameManager.enemyEditor.ImportReserve()
+		
+		merged.emit()
+		
 
 func _swap_button_pressed():
 	print("swap")
