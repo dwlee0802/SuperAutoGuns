@@ -17,6 +17,8 @@ static var selected: UnitCard
 
 static var deathEffect
 
+signal clicked
+
 
 static func _static_init():
 	deathEffect = load("res://Scenes/death_effect.tscn")
@@ -196,6 +198,7 @@ func _gui_input(event):
 				if UnitCard.selected != null:
 					UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
 				UnitCard.selected = self
+				clicked.emit()
 				$TextureRect/SelectionIndicator.visible = true
 		
 		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):

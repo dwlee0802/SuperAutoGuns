@@ -30,7 +30,9 @@ func _ready():
 		$UnitMatrix/Label.text = "Player Army Layout"
 	else:
 		$UnitMatrix/Label.text = "Enemy Army Layout"
-		
+	
+	$HealButton.pressed.connect(_heal_unit_button_pressed)
+	
 	
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):
@@ -73,7 +75,8 @@ func ImportUnitMatrix():
 		# row index
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if currentMatrix[col][row] != null:
-				var newCard = unitCardScene.instantiate()
+				var newCard: UnitCard = unitCardScene.instantiate()
+				newCard.clicked.connect(UpdateHealCost)
 				# add from back if y inverted
 				if invertY:
 					unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row).add_child(newCard)
@@ -136,6 +139,7 @@ func ImportReserve():
 		
 	for unit: Unit in reserve:
 		var newCard: UnitCard = unitCardScene.instantiate()
+		newCard.clicked.connect(UpdateHealCost)
 		newCard.SetUnit(unit)
 		reserveUI.add_child(newCard)
 	
@@ -248,3 +252,14 @@ func UpdateFundsLabel():
 		label.text = "Funds: " + str(GameManager.playerFunds)
 	else:
 		label.text = "Funds: " + str(GameManager.enemyFunds)
+
+
+func UpdateHealCost():
+	var label = $HealButton
+	if isPlayer:
+		var text = "Heal Cost: {num}"
+		label.text = text.format({"num": GameManager.healCostPerStackCount * UnitCard.selected.unit.stackCount})
+
+
+func _heal_unit_button_pressed():
+	pass

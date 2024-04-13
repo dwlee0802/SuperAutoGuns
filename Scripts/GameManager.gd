@@ -56,6 +56,8 @@ static var playerAI
 # -1 is player victory 0 is draw 1 is enemy victory
 static var lastBattleResult: int = 0
 
+static var healCostPerStackCount: int = 2
+
 
 static func _static_init():
 	InitializeMatrix()

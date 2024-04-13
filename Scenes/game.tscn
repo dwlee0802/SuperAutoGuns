@@ -31,10 +31,6 @@ grow_horizontal = 1
 isPlayer = true
 invertY = true
 
-[node name="PlayerFundsLabel" type="Label" parent="PlayerUnitMatrixEditor"]
-layout_mode = 2
-text = "Player Funds: 0"
-
 [node name="EnemyUnitMatrixEditor" parent="." instance=ExtResource("2_3hgcu")]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 1
@@ -46,10 +42,6 @@ offset_left = -700.0
 offset_top = -338.0
 offset_bottom = 338.0
 grow_horizontal = 0
-
-[node name="EnemyFundsLabel" type="Label" parent="EnemyUnitMatrixEditor"]
-layout_mode = 2
-text = "Enemy Funds: 0"
 
 [node name="ProcessBattleButton" type="Button" parent="."]
 layout_mode = 1

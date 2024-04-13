@@ -170,3 +170,8 @@ offset_top = -23.0
 offset_right = 1600.0
 grow_vertical = 0
 text = "Funds: 0"
+
+[node name="HealButton" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Heal (Cost: 0)"
