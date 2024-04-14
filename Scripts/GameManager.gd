@@ -58,6 +58,8 @@ static var lastBattleResult: int = 0
 
 static var healCostPerStackCount: int = 2
 
+static var refundRatio: float = 0.5
+
 
 static func _static_init():
 	InitializeMatrix()

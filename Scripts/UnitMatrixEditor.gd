@@ -309,7 +309,7 @@ func HealUnit(unitCard: UnitCard):
 func SellUnit(unitCard: UnitCard):
 	if unitCard != null:
 		if unitCard.unit.isPlayer:
-			var refundAmount: int = unitCard.unit.data.purchaseCost * unitCard.unit.stackCount / 2
+			var refundAmount: int = int(unitCard.unit.data.purchaseCost * unitCard.unit.stackCount * GameManager.refundRatio)
 			if unitCard.get_parent() is ReserveContainer:
 				GameManager.RemoveUnitFromReserve(unitCard.unit)
 				unitCard.queue_free()
