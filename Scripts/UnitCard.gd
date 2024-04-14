@@ -140,7 +140,7 @@ func UpdateAttackLabel():
 
 func UpdateCombatStatsLabel():
 	var label = $TextureRect/CombatStats
-	var text = "ATK: {atk} DFS: {dfs}"
+	var text = "A: {atk} D: {dfs}"
 	var atk = unit.data.attackDamage
 	var dfs = unit.data.defense
 	
