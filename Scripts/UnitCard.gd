@@ -100,7 +100,13 @@ func _drop_data(_at_position, data):
 	
 func UpdateHealthLabel(_num):
 	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints * unit.stackCount)
+	UpdateHealthIndicator()
+	
 
+func UpdateHealthIndicator():
+	var currentHealthRatio: float = float(unit.currentHealthPoints) / (unit.data.maxHealthPoints * unit.stackCount)
+	$HealthIndicator.anchor_bottom = 1 - currentHealthRatio
+	
 
 func MakeDamagePopup(amount):
 	if amount == 0:
