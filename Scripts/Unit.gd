@@ -24,13 +24,14 @@ var isMoving: bool = false
 var stackCount: int = 1
 
 
-func _init(_player, _data):
+func _init(_player, _data, _stack: int = 1):
 	if _data == null:
 		print("ERROR! No data in Unit.")
 		return
 		
 	data = _data
 	isPlayer = _player
+	stackCount = _stack
 	ResetStats()
 	
 
@@ -92,12 +93,12 @@ func RatioHeal(ratio: float = 0):
 	else:
 		consoleOutput = "(Enemy)"
 	
-	var amount = int(data.maxHealthPoints * ratio)
+	var amount = int(data.maxHealthPoints * stackCount * ratio)
 	
 	currentHealthPoints += amount
 	
-	if currentHealthPoints > data.maxHealthPoints:
-		currentHealthPoints = data.maxHealthPoints
+	if currentHealthPoints > data.maxHealthPoints * stackCount:
+		currentHealthPoints = data.maxHealthPoints * stackCount
 		
 	print(consoleOutput + str(self) + " healed " + str(int(ratio * 100)) + "% of max health(" + str(amount) + ")")
 	
@@ -146,7 +147,7 @@ func _to_string():
 
 
 func Duplicate():
-	var clone = Unit.new(isPlayer, data)
+	var clone = Unit.new(isPlayer, data, stackCount)
 	clone.currentHealthPoints = currentHealthPoints
 	
 	return clone

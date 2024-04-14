@@ -7,6 +7,7 @@ script = ExtResource("1_ib2lb")
 name = "Flank"
 type = 0
 purchaseCost = 3
+color = Color(1, 0.803922, 0, 1)
 maxHealthPoints = 10
 movementCost = 3
 attackCost = 3

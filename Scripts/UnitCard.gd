@@ -34,6 +34,8 @@ func _ready():
 func SetUnit(_unit: Unit):
 	unit = _unit
 	
+	$TextureRect.self_modulate = unit.data.color
+	
 	# update info ui for this unit
 	$TextureRect/Name.text = unit.data.name + str(unit.stackCount)
 	UpdateHealthLabel(0)

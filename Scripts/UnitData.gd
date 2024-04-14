@@ -7,6 +7,7 @@ class_name UnitData
 
 @export var purchaseCost: int = 3
 
+@export var color = Color.WHITE
 
 @export_group("Combat Stats")
 @export var maxHealthPoints: int = 10
