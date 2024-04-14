@@ -31,7 +31,8 @@ func _ready():
 	else:
 		$UnitMatrix/Label.text = "Enemy Army Layout"
 	
-	$HealButton.pressed.connect(_heal_unit_button_pressed)
+	$ActionButtons/HealButton.pressed.connect(_heal_unit_button_pressed)
+	$ActionButtons/SellButton.pressed.connect(_sell_unit_button_pressed)
 	
 	
 # makes a grid with specified width and height slots
@@ -253,7 +254,7 @@ func UpdateFundsLabel():
 
 
 func UpdateHealCost():
-	var label = $HealButton
+	var label = $ActionButtons/HealButton
 	label.disabled = true
 	if isPlayer:
 		if UnitCard.selected != null:
@@ -266,9 +267,27 @@ func UpdateHealCost():
 			label.text = "Heal"
 
 
+func UpdateSellButton():
+	var label = $ActionButtons/SellButton
+	label.disabled = true
+	if isPlayer:
+		if UnitCard.selected != null:
+			var amount = UnitCard.selected.unit.data.purchaseCost * UnitCard.selected.unit.stackCount / 2
+			var text = "Sell Income: {num}"
+			label.text = text.format({"num": amount})
+			label.disabled = false
+		else:
+			label.text = "Sell"
+	
+	
 func _heal_unit_button_pressed():
 	if isPlayer:
 		HealUnit(UnitCard.selected)
+		
+		
+func _sell_unit_button_pressed():
+	if isPlayer:
+		SellUnit(UnitCard.selected)
 	
 	
 func HealUnit(unitCard: UnitCard):
@@ -283,13 +302,38 @@ func HealUnit(unitCard: UnitCard):
 	ImportReserve()
 	ImportUnitMatrix()
 	UpdateHealCost()
+	UpdateSellButton()
 
 
+# sell selected unit and refund its cost
+func SellUnit(unitCard: UnitCard):
+	if unitCard != null:
+		if unitCard.unit.isPlayer:
+			var refundAmount: int = unitCard.unit.data.purchaseCost * unitCard.unit.stackCount / 2
+			if unitCard.get_parent() is ReserveContainer:
+				GameManager.RemoveUnitFromReserve(unitCard.unit)
+				unitCard.queue_free()
+			elif unitCard.get_parent() is UnitSlot:
+				GameManager.RemoveUnit(unitCard.unit)
+				unitCard.queue_free()
+			
+			GameManager.ChangeFunds(refundAmount)
+			
+			print("Sold unit. " + str(refundAmount) + " refunded.\n")
+	
+	
 # make new card and connect signals
 func _InstantiateUnitCard() -> UnitCard:
 	var newCard: UnitCard = unitCardScene.instantiate()
 	newCard.clicked.connect(UpdateHealCost)
+	newCard.clicked.connect(UpdateSellButton)
 	newCard.merged.connect(UpdateHealCost)
 	newCard.merged.connect(ImportUnitMatrix)
 	newCard.merged.connect(ImportReserve)
 	return newCard
+
+
+func ReloadFundsRelatedUI():
+	UpdateFundsLabel()
+	UpdateHealCost()
+	UpdateSellButton()

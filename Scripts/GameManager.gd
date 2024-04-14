@@ -417,7 +417,7 @@ static func RemoveUnitFromReserve(unit: Unit):
 static func ResetFunds():
 	playerFunds = 0
 	enemyFunds = 0
-	ReloadFundsRelatedUI()
+	playerEditor.ReloadFundsRelatedUI()
 	
 	
 static func AddIncome():
@@ -426,7 +426,7 @@ static func AddIncome():
 	
 	playerFunds += baseIncomeAmount
 	enemyFunds += baseIncomeAmount
-	ReloadFundsRelatedUI()
+	playerEditor.ReloadFundsRelatedUI()
 
 
 static func ChangeFunds(amount, isPlayer: bool = true):
@@ -434,7 +434,7 @@ static func ChangeFunds(amount, isPlayer: bool = true):
 		playerFunds += amount
 		print("changed player funds by " + str(amount))
 		print("New value: " + str(playerFunds) + "\n")
-		ReloadFundsRelatedUI()
+		playerEditor.ReloadFundsRelatedUI()
 	else:
 		enemyFunds += amount
 		print("changed enemy funds by " + str(amount))
@@ -453,9 +453,3 @@ static func GetCoord(unit):
 				return Vector2(col, row)
 	
 	return null
-
-
-# change the UI elements that depend on fund amount
-static func ReloadFundsRelatedUI():
-	playerEditor.UpdateFundsLabel()
-	playerEditor.UpdateHealCost()

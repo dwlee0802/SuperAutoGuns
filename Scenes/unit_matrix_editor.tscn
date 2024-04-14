@@ -172,9 +172,19 @@ offset_right = 1600.0
 grow_vertical = 0
 text = "Funds: 0"
 
-[node name="HealButton" type="Button" parent="."]
-custom_minimum_size = Vector2(120, 31)
+[node name="ActionButtons" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HealButton" type="Button" parent="ActionButtons"]
+custom_minimum_size = Vector2(125, 31)
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Heal (Cost: 0)"
+alignment = 0
+
+[node name="SellButton" type="Button" parent="ActionButtons"]
+custom_minimum_size = Vector2(125, 31)
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Sell (Income: 0)"
 alignment = 0
