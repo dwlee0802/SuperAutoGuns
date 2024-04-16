@@ -47,7 +47,7 @@ static var enemyFunds: int = 0
 
 static var baseIncomeAmount: int = 10
 
-static var autoHealRatio: float = 0.1
+static var autoHealRatio: float = 0.5
 static var autoHealAmount: int = 1
 
 static var enemyAI
@@ -59,6 +59,8 @@ static var lastBattleResult: int = 0
 static var healCostPerStackCount: int = 2
 
 static var refundRatio: float = 0.5
+
+static var controlButtons
 
 
 static func _static_init():
@@ -79,7 +81,7 @@ func _ready():
 	enemyEditor = $EnemyUnitMatrixEditor
 	
 	captureStatusUI = $CaptureStatusUI
-	
+
 
 func _on_cycle_timer_timeout():
 	# if battle is finished, stop timer
@@ -170,9 +172,9 @@ static func HealUnits():
 	for col in range(matrixWidth):
 		for row in range(matrixHeight):
 			if enemyUnitMatrix[col][row] != null:
-				enemyUnitMatrix[col][row].Heal(autoHealAmount)
+				enemyUnitMatrix[col][row].RatioHeal(autoHealRatio)
 			if playerUnitMatrix[col][row] != null:
-				playerUnitMatrix[col][row].Heal(autoHealAmount)
+				playerUnitMatrix[col][row].RatioHeal(autoHealRatio)
 	
 	
 # first index is the column, second index is the row
@@ -455,3 +457,7 @@ static func GetCoord(unit):
 				return Vector2(col, row)
 	
 	return null
+
+
+static func ShowControlMenuAt():
+	pass

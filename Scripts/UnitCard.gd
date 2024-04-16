@@ -13,22 +13,17 @@ static var selected: UnitCard
 
 @onready var selectionIndicator = $TextureRect/SelectionIndicator
 
-@onready var controlButtons = $ControlButtons
-
 static var deathEffect
 
 signal clicked
+
+signal was_right_clicked(clicked_thing)
 
 signal merged 
 
 
 static func _static_init():
 	deathEffect = load("res://Scenes/death_effect.tscn")
-	
-
-func _ready():
-	controlButtons.get_node("MergeButton").pressed.connect(_merge_button_pressed)
-	controlButtons.get_node("SwapButton").pressed.connect(_swap_button_pressed)
 	
 
 func SetUnit(_unit: Unit):
@@ -193,7 +188,9 @@ func UnitDied():
 	#if Input.is_action_just_pressed("left_click") or Input.is_action_just_pressed("right_click"):
 		#controlButtons.visible = false
 	
-	
+
+# when left clicked on this, update selected unit card
+# when right clicked onto this, emit signal right clicked
 func _gui_input(event):
 	if !unit.isPlayer:
 		return
@@ -212,14 +209,15 @@ func _gui_input(event):
 				$TextureRect/SelectionIndicator.visible = true
 		
 		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
-			# check if merging is available: same type
-			if UnitCard.selected.unit.data != unit.data:
-				# swap positions immediately
-				_drop_data(Vector2.ZERO, UnitCard.selected)
-			else:
-				# show context menu
-				if UnitCard.selected != self:
-					controlButtons.visible = true
+			pass
+			## check if merging is available: same type
+			#if UnitCard.selected.unit.data != unit.data:
+				## swap positions immediately
+				#_drop_data(Vector2.ZERO, UnitCard.selected)
+			#else:
+				## show context menu
+				#if UnitCard.selected != self:
+					#controlButtons.visible = true
 
 
 func _unhandled_key_input(event):
@@ -233,7 +231,6 @@ func _unhandled_key_input(event):
 
 func _merge_button_pressed():
 	print("merge")
-	controlButtons.visible = false
 	if UnitCard.selected != null:
 		unit.Merge(UnitCard.selected.unit)
 	
@@ -266,5 +263,3 @@ func _swap_button_pressed():
 	print("swap")
 	if UnitCard.selected != null:
 		_drop_data(Vector2.ZERO, UnitCard.selected)
-	
-	controlButtons.visible = false

@@ -100,7 +100,7 @@ func RatioHeal(ratio: float = 0):
 	if currentHealthPoints > data.maxHealthPoints * stackCount:
 		currentHealthPoints = data.maxHealthPoints * stackCount
 		
-	print(consoleOutput + str(self) + " healed " + str(int(ratio * 100)) + "% of max health(" + str(amount) + ")")
+	#print(consoleOutput + str(self) + " healed " + str(int(ratio * 100)) + "% of max health(" + str(amount) + ")")
 	
 	
 func Attack(isFlank: bool = false):

@@ -4,21 +4,30 @@
 [ext_resource type="Script" path="res://Scripts/UnitMatrixEditor.gd" id="1_w08ki"]
 [ext_resource type="Script" path="res://Scripts/ReserveContainer.gd" id="3_6f72e"]
 
-[node name="UnitMatrixEditor" type="VBoxContainer"]
+[node name="UnitMatrixEditor" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w08ki")
+
+[node name="UnitMatrixEditor" type="VBoxContainer" parent="."]
 texture_filter = 1
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
-script = ExtResource("1_w08ki")
 
-[node name="UnitMatrix" type="Control" parent="."]
+[node name="UnitMatrix" type="Control" parent="UnitMatrixEditor"]
 custom_minimum_size = Vector2(0, 500)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="UnitMatrix"]
+[node name="Panel" type="Panel" parent="UnitMatrixEditor/UnitMatrix"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,13 +35,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="UnitMatrix"]
+[node name="Label" type="Label" parent="UnitMatrixEditor/UnitMatrix"]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Army Layout"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UnitMatrix"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UnitMatrixEditor/UnitMatrix"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -46,57 +55,57 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FirstColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
+[node name="FirstColumn" type="VBoxContainer" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer"]
 layout_mode = 2
 
-[node name="UnitSlot" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot2" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot2" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot3" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot3" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot4" parent="UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot4" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/FirstColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="SecondColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
+[node name="SecondColumn" type="VBoxContainer" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer"]
 layout_mode = 2
 
-[node name="UnitSlot" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot2" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot2" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot3" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot3" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot4" parent="UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot4" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/SecondColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="ThirdColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
+[node name="ThirdColumn" type="VBoxContainer" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer"]
 layout_mode = 2
 
-[node name="UnitSlot" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot2" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot2" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot3" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot3" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="UnitSlot4" parent="UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
+[node name="UnitSlot4" parent="UnitMatrixEditor/UnitMatrix/HBoxContainer/ThirdColumn" instance=ExtResource("1_mevg1")]
 layout_mode = 2
 
-[node name="Reserve" type="Control" parent="."]
+[node name="Reserve" type="Control" parent="UnitMatrixEditor"]
 custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Panel" type="Panel" parent="Reserve"]
+[node name="Panel" type="Panel" parent="UnitMatrixEditor/Reserve"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,13 +114,13 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="Reserve"]
+[node name="Label" type="Label" parent="UnitMatrixEditor/Reserve"]
 layout_mode = 0
 offset_right = 62.0
 offset_bottom = 23.0
 text = "Reserve"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Reserve"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UnitMatrixEditor/Reserve"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -121,11 +130,11 @@ grow_vertical = 2
 alignment = 1
 script = ExtResource("3_6f72e")
 
-[node name="Reinforcement" type="Control" parent="."]
+[node name="Reinforcement" type="Control" parent="UnitMatrixEditor"]
 custom_minimum_size = Vector2(0, 84)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="Reinforcement"]
+[node name="Panel" type="Panel" parent="UnitMatrixEditor/Reinforcement"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -133,13 +142,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Reinforcement"]
+[node name="Label" type="Label" parent="UnitMatrixEditor/Reinforcement"]
 layout_mode = 0
 offset_right = 115.0
 offset_bottom = 23.0
 text = "Reinforcement"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Reinforcement"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UnitMatrixEditor/Reinforcement"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -148,7 +157,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="RerollButton" type="Button" parent="Reinforcement"]
+[node name="RerollButton" type="Button" parent="UnitMatrixEditor/Reinforcement"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -162,7 +171,7 @@ grow_horizontal = 0
 grow_vertical = 2
 text = "Reroll"
 
-[node name="FundsLabel" type="Label" parent="Reinforcement"]
+[node name="FundsLabel" type="Label" parent="UnitMatrixEditor/Reinforcement"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -172,19 +181,55 @@ offset_right = 1600.0
 grow_vertical = 0
 text = "Funds: 0"
 
-[node name="ActionButtons" type="HBoxContainer" parent="."]
+[node name="ActionButtons" type="HBoxContainer" parent="UnitMatrixEditor"]
 layout_mode = 2
 
-[node name="HealButton" type="Button" parent="ActionButtons"]
+[node name="HealButton" type="Button" parent="UnitMatrixEditor/ActionButtons"]
 custom_minimum_size = Vector2(125, 31)
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Heal (Cost: 0)"
 alignment = 0
 
-[node name="SellButton" type="Button" parent="ActionButtons"]
+[node name="SellButton" type="Button" parent="UnitMatrixEditor/ActionButtons"]
 custom_minimum_size = Vector2(125, 31)
 layout_mode = 2
 size_flags_horizontal = 0
 text = "Sell (Income: 0)"
 alignment = 0
+
+[node name="ControlButtons" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 801.0
+offset_top = 473.0
+offset_right = 801.0
+offset_bottom = 473.0
+
+[node name="Control" type="Control" parent="ControlButtons"]
+custom_minimum_size = Vector2(64, 64)
+anchors_preset = 0
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="SwapButton" type="Button" parent="ControlButtons/Control"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -1.0
+anchor_top = 0.5
+anchor_bottom = 0.5
+grow_vertical = 2
+text = "Swap"
+
+[node name="MergeButton" type="Button" parent="ControlButtons/Control"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_vertical = 2
+text = "Merge"

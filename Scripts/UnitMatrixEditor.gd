@@ -1,38 +1,42 @@
-extends VBoxContainer
+extends Control
 class_name UnitMatrixEditor
 
 @export var isPlayer: bool
 
 @export var invertY: bool = false
 
-@onready var unitMatrix = $UnitMatrix/HBoxContainer
+@onready var unitMatrix = $UnitMatrixEditor/UnitMatrix/HBoxContainer
 
 var unitCardScene = load("res://Scenes/unit_card.tscn")
 var slotScene = load("res://Scenes/unit_slot.tscn")
 
-@onready var reinforcementUI = $Reinforcement/HBoxContainer
+@onready var reinforcementUI = $UnitMatrixEditor/Reinforcement/HBoxContainer
 var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
-var reinforcementOptionCount: int = 10
+var reinforcementOptionCount: int = 6
 
-@onready var reserveUI = $Reserve/HBoxContainer
+@onready var reserveUI = $UnitMatrixEditor/Reserve/HBoxContainer
+
+@onready var controlButtons = $ControlButtons
 
 
 func _ready():
-	$Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Generic))
+	$UnitMatrixEditor/Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Generic))
 	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
 	GenerateReinforcementOptions(Enums.Nation.Generic)
 	UpdateFundsLabel()
 	
-	$Reserve/HBoxContainer.dropped.connect(ExportReserve)
-	$Reserve/HBoxContainer.dropped.connect(ExportUnitMatrix)
+	$UnitMatrixEditor/Reserve/HBoxContainer.dropped.connect(ExportReserve)
+	$UnitMatrixEditor/Reserve/HBoxContainer.dropped.connect(ExportUnitMatrix)
 	
 	if isPlayer:
-		$UnitMatrix/Label.text = "Player Army Layout"
+		$UnitMatrixEditor/UnitMatrix/Label.text = "Player Army Layout"
 	else:
-		$UnitMatrix/Label.text = "Enemy Army Layout"
+		$UnitMatrixEditor/UnitMatrix/Label.text = "Enemy Army Layout"
 	
-	$ActionButtons/HealButton.pressed.connect(_heal_unit_button_pressed)
-	$ActionButtons/SellButton.pressed.connect(_sell_unit_button_pressed)
+	$UnitMatrixEditor/ActionButtons/HealButton.pressed.connect(_heal_unit_button_pressed)
+	$UnitMatrixEditor/ActionButtons/SellButton.pressed.connect(_sell_unit_button_pressed)
+	
+	#controlButtons.visible = false
 	
 	
 # makes a grid with specified width and height slots
@@ -246,7 +250,7 @@ func UpdateAttackLabels():
 			
 
 func UpdateFundsLabel():
-	var label = $Reinforcement/FundsLabel
+	var label = $UnitMatrixEditor/Reinforcement/FundsLabel
 	if isPlayer:
 		label.text = "Funds: " + str(GameManager.playerFunds)
 	else:
@@ -254,7 +258,7 @@ func UpdateFundsLabel():
 
 
 func UpdateHealCost():
-	var label = $ActionButtons/HealButton
+	var label = $UnitMatrixEditor/ActionButtons/HealButton
 	label.disabled = true
 	if isPlayer:
 		if UnitCard.selected != null:
@@ -268,7 +272,7 @@ func UpdateHealCost():
 
 
 func UpdateSellButton():
-	var label = $ActionButtons/SellButton
+	var label = $UnitMatrixEditor/ActionButtons/SellButton
 	label.disabled = true
 	if isPlayer:
 		if UnitCard.selected != null:
@@ -327,9 +331,11 @@ func _InstantiateUnitCard() -> UnitCard:
 	var newCard: UnitCard = unitCardScene.instantiate()
 	newCard.clicked.connect(UpdateHealCost)
 	newCard.clicked.connect(UpdateSellButton)
+	newCard.clicked.connect(HideControlButtons)
 	newCard.merged.connect(UpdateHealCost)
 	newCard.merged.connect(ImportUnitMatrix)
 	newCard.merged.connect(ImportReserve)
+	newCard.was_right_clicked.connect(UpdateControlButtons)
 	return newCard
 
 
@@ -337,3 +343,12 @@ func ReloadFundsRelatedUI():
 	UpdateFundsLabel()
 	UpdateHealCost()
 	UpdateSellButton()
+
+
+# handles showing control button on target
+func UpdateControlButtons(rightClickTarget: UnitCard):
+	controlButtons.global_position = rightClickTarget.global_position
+
+
+func HideControlButtons():
+	controlButtons.visible = false
