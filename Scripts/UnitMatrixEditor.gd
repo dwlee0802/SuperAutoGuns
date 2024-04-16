@@ -17,6 +17,8 @@ var reinforcementOptionCount: int = 6
 @onready var reserveUI = $UnitMatrixEditor/Reserve/HBoxContainer
 
 @onready var controlButtons = $ControlButtons
+@onready var swapButton: Button = controlButtons.get_node("SwapButton")
+@onready var mergeButton: Button = controlButtons.get_node("MergeButton")
 
 
 func _ready():
@@ -36,7 +38,8 @@ func _ready():
 	$UnitMatrixEditor/ActionButtons/HealButton.pressed.connect(_heal_unit_button_pressed)
 	$UnitMatrixEditor/ActionButtons/SellButton.pressed.connect(_sell_unit_button_pressed)
 	
-	#controlButtons.visible = false
+	$ControlButtons/SwapButton.pressed.connect(HideControlButtons)
+	$ControlButtons/MergeButton.pressed.connect(HideControlButtons)
 	
 	
 # makes a grid with specified width and height slots
@@ -349,25 +352,26 @@ func ReloadFundsRelatedUI():
 # handles showing control button on target
 func UpdateControlButtons(rightClickTarget: UnitCard):
 	if rightClickTarget != UnitCard.selected:
-		controlButtons.visible = true
-		controlButtons.global_position = rightClickTarget.global_position
-		
 		# connect signals if same type
 		if rightClickTarget.unit.data == UnitCard.selected.unit.data:
-			var swapButton: Button = controlButtons.get_node("SwapButton")
-			var mergeButton: Button = controlButtons.get_node("MergeButton")
+			controlButtons.visible = true
+			controlButtons.global_position = rightClickTarget.global_position
 			
 			swapButton.pressed.connect(rightClickTarget._swap_button_pressed)
 			mergeButton.pressed.connect(rightClickTarget._merge_button_pressed)
-			swapButton.pressed.connect(HideControlButtons)
-			mergeButton.pressed.connect(HideControlButtons)
+			
+			print("number of subs after connecting: " + str(swapButton.pressed.get_connections().size()))
 			
 
 func HideControlButtons():
 	controlButtons.visible = false
+	
+	# disconnect signals
+	for item in swapButton.pressed.get_connections():
+		swapButton.pressed.disconnect(item.callable)
 
 
-func _unhandled_key_input(event):
+func _unhandled_key_input(_event):
 	if Input.is_action_just_pressed("left_click"):
 		HideControlButtons()
 		
