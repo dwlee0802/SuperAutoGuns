@@ -162,6 +162,12 @@ func UpdateAttackLine(isFlanking: bool = false):
 func OnAttackAnimationFinished(animName):
 	if animName == "attack_animation_left" or animName == "attack_animation_right":
 		var selfCoord = GameManager.GetCoord(unit)
+		
+		# unit is dead. do nothing
+		if selfCoord == null:
+			return
+			
+		unit.attackTargetCoord = GameManager.FindAttackTarget(unit.isPlayer, selfCoord.y, unit.data.attackRange)
 		if selfCoord != null:
 			unit.Attack(selfCoord.y != unit.attackTargetCoord.y)
 			UpdateAttackLine(selfCoord.y != unit.attackTargetCoord.y)

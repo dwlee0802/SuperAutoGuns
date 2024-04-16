@@ -41,6 +41,8 @@ func _ready():
 	$ControlButtons/SwapButton.pressed.connect(HideControlButtons)
 	$ControlButtons/MergeButton.pressed.connect(HideControlButtons)
 	
+	HideControlButtons()
+	
 	
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):

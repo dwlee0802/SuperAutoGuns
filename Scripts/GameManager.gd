@@ -262,6 +262,7 @@ static func CycleProcess():
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement
 # move forward if front slot exists and is empty
+# if this is the case, reset attack cost
 # if not, check for attack targets
 # if attack target exists, start reducing attack cycle cost
 # if none exists, do nothing this turn
@@ -288,6 +289,7 @@ static func UnitBehaviorProcess(unitMatrix):
 				# can move
 				else:
 					unitMatrix[col][row].movementCyclesLeft -= 1
+					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
 	
 
 static func ApplyUnitMovement(unitMatrix):
