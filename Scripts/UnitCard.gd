@@ -183,11 +183,11 @@ func UnitDied():
 # we are no longer selected
 # pressed left click not on the buttons
 # pressed on the button
-## right clicked elsewhere
-#func _input(event):
-	#if Input.is_action_just_pressed("left_click") or Input.is_action_just_pressed("right_click"):
-		#controlButtons.visible = false
-	
+# right clicked elsewhere
+func _input(event):
+	if Input.is_action_just_pressed("left_click") or Input.is_action_just_pressed("right_click"):
+		GameManager.playerEditor.HideControlButtons()
+
 
 # when left clicked on this, update selected unit card
 # when right clicked onto this, emit signal right clicked
@@ -209,7 +209,7 @@ func _gui_input(event):
 				$TextureRect/SelectionIndicator.visible = true
 		
 		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
-			pass
+			was_right_clicked.emit(self)
 			## check if merging is available: same type
 			#if UnitCard.selected.unit.data != unit.data:
 				## swap positions immediately

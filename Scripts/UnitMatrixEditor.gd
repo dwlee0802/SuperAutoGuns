@@ -347,6 +347,7 @@ func ReloadFundsRelatedUI():
 
 # handles showing control button on target
 func UpdateControlButtons(rightClickTarget: UnitCard):
+	controlButtons.visible = true
 	controlButtons.global_position = rightClickTarget.global_position
 
 
