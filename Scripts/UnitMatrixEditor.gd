@@ -54,6 +54,7 @@ func GenerateGrid(colCount: int, rowCount: int):
 			newSlot.reparent(newCol)
 			newSlot.dropped.connect(ExportReserve)
 			newSlot.dropped.connect(ExportUnitMatrix)
+			newSlot.dropped.connect(HideControlButtons)
 		unitMatrix.add_child(newCol)
 		newCol.reparent(unitMatrix)
 		
@@ -347,9 +348,31 @@ func ReloadFundsRelatedUI():
 
 # handles showing control button on target
 func UpdateControlButtons(rightClickTarget: UnitCard):
-	controlButtons.visible = true
-	controlButtons.global_position = rightClickTarget.global_position
-
+	if rightClickTarget != UnitCard.selected:
+		controlButtons.visible = true
+		controlButtons.global_position = rightClickTarget.global_position
+		
+		# connect signals if same type
+		if rightClickTarget.unit.data == UnitCard.selected.unit.data:
+			var swapButton: Button = controlButtons.get_node("SwapButton")
+			var mergeButton: Button = controlButtons.get_node("MergeButton")
+			
+			swapButton.pressed.connect(rightClickTarget._swap_button_pressed)
+			mergeButton.pressed.connect(rightClickTarget._merge_button_pressed)
+			swapButton.pressed.connect(HideControlButtons)
+			mergeButton.pressed.connect(HideControlButtons)
+			
 
 func HideControlButtons():
 	controlButtons.visible = false
+
+
+func _unhandled_key_input(event):
+	if Input.is_action_just_pressed("left_click"):
+		HideControlButtons()
+		
+		if UnitCard.selected != null:
+			UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
+			
+		UnitCard.selected = null
+	

@@ -87,11 +87,11 @@ func RatioHeal(ratio: float = 0):
 	if ratio == 0:
 		return
 		
-	var consoleOutput: String
+	var _consoleOutput: String
 	if isPlayer:
-		consoleOutput = "(Player)"
+		_consoleOutput = "(Player)"
 	else:
-		consoleOutput = "(Enemy)"
+		_consoleOutput = "(Enemy)"
 	
 	var amount = int(data.maxHealthPoints * stackCount * ratio)
 	
