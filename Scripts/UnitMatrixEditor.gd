@@ -359,16 +359,24 @@ func UpdateControlButtons(rightClickTarget: UnitCard):
 			controlButtons.visible = true
 			controlButtons.global_position = rightClickTarget.global_position
 			
+			# disconnect signals
+			for item in swapButton.pressed.get_connections():
+				swapButton.pressed.disconnect(item.callable)
+			for item in mergeButton.pressed.get_connections():
+				mergeButton.pressed.disconnect(item.callable)
+				
 			swapButton.pressed.connect(rightClickTarget._swap_button_pressed)
 			mergeButton.pressed.connect(rightClickTarget._merge_button_pressed)
 			
-			print("number of subs after connecting: " + str(swapButton.pressed.get_connections().size()))
+			#print("number of subs after connecting: " + str(swapButton.pressed.get_connections().size()))
 			
 
 func HideControlButtons():
 	controlButtons.visible = false
 	
 	# disconnect signals
+	for item in mergeButton.pressed.get_connections():
+		mergeButton.pressed.disconnect(item.callable)
 	for item in swapButton.pressed.get_connections():
 		swapButton.pressed.disconnect(item.callable)
 
