@@ -306,7 +306,7 @@ static func ProcessStaticAbility(unitMatrix):
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
 			var currentUnit: Unit = unitMatrix[col][row]
-			if currentUnit != null:
+			if currentUnit != null and currentUnit.data.ability != null:
 				if currentUnit.data.ability.isStatic:
 					print(str(currentUnit) + "'s ability:")
 					var abilityFunction = Callable(AbilityManager, currentUnit.data.ability.callableName)
