@@ -166,14 +166,15 @@ func OnAttackAnimationFinished(animName):
 		# unit is dead. do nothing
 		if selfCoord == null:
 			return
-			
-		unit.attackTargetCoord = GameManager.FindAttackTarget(unit.isPlayer, selfCoord.y, unit.data.attackRange)
-		if selfCoord != null:
-			unit.Attack(selfCoord.y != unit.attackTargetCoord.y)
-			UpdateAttackLine(selfCoord.y != unit.attackTargetCoord.y)
-		else:
-			unit.Attack()
-			UpdateAttackLine()
+		
+		if unit != null:
+			unit.attackTargetCoord = GameManager.FindAttackTarget(unit.isPlayer, selfCoord.y, unit.data.attackRange)
+			if selfCoord != null:
+				unit.Attack(selfCoord.y != unit.attackTargetCoord.y)
+				UpdateAttackLine(selfCoord.y != unit.attackTargetCoord.y)
+			else:
+				unit.Attack()
+				UpdateAttackLine()
 			
 		
 func UnitDied():

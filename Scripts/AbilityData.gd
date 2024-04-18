@@ -1,14 +1,14 @@
 extends Resource
 class_name AbilityData
 
-var unitName: String = "Null"
+@export var abilityName: String = "ability name null"
 
-# abilities
-# target can either be self, one of allies, or an enemy
+@export var ID: int = -1
 
-func RuntimeAbility():
-	pass
-	
+@export var description: String = "ability desc null"
 
-func StaticAbility():
-	pass
+@export var isStatic: bool = true
+
+@export var callableName: String = "null"
+
+@export var int_parameter: int = 0

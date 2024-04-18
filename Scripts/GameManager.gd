@@ -135,6 +135,13 @@ func _on_battle_process_button_pressed():
 			if enemyUnitMatrixBackup[col][row] != null:
 				enemyUnitMatrixBackup[col][row] = enemyUnitMatrixBackup[col][row].Duplicate()
 	
+	# process static abilities
+	print("***Starting Static Ability Process***\n")
+	
+	ProcessStaticAbility(playerUnitMatrix)
+	
+	print("***End Static Ability Process***\n\n")
+	
 	# process first cycle
 	print("***Starting Battle Process***\n")
 	GameManager.battleCount+= 1
@@ -259,6 +266,7 @@ static func CycleProcess():
 	
 	return false
 
+
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement
 # move forward if front slot exists and is empty
@@ -292,12 +300,17 @@ static func UnitBehaviorProcess(unitMatrix):
 					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
 	
 
+# TODO
 # applies the effect of units' static abilties
-static func UnitAbilityProcess(unitMatrix):
+static func ProcessStaticAbility(unitMatrix):
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
 			var currentUnit: Unit = unitMatrix[col][row]
-			
+			if currentUnit != null:
+				if currentUnit.data.ability.isStatic:
+					print(str(currentUnit) + "'s ability:")
+					var abilityFunction = Callable(AbilityManager, currentUnit.data.ability.callableName)
+					abilityFunction.call(currentUnit.data.ability.int_parameter)
 			
 	
 static func ApplyUnitMovement(unitMatrix):
