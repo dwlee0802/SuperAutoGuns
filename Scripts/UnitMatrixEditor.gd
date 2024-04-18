@@ -65,7 +65,6 @@ func GenerateGrid(colCount: int, rowCount: int):
 		
 	
 # reads the unit matrix in Game and shows it in the UI
-# untested!
 func ImportUnitMatrix():
 	# clear unit cards
 	for col in unitMatrix.get_children():

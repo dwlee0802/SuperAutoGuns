@@ -292,6 +292,14 @@ static func UnitBehaviorProcess(unitMatrix):
 					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
 	
 
+# applies the effect of units' static abilties
+static func UnitAbilityProcess(unitMatrix):
+	for col in range(len(unitMatrix)):
+		for row in range(len(unitMatrix[col])):
+			var currentUnit: Unit = unitMatrix[col][row]
+			
+			
+	
 static func ApplyUnitMovement(unitMatrix):
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
