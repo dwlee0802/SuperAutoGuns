@@ -11,4 +11,8 @@ class_name AbilityData
 
 @export var callableName: String = "null"
 
+@export var statType: Enums.StatType = Enums.StatType.MaxHP
+
 @export var int_parameter: int = 0
+
+@export var dir_parameter: Vector2 = Vector2.ZERO

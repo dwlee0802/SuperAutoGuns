@@ -1,5 +1,7 @@
 class_name Unit
 
+var coords = null
+
 var isPlayer: bool
 
 var data: UnitData
@@ -23,8 +25,10 @@ var isMoving: bool = false
 
 var stackCount: int = 1
 
+var statAdditionModifier = []
 
-func _init(_player, _data, _stack: int = 1):
+
+func _init(_player, _data, _coord, _stack: int = 1):
 	if _data == null:
 		print("ERROR! No data in Unit.")
 		return
@@ -32,7 +36,10 @@ func _init(_player, _data, _stack: int = 1):
 	data = _data
 	isPlayer = _player
 	stackCount = _stack
+	coords = _coord
+	
 	ResetStats()
+	ResetStatModifiers()
 	
 
 func ResetStats():
@@ -49,9 +56,9 @@ func ReceiveHit(amount, isFlank: bool = false):
 		consoleOutput = "(Enemy)"
 	
 	if isFlank:
-		amount -= data.defense + data.flankingDefenseModifier
+		amount -= GetDefense() + data.flankingDefenseModifier
 	else:
-		amount -= data.defense
+		amount -= GetDefense()
 		
 	print(consoleOutput + str(self) + " received hit of " + str(amount))
 	
@@ -112,9 +119,9 @@ func Attack(isFlank: bool = false):
 	
 	if target != null:
 		if isFlank:
-			target.ReceiveHit(data.attackDamage + data.flankingAttackModifier)
+			target.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
 		else:
-			target.ReceiveHit(data.attackDamage)
+			target.ReceiveHit(GetAttackDamage())
 	else:
 		print("target null")
 		
@@ -151,3 +158,24 @@ func Duplicate():
 	clone.currentHealthPoints = currentHealthPoints
 	
 	return clone
+	
+	
+func ChangeStats(what: Enums.StatType, amount):
+	if what < Enums.statTypeCount:
+		statAdditionModifier[what] += amount
+	
+	print(str(self) + "'s stat add mod changed to: ")
+	print(statAdditionModifier)
+
+
+func ResetStatModifiers():
+	statAdditionModifier = []
+	statAdditionModifier.resize(Enums.statTypeCount)
+	statAdditionModifier.fill(0)
+
+
+func GetAttackDamage():
+	return data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage]
+	
+func GetDefense():
+	return data.defense + statAdditionModifier[Enums.StatType.Defense]

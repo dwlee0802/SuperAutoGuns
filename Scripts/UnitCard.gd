@@ -136,11 +136,16 @@ func UpdateAttackLabel():
 func UpdateCombatStatsLabel():
 	var label = $TextureRect/CombatStats
 	var text = "A: {atk} D: {dfs}"
-	var atk = unit.data.attackDamage
-	var dfs = unit.data.defense
+	var atk = unit.GetAttackDamage()
+	var dfs = unit.GetDefense()
 	
 	label.text = text.format({"atk": atk, "dfs": dfs})
 	
+	print(str(unit) + "'s stat label updated")
+	print("new text:")
+	print(label.text)
+	
+	print(unit.statAdditionModifier)
 	
 func UpdateAttackLine(isFlanking: bool = false):
 	var target = null
@@ -168,7 +173,9 @@ func OnAttackAnimationFinished(animName):
 			return
 		
 		if unit != null:
-			unit.attackTargetCoord = GameManager.FindAttackTarget(unit.isPlayer, selfCoord.y, unit.data.attackRange)
+			var newTarget = GameManager.FindAttackTarget(unit.isPlayer, selfCoord.y, unit.data.attackRange)
+			if newTarget != null:
+				unit.attackTargetCoord
 			if selfCoord != null:
 				unit.Attack(selfCoord.y != unit.attackTargetCoord.y)
 				UpdateAttackLine(selfCoord.y != unit.attackTargetCoord.y)

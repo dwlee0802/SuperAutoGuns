@@ -138,9 +138,11 @@ func _on_battle_process_button_pressed():
 	# process static abilities
 	print("***Starting Static Ability Process***\n")
 	
-	ProcessStaticAbility(playerUnitMatrix)
+	GameManager.ProcessStaticAbility(playerUnitMatrix)
 	
 	print("***End Static Ability Process***\n\n")
+	
+	playerEditor.ImportUnitMatrix()
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
@@ -170,6 +172,8 @@ static func ImportUnitMatrixBackup():
 	# assign backup to unit matrix
 	enemyUnitMatrix = enemyUnitMatrixBackup
 	playerUnitMatrix = playerUnitMatrixBackup
+	
+	GameManager.ResetModifierArray(playerUnitMatrix)
 	
 	print("Imported backup unit matrix")
 	
@@ -309,10 +313,19 @@ static func ProcessStaticAbility(unitMatrix):
 			if currentUnit != null and currentUnit.data.ability != null:
 				if currentUnit.data.ability.isStatic:
 					print(str(currentUnit) + "'s ability:")
-					var abilityFunction = Callable(AbilityManager, currentUnit.data.ability.callableName)
-					abilityFunction.call(currentUnit.data.ability.int_parameter)
+					var abilityData = currentUnit.data.ability
+					var abilityFunction = Callable(AbilityManager, abilityData.callableName)
+					abilityFunction.call(unitMatrix, GetCoord(currentUnit), abilityData.dir_parameter, abilityData.int_parameter, abilityData.statType)
 			
-	
+
+static func ResetModifierArray(unitMatrix):
+	for col in range(len(unitMatrix)):
+		for row in range(len(unitMatrix[col])):
+			var currentUnit: Unit = unitMatrix[col][row]
+			if currentUnit != null:
+				currentUnit.ResetStatModifiers()
+			
+			
 static func ApplyUnitMovement(unitMatrix):
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
@@ -386,10 +399,11 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 
 
 static func AddReserveUnit(data: UnitData, isPlayer: bool):
+	var newUnit = Unit.new(isPlayer, data, null)
 	if isPlayer:
-		playerReserves.append(Unit.new(isPlayer, data))
+		playerReserves.append(newUnit)
 	else:
-		enemyReserves.append(Unit.new(isPlayer, data))
+		enemyReserves.append(newUnit)
 
 
 static func UnitCount(unitMatrix):
@@ -482,5 +496,9 @@ static func GetCoord(unit):
 	return null
 
 
-static func ShowControlMenuAt():
-	pass
+static func CheckCoordInsideBounds(coord: Vector2) -> bool:
+	if coord.x < matrixWidth and coord.y < matrixHeight:
+		if coord.x >= 0 and coord.y >= 0:
+			return true
+			
+	return false

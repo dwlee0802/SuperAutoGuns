@@ -22,3 +22,7 @@ static func UnitTypeToString(num: UnitType):
 		return "Armor"
 	if num == UnitType.Support:
 		return "Support"
+
+
+enum StatType {MaxHP, AttackDamage, Defense}
+static var statTypeCount: int = 3
