@@ -62,9 +62,17 @@ func ReceiveHit(amount, isFlank: bool = false):
 		
 	print(consoleOutput + str(self) + " received hit of " + str(amount))
 	
-	currentHealthPoints -= amount
-	received_hit.emit(amount)
-	
+	if currentHealthPoints >= amount:
+		currentHealthPoints -= amount
+		received_hit.emit(amount)
+	else:
+		received_hit.emit(currentHealthPoints)
+		amount = currentHealthPoints
+		currentHealthPoints = 0
+		
+	GameManager.AddEffectiveDamage(isPlayer, amount)
+		
+		
 	if currentHealthPoints <= 0:
 		unit_dead.emit()
 		isDead = true
@@ -172,7 +180,7 @@ func ResetStatModifiers():
 
 
 func GetAttackDamage():
-	return data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage]
+	return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage]
 	
 	
 func GetDefense():

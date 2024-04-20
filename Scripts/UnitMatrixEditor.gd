@@ -347,6 +347,7 @@ func _InstantiateUnitCard() -> UnitCard:
 	newCard.merged.connect(ImportUnitMatrix)
 	newCard.merged.connect(ImportReserve)
 	newCard.was_right_clicked.connect(UpdateControlButtons)
+	
 	return newCard
 
 
@@ -384,8 +385,8 @@ func HideControlButtons():
 		mergeButton.pressed.disconnect(item.callable)
 	for item in swapButton.pressed.get_connections():
 		swapButton.pressed.disconnect(item.callable)
-
-
+	
+	
 func _unhandled_key_input(_event):
 	if Input.is_action_just_pressed("left_click"):
 		HideControlButtons()

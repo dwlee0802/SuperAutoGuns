@@ -42,12 +42,12 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 100
+static var playerFunds: int = 0
 static var enemyFunds: int = 0
 
-static var baseIncomeAmount: int = 10
+static var baseIncomeAmount: int = 15
 
-static var autoHealRatio: float = 0.5
+static var autoHealRatio: float = 0.25
 static var autoHealAmount: int = 1
 
 static var enemyAI
@@ -62,6 +62,12 @@ static var refundRatio: float = 0.5
 
 static var controlButtons
 
+static var playerEffectiveDamage: int = 0
+
+static var enemyEffectiveDamage: int = 0
+
+static var effectiveDamageUI
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -73,6 +79,8 @@ func _ready():
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
 	
+	effectiveDamageUI = $EffectiveDamageUI
+	
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
 	$ProcessBattleButton.pressed.connect(_on_battle_process_button_pressed)
@@ -81,7 +89,9 @@ func _ready():
 	enemyEditor = $EnemyUnitMatrixEditor
 	
 	captureStatusUI = $CaptureStatusUI
-
+	
+	GameManager.AddIncome()
+	
 
 func _on_cycle_timer_timeout():
 	# if battle is finished, stop timer
@@ -94,6 +104,7 @@ func _on_cycle_timer_timeout():
 		playerEditor.ImportUnitMatrix()
 		enemyEditor.ImportUnitMatrix()
 		cycleCount = 0
+		GameManager.AddIncome()		
 		
 		# update battle result
 		var resultLabel = $BattleResultLabel
@@ -108,12 +119,15 @@ func _on_cycle_timer_timeout():
 		if cycleTimer.is_stopped():
 			cycleTimer.start(GameManager.cycleTime)
 			$ProcessBattleButton/InProcessLabel.visible = true
-		
+			
+	UpdateEffectiveDamageUI()
+	
 
 # called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
-	# add funds to both sides
-	GameManager.AddIncome()
+	GameManager.playerEffectiveDamage = 0
+	GameManager.enemyEffectiveDamage = 0
+	UpdateEffectiveDamageUI()
 	
 	# process enemy AI
 	if enemyAI != null:
@@ -512,3 +526,17 @@ static func CheckCoordInsideBounds(coord: Vector2) -> bool:
 			return true
 			
 	return false
+
+
+static func UpdateEffectiveDamageUI():
+	effectiveDamageUI.get_node("PlayerLabel").text = "Player Effective Damage Taken: " + str(GameManager.playerEffectiveDamage)
+	effectiveDamageUI.get_node("EnemyLabel").text = "Enemy Effective Damage Taken: " + str(GameManager.enemyEffectiveDamage)
+
+
+static func AddEffectiveDamage(isPlayer, amount):
+	if isPlayer:
+		GameManager.playerEffectiveDamage += amount
+	else:
+		GameManager.enemyEffectiveDamage += amount
+		
+	UpdateEffectiveDamageUI()
