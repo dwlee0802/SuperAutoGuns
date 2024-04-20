@@ -9,6 +9,7 @@ var unitData: UnitData
 func SetData(data: UnitData):
 	unitData = data
 	$Label.text = unitData.name
+	self_modulate = unitData.color
 
 
 # add to reserve
