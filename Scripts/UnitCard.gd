@@ -53,6 +53,8 @@ func SetUnit(_unit: Unit):
 		else:
 			attackAnimationPlayer.play("attack_animation_right")
 			
+	UpdateDebugLabel()
+	
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	set_drag_preview(make_drag_preview())
@@ -81,6 +83,10 @@ func _drop_data(_at_position, data):
 	data.reparent(get_parent())
 	reparent(otherParent)
 	
+	var temp = unit.coords
+	unit.coords = data.unit.coords
+	data.unit.coords = temp
+	
 	# export unit matrix or reserve
 	if get_parent() is UnitSlot:
 		get_parent().dropped.emit()
@@ -91,6 +97,9 @@ func _drop_data(_at_position, data):
 	if !(get_parent() is ReserveContainer and data.get_parent() is ReserveContainer):
 		data.position = Vector2.ZERO
 		position = Vector2.ZERO
+	
+	UpdateDebugLabel()
+	data.UpdateDebugLabel()
 	
 	
 func UpdateHealthLabel(_num):
@@ -141,11 +150,6 @@ func UpdateCombatStatsLabel():
 	
 	label.text = text.format({"atk": atk, "dfs": dfs})
 	
-	print(str(unit) + "'s stat label updated")
-	print("new text:")
-	print(label.text)
-	
-	print(unit.statAdditionModifier)
 	
 func UpdateAttackLine(isFlanking: bool = false):
 	var target = null
@@ -175,7 +179,7 @@ func OnAttackAnimationFinished(animName):
 		if unit != null:
 			var newTarget = GameManager.FindAttackTarget(unit.isPlayer, selfCoord.y, unit.data.attackRange)
 			if newTarget != null:
-				unit.attackTargetCoord
+				unit.attackTargetCoord = newTarget
 			if selfCoord != null:
 				unit.Attack(selfCoord.y != unit.attackTargetCoord.y)
 				UpdateAttackLine(selfCoord.y != unit.attackTargetCoord.y)
@@ -236,7 +240,6 @@ func _unhandled_key_input(event):
 
 
 func _merge_button_pressed():
-	print("merge")
 	if UnitCard.selected != null:
 		unit.Merge(UnitCard.selected.unit)
 	
@@ -266,6 +269,10 @@ func _merge_button_pressed():
 		
 
 func _swap_button_pressed():
-	print("swap")
 	if UnitCard.selected != null:
 		_drop_data(Vector2.ZERO, UnitCard.selected)
+
+
+func UpdateDebugLabel():
+	# debug label
+	$DebugLabel.text = str(unit.coords)

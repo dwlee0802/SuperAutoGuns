@@ -154,7 +154,7 @@ func _to_string():
 
 
 func Duplicate():
-	var clone = Unit.new(isPlayer, data, stackCount)
+	var clone = Unit.new(isPlayer, data, coords, stackCount)
 	clone.currentHealthPoints = currentHealthPoints
 	
 	return clone
@@ -163,9 +163,6 @@ func Duplicate():
 func ChangeStats(what: Enums.StatType, amount):
 	if what < Enums.statTypeCount:
 		statAdditionModifier[what] += amount
-	
-	print(str(self) + "'s stat add mod changed to: ")
-	print(statAdditionModifier)
 
 
 func ResetStatModifiers():
@@ -176,6 +173,7 @@ func ResetStatModifiers():
 
 func GetAttackDamage():
 	return data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage]
+	
 	
 func GetDefense():
 	return data.defense + statAdditionModifier[Enums.StatType.Defense]

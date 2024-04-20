@@ -139,10 +139,12 @@ func _on_battle_process_button_pressed():
 	print("***Starting Static Ability Process***\n")
 	
 	GameManager.ProcessStaticAbility(playerUnitMatrix)
+	GameManager.ProcessStaticAbility(enemyUnitMatrix)
 	
 	print("***End Static Ability Process***\n\n")
 	
 	playerEditor.ImportUnitMatrix()
+	enemyEditor.ImportUnitMatrix()
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
@@ -304,7 +306,6 @@ static func UnitBehaviorProcess(unitMatrix):
 					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
 	
 
-# TODO
 # applies the effect of units' static abilties
 static func ProcessStaticAbility(unitMatrix):
 	for col in range(len(unitMatrix)):
@@ -318,6 +319,13 @@ static func ProcessStaticAbility(unitMatrix):
 					abilityFunction.call(unitMatrix, GetCoord(currentUnit), abilityData.dir_parameter, abilityData.int_parameter, abilityData.statType)
 			
 
+# TODO
+# called at the start of every cycle
+# connects appropriate signals to callable
+static func ProcessDynamicAbilityConnections(unitMatrix):
+	pass
+	
+	
 static func ResetModifierArray(unitMatrix):
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
@@ -334,9 +342,11 @@ static func ApplyUnitMovement(unitMatrix):
 					# make sure
 					if col != 0 and unitMatrix[col - 1][row] == null:
 						# move forward
+						unitMatrix[col][row].coords -= Vector2.RIGHT
 						unitMatrix[col - 1][row] = unitMatrix[col][row]
 						unitMatrix[col][row] = null
 						unitMatrix[col - 1][row].movementCyclesLeft = unitMatrix[col - 1][row].data.movementCost
+						
 					else:
 						print("ERROR! Unit movement cycle is below zero even though it cannot move.")
 				

@@ -73,6 +73,7 @@ func GenerateUnitMatrix():
 				break
 				
 			GameManager.enemyUnitMatrix[col][row] = unit
+			unit.coords = Vector2(col, row)
 			
 			var index = GameManager.enemyReserves.find(unit)
 			if index >= 0:

@@ -55,6 +55,12 @@ func GenerateGrid(colCount: int, rowCount: int):
 		var newCol = VBoxContainer.new()
 		for j in range(rowCount):
 			var newSlot: UnitSlot = slotScene.instantiate()
+			
+			if invertY:
+				newSlot.coords = Vector2(colCount - 1 - i, j)
+			else:
+				newSlot.coords = Vector2(i, j)
+				
 			newCol.add_child(newSlot)
 			newSlot.reparent(newCol)
 			newSlot.dropped.connect(ExportReserve)
@@ -116,7 +122,7 @@ func ExportUnitMatrix():
 		# row index
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if unitMatrix.get_child(col).get_child(row).get_child_count() == 2:
-				var unit_there = unitMatrix.get_child(col).get_child(row).get_child(1)
+				var unit_there = unitMatrix.get_child(col).get_child(row).get_child(-1)
 				if invertY:
 					currentMatrix[unitMatrix.get_child_count() - 1 - col][row] = unit_there.unit
 				else:

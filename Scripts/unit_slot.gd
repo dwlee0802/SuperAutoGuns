@@ -1,9 +1,11 @@
 extends Control
 class_name UnitSlot
 
+var coords = null
+
 signal dropped
 
-
+	
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if data is UnitCard:
 		return true
@@ -17,6 +19,8 @@ func _drop_data(_at_position, data):
 	add_child(data)
 	data.reparent(self)
 	data.position = Vector2.ZERO
+	data.unit.coords = coords
+	data.UpdateDebugLabel()
 	dropped.emit()
 
 
