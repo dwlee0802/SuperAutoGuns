@@ -71,8 +71,6 @@ static var effectiveDamageUI
 
 static func _static_init():
 	InitializeMatrix()
-	enemyAI = EnemyAI_Randomizer.new()
-	playerAI = EnemyAI_Randomizer.new()
 
 
 func _ready():
@@ -92,6 +90,16 @@ func _ready():
 	
 	GameManager.AddIncome()
 	
+	#enemyAI = EnemyAI_Randomizer.new()
+	#enemyAI.editor = enemyEditor
+	#enemyAI.unitMatrix = enemyUnitMatrix
+	#enemyAI.reserve = enemyReserves
+	
+	#playerAI = EnemyAI_Randomizer.new()
+	#playerAI.editor = playerEditor
+	#playerAI.unitMatrix = playerUnitMatrix
+	#playerAI.reserve = playerReserves
+	
 
 func _on_cycle_timer_timeout():
 	# if battle is finished, stop timer
@@ -100,6 +108,16 @@ func _on_cycle_timer_timeout():
 		cycleTimer.stop()
 		$ProcessBattleButton/InProcessLabel.visible = false
 		GameManager.ImportUnitMatrixBackup()
+		
+		if enemyAI != null:
+			enemyAI.editor = enemyEditor
+			enemyAI.unitMatrix = enemyUnitMatrix
+			enemyAI.reserve = enemyReserves
+		if playerAI != null:
+			playerAI.editor = playerEditor
+			playerAI.unitMatrix = playerUnitMatrix
+			playerAI.reserve = playerReserves
+			
 		GameManager.HealUnits()
 		playerEditor.ImportUnitMatrix()
 		enemyEditor.ImportUnitMatrix()
@@ -120,22 +138,23 @@ func _on_cycle_timer_timeout():
 			cycleTimer.start(GameManager.cycleTime)
 			$ProcessBattleButton/InProcessLabel.visible = true
 			
-	UpdateEffectiveDamageUI()
+	GameManager.UpdateEffectiveDamageUI()
 	
 
 # called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
 	GameManager.playerEffectiveDamage = 0
 	GameManager.enemyEffectiveDamage = 0
-	UpdateEffectiveDamageUI()
+	GameManager.UpdateEffectiveDamageUI()
 	
 	# process enemy AI
 	if enemyAI != null:
-		enemyAI.GenerateUnitMatrix()
+		GameManager.enemyUnitMatrix = enemyAI.GenerateUnitMatrix()
 		enemyEditor.ImportReserve()
 	if playerAI != null:
 		# do stuff
-		pass
+		GameManager.playerUnitMatrix = playerAI.GenerateUnitMatrix()
+		playerEditor.ImportReserve()
 	
 	# back up unit matrix
 	playerUnitMatrixBackup = playerUnitMatrix.duplicate(true)
@@ -152,8 +171,8 @@ func _on_battle_process_button_pressed():
 	# process static abilities
 	print("***Starting Static Ability Process***\n")
 	
-	GameManager.ProcessStaticAbility(playerUnitMatrix)
-	GameManager.ProcessStaticAbility(enemyUnitMatrix)
+	#GameManager.ProcessStaticAbility(playerUnitMatrix)
+	#GameManager.ProcessStaticAbility(enemyUnitMatrix)
 	
 	print("***End Static Ability Process***\n\n")
 	
@@ -336,7 +355,7 @@ static func ProcessStaticAbility(unitMatrix):
 # TODO
 # called at the start of every cycle
 # connects appropriate signals to callable
-static func ProcessDynamicAbilityConnections(unitMatrix):
+static func ProcessDynamicAbilityConnections(_unitMatrix):
 	pass
 	
 	

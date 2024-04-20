@@ -199,9 +199,6 @@ func UnitDied():
 # when left clicked on this, update selected unit card
 # when right clicked onto this, emit signal right clicked
 func _gui_input(event):
-	if !unit.isPlayer:
-		return
-		
 	if event is InputEventMouse:
 		if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
 			if UnitCard.selected == self:

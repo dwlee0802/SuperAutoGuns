@@ -285,19 +285,17 @@ func UpdateHealCost():
 func UpdateSellButton():
 	var label = $UnitMatrixEditor/ActionButtons/SellButton
 	label.disabled = true
-	if isPlayer:
-		if UnitCard.selected != null:
-			var amount = UnitCard.selected.unit.data.purchaseCost * UnitCard.selected.unit.stackCount / 2
-			var text = "Sell Income: {num}"
-			label.text = text.format({"num": amount})
-			label.disabled = false
-		else:
-			label.text = "Sell"
+	if UnitCard.selected != null:
+		var amount = UnitCard.selected.unit.data.purchaseCost * UnitCard.selected.unit.stackCount / 2
+		var text = "Sell Income: {num}"
+		label.text = text.format({"num": amount})
+		label.disabled = false
+	else:
+		label.text = "Sell"
 	
 	
 func _heal_unit_button_pressed():
-	if isPlayer:
-		HealUnit(UnitCard.selected)
+	HealUnit(UnitCard.selected)
 		
 		
 func _sell_unit_button_pressed():

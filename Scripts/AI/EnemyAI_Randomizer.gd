@@ -5,6 +5,9 @@ var unitsByPriority = []
 
 static var lostLastBattle: bool = false
 
+var unitMatrix
+var reserve
+var editor
 
 func InitializeUnitPriorityList():
 	unitsByPriority = []
@@ -13,7 +16,7 @@ func InitializeUnitPriorityList():
 		unitsByPriority.append(list)
 	
 	
-func ImportUnits(unitMatrix):
+func ImportUnits():
 	InitializeUnitPriorityList()
 	
 	# this makes it so the order is kept
@@ -26,8 +29,6 @@ func ImportUnits(unitMatrix):
 
 func AddReserveUnits():
 	# keep adding units as long as we have space
-	var reserve = GameManager.enemyReserves
-	
 	for item: Unit in reserve:
 		unitsByPriority[item.data.type].append(item)
 	
@@ -48,10 +49,10 @@ func GenerateUnitMatrix():
 	ChooseReinforcementOption()
 	
 	print("Enemy AI: Getting current unit matrix\n")
-	ImportUnits(GameManager.enemyUnitMatrix)
+	ImportUnits()
 	
 	# reset enemy unit matrix
-	GameManager.enemyUnitMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth)
+	unitMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth)
 	
 	print("Enemy AI: Generating unit matrix\n")
 	# if lost last time, add new units and shuffle list
@@ -72,19 +73,20 @@ func GenerateUnitMatrix():
 			if unitPlacedCount >= GameManager.matrixHeight * GameManager.matrixWidth:
 				break
 				
-			GameManager.enemyUnitMatrix[col][row] = unit
+			unitMatrix[col][row] = unit
 			unit.coords = Vector2(col, row)
 			
-			var index = GameManager.enemyReserves.find(unit)
+			var index = reserve.find(unit)
 			if index >= 0:
-				GameManager.enemyReserves.remove_at(index)
+				reserve.remove_at(index)
 			
 			unitPlacedCount += 1
 				
 	# repeat this for set number of times and return best option
 	
 	print("***Finished Enemy AI Process***\n\n")
-	return
+	
+	return unitMatrix
 
 
 # randomizes the units inside each priority level list
@@ -99,7 +101,7 @@ func ShuffleUnits():
 
 # just pick a random unit
 func ChooseReinforcementOption():
-	var options = GameManager.enemyEditor.GetReinforcementOptions()
+	var options = editor.GetReinforcementOptions()
 	options.shuffle()
 	
 	for item: ReinforcementOptionButton in options:
