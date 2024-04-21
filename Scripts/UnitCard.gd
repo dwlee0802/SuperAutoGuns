@@ -177,12 +177,12 @@ func OnAttackAnimationFinished(animName):
 			return
 		
 		if unit != null:
-			var newTarget = GameManager.FindAttackTarget(unit.isPlayer, selfCoord.y, unit.data.attackRange)
+			var newTarget = unit.attackTarget
 			if newTarget != null:
-				unit.attackTargetCoord = newTarget
+				unit.attackTargetCoord = newTarget.coords
 			if selfCoord != null:
-				unit.Attack(selfCoord.y != unit.attackTargetCoord.y)
-				UpdateAttackLine(selfCoord.y != unit.attackTargetCoord.y)
+				unit.Attack(selfCoord.y != newTarget.coords.y)
+				UpdateAttackLine(selfCoord.y != newTarget.coords.y)
 			else:
 				unit.Attack()
 				UpdateAttackLine()

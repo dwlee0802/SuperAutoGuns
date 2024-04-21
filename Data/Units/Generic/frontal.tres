@@ -1,20 +1,18 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://mnqt5vv2d6jc"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dq7ycwras0q3i"]
 
-[ext_resource type="Resource" uid="uid://r8jpsebngqyt" path="res://Data/Abilities/Phalanx.tres" id="1_t6cln"]
-[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_w0bjv"]
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_qersc"]
 
 [resource]
-script = ExtResource("1_w0bjv")
+script = ExtResource("1_qersc")
 name = "Frontal"
 type = 0
 purchaseCost = 3
-color = Color(0.486275, 0.647059, 1, 1)
-ability = ExtResource("1_t6cln")
+color = Color(0.396046, 1, 0.866985, 1)
 maxHealthPoints = 10
-movementCost = 3
-attackCost = 4
+movementCost = 2
+attackCost = 3
 attackRange = 1
-attackDamage = 4
-flankingAttackModifier = -1.0
-defense = 1
-flankingDefenseModifier = -1.0
+attackDamage = 3
+flankingAttackModifier = 2.0
+defense = 0
+flankingDefenseModifier = 0.0

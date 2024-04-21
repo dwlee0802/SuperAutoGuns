@@ -324,11 +324,11 @@ static func UnitBehaviorProcess(unitMatrix):
 					unitMatrix[col][row].movementCyclesLeft = unitMatrix[col][row].data.movementCost
 					
 					# check if able to attack
-					var target = FindAttackTarget(unitMatrix[col][row].isPlayer, row, unitMatrix[col][row].data.attackRange - col)
+					var target = FindAttackTarget(unitMatrix[col][row])
 					
 					# valid attack target exists
 					if target != null:
-						unitMatrix[col][row].attackTargetCoord = target
+						unitMatrix[col][row].attackTarget = target
 						unitMatrix[col][row].attackCyclesLeft -= 1
 					# no target. reset value
 					else:
@@ -403,7 +403,7 @@ static func GenerateDamageMatrix(unitMatrix):
 # returns a vector containing the row col position of an attack target
 # returns null if no units are found
 # checkCols means how many columns it can search away from itself
-static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
+static func FindAttackTargetCoord(isPlayer: bool, curRow, checkCols: int = 1):
 	var checkingMatrix = enemyUnitMatrix
 	if !isPlayer:
 		checkingMatrix = playerUnitMatrix
@@ -441,6 +441,49 @@ static func FindAttackTarget(isPlayer: bool, curRow, checkCols: int = 1):
 	return null
 
 
+static func FindAttackTarget(attacker: Unit) -> Unit:
+	if attacker == null:
+		return null
+	
+	var checkingMatrix = enemyUnitMatrix
+	if !attacker.isPlayer:
+		checkingMatrix = playerUnitMatrix
+	
+	var curRow = attacker.coords.y
+	
+	for col_offset in range(attacker.data.attackRange):
+		var checkingColumn = checkingMatrix[col_offset]
+		for i in range(checkingColumn.size()):
+			var upper: Unit = null
+			var lower: Unit = null
+			
+			if curRow + i < matrixHeight:
+				lower = checkingColumn[curRow + i]
+			if curRow - i >= 0:
+				upper = checkingColumn[curRow - i]
+			
+			# both exists return the one that has lower HP
+			if upper != null and lower != null:
+				if upper.currentHealthPoints < lower.currentHealthPoints:
+					return upper
+				elif upper.currentHealthPoints > lower.currentHealthPoints:
+					return lower
+				else:
+					# return random one
+					var rng = randi()
+					if rng%2 == 0:
+						return upper
+					else:
+						return lower
+			else:
+				if upper != null:
+					return upper
+				if lower != null:
+					return lower
+	
+	return null
+	
+	
 static func AddReserveUnit(data: UnitData, isPlayer: bool):
 	var newUnit = Unit.new(isPlayer, data, null)
 	if isPlayer:

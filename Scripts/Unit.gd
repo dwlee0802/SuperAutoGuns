@@ -15,9 +15,7 @@ var attackCyclesLeft: int = 0
 # holds the col and row index of attack target in enemy's matrix
 var attackTargetCoord: Vector2
 
-signal received_hit(amount)
-
-signal unit_dead
+var attackTarget
 
 var isDead: bool = false
 
@@ -26,6 +24,13 @@ var isMoving: bool = false
 var stackCount: int = 1
 
 var statAdditionModifier = []
+
+# signals
+signal received_hit(amount)
+
+signal unit_dead
+
+signal attacked
 
 
 func _init(_player, _data, _coord, _stack: int = 1):
@@ -119,17 +124,17 @@ func RatioHeal(ratio: float = 0):
 	
 	
 func Attack(isFlank: bool = false):
-	var target
-	if isPlayer:
-		target = GameManager.enemyUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
-	else:
-		target = GameManager.playerUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
-	
-	if target != null:
+	#var target
+	#if isPlayer:
+		#target = GameManager.enemyUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
+	#else:
+		#target = GameManager.playerUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
+	#
+	if attackTarget != null:
 		if isFlank:
-			target.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
+			attackTarget.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
 		else:
-			target.ReceiveHit(GetAttackDamage())
+			attackTarget.ReceiveHit(GetAttackDamage())
 	else:
 		print("target null")
 		
@@ -185,3 +190,12 @@ func GetAttackDamage():
 	
 func GetDefense():
 	return data.defense + statAdditionModifier[Enums.StatType.Defense]
+	
+
+func ConnectTargetSignals():
+	if attackTargetCoord == null:
+		return
+	
+
+func UseAbility():
+	pass
