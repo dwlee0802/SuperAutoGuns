@@ -32,6 +32,8 @@ signal unit_dead
 
 signal attacked
 
+signal was_attacked
+
 
 func _init(_player, _data, _coord, _stack: int = 1):
 	if _data == null:
@@ -196,13 +198,64 @@ func GetDefense():
 
 # connects the right signal based on AbilityData to UseAbility
 func ConnectTargetSignals():
-	if attackTarget == null or data.ability == null:
+	# start by removing connections from all signals
+	if attackTarget == null:
 		return
 	
+	DisconnectAbilityRelatedSignalConnections(attackTarget)
+	
+	if data.ability == null:
+		return
+		
 	match data.ability.activiationCondition:
 		Enums.AbilityCondition.Static:
 			print("static ability.")
+		Enums.AbilityCondition.OnTargetDeath:
+			print("on target death")
+			if !attackTarget.unit_dead.is_connected(UseAbility):
+				attackTarget.unit_dead.connect(UseAbility)
+		Enums.AbilityCondition.OnTargetAttack:
+			print("on target attack")
+			if !attackTarget.attacked.is_connected(UseAbility):
+				attackTarget.attacked.disconnect(UseAbility)
+		Enums.AbilityCondition.OnSelfAttack:
+			print("on self attack")
+			if !attacked.is_connected(UseAbility):
+				attacked.disconnect(UseAbility)
+		Enums.AbilityCondition.OnHit:
+			print("on self hit")
+			if !was_attacked.is_connected(UseAbility):
+				was_attacked.disconnect(UseAbility)
+			
 	
 	
 func UseAbility():
-	pass
+	print("use ability " + data.ability.abilityName)
+	var abilityFunction = Callable(AbilityManager, data.ability.callableName)
+	if isPlayer:
+		abilityFunction.call(GameManager.playerUnitMatrix, coords, data.ability.dir_parameter, data.ability.int_parameter, data.ability.statType)
+
+
+func SetAttackTarget(newTarget):
+	# remove connections to old target
+	if attackTarget != null:
+		DisconnectAbilityRelatedSignalConnections(attackTarget)
+	
+	attackTarget = newTarget
+	ConnectTargetSignals()
+	
+
+# connects signals if connecting is true, and vice versa
+func DisconnectAbilityRelatedSignalConnections(target: Unit):
+	if target == null:
+		return
+	
+	if target.attacked.is_connected(UseAbility):
+		target.attacked.disconnect(UseAbility)
+		
+	if target.unit_dead.is_connected(UseAbility):
+		target.unit_dead.disconnect(UseAbility)
+		
+	if target.was_attacked.is_connected(UseAbility):
+		target.was_attacked.disconnect(UseAbility)
+		

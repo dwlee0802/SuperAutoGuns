@@ -328,7 +328,7 @@ static func UnitBehaviorProcess(unitMatrix):
 					
 					# valid attack target exists
 					if target != null:
-						unitMatrix[col][row].attackTarget = target
+						unitMatrix[col][row].SetAttackTarget(target)
 						unitMatrix[col][row].attackCyclesLeft -= 1
 					# no target. reset value
 					else:

@@ -12,4 +12,4 @@ static func ChangeStatOfNeighbor(unitMatrix, selfCoord: Vector2, neighborDirecti
 		var targetUnit: Unit = unitMatrix[targetCoord.x][targetCoord.y]
 		if targetUnit != null:
 			targetUnit.ChangeStats(statType, amount)
-			print("added " + str(amount) + " defense to " + str(targetUnit) + "\n")
+			print("added " + str(amount) + " " + Enums.StatTypeToString(statType) + " to " + str(targetUnit) + "\n")

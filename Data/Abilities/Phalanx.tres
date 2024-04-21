@@ -9,6 +9,7 @@ ID = 0
 description = "Add 1 defense to neighbor"
 isStatic = true
 callableName = "ChangeStatOfNeighbor"
+activiationCondition = 0
 statType = 2
 int_parameter = 1
 dir_parameter = Vector2(0, 1)

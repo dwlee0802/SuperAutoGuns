@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3 uid="uid://cylnpvsmktt4x"]
+
+[ext_resource type="Script" path="res://Scripts/AbilityData.gd" id="1_bxay5"]
+
+[resource]
+script = ExtResource("1_bxay5")
+abilityName = "Blitz"
+ID = 1
+description = "Increase Attack by 1 per unit killed"
+isStatic = false
+callableName = "ChangeStatOfNeighbor"
+activiationCondition = 4
+statType = 1
+int_parameter = 1
+dir_parameter = Vector2(0, 0)

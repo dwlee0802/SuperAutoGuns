@@ -27,5 +27,14 @@ static func UnitTypeToString(num: UnitType):
 enum StatType {MaxHP, AttackDamage, Defense}
 static var statTypeCount: int = 3
 
+static func StatTypeToString(num: StatType):
+	match num:
+		StatType.MaxHP:
+			return "MaxHP"
+		StatType.AttackDamage:
+			return "AttackDamage"
+		StatType.Defense:
+			return "Defense"
+
 
 enum AbilityCondition {Static, OnSelfAttack, OnHit, OnTargetAttack, OnTargetDeath}
