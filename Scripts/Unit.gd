@@ -135,6 +135,8 @@ func Attack(isFlank: bool = false):
 			attackTarget.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
 		else:
 			attackTarget.ReceiveHit(GetAttackDamage())
+		
+		attacked.emit()
 	else:
 		print("target null")
 		
@@ -192,10 +194,15 @@ func GetDefense():
 	return data.defense + statAdditionModifier[Enums.StatType.Defense]
 	
 
+# connects the right signal based on AbilityData to UseAbility
 func ConnectTargetSignals():
-	if attackTargetCoord == null:
+	if attackTarget == null or data.ability == null:
 		return
 	
-
+	match data.ability.activiationCondition:
+		Enums.AbilityCondition.Static:
+			print("static ability.")
+	
+	
 func UseAbility():
 	pass

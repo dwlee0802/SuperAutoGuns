@@ -397,7 +397,8 @@ static func GenerateDamageMatrix(unitMatrix):
 	
 	return output
 
-	
+
+# ---Depreciated---
 # TODO This needs fixing! Returning value when there isnt anything!!
 # when inputted a position on the matrix
 # returns a vector containing the row col position of an attack target
