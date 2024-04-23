@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ccmlo")
 name = "AntiFlank"
+disabled = true
 type = 0
 purchaseCost = 3
 color = Color(0.705882, 0.572549, 0.992157, 1)

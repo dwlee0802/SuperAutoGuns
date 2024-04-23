@@ -43,6 +43,9 @@ func SetUnit(_unit: Unit):
 	unit.received_hit.connect(MakeDamagePopup)
 	unit.unit_dead.connect(UnitDied)
 	
+	# UI signals
+	unit.stat_changed.connect(UpdateCombatStatsLabel)
+	
 	if unit.attackCyclesLeft < 0:
 		if unit.attackTargetCoord == null:
 			return

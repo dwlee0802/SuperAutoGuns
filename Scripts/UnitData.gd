@@ -3,6 +3,8 @@ class_name UnitData
 
 @export var name: String = "Null"
 
+@export var disabled: bool = false
+
 @export var type: Enums.UnitType
 
 @export var purchaseCost: int = 3

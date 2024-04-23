@@ -34,6 +34,8 @@ signal attacked
 
 signal was_attacked
 
+signal stat_changed
+
 
 func _init(_player, _data, _coord, _stack: int = 1):
 	if _data == null:
@@ -180,6 +182,8 @@ func Duplicate():
 func ChangeStats(what: Enums.StatType, amount):
 	if what < Enums.statTypeCount:
 		statAdditionModifier[what] += amount
+	
+	stat_changed.emit()
 
 
 func ResetStatModifiers():

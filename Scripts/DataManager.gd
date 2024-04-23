@@ -65,7 +65,8 @@ static func ImportUnits(nation: Enums.Nation):
 	while filename != "":
 		var fullpath = path + filename
 		var newthing = load(fullpath)
-		germany_units.append(newthing)
+		if !newthing.disabled:
+			germany_units.append(newthing)
 		filename = dir.get_next()
 		
 	unitDict[nation] = germany_units

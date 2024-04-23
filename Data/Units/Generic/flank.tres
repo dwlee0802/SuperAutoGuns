@@ -1,20 +1,21 @@
 [gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://cjq06d6fe8jxr"]
 
-[ext_resource type="Resource" uid="uid://cylnpvsmktt4x" path="res://Data/Abilities/Blitz.tres" id="1_3pecw"]
+[ext_resource type="Resource" uid="uid://cylnpvsmktt4x" path="res://Data/Abilities/1_Blitz.tres" id="1_1qgtf"]
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_ib2lb"]
 
 [resource]
 script = ExtResource("1_ib2lb")
 name = "Flank"
+disabled = false
 type = 0
 purchaseCost = 3
-color = Color(1, 0.870588, 0.501961, 1)
-ability = ExtResource("1_3pecw")
-maxHealthPoints = 10
+color = Color(1, 0.643137, 0.501961, 1)
+ability = ExtResource("1_1qgtf")
+maxHealthPoints = 8
 movementCost = 2
 attackCost = 3
 attackRange = 1
-attackDamage = 20
-flankingAttackModifier = 2.0
+attackDamage = 2
+flankingAttackModifier = 1.0
 defense = 0
 flankingDefenseModifier = 0.0

@@ -171,8 +171,8 @@ func _on_battle_process_button_pressed():
 	# process static abilities
 	print("***Starting Static Ability Process***\n")
 	
-	#GameManager.ProcessStaticAbility(playerUnitMatrix)
-	#GameManager.ProcessStaticAbility(enemyUnitMatrix)
+	GameManager.ProcessStaticAbility(playerUnitMatrix)
+	GameManager.ProcessStaticAbility(enemyUnitMatrix)
 	
 	print("***End Static Ability Process***\n\n")
 	
@@ -393,7 +393,7 @@ static func GenerateDamageMatrix(unitMatrix):
 			if unitMatrix[col][row] != null:
 				if unitMatrix[col][row].attackCyclesLeft < 0:
 					# make sure
-					output[col][row] = unitMatrix[col][row].data.attackDamage
+					output[col][row] = unitMatrix[col][row].GetAttackDamage()
 	
 	return output
 

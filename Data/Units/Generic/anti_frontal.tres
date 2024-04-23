@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_7mtim")
 name = "AntiFrontal"
+disabled = true
 type = 0
 purchaseCost = 3
 color = Color(1, 0.556863, 0.494118, 1)
