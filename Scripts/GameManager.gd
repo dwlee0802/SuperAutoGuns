@@ -555,6 +555,7 @@ static func AddIncome():
 	playerFunds += baseIncomeAmount
 	enemyFunds += baseIncomeAmount
 	playerEditor.ReloadFundsRelatedUI()
+	enemyEditor.ReloadFundsRelatedUI()
 
 
 static func ChangeFunds(amount, isPlayer: bool = true):
