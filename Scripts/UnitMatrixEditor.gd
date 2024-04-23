@@ -280,6 +280,15 @@ func UpdateHealCost():
 				label.disabled = false
 		else:
 			label.text = "Heal"
+	else:
+		if UnitCard.selected != null:
+			var amount = GameManager.healCostPerStackCount * UnitCard.selected.unit.stackCount
+			var text = "Heal Cost: {num}"
+			label.text = text.format({"num": amount})
+			if amount <= GameManager.enemyFunds and UnitCard.selected.unit.currentHealthPoints < UnitCard.selected.unit.data.maxHealthPoints:
+				label.disabled = false
+		else:
+			label.text = "Heal"
 
 
 func UpdateSellButton():
@@ -308,6 +317,12 @@ func HealUnit(unitCard: UnitCard):
 	if unitCard.unit.isPlayer:
 		if GameManager.playerFunds >= amount:
 			GameManager.ChangeFunds(-amount)
+			unitCard.unit.RatioHeal(1)
+		else:
+			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
+	else:
+		if GameManager.enemyFunds >= amount:
+			GameManager.ChangeFunds(-amount, false)
 			unitCard.unit.RatioHeal(1)
 		else:
 			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
