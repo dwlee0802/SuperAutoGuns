@@ -4,7 +4,7 @@ class_name GameManager
 static var cycleTimer: Timer
 static var cycleLabel: Label
 
-static var cycleTime: float = 1
+static var cycleTime: float = 3
 static var cycleCount: int = 0
 
 static var battleCount: int = 0
@@ -264,6 +264,11 @@ static func CycleProcess():
 	playerDamageMatrix = GenerateDamageMatrix(enemyUnitMatrix)
 	enemyDamageMatrix = GenerateDamageMatrix(playerUnitMatrix)
 	
+	# apply damage matrix
+	ApplyDamageMatrix(playerUnitMatrix, playerDamageMatrix)
+	ApplyDamageMatrix(enemyUnitMatrix, enemyDamageMatrix)
+	
+	
 	print("\nCycle #" + str(cycleCount))
 	
 	# reload editor UI to apply unit movement
@@ -389,7 +394,7 @@ static func GenerateDamageMatrix(unitMatrix):
 	
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
-			output[col][row] = 0
+			output[col][row] = -1
 			if unitMatrix[col][row] != null:
 				if unitMatrix[col][row].attackCyclesLeft < 0:
 					# make sure
@@ -397,6 +402,14 @@ static func GenerateDamageMatrix(unitMatrix):
 	
 	return output
 
+
+static func ApplyDamageMatrix(targetUnitMatrix, damageMatrix):
+	for col in range(len(targetUnitMatrix)):
+		for row in range(len(targetUnitMatrix[col])):
+			if targetUnitMatrix[col][row] != null:
+				if damageMatrix[col][row] >= 0:
+					targetUnitMatrix[col][row].ReceiveHit(damageMatrix[col][row])
+	
 
 # ---Depreciated---
 # TODO This needs fixing! Returning value when there isnt anything!!
@@ -604,3 +617,11 @@ static func AddEffectiveDamage(isPlayer, amount):
 		GameManager.enemyEffectiveDamage += amount
 		
 	UpdateEffectiveDamageUI()
+
+
+# does doStuff to all units inside unitMatrix
+static func ProcessUnitMatrix(unitMatrix, doStuff: Callable):
+	for col in unitMatrix:
+		for unit in col:
+			doStuff.call(unit)
+	

@@ -72,6 +72,7 @@ func GenerateGrid(colCount: int, rowCount: int):
 	
 # reads the unit matrix in Game and shows it in the UI
 func ImportUnitMatrix():
+	print("importing unit matrix")
 	# clear unit cards
 	for col in unitMatrix.get_children():
 		for slot in col.get_children():

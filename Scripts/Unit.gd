@@ -8,6 +8,8 @@ var data: UnitData
 
 var currentHealthPoints: int
 
+var lastReceivedDamage: int = 0
+
 var movementCyclesLeft: int = 0
 
 var attackCyclesLeft: int = 0
@@ -68,25 +70,29 @@ func ReceiveHit(amount, isFlank: bool = false):
 		amount -= GetDefense() + data.flankingDefenseModifier
 	else:
 		amount -= GetDefense()
+	
+	if amount < 0:
+		amount = 0
 		
 	print(consoleOutput + str(self) + " received hit of " + str(amount))
 	
 	if currentHealthPoints >= amount:
 		currentHealthPoints -= amount
-		received_hit.emit(amount)
+		#received_hit.emit()
 	else:
-		received_hit.emit(currentHealthPoints)
+		#received_hit.emit()
 		amount = currentHealthPoints
 		currentHealthPoints = 0
-		
+	
+	lastReceivedDamage += amount
+	
 	GameManager.AddEffectiveDamage(isPlayer, amount)
-		
 		
 	if currentHealthPoints <= 0:
 		unit_dead.emit()
 		isDead = true
 		# remove data
-		GameManager.RemoveUnit(self)
+		#GameManager.RemoveUnit(self)
 		
 
 func Heal(amount = 0):
@@ -127,7 +133,7 @@ func RatioHeal(ratio: float = 0):
 	#print(consoleOutput + str(self) + " healed " + str(int(ratio * 100)) + "% of max health(" + str(amount) + ")")
 	
 	
-func Attack(isFlank: bool = false):
+func Attack(differentRow: bool = false):
 	#var target
 	#if isPlayer:
 		#target = GameManager.enemyUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
@@ -135,7 +141,8 @@ func Attack(isFlank: bool = false):
 		#target = GameManager.playerUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
 	#
 	if attackTarget != null:
-		if isFlank:
+		# is flank
+		if differentRow:
 			attackTarget.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
 		else:
 			attackTarget.ReceiveHit(GetAttackDamage())
@@ -192,9 +199,12 @@ func ResetStatModifiers():
 	statAdditionModifier.fill(0)
 
 
-func GetAttackDamage():
-	return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage]
-	
+func GetAttackDamage(isFlank: bool = false):
+	if isFlank:
+		return GetAttackDamage() + data.flankingAttackModifier
+	else:
+		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage]
+
 	
 func GetDefense():
 	return data.defense + statAdditionModifier[Enums.StatType.Defense]
