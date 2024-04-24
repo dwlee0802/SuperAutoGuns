@@ -256,6 +256,7 @@ speed_scale = 0.7
 libraries = {
 "": SubResource("AnimationLibrary_hohpx")
 }
+speed_scale = 2.0
 
 [node name="HitAnimaitonPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -4,7 +4,7 @@ class_name GameManager
 static var cycleTimer: Timer
 static var cycleLabel: Label
 
-static var cycleTime: float = 3
+static var cycleTime: float = 1
 static var cycleCount: int = 0
 
 static var battleCount: int = 0
@@ -251,6 +251,14 @@ static func CycleProcess():
 	# stop cycle timer if one side wins
 	cycleCount += 1
 	cycleLabel.text = "Cycle: " + str(cycleCount)
+	
+	# reset last received damage amount to zero
+	var SetLastDMGZero = func(unit):
+		if unit is Unit:
+			unit.lastReceivedDamage = 0
+		
+	ProcessUnitMatrix(playerUnitMatrix, SetLastDMGZero)
+	ProcessUnitMatrix(enemyUnitMatrix, SetLastDMGZero)
 	
 	# update unit attack and movement costs
 	UnitBehaviorProcess(playerUnitMatrix)
