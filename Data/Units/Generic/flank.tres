@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://cjq06d6fe8jxr"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://cjq06d6fe8jxr"]
 
-[ext_resource type="Resource" uid="uid://cylnpvsmktt4x" path="res://Data/Abilities/1_Blitz.tres" id="1_1qgtf"]
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_ib2lb"]
 
 [resource]
@@ -10,7 +9,6 @@ disabled = false
 type = 0
 purchaseCost = 3
 color = Color(1, 0.643137, 0.501961, 1)
-ability = ExtResource("1_1qgtf")
 maxHealthPoints = 8
 movementCost = 2
 attackCost = 3

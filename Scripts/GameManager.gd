@@ -4,7 +4,7 @@ class_name GameManager
 static var cycleTimer: Timer
 static var cycleLabel: Label
 
-static var cycleTime: float = 1
+static var cycleTime: float = 0.5
 static var cycleCount: int = 0
 
 static var battleCount: int = 0
@@ -107,7 +107,7 @@ func _ready():
 	#playerAI.reserve = playerReserves
 	
 
-func _process(delta):
+func _process(_delta):
 	if waitingForAttackAnimaionFinish:
 		if GameManager.playerAttackingUnitsCount == 0 and GameManager.enemyAttackingUnitsCount == 0:
 			# all units finished attack animations
@@ -152,6 +152,7 @@ func _on_cycle_timer_timeout():
 			resultLabel.text = "Enemy Victory"
 	else:
 		if cycleTimer.is_stopped():
+			# should wait til animations are done
 			cycleTimer.start(GameManager.cycleTime)
 			$ProcessBattleButton/InProcessLabel.visible = true
 			

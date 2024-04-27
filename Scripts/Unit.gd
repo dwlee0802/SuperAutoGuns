@@ -66,8 +66,8 @@ func ResetStatModifiers():
 
 
 func ReceiveHit(attacker: Unit):
-	var amount = attacker.GetAttackDamage()
 	var isFlank = attacker.coords.y != coords.y
+	var amount = attacker.GetAttackDamage(isFlank)
 	
 	var consoleOutput: String
 	if isPlayer:
@@ -75,7 +75,7 @@ func ReceiveHit(attacker: Unit):
 	else:
 		consoleOutput = "(Enemy)"
 	
-	amount -= GetDefense()
+	amount -= GetDefense(isFlank)
 	
 	if amount < 0:
 		amount = 0
@@ -224,8 +224,8 @@ func ConnectTargetSignals():
 			print("static ability.")
 		Enums.AbilityCondition.OnTargetDeath:
 			print("on target death")
-			if !attackTarget.unit_dead.is_connected(UseAbility):
-				attackTarget.unit_dead.connect(UseAbility)
+			if !attackTarget.unit_died.is_connected(UseAbility):
+				attackTarget.unit_died.connect(UseAbility)
 		Enums.AbilityCondition.OnTargetAttack:
 			print("on target attack")
 			if !attackTarget.attacked.is_connected(UseAbility):
