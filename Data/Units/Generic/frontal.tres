@@ -1,6 +1,5 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://dq7ycwras0q3i"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dq7ycwras0q3i"]
 
-[ext_resource type="Resource" uid="uid://r8jpsebngqyt" path="res://Data/Abilities/0_Phalanx.tres" id="1_jya7t"]
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_qersc"]
 
 [resource]
@@ -10,7 +9,6 @@ disabled = false
 type = 0
 purchaseCost = 3
 color = Color(0.396078, 0.654902, 0.866667, 1)
-ability = ExtResource("1_jya7t")
 maxHealthPoints = 10
 movementCost = 2
 attackCost = 4

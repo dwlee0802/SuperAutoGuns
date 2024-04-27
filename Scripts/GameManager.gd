@@ -68,6 +68,12 @@ static var enemyEffectiveDamage: int = 0
 
 static var effectiveDamageUI
 
+static var playerAttackingUnitsCount
+
+static var enemyAttackingUnitsCount
+
+static var waitingForAttackAnimaionFinish: bool = false
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -101,6 +107,17 @@ func _ready():
 	#playerAI.reserve = playerReserves
 	
 
+func _process(delta):
+	if waitingForAttackAnimaionFinish:
+		if GameManager.playerAttackingUnitsCount == 0 and GameManager.enemyAttackingUnitsCount == 0:
+			# all units finished attack animations
+			GameManager.ClearDeadUnits(GameManager.playerUnitMatrix)
+			GameManager.ClearDeadUnits(GameManager.enemyUnitMatrix)
+			GameManager.playerAttackingUnitsCount = 0
+			GameManager.enemyAttackingUnitsCount = 0
+			waitingForAttackAnimaionFinish = false
+	
+	
 func _on_cycle_timer_timeout():
 	# if battle is finished, stop timer
 	if GameManager.CycleProcess():
@@ -261,8 +278,8 @@ static func CycleProcess():
 	ProcessUnitMatrix(enemyUnitMatrix, SetLastDMGZero)
 	
 	# update unit attack and movement costs
-	UnitBehaviorProcess(playerUnitMatrix)
-	UnitBehaviorProcess(enemyUnitMatrix)
+	playerAttackingUnitsCount = UnitBehaviorProcess(playerUnitMatrix)
+	enemyAttackingUnitsCount = UnitBehaviorProcess(enemyUnitMatrix)
 	
 	# modify grid according to unit movement
 	ApplyUnitMovement(playerUnitMatrix)
@@ -271,10 +288,10 @@ static func CycleProcess():
 	# generate damage matrix
 	playerDamageMatrix = GenerateDamageMatrix(enemyUnitMatrix)
 	enemyDamageMatrix = GenerateDamageMatrix(playerUnitMatrix)
-	
-	# apply damage matrix
-	ApplyDamageMatrix(playerUnitMatrix, playerDamageMatrix)
-	ApplyDamageMatrix(enemyUnitMatrix, enemyDamageMatrix)
+	#
+	## apply damage matrix
+	#ApplyDamageMatrix(playerUnitMatrix, playerDamageMatrix)
+	#ApplyDamageMatrix(enemyUnitMatrix, enemyDamageMatrix)
 	
 	
 	print("\nCycle #" + str(cycleCount))
@@ -286,6 +303,8 @@ static func CycleProcess():
 	# units get removed themselves when they die
 	playerEditor.ImportUnitMatrix()
 	enemyEditor.ImportUnitMatrix()
+	
+	waitingForAttackAnimaionFinish = true
 	
 	var playerCount = UnitCount(playerUnitMatrix)
 	var enemyCount = UnitCount(enemyUnitMatrix)
@@ -327,6 +346,8 @@ static func CycleProcess():
 # if attack target exists, start reducing attack cycle cost
 # if none exists, do nothing this turn
 static func UnitBehaviorProcess(unitMatrix):
+	var attackingUnitsCount: int = 0
+	
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
 			# check movement
@@ -343,6 +364,8 @@ static func UnitBehaviorProcess(unitMatrix):
 					if target != null:
 						unitMatrix[col][row].SetAttackTarget(target)
 						unitMatrix[col][row].attackCyclesLeft -= 1
+						if unitMatrix[col][row].attackCyclesLeft < 0:
+							attackingUnitsCount += 1
 					# no target. reset value
 					else:
 						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
@@ -350,6 +373,8 @@ static func UnitBehaviorProcess(unitMatrix):
 				else:
 					unitMatrix[col][row].movementCyclesLeft -= 1
 					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
+	
+	return attackingUnitsCount
 	
 
 # applies the effect of units' static abilties
@@ -406,7 +431,8 @@ static func GenerateDamageMatrix(unitMatrix):
 			if unitMatrix[col][row] != null:
 				if unitMatrix[col][row].attackCyclesLeft < 0:
 					# make sure
-					output[col][row] = unitMatrix[col][row].GetAttackDamage()
+					var targetCoord = unitMatrix[col][row].attackTarget.coords
+					output[targetCoord.x][targetCoord.y] = unitMatrix[col][row].GetAttackDamage()
 	
 	return output
 
@@ -529,7 +555,8 @@ static func ClearDeadUnits(unitMatrix):
 	for i in range(unitMatrix.size()):
 		for j in range(unitMatrix[i].size()):
 			if unitMatrix[i][j] != null:
-				if unitMatrix[i][j].isDead:
+				if unitMatrix[i][j].currentHealthPoints <= 0:
+					unitMatrix[i][j].unit_died.emit()
 					unitMatrix[i][j] = null
 
 

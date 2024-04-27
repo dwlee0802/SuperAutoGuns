@@ -30,7 +30,7 @@ var statAdditionModifier = []
 # signals
 signal received_hit(amount)
 
-signal unit_dead
+signal unit_died
 
 signal attacked
 
@@ -59,17 +59,23 @@ func ResetStats():
 	currentHealthPoints = data.maxHealthPoints
 
 
-func ReceiveHit(amount, isFlank: bool = false):
+func ResetStatModifiers():
+	statAdditionModifier = []
+	statAdditionModifier.resize(Enums.statTypeCount)
+	statAdditionModifier.fill(0)
+
+
+func ReceiveHit(attacker: Unit):
+	var amount = attacker.GetAttackDamage()
+	var isFlank = attacker.coords.y != coords.y
+	
 	var consoleOutput: String
 	if isPlayer:
 		consoleOutput = "(Player)"
 	else:
 		consoleOutput = "(Enemy)"
 	
-	if isFlank:
-		amount -= GetDefense() + data.flankingDefenseModifier
-	else:
-		amount -= GetDefense()
+	amount -= GetDefense()
 	
 	if amount < 0:
 		amount = 0
@@ -78,21 +84,16 @@ func ReceiveHit(amount, isFlank: bool = false):
 	
 	if currentHealthPoints >= amount:
 		currentHealthPoints -= amount
-		#received_hit.emit()
 	else:
-		#received_hit.emit()
 		amount = currentHealthPoints
 		currentHealthPoints = 0
+	
+	# this calls UnitCard's hit animation
+	received_hit.emit(amount)
 	
 	lastReceivedDamage += amount
 	
 	GameManager.AddEffectiveDamage(isPlayer, amount)
-		
-	if currentHealthPoints <= 0:
-		unit_dead.emit()
-		isDead = true
-		# remove data
-		#GameManager.RemoveUnit(self)
 		
 
 func Heal(amount = 0):
@@ -193,21 +194,18 @@ func ChangeStats(what: Enums.StatType, amount):
 	stat_changed.emit()
 
 
-func ResetStatModifiers():
-	statAdditionModifier = []
-	statAdditionModifier.resize(Enums.statTypeCount)
-	statAdditionModifier.fill(0)
-
-
 func GetAttackDamage(isFlank: bool = false):
 	if isFlank:
-		return GetAttackDamage() + data.flankingAttackModifier
+		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingAttackModifier
 	else:
 		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage]
 
 	
-func GetDefense():
-	return data.defense + statAdditionModifier[Enums.StatType.Defense]
+func GetDefense(isFlank: bool = false):
+	if isFlank:
+		return data.defense + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingDefenseModifier
+	else:
+		return data.defense + statAdditionModifier[Enums.StatType.AttackDamage]
 	
 
 # connects the right signal based on AbilityData to UseAbility
@@ -267,8 +265,8 @@ func DisconnectAbilityRelatedSignalConnections(target: Unit):
 	if target.attacked.is_connected(UseAbility):
 		target.attacked.disconnect(UseAbility)
 		
-	if target.unit_dead.is_connected(UseAbility):
-		target.unit_dead.disconnect(UseAbility)
+	if target.unit_died.is_connected(UseAbility):
+		target.unit_died.disconnect(UseAbility)
 		
 	if target.was_attacked.is_connected(UseAbility):
 		target.was_attacked.disconnect(UseAbility)

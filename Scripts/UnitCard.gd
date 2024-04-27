@@ -41,11 +41,11 @@ func SetUnit(_unit: Unit):
 	# UI signals
 	unit.stat_changed.connect(UpdateCombatStatsLabel)
 	
-	$HitAnimaitonPlayer.animation_finished.connect(UnitDied)
 	$HitAnimaitonPlayer.animation_finished.connect(UpdateHealthLabel)
-	$HitAnimaitonPlayer.animation_finished.connect(printstuff)
 	
 	unit.received_hit.connect(HitAnimation)
+	
+	unit.unit_died.connect(UnitDied)
 	
 	# determine if attacking this cycle
 	if unit.attackCyclesLeft < 0:
@@ -59,10 +59,6 @@ func SetUnit(_unit: Unit):
 			attackAnimationPlayer.play("attack_animation_right")
 			
 	UpdateDebugLabel()
-	
-
-func printstuff(num=9):
-	print("anim done")
 	
 	
 func _get_drag_data(_at_position: Vector2) -> Variant:
@@ -112,7 +108,6 @@ func _drop_data(_at_position, data):
 	
 	
 func UpdateHealthLabel(_num = 0):
-	print("updating hp label")
 	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints * unit.stackCount)
 	UpdateHealthIndicator()
 	
@@ -125,9 +120,7 @@ func UpdateHealthIndicator():
 # plays when unit received damage
 # make damage pop up
 # play unit animation
-func HitAnimation():
-	var amount = unit.lastReceivedDamage
-	
+func HitAnimation(amount):
 	var newPopup = damagePopupScene.instantiate()
 	newPopup.global_position = global_position + Vector2(32, 32) + Vector2(randi_range(-10, 10), randi_range(-10, 10))
 	newPopup.get_node("Label").text = str(amount)
@@ -185,39 +178,31 @@ func UpdateAttackLine(isFlanking: bool = false):
 # calls target unit's hit received animations
 func OnAttackAnimationFinished(animName):
 	if animName == "attack_animation_left" or animName == "attack_animation_right":
-		var selfCoord = unit.coords
-		
-		# back-end stuff
+		# reset attack cycle cost
 		unit.attackCyclesLeft = unit.data.attackCost
-		
-		# unit is dead. do nothing
-		if selfCoord == null:
-			return
 		
 		if unit != null:
 			var newTarget = unit.attackTarget
 			
-			if newTarget != null:
+			if newTarget is Unit:
 				unit.attackTargetCoord = newTarget.coords
 				
 				# call received hit animation
-				newTarget.received_hit.emit()
+				newTarget.ReceiveHit(unit)
 				
-			UpdateAttackLine(selfCoord.y != newTarget.coords.y)
-		
-		
-func UnitDied(animName):
-	if !unit.isDead:
-		return
-		
-	if animName != "hit_animation":
-		print("unit died function is not called from animation finishing.")
+				UpdateAttackLine(unit.coords.y != newTarget.coords.y)
+				
+				if unit.isPlayer:
+					GameManager.playerAttackingUnitsCount -= 1
+				else:
+					GameManager.enemyAttackingUnitsCount -= 1
+					
+					
+func UnitDied():
 	var neweffect: GPUParticles2D = deathEffect.instantiate()
 	neweffect.global_position = global_position
 	get_tree().root.add_child(neweffect)
 	neweffect.emitting = true
-	
-	GameManager.RemoveUnit(unit)
 	
 	queue_free()
 

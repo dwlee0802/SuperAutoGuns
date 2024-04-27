@@ -262,6 +262,7 @@ speed_scale = 2.0
 libraries = {
 "": SubResource("AnimationLibrary_hohpx")
 }
+speed_scale = 2.0
 
 [node name="HealthIndicator" type="TextureRect" parent="."]
 self_modulate = Color(0.176471, 0.176471, 0.176471, 0.490196)
