@@ -11,7 +11,7 @@ anchors_preset = 0
 script = ExtResource("1_flcne")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-self_modulate = Color(1, 1, 1, 0.278431)
+self_modulate = Color(0.340339, 0.340339, 0.340339, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

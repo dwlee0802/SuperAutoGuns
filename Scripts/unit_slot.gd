@@ -3,11 +3,22 @@ class_name UnitSlot
 
 var coords = null
 
+var canBeDropped: bool = true
+
 signal dropped
 
+
+func SetCanBeDropped(value):
+	canBeDropped = value
+	
+	if canBeDropped:
+		get_node("TextureRect").self_modulate = Color(0.46,0.46,0.46,1)
+	else:
+		get_node("TextureRect").self_modulate = Color(0.3,0.3,0.3,1)
+	
 	
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
-	if data is UnitCard:
+	if data is UnitCard and canBeDropped:
 		return true
 		
 	return false
