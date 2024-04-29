@@ -1,0 +1,244 @@
+[gd_scene load_steps=5 format=3 uid="uid://4hb2vpnf6a6n"]
+
+[ext_resource type="Script" path="res://Scripts/ProcessUI.gd" id="1_66oug"]
+[ext_resource type="PackedScene" uid="uid://ct8aanlsousat" path="res://Scenes/combined_unit_matrix_editor.tscn" id="2_05vos"]
+[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="3_fcbqa"]
+[ext_resource type="Script" path="res://Scripts/ReserveContainer.gd" id="3_ykbj1"]
+
+[node name="UserInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Root" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -444.0
+offset_right = 444.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="CaptureStatusUI" type="Control" parent="Root"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+script = ExtResource("1_66oug")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/CaptureStatusUI"]
+custom_minimum_size = Vector2(600, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -20.0
+offset_right = 300.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Marker2D" type="Marker2D" parent="Root/CaptureStatusUI"]
+gizmo_extents = 30.0
+
+[node name="MiddleScreen" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+
+[node name="MidLeftScreen" type="VBoxContainer" parent="Root/MiddleScreen"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="FundsLabel" type="Label" parent="Root/MiddleScreen/MidLeftScreen"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+text = "Funds: 0 (+0)"
+vertical_alignment = 1
+
+[node name="ReserveUI" type="HBoxContainer" parent="Root/MiddleScreen/MidLeftScreen"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UnitManagementButtons" type="VBoxContainer" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI"]
+custom_minimum_size = Vector2(80, 500)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HealButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
+self_modulate = Color(1, 0.3241, 0.258944, 1)
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture_normal = ExtResource("3_fcbqa")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -11.5
+offset_right = -10.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "Heal"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="SellButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
+self_modulate = Color(0.989797, 1, 0.604981, 1)
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture_normal = ExtResource("3_fcbqa")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/SellButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -11.5
+offset_right = -10.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "Sell"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="PassButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture_normal = ExtResource("3_fcbqa")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -11.5
+offset_right = -10.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "Pass"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="CommitButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
+self_modulate = Color(0.120801, 0.596535, 7.70092e-07, 1)
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+texture_normal = ExtResource("3_fcbqa")
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -11.5
+offset_right = -10.0
+offset_bottom = 11.5
+grow_vertical = 2
+text = "Commit"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Reserve" type="Control" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Panel" type="Panel" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve"]
+layout_mode = 0
+offset_right = 62.0
+offset_bottom = 23.0
+text = "Reserve"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+script = ExtResource("3_ykbj1")
+
+[node name="CombinedUnitMatrixEditor" parent="Root/MiddleScreen" instance=ExtResource("2_05vos")]
+custom_minimum_size = Vector2(600, 500)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="BottomScreen" type="HBoxContainer" parent="Root"]
+layout_mode = 2
+
+[node name="Reinforcement" type="Control" parent="Root/BottomScreen"]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="Root/BottomScreen/Reinforcement"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Root/BottomScreen/Reinforcement"]
+layout_mode = 1
+offset_right = 115.0
+offset_bottom = 23.0
+text = "Reinforcement"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Root/BottomScreen/Reinforcement"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RerollButton" type="Button" parent="Root/BottomScreen"]
+layout_mode = 2
+text = "Reroll"
+
+[node name="CombatStatisticsUI" type="Control" parent="Root/BottomScreen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Panel" type="Panel" parent="Root/BottomScreen/CombatStatisticsUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Root/BottomScreen/CombatStatisticsUI"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Battle Statistics"
