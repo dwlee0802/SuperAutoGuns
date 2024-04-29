@@ -78,6 +78,8 @@ static var playerGoesFirst: bool = true
 
 static var playerAttacking: bool = true
 
+static var initiativeUI
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -97,6 +99,7 @@ func _ready():
 	enemyEditor = $EnemyUnitMatrixEditor
 	
 	captureStatusUI = $CaptureStatusUI
+	initiativeUI = $InitiativeUI
 	
 	GameManager.AddIncome()
 	
@@ -316,27 +319,24 @@ static func CycleProcess():
 	
 	EnemyAI_Randomizer.lostLastBattle = false
 	
+	if enemyCount == 0 and playerCount == 0:
+		BattleResultProcess(false)
+		print("\nSuccessful Defensive")
+	elif playerAttacking and enemyCount == 0:
+		BattleResultProcess(true)
+		print("\nSuccessful Player Offensive")
+	elif !playerAttacking and playerCount == 0:
+		BattleResultProcess(true)
+		print("\nSuccessful Enemy Offensive")
+	
 	if playerCount == 0 or enemyCount == 0:
 		if playerCount == 0 and enemyCount == 0:
-			print("Draw. Defender wins.")
 			lastBattleResult = 0
 		if playerCount == 0 and enemyCount != 0:
-			print("enemy wins battle.")
-			playerCapturedSectorsCount -= 1
 			lastBattleResult = 1
 		if playerCount != 0 and enemyCount == 0:
-			print("player wins battle.")
-			playerCapturedSectorsCount += 1
 			EnemyAI_Randomizer.lostLastBattle = true
 			lastBattleResult = -1
-		
-		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
-		
-		print("Capture status: " + str(playerCapturedSectorsCount) + " / " + str(totalSectorsCount - playerCapturedSectorsCount))
-		if playerCapturedSectorsCount == totalSectorsCount:
-			print("player wins game!")
-		if playerCapturedSectorsCount == 0:
-			print("enemy wins game!")
 		
 		return true
 	
@@ -677,6 +677,22 @@ static func BattleResultProcess(attackerVictory: bool):
 			playerCapturedSectorsCount -= 1
 		
 		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
+		
+		print("Capture status: " + str(playerCapturedSectorsCount) + " / " + str(totalSectorsCount - playerCapturedSectorsCount))
+		if playerCapturedSectorsCount == totalSectorsCount:
+			print("player wins game!")
+		if playerCapturedSectorsCount == 0:
+			print("enemy wins game!")
 	else:
 		# switch initiatives
 		playerAttacking = !playerAttacking
+		UpdateInitiativeUI()
+
+
+static func UpdateInitiativeUI():
+	var label = initiativeUI.get_node("InitiativeLabel")
+	
+	if playerAttacking:
+		label.text = "Player Offensive"
+	else:
+		label.text = "Enemy Offensive"
