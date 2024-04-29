@@ -67,13 +67,13 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="UnitManagementButtons" type="VBoxContainer" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI"]
-custom_minimum_size = Vector2(80, 500)
+custom_minimum_size = Vector2(65, 500)
 layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="HealButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
 self_modulate = Color(1, 0.3241, 0.258944, 1)
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -94,7 +94,7 @@ vertical_alignment = 1
 
 [node name="SellButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
 self_modulate = Color(0.989797, 1, 0.604981, 1)
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -114,7 +114,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="PassButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -135,7 +135,7 @@ vertical_alignment = 1
 
 [node name="CommitButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
 self_modulate = Color(0.120801, 0.596535, 7.70092e-07, 1)
-custom_minimum_size = Vector2(80, 80)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -187,7 +187,7 @@ script = ExtResource("3_ykbj1")
 [node name="CombinedUnitMatrixEditor" parent="Root/MiddleScreen" instance=ExtResource("2_05vos")]
 custom_minimum_size = Vector2(600, 500)
 layout_mode = 2
-size_flags_horizontal = 8
+size_flags_horizontal = 3
 size_flags_vertical = 8
 
 [node name="BottomScreen" type="HBoxContainer" parent="Root"]
