@@ -74,6 +74,10 @@ static var enemyAttackingUnitsCount
 
 static var waitingForAttackAnimaionFinish: bool = false
 
+static var playerGoesFirst: bool = true
+
+static var playerAttacking: bool = true
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -660,4 +664,19 @@ static func ProcessUnitMatrix(unitMatrix, doStuff: Callable):
 	for col in unitMatrix:
 		for unit in col:
 			doStuff.call(unit)
-	
+
+
+# swap attack and defense based on battle result
+static func BattleResultProcess(attackerVictory: bool):
+	if attackerVictory:
+		if playerAttacking:
+			# capture territory
+			# keep attacking
+			playerCapturedSectorsCount += 1
+		else:
+			playerCapturedSectorsCount -= 1
+		
+		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
+	else:
+		# switch initiatives
+		playerAttacking = !playerAttacking
