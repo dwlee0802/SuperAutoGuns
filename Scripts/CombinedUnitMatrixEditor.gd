@@ -1,10 +1,6 @@
 extends Control
 class_name CombinedUnitMatrixEditor
 
-@export var isPlayer: bool
-
-@export var invertY: bool = false
-
 @onready var unitMatrix = $UnitMatrixEditor/UnitMatrix/HBoxContainer
 
 var unitCardScene = load("res://Scenes/unit_card.tscn")
@@ -22,26 +18,21 @@ var reinforcementOptionCount: int = 6
 
 
 func _ready():
-	$UnitMatrixEditor/Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Generic))
-	GenerateGrid(GameManager.matrixWidth, GameManager.matrixHeight)
-	GenerateReinforcementOptions(Enums.Nation.Generic)
-	UpdateFundsLabel()
-	
-	$UnitMatrixEditor/Reserve/HBoxContainer.dropped.connect(ExportReserve)
-	$UnitMatrixEditor/Reserve/HBoxContainer.dropped.connect(ExportUnitMatrix)
-	
-	if isPlayer:
-		$UnitMatrixEditor/UnitMatrix/Label.text = "Player Army Layout"
-	else:
-		$UnitMatrixEditor/UnitMatrix/Label.text = "Enemy Army Layout"
-	
-	$UnitMatrixEditor/ActionButtons/HealButton.pressed.connect(_heal_unit_button_pressed)
-	$UnitMatrixEditor/ActionButtons/SellButton.pressed.connect(_sell_unit_button_pressed)
-	
-	$ControlButtons/SwapButton.pressed.connect(HideControlButtons)
-	$ControlButtons/MergeButton.pressed.connect(HideControlButtons)
-	
-	HideControlButtons()
+	#$UnitMatrixEditor/Reinforcement/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(Enums.Nation.Generic))
+	GenerateGrid(7, 5)
+	#GenerateReinforcementOptions(Enums.Nation.Generic)
+	#UpdateFundsLabel()
+	#
+	#$UnitMatrixEditor/Reserve/HBoxContainer.dropped.connect(ExportReserve)
+	#$UnitMatrixEditor/Reserve/HBoxContainer.dropped.connect(ExportUnitMatrix)
+	#
+	#$UnitMatrixEditor/ActionButtons/HealButton.pressed.connect(_heal_unit_button_pressed)
+	#$UnitMatrixEditor/ActionButtons/SellButton.pressed.connect(_sell_unit_button_pressed)
+	#
+	#$ControlButtons/SwapButton.pressed.connect(HideControlButtons)
+	#$ControlButtons/MergeButton.pressed.connect(HideControlButtons)
+	#
+	#HideControlButtons()
 	
 	
 # makes a grid with specified width and height slots
@@ -56,22 +47,21 @@ func GenerateGrid(colCount: int, rowCount: int):
 		for j in range(rowCount):
 			var newSlot: UnitSlot = slotScene.instantiate()
 			
-			if invertY:
-				newSlot.coords = Vector2(colCount - 1 - i, j)
-			else:
-				newSlot.coords = Vector2(i, j)
-				
+			newSlot.coords = Vector2(i, j)
+			
 			newCol.add_child(newSlot)
 			newSlot.reparent(newCol)
+			
 			newSlot.dropped.connect(ExportReserve)
 			newSlot.dropped.connect(ExportUnitMatrix)
 			newSlot.dropped.connect(HideControlButtons)
+			
 		unitMatrix.add_child(newCol)
 		newCol.reparent(unitMatrix)
 		
 	
 # reads the unit matrix in Game and shows it in the UI
-func ImportUnitMatrix():
+func ImportUnitMatrix(playerOnLeft: bool):
 	print("importing unit matrix")
 	# clear unit cards
 	for col in unitMatrix.get_children():
@@ -80,20 +70,35 @@ func ImportUnitMatrix():
 				var target = slot.get_child(i)
 				if !(target is TextureRect):
 					target.queue_free()
-						
+		
+	# column index. Assume this is always odd.
+	var colCount: int = unitMatrix.get_child_count()
 	var currentMatrix
-	if isPlayer:
+	
+	if playerOnLeft:
 		currentMatrix = GameManager.playerUnitMatrix
 	else:
 		currentMatrix = GameManager.enemyUnitMatrix
-		
-	# column index
-	for col in range(unitMatrix.get_child_count()):
-		# row index
+	
+	var invertY: bool = true
+	
+	for col in range(colCount):
+		# skip process if at middle column
+		if col == (colCount + 1)/2:
+			continue
+			
+		# swap current matrix to other team if past middle column
+		if col > colCount / 2:
+			invertY = false
+			if !playerOnLeft:
+				currentMatrix = GameManager.playerUnitMatrix
+			else:
+				currentMatrix = GameManager.enemyUnitMatrix
+			
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			if currentMatrix[col][row] != null:
 				var newCard: UnitCard = _InstantiateUnitCard()
-				# add from back if y inverted
+				# add from back if left side
 				if invertY:
 					unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row).add_child(newCard)
 					newCard.reparent(unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row))
@@ -103,11 +108,8 @@ func ImportUnitMatrix():
 					newCard.reparent(unitMatrix.get_child(col).get_child(row))
 					newCard.SetUnit(currentMatrix[col][row])
 					
-	
-	if isPlayer:
-		print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
-	else:
-		print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
+	print("Current player unit count: " + str(GameManager.UnitCount(GameManager.playerUnitMatrix)))
+	print("Current enemy unit count: " + str(GameManager.UnitCount(GameManager.enemyUnitMatrix)))
 	
 	
 # returns the state of the unit matrix

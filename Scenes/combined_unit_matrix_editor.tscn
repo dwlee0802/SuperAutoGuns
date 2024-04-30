@@ -19,6 +19,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_tbom2")
+isPlayer = null
+invertY = null
 
 [node name="ControlButtons" type="Control" parent="."]
 visible = false

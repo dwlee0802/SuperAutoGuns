@@ -201,6 +201,21 @@ func _on_battle_process_button_pressed():
 	
 	print("***End Static Ability Process***\n\n")
 	
+	# add new column based on attack and defense
+	var newPlayerUnitMatrix = Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth + 1)
+	var newEnemyUnitMatrix = Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth + 1)
+	
+	for col in range(matrixWidth):
+		for row in range(matrixHeight):
+			if playerAttacking:
+				newPlayerUnitMatrix[col+1][row] = playerUnitMatrix[col][row]
+				if newPlayerUnitMatrix[col+1][row] != null:
+					newPlayerUnitMatrix[col+1][row].coords = Vector2(col+1, row)
+				newEnemyUnitMatrix[col][row] = enemyUnitMatrix[col][row]
+	
+	playerUnitMatrix = newPlayerUnitMatrix
+	enemyUnitMatrix = newEnemyUnitMatrix
+	
 	playerEditor.ImportUnitMatrix()
 	enemyEditor.ImportUnitMatrix()
 	
@@ -294,8 +309,8 @@ static func CycleProcess():
 	ApplyUnitMovement(enemyUnitMatrix)
 	
 	# generate damage matrix
-	playerDamageMatrix = GenerateDamageMatrix(enemyUnitMatrix)
-	enemyDamageMatrix = GenerateDamageMatrix(playerUnitMatrix)
+	#playerDamageMatrix = GenerateDamageMatrix(enemyUnitMatrix)
+	#enemyDamageMatrix = GenerateDamageMatrix(playerUnitMatrix)
 	#
 	## apply damage matrix
 	#ApplyDamageMatrix(playerUnitMatrix, playerDamageMatrix)
@@ -573,8 +588,8 @@ static func RemoveUnit(unit: Unit):
 	if !unit.isPlayer:
 		mat = enemyUnitMatrix
 	
-	for col in range(matrixWidth):
-		for row in range(matrixHeight):
+	for col in mat:
+		for row in range(col.size()):
 			if mat[col][row] == unit:
 				mat[col][row] = null
 				return true
@@ -629,8 +644,8 @@ static func GetCoord(unit):
 	if unit.isPlayer:
 		checkingMatrix = playerUnitMatrix
 		
-	for col in range(matrixWidth):
-		for row in range(matrixHeight):
+	for col in range(checkingMatrix.size()):
+		for row in range(checkingMatrix[0].size()):
 			if checkingMatrix[col][row] == unit:
 				return Vector2(col, row)
 	
