@@ -123,19 +123,40 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 
 	var colCount = unitMatrix.get_child_count()
 	
+	# 0 1 2 |3| 4 5 6
 	var leftMatrixColCount = int((colCount) / 2) + includeMiddle
 	var leftStartingColIndex = int((colCount) / 2) + includeMiddle - 1
 	
 	var rightMatrixColCount = int((colCount) / 2) - includeMiddle
-	var rightStartingColIndex = colCount - rightMatrixColCount
+	var rightStartingColIndex = colCount - int((colCount) / 2) - includeMiddle
+	
+	if includeMiddle == 0:
+		leftMatrixColCount = int((colCount) / 2) #3
+		rightMatrixColCount = int((colCount) / 2) #3
+		leftStartingColIndex = leftMatrixColCount - 1 #2
+		rightStartingColIndex = colCount - int((colCount) / 2) #4
+	elif includeMiddle == -1:
+		leftMatrixColCount = int((colCount) / 2) #3
+		rightMatrixColCount = int((colCount) / 2) + 1 #4
+		leftStartingColIndex = leftMatrixColCount - 1 #2
+		rightStartingColIndex = colCount - int((colCount) / 2) - 1 #3
+	elif includeMiddle == 1:
+		leftMatrixColCount = int((colCount) / 2) + 1 #4
+		rightMatrixColCount = int((colCount) / 2) #3
+		leftStartingColIndex = leftMatrixColCount #3
+		rightStartingColIndex = colCount - int((colCount) / 2) #4
+		
+	GameManager.PrintUnitMatrix(leftUnitMatrix)
+	GameManager.PrintUnitMatrix(rightUnitMatrix)
 	
 	# fill in from middle column and go backwards
 	for col in range(min(leftUnitMatrix.size(), leftMatrixColCount)):
 		for row in range(leftUnitMatrix[col].size()):
 			if leftUnitMatrix[col][row] != null:
 				var newCard: UnitCard = _InstantiateUnitCard()
-				unitMatrix.get_child(leftStartingColIndex - col).get_child(row).add_child(newCard)
-				newCard.reparent(unitMatrix.get_child(leftStartingColIndex - col).get_child(row))
+				var slot: UnitSlot = unitMatrix.get_child(leftStartingColIndex - col - 1).get_child(row)
+				slot.add_child(newCard)
+				newCard.reparent(slot)
 				newCard.SetUnit(leftUnitMatrix[col][row])
 				
 	for col in range(min(rightUnitMatrix.size(), rightMatrixColCount)):

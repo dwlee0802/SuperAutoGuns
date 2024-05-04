@@ -32,7 +32,12 @@ func SetUnit(_unit: Unit):
 	$TextureRect.self_modulate = unit.data.color
 	
 	# update info ui for this unit
-	$TextureRect/Name.text = unit.data.name + str(unit.stackCount)
+	
+	if unit.isPlayer:
+		$TextureRect/Name.text = "(P)" + unit.data.name + str(unit.stackCount)
+	else:
+		$TextureRect/Name.text = "(E)" + unit.data.name + str(unit.stackCount)
+		
 	UpdateHealthLabel(0)
 	UpdateMovementLabel()
 	UpdateAttackLabel()

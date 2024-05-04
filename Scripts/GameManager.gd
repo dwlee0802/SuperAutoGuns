@@ -4,7 +4,7 @@ class_name GameManager
 static var cycleTimer: Timer
 static var cycleLabel: Label
 
-static var cycleTime: float = 0.5
+static var cycleTime: float = 1
 static var cycleCount: int = 0
 
 static var battleCount: int = 0
@@ -315,6 +315,11 @@ static func CycleProcess():
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
 	else:
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, -1)
+	
+	#print("Player Unit Matrix:")
+	#GameManager.PrintUnitMatrix(playerUnitMatrix)
+	#print("Enemy Unit Matrix:")
+	#GameManager.PrintUnitMatrix(enemyUnitMatrix)
 	
 	waitingForAttackAnimaionFinish = true
 	
@@ -716,15 +721,9 @@ func CommitButtonPressed():
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-			#print("start player turn. player attacking")
-			isPlayerTurn = true
-			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
-			userInterface.ImportReserve(playerReserves)
 			
-			print("start cycle process")
-			#_on_battle_process_button_pressed()
-			isPlayerTurn = true
+			print("defender finished turn. Start cycle process.")
+			_on_battle_process_button_pressed()
 	else:
 		if !isPlayerTurn:
 			# read in unit matrix
@@ -736,13 +735,32 @@ func CommitButtonPressed():
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			print("start enemy turn")
-			isPlayerTurn = false
-			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			
-			print("start cycle process")
-			#_on_battle_process_button_pressed()
+			print("defender finished turn. Start cycle process.")
+			_on_battle_process_button_pressed()
 	
 	userInterface.SetTurnLabel(isPlayerTurn)
 	userInterface.SetFundsLabel(isPlayerTurn)
+
+
+static func PrintUnitMatrix(unitMatrix):
+	var output = ""
+	var count = 0
+	
+	for col in unitMatrix:
+		count += 1
+		var line = str(count)
+		for item in col:
+			if item != null:
+				line += "o"
+			else:
+				line += "x"
+		output += line + "\n"
+	
+	print(output)
+
+
+static func EditorCoordsToMatrixCoords(editorCoords: Vector2, includeMiddle: bool = false):
+	if includeMiddle == false:
+		var colCount = matrixWidth * 2 + 1
+		return Vector2(-(editorCoords.x - (int(colCount / 2) - 1)), editorCoords.y)

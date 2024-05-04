@@ -47,6 +47,7 @@ func _init(_player, _data, _coord, _stack: int = 1):
 	data = _data
 	isPlayer = _player
 	stackCount = _stack
+	
 	coords = _coord
 	
 	ResetStats()

@@ -30,7 +30,9 @@ func _drop_data(_at_position, data):
 	add_child(data)
 	data.reparent(self)
 	data.position = Vector2.ZERO
-	data.unit.coords = coords
+	
+	data.unit.coords = GameManager.EditorCoordsToMatrixCoords(coords)
+	
 	data.UpdateDebugLabel()
 	dropped.emit()
 
