@@ -1,15 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://ct8aanlsousat"]
+[gd_scene load_steps=3 format=3 uid="uid://ct8aanlsousat"]
 
-[ext_resource type="Script" path="res://Scripts/CombinedUnitMatrixEditor.gd" id="1_tbom2"]
 [ext_resource type="PackedScene" uid="uid://kn2dwn5oqocd" path="res://Scenes/unit_slot.tscn" id="2_peld7"]
-
-[sub_resource type="Gradient" id="Gradient_s6uve"]
-offsets = PackedFloat32Array(1)
-colors = PackedColorArray(0.645551, 2.56296e-06, 4.81307e-07, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_rc0jw"]
-gradient = SubResource("Gradient_s6uve")
-width = 4
+[ext_resource type="PackedScene" uid="uid://bhje1s0qncxxo" path="res://Scenes/front_line_ui.tscn" id="2_t6bog"]
 
 [node name="CombinedUnitMatrixEditor" type="Control"]
 layout_mode = 3
@@ -18,9 +10,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_tbom2")
-isPlayer = null
-invertY = null
 
 [node name="ControlButtons" type="Control" parent="."]
 visible = false
@@ -138,9 +127,8 @@ layout_mode = 2
 [node name="UnitSlot4" parent="UnitMatrix/HBoxContainer/PlayerThirdColumn" instance=ExtResource("2_peld7")]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UnitMatrix/HBoxContainer"]
+[node name="TextureRect" parent="UnitMatrix/HBoxContainer" instance=ExtResource("2_t6bog")]
 layout_mode = 2
-texture = SubResource("GradientTexture1D_rc0jw")
 
 [node name="NMLColumn" type="VBoxContainer" parent="UnitMatrix/HBoxContainer"]
 layout_mode = 2
