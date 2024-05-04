@@ -52,7 +52,7 @@ static var autoHealAmount: int = 1
 static var enemyAI
 static var playerAI
 
-static var reinforcementCount: int = 7
+static var reinforcementCount: int = 6
 
 # -1 is player victory 0 is draw 1 is enemy victory
 static var lastBattleResult: int = 0
@@ -105,6 +105,8 @@ func _ready():
 	
 	GameManager.AddIncome()
 	userInterface.SetFundsLabel(GameManager.isPlayerTurn)
+	
+	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	
@@ -315,6 +317,7 @@ static func CycleProcess():
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
 	else:
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, -1)
+	userInterface.SetTurnLabel(true)
 	
 	#print("Player Unit Matrix:")
 	#GameManager.PrintUnitMatrix(playerUnitMatrix)

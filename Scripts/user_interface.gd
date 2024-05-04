@@ -213,6 +213,14 @@ func SetTurnLabel(isPlayerTurn):
 	var label = $Root/MiddleScreen/MidLeftScreen/TurnLabel
 	if isPlayerTurn:
 		label.text = "Player's Turn"
+		if GameManager.playerAttacking:
+			label.text += " - Offensive"
+		else:
+			label.text += " - Defensive."
 	else:
 		label.text = "Enemy's Turn"
+		if !GameManager.playerAttacking:
+			label.text += " - Offensive"
+		else:
+			label.text += " - Defensive."
 		
