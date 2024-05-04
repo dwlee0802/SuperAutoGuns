@@ -77,7 +77,7 @@ static var waitingForAttackAnimaionFinish: bool = false
 
 static var playerGoesFirst: bool = true
 
-static var playerAttacking: bool = true
+static var playerAttacking: bool = false
 
 static var isPlayerTurn: bool = true
 
@@ -201,6 +201,11 @@ func _on_battle_process_button_pressed():
 				if newPlayerUnitMatrix[col+1][row] != null:
 					newPlayerUnitMatrix[col+1][row].coords = Vector2(col+1, row)
 				newEnemyUnitMatrix[col][row] = enemyUnitMatrix[col][row]
+			else:
+				newEnemyUnitMatrix[col+1][row] = enemyUnitMatrix[col][row]
+				if newEnemyUnitMatrix[col+1][row] != null:
+					newEnemyUnitMatrix[col+1][row].coords = Vector2(col+1, row)
+				newPlayerUnitMatrix[col][row] = playerUnitMatrix[col][row]
 	
 	playerUnitMatrix = newPlayerUnitMatrix
 	enemyUnitMatrix = newEnemyUnitMatrix
@@ -699,6 +704,12 @@ static func BattleResultProcess(attackerVictory: bool):
 	else:
 		# switch initiatives
 		playerAttacking = !playerAttacking
+		if playerAttacking:
+			isPlayerTurn = false
+			# defender goes first
+		else:
+			isPlayerTurn = true
+			
 		UpdateInitiativeUI()
 
 
@@ -712,11 +723,11 @@ static func UpdateInitiativeUI():
 
 
 func CommitButtonPressed():
-	if playerAttacking:
+	if !playerAttacking:
 		if isPlayerTurn:
+			print("here")
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			print("start enemy turn. enemy defending.")
 			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
@@ -725,13 +736,12 @@ func CommitButtonPressed():
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			
-			print("defender finished turn. Start cycle process.")
+			print("attacker finished turn. Start cycle process.")
 			_on_battle_process_button_pressed()
 	else:
 		if !isPlayerTurn:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-			print("start player turn")
 			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
@@ -739,7 +749,7 @@ func CommitButtonPressed():
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			
-			print("defender finished turn. Start cycle process.")
+			print("attacker finished turn. Start cycle process.")
 			_on_battle_process_button_pressed()
 	
 	userInterface.SetTurnLabel(isPlayerTurn)
