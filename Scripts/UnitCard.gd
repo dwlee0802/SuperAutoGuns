@@ -160,10 +160,10 @@ func UpdateCombatStatsLabel():
 	
 func UpdateAttackLine(isFlanking: bool = false):
 	var target = null
-	if unit.isPlayer:
-		target = GameManager.enemyEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
-	else:
-		target = GameManager.playerEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
+	#if unit.isPlayer:
+		#target = GameManager.enemyEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
+	#else:
+		#target = GameManager.playerEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
 	
 	if target == null:
 		return

@@ -3,9 +3,39 @@ class_name UserInterface
 
 var unitCardScene = load("res://Scenes/unit_card.tscn")
 
+var slotScene = load("res://Scenes/unit_slot.tscn")
+
 var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
 
+@onready var unitMatrix = $Root/MiddleScreen/CombinedUnitMatrixEditor/UnitMatrix/HBoxContainer
 
+
+# makes a grid with specified width and height slots
+func GenerateGrid(colCount: int, rowCount: int):
+	# clear preexisting grid
+	var cols = unitMatrix.get_children()
+	
+	for item in cols:
+		item.queue_free()
+	
+	for i in range(colCount):
+		var newCol = VBoxContainer.new()
+		for j in range(rowCount):
+			var newSlot: UnitSlot = slotScene.instantiate()
+			
+			newSlot.coords = Vector2(i, j)
+				
+			newCol.add_child(newSlot)
+			newSlot.reparent(newCol)
+			
+			# connect signals
+			newSlot.dropped.connect(OnUnitCardDropped)
+			
+		unitMatrix.add_child(newCol)
+		newCol.reparent(unitMatrix)
+	
+	
+		
 func SetFundsLabel(fundsAmount: int):
 	$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(fundsAmount)
 
@@ -26,6 +56,17 @@ func ImportReserve(reserveUnits):
 	if UnitCard.selected != null:
 		UnitCard.selected.selectionIndicator.visible = false
 	UnitCard.selected = null
+	
+	
+func ExportReserve():
+	var reserveContainer: ReserveContainer = $Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve/HBoxContainer
+	var newReserve = []
+	for child in reserveContainer.get_children():
+		newReserve.append(child.unit)
+		
+	print("current reserve count: " + str(newReserve.size()))
+	
+	return newReserve
 	
 	
 # make new card and connect signals
@@ -64,61 +105,50 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enum
 # 0: leave middle col empty
 # 1: middle col is owned by left side
 func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
-	var unitMatrix = $Root/MiddleScreen/CombinedUnitMatrixEditor/UnitMatrix/HBoxContainer
-	var frontLineUI
+	var _frontLineUI
 	print("importing unit matrix")
 	# clear unit cards
 	for col in unitMatrix.get_children():
 		if col is TextureRect:
-			frontLineUI = col
+			_frontLineUI = col
 			continue
 		for slot in col.get_children():
 			for i in range(slot.get_child_count()):
 				var target = slot.get_child(i)
 				if !(target is TextureRect):
 					target.queue_free()
-	
-	var currentMatrix = leftUnitMatrix
+
 	var invertY: bool = true
 	
 	var colCount = unitMatrix.get_child_count()
 	
-	var leftMatrixColCount = int((colCount + 1) / 2) + includeMiddle
-	var rightMatrixColCount = int((colCount + 1) / 2) - includeMiddle
+	var leftMatrixColCount = int((colCount) / 2) + includeMiddle
+	var leftStartingColIndex = int((colCount) / 2) + includeMiddle - 1
 	
-	# column index
-	# goes over the full combined matrix
-	# 0 1 2  3  4 5 6
-	for col in range(unitMatrix.get_child_count()):
-		if col < leftMatrixColCount:
-			currentMatrix = leftUnitMatrix
-			invertY = true
-		elif col >= colCount - rightMatrixColCount:
-			currentMatrix = rightUnitMatrix
-			invertY = false
-		else:
-			continue
-			
-		# row index
-		for row in range(unitMatrix.get_child(col).get_child_count()):
-			if currentMatrix[col][row] != null:
+	var rightMatrixColCount = int((colCount) / 2) - includeMiddle
+	var rightStartingColIndex = colCount - rightMatrixColCount
+	
+	# fill in from middle column and go backwards
+	for col in range(min(leftUnitMatrix.size(), leftMatrixColCount)):
+		for row in range(leftUnitMatrix[col].size()):
+			if leftUnitMatrix[col][row] != null:
 				var newCard: UnitCard = _InstantiateUnitCard()
-				# add from back if y inverted
-				if invertY:
-					unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row).add_child(newCard)
-					newCard.reparent(unitMatrix.get_child(unitMatrix.get_child_count() - 1 - col).get_child(row))
-					newCard.SetUnit(currentMatrix[col][row])
-				else:
-					unitMatrix.get_child(col).get_child(row).add_child(newCard)
-					newCard.reparent(unitMatrix.get_child(col).get_child(row))
-					newCard.SetUnit(currentMatrix[col][row])
-					
+				unitMatrix.get_child(leftStartingColIndex - col).get_child(row).add_child(newCard)
+				newCard.reparent(unitMatrix.get_child(leftStartingColIndex - col).get_child(row))
+				newCard.SetUnit(leftUnitMatrix[col][row])
+				
+	for col in range(min(rightUnitMatrix.size(), rightMatrixColCount)):
+		for row in range(rightUnitMatrix[col].size()):
+			if rightUnitMatrix[col][row] != null:
+				var newCard: UnitCard = _InstantiateUnitCard()
+				unitMatrix.get_child(rightStartingColIndex + col).get_child(row).add_child(newCard)
+				newCard.reparent(unitMatrix.get_child(rightStartingColIndex + col).get_child(row))
+				newCard.SetUnit(rightUnitMatrix[col][row])
 
+					
 # returns the state of the unit matrix
 # start from the right most column
 func ExportUnitMatrix(currentMatrix, includeMiddle: bool = false):
-	var unitMatrix = $Root/MiddleScreen/CombinedUnitMatrixEditor/UnitMatrix/HBoxContainer
-	
 	var colCount: int = int(unitMatrix.get_child_count() / 2)
 	if includeMiddle:
 		colCount += 1
@@ -128,15 +158,30 @@ func ExportUnitMatrix(currentMatrix, includeMiddle: bool = false):
 	# column index
 	for offset in range(colCount):
 		# row index
-		for row in range(unitMatrix.get_child(colCount - offset).get_child_count()):
-			if unitMatrix.get_child(colCount - offset).get_child(row).get_child_count() == 2:
-				var unit_there = unitMatrix.get_child(colCount - offset).get_child(row).get_child(-1)
+		for row in range(unitMatrix.get_child(colCount - offset - 1).get_child_count()):
+			if unitMatrix.get_child(colCount - offset - 1).get_child(row).get_child_count() == 2:
+				var unit_there = unitMatrix.get_child(colCount - offset - 1).get_child(row).get_child(-1)
 				if invertY:
 					currentMatrix[offset][row] = unit_there.unit
 				else:
-					currentMatrix[colCount - offset][row] = unit_there.unit
+					currentMatrix[colCount - offset - 1][row] = unit_there.unit
 			else:
 				if invertY:
 					currentMatrix[offset][row] = null
 				else:
-					currentMatrix[colCount - offset][row] = null
+					currentMatrix[colCount - offset - 1][row] = null
+
+
+func HideControlButtons():
+	$ControlButtons.visible = false
+
+
+func OnUnitCardDropped():
+	HideControlButtons()
+	
+	if GameManager.isPlayerTurn:
+		ExportUnitMatrix(GameManager.playerUnitMatrix, false)
+		GameManager.playerReserves = ExportReserve()
+	else:
+		ExportUnitMatrix(GameManager.enemyUnitMatrix, false)
+		GameManager.enemyReserves = ExportReserve()

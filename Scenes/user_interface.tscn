@@ -58,6 +58,11 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 8
 
+[node name="TurnLabel" type="Label" parent="Root/MiddleScreen/MidLeftScreen"]
+layout_mode = 2
+text = "Player's Turn"
+vertical_alignment = 1
+
 [node name="FundsLabel" type="Label" parent="Root/MiddleScreen/MidLeftScreen"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
@@ -75,7 +80,7 @@ theme_override_constants/separation = 10
 
 [node name="HealButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
 self_modulate = Color(1, 0.3241, 0.258944, 1)
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -96,7 +101,7 @@ vertical_alignment = 1
 
 [node name="SellButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
 self_modulate = Color(0.989797, 1, 0.604981, 1)
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -116,7 +121,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="PassButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -176,14 +181,14 @@ offset_right = 62.0
 offset_bottom = 23.0
 text = "Reserve"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve"]
+[node name="HBoxContainer" type="HFlowContainer" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 50.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 script = ExtResource("3_ykbj1")
 
 [node name="CombinedUnitMatrixEditor" parent="Root/MiddleScreen" instance=ExtResource("2_05vos")]
@@ -193,6 +198,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 
 [node name="BottomScreen" type="HBoxContainer" parent="Root"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 
 [node name="Reinforcement" type="Control" parent="Root/BottomScreen"]
@@ -214,14 +220,14 @@ offset_right = 115.0
 offset_bottom = 23.0
 text = "Reinforcement"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Root/BottomScreen/Reinforcement"]
+[node name="HBoxContainer" type="HFlowContainer" parent="Root/BottomScreen/Reinforcement"]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 30.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 
 [node name="RerollButton" type="Button" parent="Root/BottomScreen"]
 layout_mode = 2
@@ -244,3 +250,37 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Battle Statistics"
+
+[node name="ControlButtons" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="SwapButton" type="Button" parent="ControlButtons"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_right = -64.0
+offset_bottom = 15.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "Swap"
+
+[node name="MergeButton" type="Button" parent="ControlButtons"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_right = 64.0
+grow_vertical = 2
+text = "Merge"

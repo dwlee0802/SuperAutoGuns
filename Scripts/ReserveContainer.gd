@@ -1,4 +1,4 @@
-extends HBoxContainer
+extends HFlowContainer
 class_name ReserveContainer
 
 signal dropped

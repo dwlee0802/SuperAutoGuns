@@ -32,8 +32,7 @@ static var enemyEffectMatrix
 static var matrixWidth: int = 3
 static var matrixHeight: int = 6
 
-static var playerEditor: UnitMatrixEditor
-static var enemyEditor: UnitMatrixEditor
+static var userInterface: UserInterface
 
 static var captureStatusUI: CaptureStatusUI
 
@@ -52,6 +51,8 @@ static var autoHealAmount: int = 1
 
 static var enemyAI
 static var playerAI
+
+static var reinforcementCount: int = 7
 
 # -1 is player victory 0 is draw 1 is enemy victory
 static var lastBattleResult: int = 0
@@ -78,6 +79,8 @@ static var playerGoesFirst: bool = true
 
 static var playerAttacking: bool = true
 
+static var isPlayerTurn: bool = true
+
 static var initiativeUI
 
 
@@ -88,20 +91,23 @@ static func _static_init():
 func _ready():
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
-	
 	effectiveDamageUI = $EffectiveDamageUI
 	
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
-	$ProcessBattleButton.pressed.connect(_on_battle_process_button_pressed)
+	userInterface = $UserInterface
 	
-	playerEditor = $PlayerUnitMatrixEditor
-	enemyEditor = $EnemyUnitMatrixEditor
+	captureStatusUI = $UserInterface/Root/CaptureStatusUI
 	
-	captureStatusUI = $CaptureStatusUI
 	initiativeUI = $InitiativeUI
 	
+	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
+	
 	GameManager.AddIncome()
+	
+	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+	
+	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton").pressed.connect(CommitButtonPressed)
 	
 	#enemyAI = EnemyAI_Randomizer.new()
 	#enemyAI.editor = enemyEditor
@@ -132,19 +138,8 @@ func _on_cycle_timer_timeout():
 		cycleTimer.stop()
 		$ProcessBattleButton/InProcessLabel.visible = false
 		GameManager.ImportUnitMatrixBackup()
-		
-		if enemyAI != null:
-			enemyAI.editor = enemyEditor
-			enemyAI.unitMatrix = enemyUnitMatrix
-			enemyAI.reserve = enemyReserves
-		if playerAI != null:
-			playerAI.editor = playerEditor
-			playerAI.unitMatrix = playerUnitMatrix
-			playerAI.reserve = playerReserves
 			
 		GameManager.HealUnits()
-		playerEditor.ImportUnitMatrix()
-		enemyEditor.ImportUnitMatrix()
 		cycleCount = 0
 		GameManager.AddIncome()		
 		
@@ -172,15 +167,6 @@ func _on_battle_process_button_pressed():
 	GameManager.enemyEffectiveDamage = 0
 	GameManager.UpdateEffectiveDamageUI()
 	
-	# process enemy AI
-	if enemyAI != null:
-		GameManager.enemyUnitMatrix = enemyAI.GenerateUnitMatrix()
-		enemyEditor.ImportReserve()
-	if playerAI != null:
-		# do stuff
-		GameManager.playerUnitMatrix = playerAI.GenerateUnitMatrix()
-		playerEditor.ImportReserve()
-	
 	# back up unit matrix
 	playerUnitMatrixBackup = playerUnitMatrix.duplicate(true)
 	enemyUnitMatrixBackup = enemyUnitMatrix.duplicate(true)
@@ -202,8 +188,8 @@ func _on_battle_process_button_pressed():
 	print("***End Static Ability Process***\n\n")
 	
 	# add new column based on attack and defense
-	var newPlayerUnitMatrix = Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth + 1)
-	var newEnemyUnitMatrix = Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth + 1)
+	var newPlayerUnitMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth + 1)
+	var newEnemyUnitMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth + 1)
 	
 	for col in range(matrixWidth):
 		for row in range(matrixHeight):
@@ -216,8 +202,7 @@ func _on_battle_process_button_pressed():
 	playerUnitMatrix = newPlayerUnitMatrix
 	enemyUnitMatrix = newEnemyUnitMatrix
 	
-	playerEditor.ImportUnitMatrix()
-	enemyEditor.ImportUnitMatrix()
+	# TODO: update UI
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
@@ -324,8 +309,11 @@ static func CycleProcess():
 	# when units' attack animation ends, their attack function is called
 	# need to disable player messing with the editor while animations are playing
 	# units get removed themselves when they die
-	playerEditor.ImportUnitMatrix()
-	enemyEditor.ImportUnitMatrix()
+	
+	if playerAttacking:
+		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
+	else:
+		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, -1)
 	
 	waitingForAttackAnimaionFinish = true
 	
@@ -556,8 +544,11 @@ static func AddReserveUnit(data: UnitData, isPlayer: bool):
 	var newUnit = Unit.new(isPlayer, data, null)
 	if isPlayer:
 		playerReserves.append(newUnit)
+		userInterface.ImportReserve(playerReserves)
 	else:
 		enemyReserves.append(newUnit)
+		userInterface.ImportReserve(enemyReserves)
+	
 
 
 static func UnitCount(unitMatrix):
@@ -613,7 +604,6 @@ static func RemoveUnitFromReserve(unit: Unit):
 static func ResetFunds():
 	playerFunds = 0
 	enemyFunds = 0
-	playerEditor.ReloadFundsRelatedUI()
 	
 	
 static func AddIncome():
@@ -622,8 +612,11 @@ static func AddIncome():
 	
 	playerFunds += baseIncomeAmount
 	enemyFunds += baseIncomeAmount
-	playerEditor.ReloadFundsRelatedUI()
-	enemyEditor.ReloadFundsRelatedUI()
+	
+	if isPlayerTurn:
+		userInterface.SetFundsLabel(playerFunds)
+	else:
+		userInterface.SetFundsLabel(enemyFunds)
 
 
 static func ChangeFunds(amount, isPlayer: bool = true):
@@ -631,7 +624,6 @@ static func ChangeFunds(amount, isPlayer: bool = true):
 		playerFunds += amount
 		print("changed player funds by " + str(amount))
 		print("New value: " + str(playerFunds) + "\n")
-		playerEditor.ReloadFundsRelatedUI()
 	else:
 		enemyFunds += amount
 		print("changed enemy funds by " + str(amount))
@@ -711,3 +703,43 @@ static func UpdateInitiativeUI():
 		label.text = "Player Offensive"
 	else:
 		label.text = "Enemy Offensive"
+
+
+func CommitButtonPressed():
+	if playerAttacking:
+		if isPlayerTurn:
+			# read in unit matrix
+			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+			print("start enemy turn")
+			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
+			isPlayerTurn = false
+		else:
+			# read in unit matrix
+			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+			print("start player turn")
+			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+			isPlayerTurn = true
+			
+			print("start cycle process")
+			#_on_battle_process_button_pressed()
+			isPlayerTurn = true
+	else:
+		if !isPlayerTurn:
+			# read in unit matrix
+			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+			print("start player turn")
+			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+			isPlayerTurn = true
+		else:
+			# read in unit matrix
+			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+			print("start enemy turn")
+			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
+			isPlayerTurn = false
+			
+			print("start cycle process")
+			#_on_battle_process_button_pressed()
