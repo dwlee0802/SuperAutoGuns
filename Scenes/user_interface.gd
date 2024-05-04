@@ -100,7 +100,7 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enum
 		
 		# connect signals
 		#newOption.pressed.connect(ImportReserve)
-		#newOption.pressed.connect(UpdateFundsLabel)
+		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
 
 
 # include middle
