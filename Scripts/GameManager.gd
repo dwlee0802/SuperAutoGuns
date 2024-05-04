@@ -141,7 +141,12 @@ func _on_cycle_timer_timeout():
 		cycleTimer.stop()
 		$ProcessBattleButton/InProcessLabel.visible = false
 		GameManager.ImportUnitMatrixBackup()
-			
+		
+		if !playerAttacking:
+			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+		else:
+			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
+		
 		GameManager.HealUnits()
 		cycleCount = 0
 		GameManager.AddIncome()		

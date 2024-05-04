@@ -159,6 +159,8 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 					slot = unitMatrix.get_child(leftStartingColIndex - col - 1).get_child(row)
 				elif includeMiddle == -1:
 					slot = unitMatrix.get_child(leftStartingColIndex - col).get_child(row)
+				else:
+					slot = unitMatrix.get_child(leftStartingColIndex - col).get_child(row)
 					
 				slot.add_child(newCard)
 				newCard.reparent(slot)
@@ -168,6 +170,14 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 		for row in range(rightUnitMatrix[col].size()):
 			if rightUnitMatrix[col][row] != null:
 				var newCard: UnitCard = _InstantiateUnitCard()
+				var slot: UnitSlot
+				if includeMiddle == 1:
+					slot = unitMatrix.get_child(rightStartingColIndex - col - 1).get_child(row)
+				elif includeMiddle == -1:
+					slot = unitMatrix.get_child(leftStartingColIndex - col).get_child(row)
+				else:
+					slot = unitMatrix.get_child(leftStartingColIndex - col).get_child(row)
+					
 				unitMatrix.get_child(rightStartingColIndex + col).get_child(row).add_child(newCard)
 				newCard.reparent(unitMatrix.get_child(rightStartingColIndex + col).get_child(row))
 				newCard.SetUnit(rightUnitMatrix[col][row])
