@@ -154,7 +154,12 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 		for row in range(leftUnitMatrix[col].size()):
 			if leftUnitMatrix[col][row] != null:
 				var newCard: UnitCard = _InstantiateUnitCard()
-				var slot: UnitSlot = unitMatrix.get_child(leftStartingColIndex - col - 1).get_child(row)
+				var slot: UnitSlot
+				if includeMiddle == 1:
+					slot = unitMatrix.get_child(leftStartingColIndex - col - 1).get_child(row)
+				elif includeMiddle == -1:
+					slot = unitMatrix.get_child(leftStartingColIndex - col).get_child(row)
+					
 				slot.add_child(newCard)
 				newCard.reparent(slot)
 				newCard.SetUnit(leftUnitMatrix[col][row])
