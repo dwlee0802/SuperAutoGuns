@@ -10,8 +10,6 @@ func SetData(data: UnitData):
 	unitData = data
 	$Label.text = unitData.name
 	self_modulate = unitData.color
-	
-	print(isPlayer)
 
 
 # add to reserve

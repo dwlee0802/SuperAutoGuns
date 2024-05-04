@@ -121,8 +121,6 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 				if !(target is TextureRect):
 					target.queue_free()
 
-	var invertY: bool = true
-	
 	var colCount = unitMatrix.get_child_count()
 	
 	var leftMatrixColCount = int((colCount) / 2) + includeMiddle

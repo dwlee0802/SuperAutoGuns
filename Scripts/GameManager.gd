@@ -42,9 +42,9 @@ static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
 static var playerFunds: int = 0
-static var enemyFunds: int = 10
+static var enemyFunds: int = 0
 
-static var baseIncomeAmount: int = 0
+static var baseIncomeAmount: int = 10
 
 static var autoHealRatio: float = 0.25
 static var autoHealAmount: int = 1
@@ -708,17 +708,19 @@ func CommitButtonPressed():
 		if isPlayerTurn:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			print("start enemy turn")
+			print("start enemy turn. enemy defending.")
 			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
+			userInterface.ImportReserve(enemyReserves)
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-			print("start player turn")
+			#print("start player turn. player attacking")
 			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+			userInterface.ImportReserve(playerReserves)
 			
 			print("start cycle process")
 			#_on_battle_process_button_pressed()
