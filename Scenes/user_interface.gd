@@ -36,8 +36,11 @@ func GenerateGrid(colCount: int, rowCount: int):
 	
 	
 		
-func SetFundsLabel(fundsAmount: int):
-	$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(fundsAmount)
+func SetFundsLabel(isPlayerTurn: bool):
+	if isPlayerTurn:
+		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(GameManager.playerFunds)
+	else:
+		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(GameManager.enemyFunds)
 
 
 func ImportReserve(reserveUnits):
@@ -185,3 +188,12 @@ func OnUnitCardDropped():
 	else:
 		ExportUnitMatrix(GameManager.enemyUnitMatrix, false)
 		GameManager.enemyReserves = ExportReserve()
+
+
+func SetTurnLabel(isPlayerTurn):
+	var label = $Root/MiddleScreen/MidLeftScreen/TurnLabel
+	if isPlayerTurn:
+		label.text = "Player's Turn"
+	else:
+		label.text = "Enemy's Turn"
+		

@@ -42,9 +42,9 @@ static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
 static var playerFunds: int = 0
-static var enemyFunds: int = 0
+static var enemyFunds: int = 10
 
-static var baseIncomeAmount: int = 15
+static var baseIncomeAmount: int = 0
 
 static var autoHealRatio: float = 0.25
 static var autoHealAmount: int = 1
@@ -104,6 +104,7 @@ func _ready():
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	
 	GameManager.AddIncome()
+	userInterface.SetFundsLabel(GameManager.isPlayerTurn)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	
@@ -613,10 +614,7 @@ static func AddIncome():
 	playerFunds += baseIncomeAmount
 	enemyFunds += baseIncomeAmount
 	
-	if isPlayerTurn:
-		userInterface.SetFundsLabel(playerFunds)
-	else:
-		userInterface.SetFundsLabel(enemyFunds)
+	userInterface.SetFundsLabel(isPlayerTurn)
 
 
 static func ChangeFunds(amount, isPlayer: bool = true):
@@ -711,16 +709,16 @@ func CommitButtonPressed():
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			print("start enemy turn")
+			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
-			isPlayerTurn = false
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			print("start player turn")
+			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
-			isPlayerTurn = true
 			
 			print("start cycle process")
 			#_on_battle_process_button_pressed()
@@ -730,16 +728,19 @@ func CommitButtonPressed():
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			print("start player turn")
+			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
-			isPlayerTurn = true
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			print("start enemy turn")
+			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
-			isPlayerTurn = false
 			
 			print("start cycle process")
 			#_on_battle_process_button_pressed()
+	
+	userInterface.SetTurnLabel(isPlayerTurn)
+	userInterface.SetFundsLabel(isPlayerTurn)
