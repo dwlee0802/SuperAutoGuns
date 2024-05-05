@@ -100,7 +100,7 @@ func _ready():
 	captureStatusUI = $UserInterface/Root/CaptureStatusUI
 	
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
-	userInterface.SetSlotAvailability(0, 4)
+	userInterface.SetSlotAvailability(0, 3)
 	GameManager.AddIncome()
 	userInterface.SetFundsLabel(GameManager.isPlayerTurn)
 	

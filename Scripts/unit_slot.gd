@@ -41,4 +41,5 @@ func _gui_input(event):
 	if event is InputEventMouse:
 		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
 			# check if merging is available: same type
-			_drop_data(Vector2.ZERO, UnitCard.selected)
+			if _can_drop_data(Vector2.ZERO, UnitCard.selected):
+				_drop_data(Vector2.ZERO, UnitCard.selected)
