@@ -153,13 +153,13 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 
 	var colCount = unitMatrix.get_child_count()
 	
-	# 0 1 2 |3| 4 5 6
 	var leftMatrixColCount = int((colCount) / 2) + includeMiddle
 	var leftStartingColIndex = int((colCount) / 2) + includeMiddle - 1
 	
 	var rightMatrixColCount = int((colCount) / 2) - includeMiddle
 	var rightStartingColIndex = colCount - int((colCount) / 2) - includeMiddle
 	
+	# 0 1 2 |3| 4 5 6
 	if includeMiddle == 0:
 		leftMatrixColCount = int((colCount) / 2) #3
 		rightMatrixColCount = int((colCount) / 2) #3
@@ -201,14 +201,14 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 				var newCard: UnitCard = _InstantiateUnitCard()
 				var slot: UnitSlot
 				if includeMiddle == 1:
-					slot = unitMatrix.get_child(rightStartingColIndex - col - 1).get_child(row)
+					slot = unitMatrix.get_child(rightStartingColIndex + col).get_child(row)
 				elif includeMiddle == -1:
-					slot = unitMatrix.get_child(leftStartingColIndex - col).get_child(row)
+					slot = unitMatrix.get_child(rightStartingColIndex + col).get_child(row)
 				else:
-					slot = unitMatrix.get_child(leftStartingColIndex - col).get_child(row)
+					slot = unitMatrix.get_child(rightStartingColIndex + col).get_child(row)
 					
-				unitMatrix.get_child(rightStartingColIndex + col).get_child(row).add_child(newCard)
-				newCard.reparent(unitMatrix.get_child(rightStartingColIndex + col).get_child(row))
+				slot.add_child(newCard)
+				newCard.reparent(slot)
 				newCard.SetUnit(rightUnitMatrix[col][row])
 
 					
@@ -325,7 +325,7 @@ func SellButtonPressed(unitCard = UnitCard.selected):
 		print("Sold unit. " + str(refundAmount) + " refunded.\n")
 		
 		
-func SetSlotAvailability(startIndex: int = 0, endIndex: int = 2):
+func SetSlotAvailability(_startIndex: int = 0, endIndex: int = 2):
 	for col in range(unitMatrix.get_child_count()):
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			var slot: UnitSlot = unitMatrix.get_child(col).get_child(row)
@@ -351,3 +351,38 @@ func UpdateControlButtons(rightClickTarget: UnitCard):
 			
 			#print("number of subs after connecting: " + str(swapButton.pressed.get_connections().size()))
 			
+
+func SetSlotColor(isPlayerTurn, isPlayerAttacking):
+	for col in range(unitMatrix.get_child_count()):
+		for row in range(unitMatrix.get_child(col).get_child_count()):
+			var slot: UnitSlot = unitMatrix.get_child(col).get_child(row)
+			# current turn side
+			if col <= int(unitMatrix.get_child_count() / 2):
+				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
+					# attacking. set slot to red
+					slot.get_node("TextureRect").self_modulate = Color.RED
+				else:
+					# defending. set slot to blue
+					slot.get_node("TextureRect").self_modulate = Color.BLUE
+			else:
+				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
+					# defending side set slot to blue
+					slot.get_node("TextureRect").self_modulate = Color.BLUE
+				else:
+					# attacking side. set slot to red
+					slot.get_node("TextureRect").self_modulate = Color.RED
+				
+	
+	SetMiddleColumnColor(true)
+	
+
+func SetMiddleColumnColor(attackingTurn):
+	var midCol = unitMatrix.get_child((unitMatrix.get_child_count()) / 2)
+	if attackingTurn:
+		# set red
+		for slot in midCol.get_children():
+			slot.get_node("TextureRect").self_modulate = Color.DARK_RED
+	else:
+		# set blue
+		for slot in midCol.get_children():
+			slot.get_node("TextureRect").self_modulate = Color.DARK_BLUE

@@ -11,10 +11,10 @@ signal dropped
 func SetCanBeDropped(value):
 	canBeDropped = value
 	
-	if canBeDropped:
-		get_node("TextureRect").self_modulate = Color(0.46,0.46,0.46,1)
-	else:
-		get_node("TextureRect").self_modulate = Color(0.3,0.3,0.3,1)
+	#if canBeDropped:
+		#get_node("TextureRect").self_modulate = Color(0.46,0.46,0.46,1)
+	#else:
+		#get_node("TextureRect").self_modulate = Color(0.3,0.3,0.3,1)
 	
 	
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:

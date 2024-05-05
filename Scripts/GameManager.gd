@@ -77,9 +77,9 @@ static var waitingForAttackAnimaionFinish: bool = false
 
 static var playerGoesFirst: bool = true
 
-static var playerAttacking: bool = false
+static var playerAttacking: bool = true
 
-static var isPlayerTurn: bool = true
+static var isPlayerTurn: bool = false
 
 static var initiativeUI
 
@@ -101,6 +101,7 @@ func _ready():
 	
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)
+	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 	GameManager.AddIncome()
 	userInterface.SetFundsLabel(GameManager.isPlayerTurn)
 	
@@ -143,7 +144,7 @@ func _on_cycle_timer_timeout():
 		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
 		GameManager.HealUnits()
 		
-		# means player goes first
+		# defending player goes first
 		if !playerAttacking:
 			isPlayerTurn = true
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
@@ -152,6 +153,10 @@ func _on_cycle_timer_timeout():
 			isPlayerTurn = false
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
+			
+		userInterface.GenerateReinforcementOptions(isPlayerTurn, reinforcementCount)
+		
+		userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		
 		cycleCount = 0
 		GameManager.AddIncome()		
@@ -219,11 +224,12 @@ func _on_battle_process_button_pressed():
 	playerUnitMatrix = newPlayerUnitMatrix
 	enemyUnitMatrix = newEnemyUnitMatrix
 	
-	# TODO: update UI
-	if playerAttacking:
-		userInterface.SetSlotAvailability(0, matrixWidth - 1)
-	else:
-		userInterface.SetSlotAvailability(0, matrixWidth)
+	## TODO: update UI
+	#if playerAttacking:
+		#userInterface.SetSlotAvailability(0, matrixWidth + 1)
+	#else:
+		#userInterface.SetSlotAvailability(0, matrixWidth)
+		
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
@@ -232,6 +238,7 @@ func _on_battle_process_button_pressed():
 	print("Battle #" + str(GameManager.battleCount))
 	if cycleTimer.is_stopped():
 		cycleTimer.start(0)
+		userInterface.SetSlotColor(true, playerAttacking)
 	
 
 static func ImportUnitMatrixBackup():
@@ -334,12 +341,7 @@ static func CycleProcess():
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
 	else:
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, -1)
-	userInterface.SetTurnLabel(true)
 	
-	#print("Player Unit Matrix:")
-	#GameManager.PrintUnitMatrix(playerUnitMatrix)
-	#print("Enemy Unit Matrix:")
-	#GameManager.PrintUnitMatrix(enemyUnitMatrix)
 	
 	waitingForAttackAnimaionFinish = true
 	
@@ -709,8 +711,14 @@ static func BattleResultProcess(attackerVictory: bool):
 			# capture territory
 			# keep attacking
 			playerCapturedSectorsCount += 1
+			
+			# defender starts
+			isPlayerTurn = false
 		else:
 			playerCapturedSectorsCount -= 1
+			
+			# defender starts
+			isPlayerTurn = true
 		
 		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
 		
@@ -732,7 +740,7 @@ static func BattleResultProcess(attackerVictory: bool):
 func CommitButtonPressed():
 	if !playerAttacking:
 		if isPlayerTurn:
-			# player defense turn
+			# start enemy offense turn
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
@@ -741,16 +749,19 @@ func CommitButtonPressed():
 			userInterface.ImportReserve(enemyReserves)
 			
 			userInterface.SetSlotAvailability(0, matrixWidth)
+			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			userInterface.SetSlotAvailability(0, matrixWidth)
 			
 			print("attacker finished turn. Start cycle process.")
+			isPlayerTurn = true
+			userInterface.SetTurnLabel(true)
 			_on_battle_process_button_pressed()
 	else:
 		if !isPlayerTurn:
-			# enemy defense turn
+			# start player offense turn
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			isPlayerTurn = true
@@ -759,16 +770,20 @@ func CommitButtonPressed():
 			userInterface.ImportReserve(playerReserves)
 			
 			userInterface.SetSlotAvailability(0, matrixWidth)
+			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			userInterface.SetSlotAvailability(0, matrixWidth + 1)
+			userInterface.SetSlotAvailability(0, matrixWidth)
 			
 			print("attacker finished turn. Start cycle process.")
+			isPlayerTurn = true
+			userInterface.SetTurnLabel(true)
 			_on_battle_process_button_pressed()
 	
 	userInterface.SetTurnLabel(isPlayerTurn)
 	userInterface.SetFundsLabel(isPlayerTurn)
+	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 
 
 static func PrintUnitMatrix(unitMatrix):
