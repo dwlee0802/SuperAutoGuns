@@ -16,39 +16,6 @@ script = ExtResource("1_su57y")
 wait_time = 0.5
 one_shot = true
 
-[node name="ProcessBattleButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 573.0
-offset_top = 73.0
-offset_right = 691.0
-offset_bottom = 104.0
-grow_horizontal = 2
-grow_vertical = 2
-toggle_mode = true
-text = "Process Battle"
-
-[node name="InProcessLabel" type="Label" parent="ProcessBattleButton"]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 1.885
-anchor_right = 0.5
-anchor_bottom = 2.335
-offset_left = -20.0
-offset_top = -23.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-text = "In Process..."
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="CycleCountLabel" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
@@ -56,10 +23,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 586.0
-offset_top = -18.0
-offset_right = 645.0
-offset_bottom = 5.0
+offset_left = 7.0
+offset_top = -334.0
+offset_right = 66.0
+offset_bottom = -311.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Cycle: 0"
@@ -71,15 +38,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 579.0
-offset_top = -97.0
-offset_right = 643.0
-offset_bottom = -74.0
+offset_left = 3.0
+offset_top = -357.0
+offset_right = 67.0
+offset_bottom = -334.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Battle: 0"
 
 [node name="BattleResultLabel" type="Label" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -87,9 +55,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -15.0
-offset_top = -344.0
+offset_top = -313.0
 offset_right = 92.0
-offset_bottom = -321.0
+offset_bottom = -290.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Player Victory"
@@ -141,49 +109,6 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="InitiativeUI" type="Control" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 593.0
-offset_top = 234.0
-offset_right = 633.0
-offset_bottom = 234.0
-grow_horizontal = 2
-
-[node name="InitiativeLabel" type="Label" parent="InitiativeUI"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -63.0
-offset_top = -11.5
-offset_right = 63.0
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Player Attacking"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="PassButton" type="Button" parent="InitiativeUI"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = 18.0
-offset_right = 19.0
-offset_bottom = 49.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Pass"
 
 [node name="UserInterface" parent="." instance=ExtResource("2_2mya4")]
 layout_mode = 1

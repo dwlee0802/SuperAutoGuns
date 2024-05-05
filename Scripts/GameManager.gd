@@ -99,8 +99,6 @@ func _ready():
 	
 	captureStatusUI = $UserInterface/Root/CaptureStatusUI
 	
-	initiativeUI = $InitiativeUI
-	
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	
 	GameManager.AddIncome()
@@ -140,7 +138,6 @@ func _on_cycle_timer_timeout():
 	if GameManager.CycleProcess():
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
-		$ProcessBattleButton/InProcessLabel.visible = false
 		GameManager.ImportUnitMatrixBackup()
 		
 		GameManager.HealUnits()
@@ -171,7 +168,6 @@ func _on_cycle_timer_timeout():
 		if cycleTimer.is_stopped():
 			# should wait til animations are done
 			cycleTimer.start(GameManager.cycleTime)
-			$ProcessBattleButton/InProcessLabel.visible = true
 			
 	GameManager.UpdateEffectiveDamageUI()
 	
@@ -231,7 +227,6 @@ func _on_battle_process_button_pressed():
 	print("Battle #" + str(GameManager.battleCount))
 	if cycleTimer.is_stopped():
 		cycleTimer.start(0)
-		$ProcessBattleButton/InProcessLabel.visible = true
 	
 
 static func ImportUnitMatrixBackup():
@@ -721,17 +716,6 @@ static func BattleResultProcess(attackerVictory: bool):
 			# defender goes first
 		else:
 			isPlayerTurn = true
-			
-		UpdateInitiativeUI()
-
-
-static func UpdateInitiativeUI():
-	var label = initiativeUI.get_node("InitiativeLabel")
-	
-	if playerAttacking:
-		label.text = "Player Offensive"
-	else:
-		label.text = "Enemy Offensive"
 
 
 func CommitButtonPressed():
