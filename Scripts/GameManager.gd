@@ -142,9 +142,12 @@ func _on_cycle_timer_timeout():
 		$ProcessBattleButton/InProcessLabel.visible = false
 		GameManager.ImportUnitMatrixBackup()
 		
+		# means player goes first
 		if !playerAttacking:
+			isPlayerTurn = true
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
 		else:
+			isPlayerTurn = false
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 		
 		GameManager.HealUnits()
@@ -525,8 +528,9 @@ static func FindAttackTarget(attacker: Unit) -> Unit:
 		checkingMatrix = playerUnitMatrix
 	
 	var curRow = attacker.coords.y
+	var curCol = attacker.coords.x
 	
-	for col_offset in range(attacker.data.attackRange):
+	for col_offset in range(attacker.data.attackRange - curCol):
 		var checkingColumn = checkingMatrix[col_offset]
 		for i in range(checkingColumn.size()):
 			var upper: Unit = null
@@ -568,7 +572,6 @@ static func AddReserveUnit(data: UnitData, isPlayer: bool):
 		enemyReserves.append(newUnit)
 		userInterface.ImportReserve(enemyReserves)
 	
-
 
 static func UnitCount(unitMatrix):
 	var output = 0
@@ -730,7 +733,6 @@ static func UpdateInitiativeUI():
 func CommitButtonPressed():
 	if !playerAttacking:
 		if isPlayerTurn:
-			print("here")
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
