@@ -297,3 +297,11 @@ func SellButtonPressed(unitCard = UnitCard.selected):
 			SetFundsLabel(GameManager.enemyFunds)
 			
 		print("Sold unit. " + str(refundAmount) + " refunded.\n")
+		
+		
+func SetSlotAvailability(startIndex: int = 0, endIndex: int = 3):
+	for col in range(unitMatrix.get_child_count()):
+		for row in range(unitMatrix.get_child(col).get_child_count()):
+			var slot: UnitSlot = unitMatrix.get_child(col).get_child(row)
+			slot.SetCanBeDropped((row+col/2)%2 == 1)
+				
