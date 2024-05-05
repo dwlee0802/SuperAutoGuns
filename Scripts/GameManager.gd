@@ -110,6 +110,7 @@ func _ready():
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	
+	# link commit button
 	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton").pressed.connect(CommitButtonPressed)
 	
 	#enemyAI = EnemyAI_Randomizer.new()

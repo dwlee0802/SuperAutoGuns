@@ -271,4 +271,7 @@ func DisconnectAbilityRelatedSignalConnections(target: Unit):
 		
 	if target.was_attacked.is_connected(UseAbility):
 		target.was_attacked.disconnect(UseAbility)
-		
+
+
+func IsFullHealth() -> bool:
+	return currentHealthPoints == data.maxHealthPoints * stackCount

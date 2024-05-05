@@ -225,10 +225,10 @@ func UpdateAttackLines():
 				if mat[i][j] != null:
 					var attackCoord = mat[i][j]
 					var targetCard
-					if !isPlayer:
-						targetCard = GameManager.playerEditor.GetUnitCardAt(attackCoord.x, attackCoord.y)
-					else:
-						targetCard = GameManager.enemyEditor.GetUnitCardAt(attackCoord.x, attackCoord.y)
+					#if !isPlayer:
+						#targetCard = GameManager.playerEditor.GetUnitCardAt(attackCoord.x, attackCoord.y)
+					#else:
+						#targetCard = GameManager.enemyEditor.GetUnitCardAt(attackCoord.x, attackCoord.y)
 					
 					if targetCard == null:
 						continue

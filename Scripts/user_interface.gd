@@ -10,6 +10,11 @@ var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
 @onready var unitMatrix = $Root/MiddleScreen/CombinedUnitMatrixEditor/UnitMatrix/HBoxContainer
 
 
+func _ready():
+	$Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton.pressed.connect(HealButtonPressed)
+	$Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/SellButton.pressed.connect(SellButtonPressed)
+	
+	
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):
 	# clear preexisting grid
@@ -236,4 +241,59 @@ func SetTurnLabel(isPlayerTurn):
 			label.text += " - Offensive"
 		else:
 			label.text += " - Defensive."
+
+
+func HealButtonPressed(unitCard = UnitCard.selected):
+	if unitCard == null:
+		print("heal button no selected")
+		return
 		
+	print("heal button pressed")
+	
+	var amount = GameManager.healCostPerStackCount * unitCard.unit.stackCount
+	
+	if unitCard.unit.IsFullHealth():
+		print("unit full health!")
+		return
+		
+	if unitCard.unit.isPlayer:
+		if GameManager.playerFunds >= amount:
+			GameManager.ChangeFunds(-amount)
+			SetFundsLabel(GameManager.playerFunds)
+			unitCard.unit.RatioHeal(1)
+			unitCard.UpdateHealthLabel(0)
+		else:
+			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
+	else:
+		if GameManager.enemyFunds >= amount:
+			GameManager.ChangeFunds(-amount, false)
+			SetFundsLabel(GameManager.enemyFunds)
+			unitCard.unit.RatioHeal(1)
+			unitCard.UpdateHealthLabel(0)
+		else:
+			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
+
+
+func SellButtonPressed(unitCard = UnitCard.selected):
+	if unitCard == null:
+		print("sell button no selected")
+		return
+	else:
+		var isPlayer : bool = unitCard.unit.isPlayer
+		
+		var refundAmount: int = int(unitCard.unit.data.purchaseCost * unitCard.unit.stackCount * GameManager.refundRatio)
+		if unitCard.get_parent() is ReserveContainer:
+			GameManager.RemoveUnitFromReserve(unitCard.unit)
+			unitCard.queue_free()
+		elif unitCard.get_parent() is UnitSlot:
+			GameManager.RemoveUnit(unitCard.unit)
+			unitCard.queue_free()
+		
+		GameManager.ChangeFunds(refundAmount, isPlayer)
+		
+		if isPlayer:
+			SetFundsLabel(GameManager.playerFunds)
+		else:
+			SetFundsLabel(GameManager.enemyFunds)
+			
+		print("Sold unit. " + str(refundAmount) + " refunded.\n")
