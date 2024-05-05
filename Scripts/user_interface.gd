@@ -13,6 +13,10 @@ var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
 @onready var swapButton: Button = controlButtons.get_node("SwapButton")
 @onready var mergeButton: Button = controlButtons.get_node("MergeButton")
 
+@export var attackColor = Color.RED
+@export var defendColor = Color.BLUE
+@export var middleColor = Color.DARK_RED
+
 
 func _ready():
 	$Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton.pressed.connect(HealButtonPressed)
@@ -360,17 +364,17 @@ func SetSlotColor(isPlayerTurn, isPlayerAttacking):
 			if col <= int(unitMatrix.get_child_count() / 2):
 				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
 					# attacking. set slot to red
-					slot.get_node("TextureRect").self_modulate = Color.RED
+					slot.get_node("TextureRect").self_modulate = attackColor
 				else:
 					# defending. set slot to blue
-					slot.get_node("TextureRect").self_modulate = Color.BLUE
+					slot.get_node("TextureRect").self_modulate = defendColor
 			else:
 				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
 					# defending side set slot to blue
-					slot.get_node("TextureRect").self_modulate = Color.BLUE
+					slot.get_node("TextureRect").self_modulate = defendColor
 				else:
 					# attacking side. set slot to red
-					slot.get_node("TextureRect").self_modulate = Color.RED
+					slot.get_node("TextureRect").self_modulate = attackColor
 				
 	
 	SetMiddleColumnColor(true)
@@ -381,8 +385,8 @@ func SetMiddleColumnColor(attackingTurn):
 	if attackingTurn:
 		# set red
 		for slot in midCol.get_children():
-			slot.get_node("TextureRect").self_modulate = Color.DARK_RED
+			slot.get_node("TextureRect").self_modulate = middleColor
 	else:
 		# set blue
 		for slot in midCol.get_children():
-			slot.get_node("TextureRect").self_modulate = Color.DARK_BLUE
+			slot.get_node("TextureRect").self_modulate = middleColor

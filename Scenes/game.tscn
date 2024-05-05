@@ -112,3 +112,6 @@ vertical_alignment = 1
 
 [node name="UserInterface" parent="." instance=ExtResource("2_2mya4")]
 layout_mode = 1
+attackColor = Color(1, 0.833888, 0.806373, 1)
+defendColor = Color(0.761398, 0.841342, 0.999999, 1)
+middleColor = Color(0.836663, 0.732309, 0.704853, 1)
