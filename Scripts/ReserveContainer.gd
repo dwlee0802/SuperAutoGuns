@@ -13,7 +13,8 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 # make unit card into self's child
 func _drop_data(_at_position, data):
 	data.reparent(self)
-	
+	data.unit.coords = null
+	data.UpdateDebugLabel()
 	# new unit dropped into reserve
 	dropped.emit()
 	

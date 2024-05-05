@@ -9,10 +9,17 @@ var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
 
 @onready var unitMatrix = $Root/MiddleScreen/CombinedUnitMatrixEditor/UnitMatrix/HBoxContainer
 
+@onready var controlButtons = $ControlButtons
+@onready var swapButton: Button = controlButtons.get_node("SwapButton")
+@onready var mergeButton: Button = controlButtons.get_node("MergeButton")
+
 
 func _ready():
 	$Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton.pressed.connect(HealButtonPressed)
 	$Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/SellButton.pressed.connect(SellButtonPressed)
+	
+	$ControlButtons/SwapButton.pressed.connect(HideControlButtons)
+	$ControlButtons/MergeButton.pressed.connect(HideControlButtons)
 	
 	
 # makes a grid with specified width and height slots
@@ -83,9 +90,27 @@ func _InstantiateUnitCard() -> UnitCard:
 	var newCard: UnitCard = unitCardScene.instantiate()
 	
 	# connect signals
+	newCard.was_right_clicked.connect(UpdateControlButtons)
+	newCard.clicked.connect(HideControlButtons)
+	newCard.merged.connect(HideControlButtons)
+	
+	#newCard.clicked.connect(UpdateHealCost)
+	#newCard.clicked.connect(UpdateSellButton)
+	
+	newCard.merged.connect(OnCardMerged)
+	
+	#newCard.merged.connect(ImportUnitMatrix)
+	#newCard.merged.connect(ImportReserve)
 	
 	return newCard
-	
+
+
+func OnCardMerged():
+	if GameManager.isPlayerTurn:
+		GameManager.playerReserves = ExportReserve()
+	else:
+		GameManager.enemyReserves = ExportReserve()
+		
 	
 # populate reinforcement option buttons
 func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enums.Nation = Enums.Nation.Generic):
@@ -105,7 +130,6 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enum
 		reinforcementContainer.add_child(newOption)
 		
 		# connect signals
-		#newOption.pressed.connect(ImportReserve)
 		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
 
 
@@ -304,6 +328,24 @@ func SetSlotAvailability(startIndex: int = 0, endIndex: int = 2):
 		for row in range(unitMatrix.get_child(col).get_child_count()):
 			var slot: UnitSlot = unitMatrix.get_child(col).get_child(row)
 			slot.SetCanBeDropped(col < endIndex)
-			print(col < endIndex)
-			print("col: " + str(col) + " row: " + str(row))
 				
+
+# handles showing control button on target
+func UpdateControlButtons(rightClickTarget: UnitCard):
+	if rightClickTarget != UnitCard.selected:
+		# connect signals if same type
+		if rightClickTarget.unit.data == UnitCard.selected.unit.data:
+			controlButtons.visible = true
+			controlButtons.global_position = rightClickTarget.global_position
+			
+			# disconnect signals
+			for item in swapButton.pressed.get_connections():
+				swapButton.pressed.disconnect(item.callable)
+			for item in mergeButton.pressed.get_connections():
+				mergeButton.pressed.disconnect(item.callable)
+				
+			swapButton.pressed.connect(rightClickTarget._swap_button_pressed)
+			mergeButton.pressed.connect(rightClickTarget._merge_button_pressed)
+			
+			#print("number of subs after connecting: " + str(swapButton.pressed.get_connections().size()))
+			
