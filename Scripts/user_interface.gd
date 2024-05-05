@@ -44,6 +44,7 @@ func SetFundsLabel(isPlayerTurn: bool):
 
 
 func ImportReserve(reserveUnits):
+	print("import reserve")
 	# clear children
 	var reserveContainer: ReserveContainer = $Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve/HBoxContainer
 	var children = reserveContainer.get_children()

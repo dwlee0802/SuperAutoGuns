@@ -4,7 +4,7 @@ class_name GameManager
 static var cycleTimer: Timer
 static var cycleLabel: Label
 
-static var cycleTime: float = 1
+static var cycleTime: float = 0.5
 static var cycleCount: int = 0
 
 static var battleCount: int = 0
@@ -148,9 +148,11 @@ func _on_cycle_timer_timeout():
 		if !playerAttacking:
 			isPlayerTurn = true
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+			userInterface.ImportReserve(playerReserves)
 		else:
 			isPlayerTurn = false
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
+			userInterface.ImportReserve(enemyReserves)
 		
 		cycleCount = 0
 		GameManager.AddIncome()		
@@ -753,6 +755,7 @@ func CommitButtonPressed():
 			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+			userInterface.ImportReserve(playerReserves)
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
