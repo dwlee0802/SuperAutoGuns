@@ -175,7 +175,9 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 		rightMatrixColCount = int((colCount) / 2) #3
 		leftStartingColIndex = leftMatrixColCount #3
 		rightStartingColIndex = colCount - int((colCount) / 2) #4
-		
+	
+	SetSlotAvailability(0, leftMatrixColCount)
+	
 	# fill in from middle column and go backwards
 	for col in range(min(leftUnitMatrix.size(), leftMatrixColCount)):
 		for row in range(leftUnitMatrix[col].size()):

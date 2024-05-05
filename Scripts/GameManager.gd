@@ -140,6 +140,7 @@ func _on_cycle_timer_timeout():
 		cycleTimer.stop()
 		GameManager.ImportUnitMatrixBackup()
 		
+		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
 		GameManager.HealUnits()
 		
 		# means player goes first
@@ -219,6 +220,10 @@ func _on_battle_process_button_pressed():
 	enemyUnitMatrix = newEnemyUnitMatrix
 	
 	# TODO: update UI
+	if playerAttacking:
+		userInterface.SetSlotAvailability(0, matrixWidth - 1)
+	else:
+		userInterface.SetSlotAvailability(0, matrixWidth)
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
@@ -352,6 +357,12 @@ static func CycleProcess():
 	elif !playerAttacking and playerCount == 0:
 		BattleResultProcess(true)
 		print("\nSuccessful Enemy Offensive")
+	elif !playerAttacking and enemyCount == 0:
+		BattleResultProcess(false)
+		print("\nSuccessful Player Defensive")
+	elif playerAttacking and playerCount == 0:
+		BattleResultProcess(false)
+		print("\nSuccessful Enemy Defensive")
 	
 	if playerCount == 0 or enemyCount == 0:
 		if playerCount == 0 and enemyCount == 0:
@@ -602,8 +613,8 @@ static func RemoveUnit(unit: Unit):
 	
 	for col in mat:
 		for row in range(col.size()):
-			if mat[col][row] == unit:
-				mat[col][row] = null
+			if col[row] == unit:
+				col[row] = null
 				return true
 	
 	return false
@@ -721,29 +732,37 @@ static func BattleResultProcess(attackerVictory: bool):
 func CommitButtonPressed():
 	if !playerAttacking:
 		if isPlayerTurn:
+			# player defense turn
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
+			
+			userInterface.SetSlotAvailability(0, matrixWidth)
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+			userInterface.SetSlotAvailability(0, matrixWidth)
 			
 			print("attacker finished turn. Start cycle process.")
 			_on_battle_process_button_pressed()
 	else:
 		if !isPlayerTurn:
+			# enemy defense turn
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
 			userInterface.ImportReserve(playerReserves)
+			
+			userInterface.SetSlotAvailability(0, matrixWidth)
 		else:
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+			userInterface.SetSlotAvailability(0, matrixWidth + 1)
 			
 			print("attacker finished turn. Start cycle process.")
 			_on_battle_process_button_pressed()
