@@ -139,7 +139,7 @@ func _on_cycle_timer_timeout():
 	if GameManager.CycleProcess():
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
-		GameManager.ImportUnitMatrixBackup()
+		#GameManager.ImportUnitMatrixBackup()
 		
 		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
 		GameManager.HealUnits()
@@ -212,13 +212,17 @@ func _on_battle_process_button_pressed():
 		for row in range(matrixHeight):
 			if playerAttacking:
 				newPlayerUnitMatrix[col+1][row] = playerUnitMatrix[col][row]
+				
 				if newPlayerUnitMatrix[col+1][row] != null:
 					newPlayerUnitMatrix[col+1][row].coords = Vector2(col+1, row)
+					
 				newEnemyUnitMatrix[col][row] = enemyUnitMatrix[col][row]
 			else:
 				newEnemyUnitMatrix[col+1][row] = enemyUnitMatrix[col][row]
+				
 				if newEnemyUnitMatrix[col+1][row] != null:
 					newEnemyUnitMatrix[col+1][row].coords = Vector2(col+1, row)
+					
 				newPlayerUnitMatrix[col][row] = playerUnitMatrix[col][row]
 	
 	playerUnitMatrix = newPlayerUnitMatrix
@@ -230,7 +234,6 @@ func _on_battle_process_button_pressed():
 	#else:
 		#userInterface.SetSlotAvailability(0, matrixWidth)
 		
-	
 	# process first cycle
 	print("***Starting Battle Process***\n")
 	GameManager.battleCount+= 1
@@ -242,19 +245,39 @@ func _on_battle_process_button_pressed():
 	
 
 static func ImportUnitMatrixBackup():
+	print("player attacking: " + str(playerAttacking))
+	# remove the extra column in front of the attacker
+	var playerOffset = 0
+	var enemyOffset = 0
+	if !playerAttacking:
+		enemyOffset += 1
+	if playerAttacking:
+		playerOffset += 1
+		
+	print("backup")
+	PrintUnitMatrix(playerUnitMatrixBackup)
+	print("player unit")
+	PrintUnitMatrix(playerUnitMatrix)
+	print("backup")
+	PrintUnitMatrix(enemyUnitMatrixBackup)
+	print("enemy unit")
+	PrintUnitMatrix(enemyUnitMatrix)
+	
+	# update healths
+	# look through current unit matrix and move their health to new unit matrix
 	for col in range(matrixWidth):
 		for row in range(matrixHeight):
 			if playerUnitMatrixBackup[col][row] != null:
 				# the unit was routed last battle
-				if playerUnitMatrix[col][row] == null:
+				if playerUnitMatrix[col + playerOffset][row] == null:
 					playerUnitMatrixBackup[col][row].currentHealthPoints = 0
 				else:
-					playerUnitMatrixBackup[col][row].currentHealthPoints = playerUnitMatrix[col][row].currentHealthPoints
+					playerUnitMatrixBackup[col][row].currentHealthPoints = playerUnitMatrix[col+ playerOffset][row].currentHealthPoints
 			if enemyUnitMatrixBackup[col][row] != null:
-				if enemyUnitMatrix[col][row] == null:
+				if enemyUnitMatrix[col+ enemyOffset][row] == null:
 					enemyUnitMatrixBackup[col][row].currentHealthPoints = 0
 				else:
-					enemyUnitMatrixBackup[col][row].currentHealthPoints = enemyUnitMatrix[col][row].currentHealthPoints
+					enemyUnitMatrixBackup[col][row].currentHealthPoints = enemyUnitMatrix[col+ enemyOffset][row].currentHealthPoints
 	
 	# assign backup to unit matrix
 	enemyUnitMatrix = enemyUnitMatrixBackup
@@ -706,6 +729,8 @@ static func ProcessUnitMatrix(unitMatrix, doStuff: Callable):
 
 # swap attack and defense based on battle result
 static func BattleResultProcess(attackerVictory: bool):
+	GameManager.ImportUnitMatrixBackup()
+	
 	if attackerVictory:
 		if playerAttacking:
 			# capture territory

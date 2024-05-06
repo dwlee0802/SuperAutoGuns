@@ -214,7 +214,7 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 				slot.add_child(newCard)
 				newCard.reparent(slot)
 				newCard.SetUnit(rightUnitMatrix[col][row])
-
+	
 					
 # returns the state of the unit matrix
 # start from the right most column
