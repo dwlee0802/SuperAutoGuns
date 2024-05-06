@@ -25,6 +25,17 @@ func _ready():
 	$ControlButtons/SwapButton.pressed.connect(HideControlButtons)
 	$ControlButtons/MergeButton.pressed.connect(HideControlButtons)
 	
+	# dropped unit into reserve container
+	# export reserve
+	$Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve/HBoxContainer.dropped.connect(DroppedIntoReserve)
+	
+
+func DroppedIntoReserve():
+	if GameManager.isPlayerTurn:
+		GameManager.playerReserves = ExportReserve()
+	else:
+		GameManager.enemyReserves = ExportReserve()
+		
 	
 # makes a grid with specified width and height slots
 func GenerateGrid(colCount: int, rowCount: int):

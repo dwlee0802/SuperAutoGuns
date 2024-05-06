@@ -765,6 +765,9 @@ static func BattleResultProcess(attackerVictory: bool):
 func CommitButtonPressed():
 	if !playerAttacking:
 		if isPlayerTurn:
+			# save reserve
+			playerReserves = userInterface.ExportReserve()
+			
 			# start enemy offense turn
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
@@ -776,6 +779,9 @@ func CommitButtonPressed():
 			userInterface.SetSlotAvailability(0, matrixWidth)
 			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		else:
+			# save reserve
+			enemyReserves = userInterface.ExportReserve()
+			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			userInterface.SetSlotAvailability(0, matrixWidth)
