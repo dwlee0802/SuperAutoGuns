@@ -401,3 +401,16 @@ func SetMiddleColumnColor(attackingTurn):
 		# set blue
 		for slot in midCol.get_children():
 			slot.get_node("TextureRect").self_modulate = middleColor
+			
+
+# looks for the unit card with unit set to input
+# might need optimization later on
+func FindUnitCard(unit: Unit):
+	for column in unitMatrix.get_children():
+		for slot in column.get_children():
+			var unitCard = slot.get_child(-1)
+			if unitCard is UnitCard:
+				if unitCard.unit == unit:
+					return unitCard
+	
+	return null

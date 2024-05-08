@@ -3,7 +3,7 @@ class_name UnitCard
 
 var unit: Unit
 
-@onready var attackLine: Line2D = $AttackLine
+static var attackLineScene = load("res://Scenes/attack_line_effect.tscn")
 
 var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 
@@ -167,20 +167,23 @@ func UpdateCombatStatsLabel():
 	
 	
 func UpdateAttackLine(isFlanking: bool = false):
-	var target = null
-	#if unit.isPlayer:
-		#target = GameManager.enemyEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
-	#else:
-		#target = GameManager.playerEditor.GetUnitCardAt(unit.attackTargetCoord.x, unit.attackTargetCoord.y)
+	var attackLineColor = Color.RED
+	if isFlanking:
+		attackLineColor = Color.DARK_GOLDENROD
+		
+	var target = GameManager.userInterface.FindUnitCard(unit.attackTarget)
 	
 	if target == null:
 		return
 		
-	$AttackLine.set_point_position(1, target.global_position - global_position + Vector2(32,32))
-	$AttackLine.get_node("AnimationPlayer").play("attack_animation")
+	var newLineEffect = UnitCard.attackLineScene.instantiate()
+	newLineEffect.SetValues(
+		global_position + Vector2(32,32), 
+		target.global_position + Vector2(32,32),
+		attackLineColor
+		)
 	
-	if isFlanking:
-		$AttackLine.default_color = Color.DARK_GOLDENROD
+	get_tree().root.add_child(newLineEffect)
 
 
 # calls target unit's hit received animations
