@@ -418,7 +418,8 @@ static func UnitBehaviorProcess(unitMatrix):
 			# check movement
 			if unitMatrix[col][row] != null:
 				# dont move if: is front column or front slot is occupied
-				if col == 0 or unitMatrix[col - 1][row] != null:
+				# row based movement. cound down movement cycles left also if front unit is moving
+				if col == 0 or (unitMatrix[col - 1][row] != null and !unitMatrix[col - 1][row].IsMoving()):
 					# reset movement cost
 					unitMatrix[col][row].movementCyclesLeft = unitMatrix[col][row].data.movementCost
 					
@@ -435,7 +436,7 @@ static func UnitBehaviorProcess(unitMatrix):
 					else:
 						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
 				# can move
-				else:
+				elif unitMatrix[col - 1][row] == null or (unitMatrix[col - 1][row] != null and unitMatrix[col - 1][row].IsMoving()):
 					unitMatrix[col][row].movementCyclesLeft -= 1
 					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
 	
@@ -469,13 +470,14 @@ static func ResetModifierArray(unitMatrix):
 			if currentUnit != null:
 				currentUnit.ResetStatModifiers()
 			
-			
+
+# process from the front lines
 static func ApplyUnitMovement(unitMatrix):
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
 			if unitMatrix[col][row] != null:
 				if unitMatrix[col][row].movementCyclesLeft < 0:
-					# make sure
+					# make sure front slot is empty
 					if col != 0 and unitMatrix[col - 1][row] == null:
 						# move forward
 						unitMatrix[col][row].coords -= Vector2.RIGHT

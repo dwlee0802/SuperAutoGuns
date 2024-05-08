@@ -275,3 +275,7 @@ func DisconnectAbilityRelatedSignalConnections(target: Unit):
 
 func IsFullHealth() -> bool:
 	return currentHealthPoints == data.maxHealthPoints * stackCount
+
+
+func IsMoving() -> bool:
+	return movementCyclesLeft < data.movementCost

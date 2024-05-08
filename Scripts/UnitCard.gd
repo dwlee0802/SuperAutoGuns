@@ -25,7 +25,7 @@ signal merged
 static func _static_init():
 	deathEffect = load("res://Scenes/death_effect.tscn")
 	
-
+	
 func SetUnit(_unit: Unit):
 	unit = _unit
 	
@@ -139,12 +139,15 @@ func HitAnimation(amount):
 func UpdateMovementLabel():
 	var label = $TextureRect/MovementLabel
 	label.text = "Movement: " + str(unit.movementCyclesLeft + 1)
-	if unit.movementCyclesLeft == unit.data.movementCost or unit.movementCyclesLeft == -1:
+	if unit.movementCyclesLeft == unit.data.movementCost:
 		label.visible = false
 	else:
 		label.visible = true
+		if unit.movementCyclesLeft < 0:
+			label.text = "Ready"
+			label.text += "(" + str(unit.movementCyclesLeft + 1) + ")"
+			
 	
-
 func UpdateAttackLabel():
 	var label = $TextureRect/AttackLabel
 	label.text = "Attack in: " + str(unit.attackCyclesLeft + 1)
