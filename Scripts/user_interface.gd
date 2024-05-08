@@ -63,7 +63,10 @@ func GenerateGrid(colCount: int, rowCount: int):
 	
 	
 		
-func SetFundsLabel(isPlayerTurn: bool):
+func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
+	print(isPlayerTurn)
+	print("player: " + str(GameManager.playerFunds))
+	print("enemy: " + str(GameManager.enemyFunds))
 	if isPlayerTurn:
 		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(GameManager.playerFunds)
 	else:
@@ -300,7 +303,6 @@ func HealButtonPressed(unitCard = UnitCard.selected):
 	if unitCard.unit.isPlayer:
 		if GameManager.playerFunds >= amount:
 			GameManager.ChangeFunds(-amount)
-			SetFundsLabel(GameManager.playerFunds)
 			unitCard.unit.RatioHeal(1)
 			unitCard.UpdateHealthLabel(0)
 		else:
@@ -308,12 +310,13 @@ func HealButtonPressed(unitCard = UnitCard.selected):
 	else:
 		if GameManager.enemyFunds >= amount:
 			GameManager.ChangeFunds(-amount, false)
-			SetFundsLabel(GameManager.enemyFunds)
 			unitCard.unit.RatioHeal(1)
 			unitCard.UpdateHealthLabel(0)
 		else:
 			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
 
+	SetFundsLabel()
+		
 
 func SellButtonPressed(unitCard = UnitCard.selected):
 	if unitCard == null:
@@ -332,10 +335,7 @@ func SellButtonPressed(unitCard = UnitCard.selected):
 		
 		GameManager.ChangeFunds(refundAmount, isPlayer)
 		
-		if isPlayer:
-			SetFundsLabel(GameManager.playerFunds)
-		else:
-			SetFundsLabel(GameManager.enemyFunds)
+		SetFundsLabel(isPlayer)
 			
 		print("Sold unit. " + str(refundAmount) + " refunded.\n")
 		
