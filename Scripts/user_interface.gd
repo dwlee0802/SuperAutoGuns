@@ -29,6 +29,8 @@ func _ready():
 	# export reserve
 	$Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve/HBoxContainer.dropped.connect(DroppedIntoReserve)
 	
+	$Root/BottomScreen/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(GameManager.isPlayerTurn, GameManager.reinforcementCount))
+	
 
 func DroppedIntoReserve():
 	if GameManager.isPlayerTurn:
