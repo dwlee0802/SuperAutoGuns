@@ -5,15 +5,16 @@
 [resource]
 script = ExtResource("1_y52ge")
 name = "Ranged"
+description = ""
 disabled = false
 type = 2
 purchaseCost = 3
 color = Color(0.270588, 0.729412, 0.654902, 1)
 maxHealthPoints = 6
 movementCost = 5
-attackCost = 5
-attackRange = 2
+attackCost = 4
+attackRange = 3
 attackDamage = 4
-flankingAttackModifier = -1.0
+flankingAttackModifier = 0.0
 defense = 0
 flankingDefenseModifier = 0.0

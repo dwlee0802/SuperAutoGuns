@@ -1,7 +1,10 @@
 extends Resource
 class_name UnitData
 
+@export_group("Unit Info")
 @export var name: String = "Null"
+
+@export_multiline var description: String = ""
 
 @export var disabled: bool = false
 

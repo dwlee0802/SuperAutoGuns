@@ -9,6 +9,7 @@ var unitMatrix
 var reserve
 var editor
 
+
 func InitializeUnitPriorityList():
 	unitsByPriority = []
 	for i in range(Enums.unitTypeCount):
