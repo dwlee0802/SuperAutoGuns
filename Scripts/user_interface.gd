@@ -135,6 +135,9 @@ func OnCardMerged():
 # populate reinforcement option buttons
 func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enums.Nation = Enums.Nation.Generic):
 	# clear children
+	isPlayer = GameManager.isPlayerTurn
+	
+	print("isplayer: " + str(isPlayer))
 	var reinforcementContainer = $Root/BottomScreen/Reinforcement/HBoxContainer
 	var children = reinforcementContainer.get_children()
 	for item in children:

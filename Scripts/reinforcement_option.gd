@@ -15,6 +15,7 @@ func SetData(data: UnitData):
 # add to reserve
 # update UI
 func _pressed():
+	print("rein op")
 	PurchseUnit()
 
 
