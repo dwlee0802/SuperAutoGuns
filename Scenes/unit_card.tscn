@@ -206,6 +206,11 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_oy87j")
 
+[node name="BehaviorIndicator" type="TextureRect" parent="TextureRect"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="AttackAnimaitonPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_hohpx")
@@ -258,7 +263,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="RadialUI" type="Control" parent="RadialUI"]
-visible = false
 layout_mode = 1
 anchor_left = 0.5
 anchor_top = 0.5
@@ -273,4 +277,23 @@ radius = 15.0
 progress = 100.0
 thickness = 10.0
 bar_color = Color(0.501961, 0.501961, 0.501961, 1)
-ring = true
+
+[node name="Label" type="Label" parent="RadialUI/RadialUI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -0.5
+offset_top = -11.5
+offset_right = 0.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 19
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

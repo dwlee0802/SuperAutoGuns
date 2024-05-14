@@ -17,6 +17,8 @@ static var deathEffect
 
 @onready var radialUI: RadialProgress = $RadialUI/RadialUI
 
+@onready var radialLabel: Label = $RadialUI/RadialUI/Label
+
 signal clicked
 
 signal was_right_clicked(clicked_thing)
@@ -181,6 +183,12 @@ func UpdateRadialUI(first: bool = false):
 			ratio = 1 - (unit.movementCyclesLeft + 2) / float(unit.data.movementCost)
 		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.data.movementCost)
 		radialUI.visible = true
+		
+		# update label
+		if unit.movementCyclesLeft + 1 <= 0:
+			radialLabel.text = "0"
+		else:
+			radialLabel.text = str(unit.movementCyclesLeft + 1)
 	
 	elif unit.attackCyclesLeft < unit.data.attackCost:
 		radialUI.bar_color = Color.RED
@@ -189,6 +197,12 @@ func UpdateRadialUI(first: bool = false):
 			ratio = 1 - (unit.attackCyclesLeft + 2) / float(unit.data.attackCost)
 		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.data.attackCost)
 		radialUI.visible = true
+		
+		# update label
+		if unit.attackCyclesLeft + 1 <= 0:
+			radialLabel.text = "0"
+		else:
+			radialLabel.text = str(unit.attackCyclesLeft + 1)
 	else:
 		radialUI.visible = false
 	
