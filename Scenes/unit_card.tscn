@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dckjus8x2dn7h"]
+[gd_scene load_steps=9 format=3 uid="uid://dckjus8x2dn7h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
+[ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="3_ogvuv"]
 
 [sub_resource type="Animation" id="Animation_bjrsn"]
 length = 0.001
@@ -147,12 +148,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 9
 text = "HP: 100"
 horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="MovementLabel" type="Label" parent="TextureRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -166,6 +168,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AttackLabel" type="Label" parent="TextureRect"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -227,18 +230,47 @@ texture = ExtResource("1_oy87j")
 expand_mode = 1
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -32.0
-offset_top = 34.0
+offset_top = -15.0
 offset_right = 32.0
-offset_bottom = 57.0
+offset_bottom = 8.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 8
 text = "asdf"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="RadialUI" type="Control" parent="."]
+modulate = Color(1, 1, 1, 0.658824)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="RadialUI" type="Control" parent="RadialUI"]
+visible = false
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_top = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_ogvuv")
+radius = 15.0
+progress = 100.0
+thickness = 10.0
+bar_color = Color(0.501961, 0.501961, 0.501961, 1)
+ring = true

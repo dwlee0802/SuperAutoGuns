@@ -15,6 +15,8 @@ static var selected: UnitCard
 
 static var deathEffect
 
+@onready var radialUI: RadialProgress = $RadialUI/RadialUI
+
 signal clicked
 
 signal was_right_clicked(clicked_thing)
@@ -51,6 +53,8 @@ func SetUnit(_unit: Unit):
 	unit.received_hit.connect(HitAnimation)
 	
 	unit.unit_died.connect(UnitDied)
+	
+	UpdateRadialUI(true)
 	
 	# determine if attacking this cycle
 	if unit.attackCyclesLeft < 0:
@@ -142,7 +146,7 @@ func UpdateMovementLabel():
 	if unit.movementCyclesLeft == unit.data.movementCost:
 		label.visible = false
 	else:
-		label.visible = true
+		#label.visible = true
 		if unit.movementCyclesLeft < 0:
 			label.text = "Ready"
 			label.text += "(" + str(unit.movementCyclesLeft + 1) + ")"
@@ -153,10 +157,49 @@ func UpdateAttackLabel():
 	label.text = "Attack in: " + str(unit.attackCyclesLeft + 1)
 	if unit.attackCyclesLeft == unit.data.attackCost or unit.attackCyclesLeft == -1:
 		label.visible = false
-	else:
-		label.visible = true
+	#else:
+		#label.visible = true
 	
 
+func _process(_delta):
+	UpdateRadialUI()
+	
+	
+func UpdateRadialUI(first: bool = false):
+	if radialUI == null:
+		return
+		
+	radialUI.visible = true
+	
+	# how much is finished in the process
+	var ratio : float = 0
+	
+	if unit.movementCyclesLeft < unit.data.movementCost:
+		radialUI.bar_color = Color.SKY_BLUE
+		ratio = 1 - (unit.movementCyclesLeft + 1) / float(unit.data.movementCost)
+		if first:
+			ratio = 1 - (unit.movementCyclesLeft + 2) / float(unit.data.movementCost)
+		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.data.movementCost)
+		radialUI.visible = true
+	
+	elif unit.attackCyclesLeft < unit.data.attackCost:
+		radialUI.bar_color = Color.RED
+		ratio = 1 - (unit.attackCyclesLeft + 1) / float(unit.data.attackCost)
+		if first:
+			ratio = 1 - (unit.attackCyclesLeft + 2) / float(unit.data.attackCost)
+		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.data.attackCost)
+		radialUI.visible = true
+	else:
+		radialUI.visible = false
+	
+	if ratio < 0:
+		ratio = 0
+	if ratio > 1:
+		ratio = 1
+		
+	radialUI.progress = 100 * ratio
+		
+	
 func UpdateCombatStatsLabel():
 	var label = $TextureRect/CombatStats
 	var text = "A: {atk} D: {dfs}"

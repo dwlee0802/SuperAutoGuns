@@ -599,7 +599,7 @@ static func FindAttackTarget(attacker: Unit) -> Unit:
 	
 	return null
 	
-	
+
 static func AddReserveUnit(data: UnitData, isPlayer: bool):
 	var newUnit = Unit.new(isPlayer, data, null)
 	if isPlayer:
