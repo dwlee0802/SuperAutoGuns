@@ -31,6 +31,10 @@ window/size/viewport_height=900
 
 movie_writer/movie_file="/Users/CKIRUser/Videos/sdafasd"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/radial_progress/plugin.cfg")
+
 [input]
 
 left_click={

@@ -173,7 +173,7 @@ func _on_cycle_timer_timeout():
 	else:
 		if cycleTimer.is_stopped():
 			# should wait til animations are done
-			cycleTimer.start(GameManager.cycleTime)
+			cycleTimer.start(BattleSpeedUI.cycleSpeed)
 			
 	GameManager.UpdateEffectiveDamageUI()
 	
@@ -240,7 +240,7 @@ func _on_battle_process_button_pressed():
 	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
 	print("Battle #" + str(GameManager.battleCount))
 	if cycleTimer.is_stopped():
-		cycleTimer.start(0)
+		cycleTimer.start(BattleSpeedUI.cycleSpeed)
 		userInterface.SetSlotColor(true, playerAttacking)
 	
 
