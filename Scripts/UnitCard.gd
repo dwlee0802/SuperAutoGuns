@@ -33,14 +33,16 @@ static func _static_init():
 func SetUnit(_unit: Unit):
 	unit = _unit
 	
-	$TextureRect.self_modulate = unit.data.color
+	$TextureRect/Sprite.self_modulate = unit.data.color
 	
 	# update info ui for this unit
 	
 	if unit.isPlayer:
-		$TextureRect/Name.text = "(P)" + unit.data.name + str(unit.stackCount)
+		$TextureRect/Sprite/Name.text = "(P)" + unit.data.name + str(unit.stackCount)
+		$TextureRect.self_modulate = GameManager.playerColor
 	else:
-		$TextureRect/Name.text = "(E)" + unit.data.name + str(unit.stackCount)
+		$TextureRect/Sprite/Name.text = "(E)" + unit.data.name + str(unit.stackCount)
+		$TextureRect.self_modulate = GameManager.enemyColor
 		
 	UpdateHealthLabel(0)
 	UpdateMovementLabel()
@@ -119,13 +121,13 @@ func _drop_data(_at_position, data):
 	
 	
 func UpdateHealthLabel(_num = 0):
-	$TextureRect/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints * unit.stackCount)
+	$TextureRect/Sprite/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints * unit.stackCount)
 	UpdateHealthIndicator()
 	
 
 func UpdateHealthIndicator():
 	var currentHealthRatio: float = float(unit.currentHealthPoints) / (unit.data.maxHealthPoints * unit.stackCount)
-	$HealthIndicator.anchor_bottom = 1 - currentHealthRatio
+	$TextureRect/Sprite/HealthIndicator.anchor_bottom = 1 - currentHealthRatio
 	
 
 # plays when unit received damage
@@ -215,12 +217,11 @@ func UpdateRadialUI(first: bool = false):
 		
 	
 func UpdateCombatStatsLabel():
-	var label = $TextureRect/CombatStats
-	var text = "A: {atk} D: {dfs}"
+	var label = $TextureRect/Sprite/CombatStats/AttackLabel
+	var text = "ATK: {atk}"
 	var atk = unit.GetAttackDamage()
-	var dfs = unit.GetDefense()
 	
-	label.text = text.format({"atk": atk, "dfs": dfs})
+	label.text = text.format({"atk": atk})
 	
 	
 func UpdateAttackLine(isFlanking: bool = false):

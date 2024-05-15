@@ -83,12 +83,21 @@ static var isPlayerTurn: bool = false
 
 static var initiativeUI
 
+static var playerColor: Color
+static var enemyColor: Color
+
+@export var playerColorOverride: Color = Color.ROYAL_BLUE
+@export var enemyColorOverride: Color = Color.DARK_RED
+
 
 static func _static_init():
 	InitializeMatrix()
 
 
 func _ready():
+	GameManager.playerColor = playerColorOverride
+	GameManager.enemyColor = enemyColorOverride
+	
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
 	effectiveDamageUI = $EffectiveDamageUI
@@ -686,7 +695,7 @@ static func AddIncome(toPlayer: bool):
 		else:
 			GameManager.enemyFunds += amount
 	
-	userInterface.SetFundsLabel(toPlayer, amount)
+	userInterface.SetFundsLabel(toPlayer)
 	userInterface.SetLastIncomeLabel(amount)
 
 
@@ -790,7 +799,7 @@ func CommitButtonPressed():
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			AddIncome(isPlayerTurn)
+			GameManager.AddIncome(isPlayerTurn)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
 			
@@ -815,7 +824,7 @@ func CommitButtonPressed():
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			AddIncome(isPlayerTurn)
+			GameManager.AddIncome(isPlayerTurn)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
 			userInterface.ImportReserve(playerReserves)
 			

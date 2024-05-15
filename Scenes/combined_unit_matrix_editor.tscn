@@ -49,6 +49,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 10
 
 [node name="BattleProcessSpeedUI" type="HBoxContainer" parent="."]
 layout_mode = 1
