@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_qersc")
 name = "Frontal"
+description = ""
 disabled = false
 type = 0
 purchaseCost = 3

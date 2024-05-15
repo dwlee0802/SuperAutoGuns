@@ -5,6 +5,7 @@
 [resource]
 script = ExtResource("1_ib2lb")
 name = "Flank"
+description = ""
 disabled = false
 type = 0
 purchaseCost = 3
@@ -14,6 +15,6 @@ movementCost = 2
 attackCost = 3
 attackRange = 1
 attackDamage = 2
-flankingAttackModifier = 1.0
+flankingAttackModifier = 2.0
 defense = 0
 flankingDefenseModifier = 0.0
