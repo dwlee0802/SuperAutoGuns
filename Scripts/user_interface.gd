@@ -289,12 +289,14 @@ func SetTurnLabel(isPlayerTurn):
 			label.text += " - Offensive"
 		else:
 			label.text += " - Defensive."
+		label.self_modulate = GameManager.playerColor
 	else:
 		label.text = "Enemy's Turn"
 		if !GameManager.playerAttacking:
 			label.text += " - Offensive"
 		else:
 			label.text += " - Defensive."
+		label.self_modulate = GameManager.enemyColor
 
 
 func HealButtonPressed(unitCard = UnitCard.selected):
