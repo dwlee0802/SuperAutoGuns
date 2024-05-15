@@ -63,9 +63,8 @@ func GenerateGrid(colCount: int, rowCount: int):
 		unitMatrix.add_child(newCol)
 		newCol.reparent(unitMatrix)
 	
-	
 		
-func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
+func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn, change: int = 0):
 	print(isPlayerTurn)
 	print("player: " + str(GameManager.playerFunds))
 	print("enemy: " + str(GameManager.enemyFunds))
@@ -74,6 +73,11 @@ func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
 	else:
 		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(GameManager.enemyFunds)
 
+
+func SetLastIncomeLabel(amount):
+	var label = $Root/MiddleScreen/MidLeftScreen/FundsLabel/LastIncomeLabel
+	label.text =  "(" + str(amount) + ")"
+	
 
 func ImportReserve(reserveUnits):
 	print("import reserve")

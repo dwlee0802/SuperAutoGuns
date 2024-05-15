@@ -102,8 +102,7 @@ func _ready():
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
-	GameManager.AddIncome()
-	userInterface.SetFundsLabel(GameManager.isPlayerTurn)
+	GameManager.AddIncome(isPlayerTurn)
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	
@@ -159,7 +158,7 @@ func _on_cycle_timer_timeout():
 		userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		
 		cycleCount = 0
-		GameManager.AddIncome()		
+		GameManager.AddIncome(isPlayerTurn)		
 		
 		# update battle result
 		var resultLabel = $BattleResultLabel
@@ -665,14 +664,30 @@ static func ResetFunds():
 	enemyFunds = 0
 	
 	
-static func AddIncome():
+static func AddIncome(toPlayer: bool):
 	var _playerDist = playerCapturedSectorsCount
 	var _enemyDist = totalSectorsCount - playerCapturedSectorsCount
 	
-	playerFunds += baseIncomeAmount
-	enemyFunds += baseIncomeAmount
+	var bonusAmount = 0.05 * abs(_playerDist - _enemyDist)
+	# bonus is capped at 25 percent
+	bonusAmount = min(bonusAmount, 0.25)
 	
-	userInterface.SetFundsLabel(isPlayerTurn)
+	var amount: int = baseIncomeAmount + battleCount
+	
+	if _playerDist < _enemyDist and toPlayer:
+		amount *= 1 + bonusAmount
+		GameManager.playerFunds += amount
+	if _playerDist > _enemyDist and !toPlayer:
+		amount *= 1 + bonusAmount
+		GameManager.enemyFunds += amount
+	else:
+		if toPlayer:
+			GameManager.playerFunds += amount
+		else:
+			GameManager.enemyFunds += amount
+	
+	userInterface.SetFundsLabel(toPlayer, amount)
+	userInterface.SetLastIncomeLabel(amount)
 
 
 static func ChangeFunds(amount, isPlayer: bool = true):
@@ -775,6 +790,7 @@ func CommitButtonPressed():
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+			AddIncome(isPlayerTurn)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
 			
@@ -799,6 +815,7 @@ func CommitButtonPressed():
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+			AddIncome(isPlayerTurn)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
 			userInterface.ImportReserve(playerReserves)
 			
@@ -815,7 +832,6 @@ func CommitButtonPressed():
 			_on_battle_process_button_pressed()
 	
 	userInterface.SetTurnLabel(isPlayerTurn)
-	userInterface.SetFundsLabel(isPlayerTurn)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 
 
