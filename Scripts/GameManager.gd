@@ -151,7 +151,6 @@ func _on_cycle_timer_timeout():
 	if GameManager.CycleProcess():
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
-		#GameManager.ImportUnitMatrixBackup()
 		
 		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
 		GameManager.HealUnits()
@@ -210,6 +209,14 @@ func _on_battle_process_button_pressed():
 				playerUnitMatrixBackup[col][row] = playerUnitMatrixBackup[col][row].Duplicate()
 			if enemyUnitMatrixBackup[col][row] != null:
 				enemyUnitMatrixBackup[col][row] = enemyUnitMatrixBackup[col][row].Duplicate()
+	
+	# save initial coords inside unit matrix
+	var SaveInitialCoords = func(unit):
+		if unit is Unit:
+			unit.SaveCoords()
+		
+	GameManager.ProcessUnitMatrix(playerUnitMatrix, SaveInitialCoords)
+	GameManager.ProcessUnitMatrix(enemyUnitMatrix, SaveInitialCoords)
 	
 	# process static abilities
 	print("***Starting Static Ability Process***\n")
@@ -280,19 +287,28 @@ static func ImportUnitMatrixBackup():
 	
 	# update healths
 	# look through current unit matrix and move their health to new unit matrix
-	for col in range(matrixWidth):
-		for row in range(matrixHeight):
-			if playerUnitMatrixBackup[col][row] != null:
-				# the unit was routed last battle
-				if playerUnitMatrix[col + playerOffset][row] == null:
-					playerUnitMatrixBackup[col][row].currentHealthPoints = 0
-				else:
-					playerUnitMatrixBackup[col][row].currentHealthPoints = playerUnitMatrix[col+ playerOffset][row].currentHealthPoints
-			if enemyUnitMatrixBackup[col][row] != null:
-				if enemyUnitMatrix[col+ enemyOffset][row] == null:
-					enemyUnitMatrixBackup[col][row].currentHealthPoints = 0
-				else:
-					enemyUnitMatrixBackup[col][row].currentHealthPoints = enemyUnitMatrix[col+ enemyOffset][row].currentHealthPoints
+	var leftPlayerUnits = GameManager.GetUnitsInMatrix(playerUnitMatrix)
+	var leftEnemyUnits = GameManager.GetUnitsInMatrix(enemyUnitMatrix)
+	
+	print("left player count: " + str(leftPlayerUnits.size()))
+	print("left enemy count: " + str(leftEnemyUnits.size()))
+	
+	# reset last received damage amount to zero
+	var SetHealthToZero = func(unit):
+		if unit is Unit:
+			unit.currentHealthPoints = 0
+		
+	ProcessUnitMatrix(playerUnitMatrixBackup, SetHealthToZero)
+	ProcessUnitMatrix(enemyUnitMatrixBackup, SetHealthToZero)
+	
+	for survivor: Unit in leftPlayerUnits:
+		print("survivor coords: " + str(survivor.initialCoords))
+		if playerUnitMatrixBackup[survivor.initialCoords.x][survivor.initialCoords.y] != null:
+			playerUnitMatrixBackup[survivor.initialCoords.x][survivor.initialCoords.y].currentHealthPoints = survivor.currentHealthPoints
+		
+	for survivor: Unit in leftEnemyUnits:
+		if enemyUnitMatrixBackup[survivor.initialCoords.x][survivor.initialCoords.y] != null:
+			enemyUnitMatrixBackup[survivor.initialCoords.x][survivor.initialCoords.y].currentHealthPoints = survivor.currentHealthPoints
 	
 	# assign backup to unit matrix
 	enemyUnitMatrix = enemyUnitMatrixBackup
@@ -379,7 +395,6 @@ static func CycleProcess():
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
 	else:
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, -1)
-	
 	
 	waitingForAttackAnimaionFinish = true
 	
@@ -858,6 +873,7 @@ func CommitButtonPressed():
 
 
 # assign empty matrix to the yielding side
+# combination of battle_process_button_pressed and cycle end
 func PassButtonPressed():
 	pass
 
@@ -883,3 +899,14 @@ static func EditorCoordsToMatrixCoords(editorCoords: Vector2, includeMiddle: boo
 	if includeMiddle == false:
 		var colCount = matrixWidth * 2 + 1
 		return Vector2(-(editorCoords.x - (int(colCount / 2) - 1)), editorCoords.y)
+
+
+static func GetUnitsInMatrix(matrix):
+	var output = []
+	for col in range(matrix.size()):
+		for row in range(matrix[col].size()):
+			if matrix[col][row] != null:
+				print("added unit")
+				output.append(matrix[col][row])
+	
+	return output

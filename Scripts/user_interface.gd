@@ -69,7 +69,6 @@ func GenerateGrid(colCount: int, rowCount: int):
 	
 		
 func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
-	print(isPlayerTurn)
 	print("player: " + str(GameManager.playerFunds))
 	print("enemy: " + str(GameManager.enemyFunds))
 	if isPlayerTurn:
@@ -145,7 +144,6 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enum
 	# clear children
 	isPlayer = GameManager.isPlayerTurn
 	
-	print("isplayer: " + str(isPlayer))
 	var reinforcementContainer = $Root/BottomScreen/Reinforcement/HBoxContainer
 	var children = reinforcementContainer.get_children()
 	for item in children:

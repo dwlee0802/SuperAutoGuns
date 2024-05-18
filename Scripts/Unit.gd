@@ -1,6 +1,7 @@
 class_name Unit
 
 var coords = null
+var initialCoords = null
 
 var isPlayer: bool
 
@@ -279,3 +280,7 @@ func IsFullHealth() -> bool:
 
 func IsMoving() -> bool:
 	return movementCyclesLeft < data.movementCost
+
+
+func SaveCoords():
+	initialCoords = coords
