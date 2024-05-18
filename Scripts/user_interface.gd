@@ -459,13 +459,17 @@ func UpdateHealButtonLabel():
 	
 	button.disabled = true
 	
+	var funds = GameManager.playerFunds
+	if !GameManager.isPlayerTurn:
+		funds = GameManager.enemyFunds
+	
 	if UnitCard.selected != null:
 		var amount = GameManager.healCostPerStackCount * UnitCard.selected.unit.stackCount
 		var text = "Cost: {num}"
 		label.text = text.format({"num": amount})
-		if UnitCard.selected.unit.currentHealthPoints >= UnitCard.selected.unit.data.maxHealthPoints:
+		if UnitCard.selected.unit.currentHealthPoints >= UnitCard.selected.unit.data.maxHealthPoints * UnitCard.selected.unit.stackCount:
 			label.text = "Full Health"
-		elif amount > GameManager.playerFunds:
+		elif amount > funds:
 			label.text = "Not Enough Funds"
 		else:
 			button.disabled = false

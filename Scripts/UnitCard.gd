@@ -36,14 +36,8 @@ func SetUnit(_unit: Unit):
 	$TextureRect/Sprite.self_modulate = unit.data.color
 	
 	# update info ui for this unit
+	UpdateUnitInfoLabel()
 	
-	if unit.isPlayer:
-		$TextureRect/Sprite/Name.text = "(P)" + unit.data.name + str(unit.stackCount)
-		$TextureRect.self_modulate = GameManager.playerColor
-	else:
-		$TextureRect/Sprite/Name.text = "(E)" + unit.data.name + str(unit.stackCount)
-		$TextureRect.self_modulate = GameManager.enemyColor
-		
 	UpdateHealthLabel(0)
 	UpdateMovementLabel()
 	UpdateAttackLabel()
@@ -130,6 +124,15 @@ func UpdateHealthIndicator():
 	$TextureRect/Sprite/HealthIndicator.anchor_bottom = 1 - currentHealthRatio
 	
 
+func UpdateUnitInfoLabel():
+	if unit.isPlayer:
+		$TextureRect/Sprite/Name.text = "(P)" + unit.data.name + str(unit.stackCount)
+		$TextureRect.self_modulate = GameManager.playerColor
+	else:
+		$TextureRect/Sprite/Name.text = "(E)" + unit.data.name + str(unit.stackCount)
+		$TextureRect.self_modulate = GameManager.enemyColor
+	
+	
 # plays when unit received damage
 # make damage pop up
 # play unit animation
@@ -334,6 +337,7 @@ func _merge_button_pressed():
 		merged.emit()
 		UpdateHealthLabel(0)
 		UpdateCombatStatsLabel()
+		UpdateUnitInfoLabel()
 		
 
 func _swap_button_pressed():
