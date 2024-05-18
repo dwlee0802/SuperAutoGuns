@@ -105,6 +105,7 @@ theme_override_constants/separation = 10
 self_modulate = Color(1, 0.3241, 0.258944, 1)
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
+disabled = true
 shortcut = SubResource("Shortcut_vtbdt")
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
@@ -123,10 +124,24 @@ text = "Heal"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="CostLabel" type="Label" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
 [node name="SellButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]
 self_modulate = Color(0.989797, 1, 0.604981, 1)
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
+disabled = true
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
 
@@ -142,6 +157,18 @@ offset_bottom = 11.5
 grow_vertical = 2
 text = "Sell"
 horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="CostLabel" type="Label" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/SellButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PassButton" type="TextureButton" parent="Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons"]

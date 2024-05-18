@@ -121,8 +121,8 @@ func _InstantiateUnitCard() -> UnitCard:
 	newCard.clicked.connect(HideControlButtons)
 	newCard.merged.connect(HideControlButtons)
 	
-	#newCard.clicked.connect(UpdateHealCost)
-	#newCard.clicked.connect(UpdateSellButton)
+	newCard.clicked.connect(UpdateHealButtonLabel)
+	newCard.clicked.connect(UpdateSellButtonLabel)
 	
 	newCard.merged.connect(OnCardMerged)
 	
@@ -329,6 +329,8 @@ func HealButtonPressed(unitCard = UnitCard.selected):
 			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
 
 	SetFundsLabel()
+	UpdateHealButtonLabel()
+	UpdateSellButtonLabel()
 		
 
 func SellButtonPressed(unitCard = UnitCard.selected):
@@ -346,11 +348,16 @@ func SellButtonPressed(unitCard = UnitCard.selected):
 			GameManager.RemoveUnit(unitCard.unit)
 			unitCard.queue_free()
 		
+		UnitCard.selected = null
+		
 		GameManager.ChangeFunds(refundAmount, isPlayer)
 		
 		SetFundsLabel(isPlayer)
 			
 		print("Sold unit. " + str(refundAmount) + " refunded.\n")
+	
+	UpdateSellButtonLabel()
+	UpdateHealButtonLabel()
 		
 		
 func SetSlotAvailability(_startIndex: int = 0, endIndex: int = 2):
@@ -445,3 +452,36 @@ func SetAttackDirectionUI(toLeft: bool):
 	else:
 		animPlayer.play("attack_right_arrow_animation")
 		
+		
+func UpdateHealButtonLabel():
+	var button = $Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton
+	var label = button.get_node("CostLabel")
+	
+	button.disabled = true
+	
+	if UnitCard.selected != null:
+		var amount = GameManager.healCostPerStackCount * UnitCard.selected.unit.stackCount
+		var text = "Cost: {num}"
+		label.text = text.format({"num": amount})
+		if UnitCard.selected.unit.currentHealthPoints >= UnitCard.selected.unit.data.maxHealthPoints:
+			label.text = "Full Health"
+		elif amount > GameManager.playerFunds:
+			label.text = "Not Enough Funds"
+		else:
+			button.disabled = false
+	else:
+		label.text = ""
+		
+
+func UpdateSellButtonLabel():
+	var button = $Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/SellButton
+	var label = $Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/SellButton/CostLabel
+	button.disabled = true
+	
+	if UnitCard.selected != null:
+		var amount = UnitCard.selected.unit.data.purchaseCost * UnitCard.selected.unit.stackCount / 2
+		var text = "Income: {num}"
+		label.text = text.format({"num": amount})
+		button.disabled = false
+	else:
+		label.text = ""

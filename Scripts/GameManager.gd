@@ -251,10 +251,9 @@ func _on_battle_process_button_pressed():
 	enemyUnitMatrix = newEnemyUnitMatrix
 	
 	## TODO: update UI
-	#if playerAttacking:
-		#userInterface.SetSlotAvailability(0, matrixWidth + 1)
-	#else:
-		#userInterface.SetSlotAvailability(0, matrixWidth)
+	UnitCard.selected = null
+	userInterface.UpdateHealButtonLabel()
+	userInterface.UpdateSellButtonLabel()
 		
 	# process first cycle
 	print("***Starting Battle Process***\n")
@@ -268,14 +267,7 @@ func _on_battle_process_button_pressed():
 
 static func ImportUnitMatrixBackup():
 	print("player attacking: " + str(playerAttacking))
-	# remove the extra column in front of the attacker
-	var playerOffset = 0
-	var enemyOffset = 0
-	if !playerAttacking:
-		enemyOffset += 1
-	if playerAttacking:
-		playerOffset += 1
-		
+	
 	print("backup")
 	PrintUnitMatrix(playerUnitMatrixBackup)
 	print("player unit")
@@ -811,6 +803,10 @@ static func BattleResultProcess(attackerVictory: bool):
 
 
 func CommitButtonPressed():
+	UnitCard.selected = null
+	userInterface.UpdateHealButtonLabel()
+	userInterface.UpdateSellButtonLabel()
+	
 	if !playerAttacking:
 		if isPlayerTurn:
 			# save reserve
