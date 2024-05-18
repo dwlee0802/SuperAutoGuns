@@ -9,6 +9,7 @@ var unitData: UnitData
 func SetData(data: UnitData):
 	unitData = data
 	$Label.text = unitData.name
+	$Label.text += "\n Cost: " + str(unitData.purchaseCost)
 	self_modulate = unitData.color
 
 
