@@ -114,11 +114,15 @@ func _ready():
 	GameManager.AddIncome(isPlayerTurn)
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
+	# defender always go first set attack dir ui to left
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	
 	# link commit button
 	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton").pressed.connect(CommitButtonPressed)
+	
+	# link pass button
+	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
 	
 	#enemyAI = EnemyAI_Randomizer.new()
 	#enemyAI.editor = enemyEditor
@@ -153,6 +157,9 @@ func _on_cycle_timer_timeout():
 		GameManager.HealUnits()
 		
 		# defending player goes first
+		# set attack dir ui to left
+		userInterface.SetAttackDirectionUI(true)
+		
 		if !playerAttacking:
 			isPlayerTurn = true
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
@@ -795,6 +802,9 @@ func CommitButtonPressed():
 			playerReserves = userInterface.ExportReserve()
 			
 			# start enemy offense turn
+			# set attack dir to right
+			userInterface.SetAttackDirectionUI(false)
+			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
@@ -820,6 +830,9 @@ func CommitButtonPressed():
 	else:
 		if !isPlayerTurn:
 			# start player offense turn
+			# set attack dir ui to right
+			userInterface.SetAttackDirectionUI(false)
+			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			isPlayerTurn = true
@@ -842,6 +855,11 @@ func CommitButtonPressed():
 	
 	userInterface.SetTurnLabel(isPlayerTurn)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+
+
+# assign empty matrix to the yielding side
+func PassButtonPressed():
+	pass
 
 
 static func PrintUnitMatrix(unitMatrix):

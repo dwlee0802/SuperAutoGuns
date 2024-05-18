@@ -31,6 +31,9 @@ func _ready():
 	
 	$Root/BottomScreen/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(GameManager.isPlayerTurn, GameManager.reinforcementCount))
 	
+	# defender goes first set attack dir ui to left
+	SetAttackDirectionUI(true)
+	
 
 func DroppedIntoReserve():
 	if GameManager.isPlayerTurn:
@@ -435,3 +438,12 @@ func FindUnitCard(unit: Unit):
 					return unitCard
 	
 	return null
+
+
+func SetAttackDirectionUI(toLeft: bool):
+	var animPlayer: AnimationPlayer = $Root/MiddleScreen/CombinedUnitMatrixEditor/UnitMatrix/AttackDirectionUI/AnimationPlayer
+	if toLeft:
+		animPlayer.play("attack_left_arrow_animation")
+	else:
+		animPlayer.play("attack_right_arrow_animation")
+		
