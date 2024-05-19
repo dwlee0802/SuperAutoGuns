@@ -108,3 +108,41 @@ func ChooseReinforcementOption():
 	for item: ReinforcementOptionButton in options:
 		if !item.PurchseUnit():
 			return
+
+
+# TODO need to account for flanking
+# flanking stats should be saved to separate variable
+# calculate the effect of flanking.
+static func CalculateCTK(attackerMatrix, defenderMatrix):
+	var totalCTK = 0
+	
+	for row in range(attackerMatrix[0].size()):
+		var totalHP: float = 0
+		var totalDPC: float = 0
+		for col in range(attackerMatrix.size()):
+			if defenderMatrix[col][row] != null:
+				totalHP += defenderMatrix[col][row].currentHealthPoints
+			if attackerMatrix[col][row] != null:
+				totalDPC += attackerMatrix[col][row].GetDPC()
+		
+		if totalDPC != 0 and totalHP != 0:
+			totalCTK += totalHP / totalDPC
+	
+	return totalCTK
+
+
+static func CalculateWholeCTK(attackerMatrix, defenderMatrix):
+	var totalHP: float = 0
+	var totalDPC: float = 0
+	
+	for row in range(attackerMatrix[0].size()):
+		for col in range(attackerMatrix.size()):
+			if defenderMatrix[col][row] != null:
+				totalHP += defenderMatrix[col][row].currentHealthPoints
+			if attackerMatrix[col][row] != null:
+				totalDPC += attackerMatrix[col][row].GetDPC()
+	
+	if totalDPC != 0:
+		return totalHP / totalDPC
+	else:
+		return 10000

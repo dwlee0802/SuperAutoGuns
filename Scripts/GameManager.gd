@@ -136,6 +136,8 @@ func _ready():
 	
 
 func _process(_delta):
+	UpdateCTKLabel()
+	
 	if waitingForAttackAnimaionFinish:
 		if GameManager.playerAttackingUnitsCount == 0 and GameManager.enemyAttackingUnitsCount == 0:
 			# all units finished attack animations
@@ -190,6 +192,7 @@ func _on_cycle_timer_timeout():
 			cycleTimer.start(BattleSpeedUI.cycleSpeed)
 			
 	GameManager.UpdateEffectiveDamageUI()
+	UpdateCTKLabel()
 	
 
 # called when player ends preparation phase and presses process battle button
@@ -254,7 +257,9 @@ func _on_battle_process_button_pressed():
 	UnitCard.selected = null
 	userInterface.UpdateHealButtonLabel()
 	userInterface.UpdateSellButtonLabel()
-		
+	
+	UpdateCTKLabel()
+	
 	# process first cycle
 	print("***Starting Battle Process***\n")
 	GameManager.battleCount+= 1
@@ -906,3 +911,9 @@ static func GetUnitsInMatrix(matrix):
 				output.append(matrix[col][row])
 	
 	return output
+
+
+func UpdateCTKLabel():
+	var label = $CTKLabel
+	label.text = "player: " + str(EnemyAI_MinMax.CalculateWholeCTK(playerUnitMatrix, enemyUnitMatrix))
+	label.text += "\nenemy: " + str(EnemyAI_MinMax.CalculateWholeCTK(enemyUnitMatrix, playerUnitMatrix))

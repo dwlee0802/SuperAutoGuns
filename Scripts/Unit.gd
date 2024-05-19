@@ -208,6 +208,10 @@ func GetDefense(isFlank: bool = false):
 		return data.defense + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingDefenseModifier
 	else:
 		return data.defense + statAdditionModifier[Enums.StatType.AttackDamage]
+
+
+func GetAttackSpeed():
+	return data.attackCost
 	
 
 # connects the right signal based on AbilityData to UseAbility
@@ -284,3 +288,7 @@ func IsMoving() -> bool:
 
 func SaveCoords():
 	initialCoords = coords
+
+
+func GetDPC() -> float:
+	return data.attackDamage / float(data.attackCost)

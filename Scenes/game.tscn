@@ -115,3 +115,13 @@ layout_mode = 1
 attackColor = Color(1, 0.833888, 0.806373, 1)
 defendColor = Color(0.761398, 0.841342, 0.999999, 1)
 middleColor = Color(0.836663, 0.732309, 0.704853, 1)
+
+[node name="CTKLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1161.0
+offset_top = 116.0
+offset_right = 1214.0
+offset_bottom = 153.0
+theme_override_font_sizes/font_size = 12
+text = "Left: 000
+Righ: 000"
