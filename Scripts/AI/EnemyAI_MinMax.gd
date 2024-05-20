@@ -146,3 +146,24 @@ static func CalculateWholeCTK(attackerMatrix, defenderMatrix):
 		return totalHP / totalDPC
 	else:
 		return 10000
+
+
+# TODO
+# Damage Leak means the amount of unnecessary damage used to kill a unit
+# Indicator of inefficient placement of units
+static func CalculateDamageLeakage(attackerMatrix, defenderMatrix):
+	var totalLeakage: float = 0
+	
+	# dictionary that holds (unit, incoming damage amount) pairs
+	var attackerDict = {}
+	for row in range(attackerMatrix[0].size()):
+		for col in range(attackerMatrix.size()):
+			if attackerMatrix[col][row] != null:
+				var currentUnit: Unit = attackerMatrix[col][row]
+				if attackerDict.has(currentUnit.attackTarget):
+					attackerDict[currentUnit.attackTarget] += currentUnit.GetAttackDamage()
+				else:
+					attackerDict[currentUnit.attackTarget] = currentUnit.GetAttackDamage()
+	
+	for key: Unit in attackerDict.keys():
+		totalLeakage += key.currentHealthPoints / attackerDict[key]
