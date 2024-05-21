@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=4 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://4hb2vpnf6a6n" path="res://Scenes/user_interface.tscn" id="2_2mya4"]
+[ext_resource type="Script" path="res://Scenes/tutorial.gd" id="3_tp731"]
 
 [node name="Game" type="Control"]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -125,3 +127,105 @@ offset_bottom = 153.0
 theme_override_font_sizes/font_size = 12
 text = "Left: 000
 Righ: 000"
+
+[node name="Tutorial" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+script = ExtResource("3_tp731")
+
+[node name="ENGButton" type="Button" parent="Tutorial"]
+visible = false
+layout_mode = 0
+offset_left = 81.0
+offset_top = 1.0
+offset_right = 150.0
+offset_bottom = 32.0
+text = "Tutorial"
+
+[node name="KORButton" type="Button" parent="Tutorial"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 1.0
+offset_right = 74.0
+offset_bottom = 32.0
+toggle_mode = true
+text = "튜토리얼"
+
+[node name="ENGTutorial" type="Panel" parent="Tutorial"]
+visible = false
+layout_mode = 0
+offset_top = -342.0
+offset_right = 259.0
+offset_bottom = -8.0
+
+[node name="Label" type="Label" parent="Tutorial/ENGTutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="KORTutorial" type="Panel" parent="Tutorial"]
+custom_minimum_size = Vector2(270, 500)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -823.0
+offset_right = 234.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Tutorial/KORTutorial"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "튜토리얼
+
+조작법
+좌클릭 - 유닛 선택
+우클릭 - 선택 유닛 배치
+Commit 버튼(초록) - 턴 종료
+Heal 버튼(빨강) - 유닛 치료(단축키 H)
+Sell 버튼(노랑) - 유닛 판매(50% 환불)
+
+
+기본 정보
+유닛
+Reinforcement(보충) 에서 유닛을 모집
+Reserve(예비) 에 있는 유닛을 슬롯에 배치
+배치 완료 후 Commit으로 턴 종
+전투는 사이클로 이루어져 있음
+유닛들은 일정 사이클 후에 공격과 이동과 같은 행동을 할 수 있음
+공격 대상은 바로 앞의 적 우선
+바로 앞 유닛이 없으면 가장 가까운 적 공격
+
+공격과 수비
+공격 팀과 수비 팀이 존재
+공격 팀은 중간 1열을 통과해야 함
+수비팀이 먼저 유닛을 배치하고 공격 팀은 그 다음에 배치
+유닛이 먼저 전멸하는 쪽이 패배
+같은 사이클에 양측 모두 전멸하면 수비팀 승리대
+공격팀이 승리하면 영토를 점령하고 계속 공격
+공격이 실패하면 공수 교
+영토를 먼저 잃은 쪽이 게임 패배
+
+경제
+매 턴 돈이 들어옴
+수도와 가까울수록 돈이 많이 들어옴
+전투를 계속할수록 들어오는 돈도 많아짐"
+autowrap_mode = 2
+
+[connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]

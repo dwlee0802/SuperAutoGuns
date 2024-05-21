@@ -39,8 +39,8 @@ func ExportReserve():
 	for type in range(unitsByPriority.size()):
 		for unit: Unit in unitsByPriority[type]:
 			GameManager.enemyReserves.append(unit)
-	
-		
+			
+			
 # returns a 2D array of units
 func GenerateUnitMatrix():
 	print("***Starting Enemy AI Process***\n")
