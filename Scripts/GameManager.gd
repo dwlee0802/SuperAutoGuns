@@ -181,11 +181,18 @@ func _on_cycle_timer_timeout():
 		var resultLabel = $BattleResultLabel
 		resultLabel.visible = true
 		if lastBattleResult == -1:
-			resultLabel.text = "Player Victory"
+			if playerAttacking:
+				resultLabel.text = "Player Offensive Victory"
+			else:
+				resultLabel.text = "Player Defensive Victory"
 		elif lastBattleResult == 0:
-			resultLabel.text = "Draw"
+			if playerAttacking:
+				resultLabel.text = "Draw. Defensive Victory"
 		elif lastBattleResult == 1:
-			resultLabel.text = "Enemy Victory"
+			if !playerAttacking:
+				resultLabel.text = "Enemy Offensive Victory"
+			else:
+				resultLabel.text = "Enemy Defensive Victory"
 	else:
 		if cycleTimer.is_stopped():
 			# should wait til animations are done

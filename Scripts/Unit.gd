@@ -213,6 +213,14 @@ func GetDefense(isFlank: bool = false):
 func GetAttackSpeed():
 	return data.attackCost
 	
+	
+func GetMovementSpeed():
+	return data.movementCost
+
+
+func GetAttackRange():
+	return data.attackRange
+	
 
 # connects the right signal based on AbilityData to UseAbility
 func ConnectTargetSignals():

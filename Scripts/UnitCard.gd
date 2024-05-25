@@ -222,12 +222,18 @@ func UpdateRadialUI(first: bool = false):
 func UpdateCombatStatsLabel():
 	var label = $TextureRect/Sprite/CombatStats/AttackLabel
 	var label2 = $TextureRect/Sprite/CombatStats/ASLabel
+	var label3 = $TextureRect/Sprite/CombatStats/SpeedLabel
+	var label4 = $TextureRect/Sprite/CombatStats/RangeLabel
+	
 	var text = "ATK: {atk}"
 	var atk = unit.GetAttackDamage()
 	var aspd = unit.GetAttackSpeed()
+	var mvspd = unit.GetMovementSpeed()
 	
 	label.text = text.format({"atk": atk})
 	label2.text = "AS: " + str(aspd)
+	label3.text = "MS: " + str(mvspd)
+	label4.text = "RNG " + str(unit.GetAttackRange())
 	
 	
 func UpdateAttackLine(isFlanking: bool = false):
