@@ -1,36 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://ct8aanlsousat"]
 
 [ext_resource type="Texture2D" uid="uid://dyuiy3gp74qgf" path="res://Art/simple_white_arrow.png" id="1_7fvjg"]
-[ext_resource type="Script" path="res://Scenes/BattleProcessSpeedUI.gd" id="1_kpvus"]
+[ext_resource type="Script" path="res://Scripts/BattleProcessSpeedUI.gd" id="2_hthlt"]
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="2_kxn5j"]
-
-[sub_resource type="Animation" id="Animation_hte5f"]
-resource_name = "attack_right_arrow_animation"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control/DirectionArrow:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-25, 0), Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Control/DirectionArrow:flip_h")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_vhbo2"]
 resource_name = "attack_left_arrow_animation"
@@ -58,6 +30,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_hte5f"]
+resource_name = "attack_right_arrow_animation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control/DirectionArrow:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-25, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Control/DirectionArrow:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3wqck"]
@@ -166,7 +166,7 @@ offset_left = -109.5
 offset_right = 109.5
 offset_bottom = 31.0
 grow_horizontal = 2
-script = ExtResource("1_kpvus")
+script = ExtResource("2_hthlt")
 
 [node name="PauseButton" type="Button" parent="BattleProcessSpeedUI"]
 visible = false

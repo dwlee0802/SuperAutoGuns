@@ -10,46 +10,6 @@ static var unitDict = {}
 static func _static_init():
 	print("***Start data import***\n")
 	
-	var germany_path = unit_resources_path + "/" + Enums.NationToString(Enums.Nation.Germany) + "/"
-	var dir = DirAccess.open(germany_path)
-	dir.list_dir_begin()
-	var filename = dir.get_next()
-	var germany_units = []
-	
-	while filename != "":
-		var fullpath = germany_path + filename
-		var newthing = load(fullpath)
-		germany_units.append(newthing)
-		filename = dir.get_next()
-		
-	unitDict[Enums.Nation.Germany] = germany_units
-	
-	print("Imported " + str(unitDict[Enums.Nation.Germany].size()) + " units for " + Enums.NationToString(Enums.Nation.Germany))
-	
-	
-	for item in unitDict[Enums.Nation.Germany]:
-		print(item.name)
-	
-	
-	var ussr_path = unit_resources_path + "/" + Enums.NationToString(Enums.Nation.USSR) + "/"
-	dir = DirAccess.open(ussr_path)
-	dir.list_dir_begin()
-	filename = dir.get_next()
-	var ussr_units = []
-	
-	while filename != "":
-		var fullpath = ussr_path + filename
-		var newthing = load(fullpath)
-		ussr_units.append(newthing)
-		filename = dir.get_next()
-		
-	unitDict[Enums.Nation.USSR] = ussr_units
-	
-	print("Imported " + str(unitDict[Enums.Nation.USSR].size()) + " units for " + Enums.NationToString(Enums.Nation.USSR))
-	
-	for item in unitDict[Enums.Nation.USSR]:
-		print(item.name)
-	
 	ImportUnits(Enums.Nation.Generic)
 	
 	print("\n***End of data import***\n\n")
@@ -64,6 +24,10 @@ static func ImportUnits(nation: Enums.Nation):
 	
 	while filename != "":
 		var fullpath = path + filename
+		
+		if '.tres.remap' in fullpath: # <---- NEW
+			fullpath = fullpath.trim_suffix('.remap') # <---- NEW
+			
 		var newthing = load(fullpath)
 		if !newthing.disabled:
 			germany_units.append(newthing)
