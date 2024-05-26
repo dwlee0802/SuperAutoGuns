@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://4hb2vpnf6a6n"]
+[gd_scene load_steps=10 format=3 uid="uid://4hb2vpnf6a6n"]
 
 [ext_resource type="Script" path="res://Scripts/ProcessUI.gd" id="1_66oug"]
 [ext_resource type="Script" path="res://Scripts/user_interface.gd" id="1_ux87x"]
@@ -13,6 +13,14 @@ unicode = 104
 
 [sub_resource type="Shortcut" id="Shortcut_vtbdt"]
 events = [SubResource("InputEventKey_ctpag")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_fsde3"]
+device = -1
+keycode = 83
+unicode = 115
+
+[sub_resource type="Shortcut" id="Shortcut_w1515"]
+events = [SubResource("InputEventKey_fsde3")]
 
 [node name="UserInterface" type="Control"]
 texture_filter = 1
@@ -142,6 +150,7 @@ self_modulate = Color(0.989797, 1, 0.604981, 1)
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 2
 disabled = true
+shortcut = SubResource("Shortcut_w1515")
 texture_normal = ExtResource("3_fcbqa")
 stretch_mode = 0
 
