@@ -175,7 +175,6 @@ func _on_cycle_timer_timeout():
 		userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		
 		cycleCount = 0
-		GameManager.AddIncome(isPlayerTurn)		
 		
 		# update battle result
 		var resultLabel = $BattleResultLabel
