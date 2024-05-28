@@ -118,7 +118,7 @@ func _ready():
 	cycleLabel = $CycleCountLabel
 	effectiveDamageUI = $EffectiveDamageUI
 	
-	GameManager.fundsGraph = $FundsGraph/Graph2D
+	GameManager.fundsGraph = $EconomyUI/Graph2D
 	
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
@@ -998,3 +998,28 @@ static func UpdateFundsGraph():
 	var incomePlot: PlotItem = GameManager.fundsGraph.add_plot_item("Income", Color.GREEN)
 	for i in playerIncomeHistory.size():
 		incomePlot.add_point(Vector2(i, playerIncomeHistory[i]))
+
+
+func _on_economy_ui_buttton_pressed(extra_arg_0):
+	GameManager.fundsGraph.remove_all()
+	
+	match extra_arg_0:
+		# funds
+		0:
+			var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Funds", playerColor)
+			for i in playerFundsHistory.size():
+				fundsPlot.add_point(Vector2(i, playerFundsHistory[i]))
+			fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Funds", enemyColor)
+			for i in enemyFundsHistory.size():
+				fundsPlot.add_point(Vector2(i, enemyFundsHistory[i]))
+		# income
+		1:
+			var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Income", playerColor)
+			for i in playerIncomeHistory.size():
+				fundsPlot.add_point(Vector2(i, playerIncomeHistory[i]))
+			fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Income", enemyColor)
+			for i in enemyIncomeHistory.size():
+				fundsPlot.add_point(Vector2(i, enemyIncomeHistory[i]))
+		# total funds
+		2:
+			pass
