@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=7 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://4hb2vpnf6a6n" path="res://Scenes/user_interface.tscn" id="2_2mya4"]
 [ext_resource type="Script" path="res://Scenes/tutorial.gd" id="3_tp731"]
+[ext_resource type="Script" path="res://Scenes/FundsButton.gd" id="4_cxk1o"]
 [ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="7_creg4"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_tx2ih"]
+allow_unpress = true
 
 [node name="Game" type="Control"]
 texture_filter = 1
@@ -242,7 +246,9 @@ layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 toggle_mode = true
+button_group = SubResource("ButtonGroup_tx2ih")
 text = "Funds"
+script = ExtResource("4_cxk1o")
 
 [node name="IncomeButton" type="Button" parent="EconomyUI"]
 layout_mode = 0
@@ -251,7 +257,10 @@ offset_top = -2.0
 offset_right = 144.0
 offset_bottom = 29.0
 toggle_mode = true
+button_group = SubResource("ButtonGroup_tx2ih")
 text = "Income"
+script = ExtResource("4_cxk1o")
+num = 1
 
 [node name="TotalFundsButton" type="Button" parent="EconomyUI"]
 layout_mode = 0
@@ -260,7 +269,10 @@ offset_top = -2.0
 offset_right = 268.0
 offset_bottom = 29.0
 toggle_mode = true
+button_group = SubResource("ButtonGroup_tx2ih")
 text = "Total Funds"
+script = ExtResource("4_cxk1o")
+num = 2
 
 [node name="Graph2D" type="Control" parent="EconomyUI"]
 anchors_preset = 0

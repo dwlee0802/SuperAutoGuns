@@ -130,7 +130,7 @@ func _ready():
 	userInterface.SetSlotAvailability(0, 3)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 	
-	GameManager.AddIncome(isPlayerTurn)
+	AddIncome(isPlayerTurn)
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	# defender always go first set attack dir ui to left
@@ -200,7 +200,7 @@ func _on_cycle_timer_timeout():
 		cycleCount = 0
 		
 		# start next turn
-		GameManager.AddIncome(isPlayerTurn)
+		AddIncome(isPlayerTurn)
 		userInterface.turnTimer.start(turnTime)
 		
 		# update battle result
@@ -725,7 +725,7 @@ static func ResetFunds():
 	enemyFunds = 0
 	
 	
-static func AddIncome(toPlayer: bool):
+func AddIncome(toPlayer: bool):
 	var _playerDist = playerCapturedSectorsCount
 	var _enemyDist = totalSectorsCount - playerCapturedSectorsCount
 	
@@ -878,7 +878,7 @@ func CommitButtonPressed():
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			GameManager.AddIncome(isPlayerTurn)
+			AddIncome(isPlayerTurn)
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
 			
@@ -907,7 +907,7 @@ func CommitButtonPressed():
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			isPlayerTurn = true
 			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			GameManager.AddIncome(isPlayerTurn)
+			AddIncome(isPlayerTurn)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
 			userInterface.ImportReserve(playerReserves)
 			
@@ -989,16 +989,12 @@ static func RecordTotalFundsHistory(player):
 
 
 # load the current data onto the graph
-static func UpdateFundsGraph():
-	GameManager.fundsGraph.remove_all()
-	var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Funds", Color.SKY_BLUE)
-	for i in playerFundsHistory.size():
-		fundsPlot.add_point(Vector2(i, playerFundsHistory[i]))
+func UpdateFundsGraph():
+	var fundsButton: Button = $EconomyUI/FundsButton
+	fundsButton = fundsButton.button_group.get_pressed_button()
+	if fundsButton != null:
+		_on_economy_ui_buttton_pressed(fundsButton.num)
 		
-	var incomePlot: PlotItem = GameManager.fundsGraph.add_plot_item("Income", Color.GREEN)
-	for i in playerIncomeHistory.size():
-		incomePlot.add_point(Vector2(i, playerIncomeHistory[i]))
-
 
 func _on_economy_ui_buttton_pressed(extra_arg_0):
 	GameManager.fundsGraph.remove_all()
@@ -1022,4 +1018,9 @@ func _on_economy_ui_buttton_pressed(extra_arg_0):
 				fundsPlot.add_point(Vector2(i, enemyIncomeHistory[i]))
 		# total funds
 		2:
-			pass
+			var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Total Funds", playerColor)
+			for i in playerTotalFundsHistory.size():
+				fundsPlot.add_point(Vector2(i, playerTotalFundsHistory[i]))
+			fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Total Funds", enemyColor)
+			for i in enemyTotalFundsHistory.size():
+				fundsPlot.add_point(Vector2(i, enemyTotalFundsHistory[i]))
