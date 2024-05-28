@@ -263,5 +263,7 @@ offset_top = 76.0
 offset_right = 666.0
 offset_bottom = 488.0
 script = ExtResource("7_creg4")
+x_max = 25.0
+y_max = 100.0
 
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]

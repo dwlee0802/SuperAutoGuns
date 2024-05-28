@@ -101,9 +101,9 @@ static var enemyColor: Color
 @export var playerColorOverride: Color = Color.ROYAL_BLUE
 @export var enemyColorOverride: Color = Color.DARK_RED
 
-@export var turnTime: float = 60
+@export var turnTime: float = 3
 
-var fundsGraph: FundsGraph
+static var fundsGraph
 
 
 static func _static_init():
@@ -117,6 +117,8 @@ func _ready():
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
 	effectiveDamageUI = $EffectiveDamageUI
+	
+	GameManager.fundsGraph = $FundsGraph/Graph2D
 	
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
@@ -144,8 +146,6 @@ func _ready():
 	
 	# link pass button
 	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
-	
-	fundsGraph = $FundsGraph
 	
 	#enemyAI = EnemyAI_Randomizer.new()
 	#enemyAI.editor = enemyEditor
@@ -763,6 +763,8 @@ static func AddIncome(toPlayer: bool):
 	GameManager.RecordFundsHistory(toPlayer)
 	GameManager.RecordTotalFundsHistory(toPlayer)
 	
+	UpdateFundsGraph()
+	
 	print(GameManager.playerIncomeHistory)
 	print(GameManager.playerFundsHistory)
 	print(GameManager.playerTotalFundsHistory)
@@ -984,3 +986,15 @@ static func RecordTotalFundsHistory(player):
 		GameManager.playerTotalFundsHistory.append(GameManager.playerTotalFunds)
 	else:
 		GameManager.enemyTotalFundsHistory.append(GameManager.enemyTotalFunds)
+
+
+# load the current data onto the graph
+static func UpdateFundsGraph():
+	GameManager.fundsGraph.remove_all()
+	var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Funds", Color.SKY_BLUE)
+	for i in playerFundsHistory.size():
+		fundsPlot.add_point(Vector2(i, playerFundsHistory[i]))
+		
+	var incomePlot: PlotItem = GameManager.fundsGraph.add_plot_item("Income", Color.GREEN)
+	for i in playerIncomeHistory.size():
+		incomePlot.add_point(Vector2(i, playerIncomeHistory[i]))

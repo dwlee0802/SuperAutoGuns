@@ -8,5 +8,5 @@ func _ready():
 	pass
 	
 	
-func UpdateGraph(data):
+func UpdateGraph(_data):
 	pass
