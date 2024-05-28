@@ -8,6 +8,7 @@ static var cycleTime: float = 0.5
 static var cycleCount: int = 0
 
 static var battleCount: int = 0
+static var maxBattleCount: int = 25
 
 # Column 0 is the frontline
 static var playerUnitMatrix
@@ -849,6 +850,14 @@ static func BattleResultProcess(attackerVictory: bool):
 			print("player wins game!")
 		if playerCapturedSectorsCount == 0:
 			print("enemy wins game!")
+		if battleCount == maxBattleCount:
+			if playerCapturedSectorsCount == totalSectorsCount - playerCapturedSectorsCount:
+				print("Draw!")
+			elif playerCapturedSectorsCount > totalSectorsCount - playerCapturedSectorsCount:
+				print("player wins game!")
+			else:
+				print("Enemy wins game!")
+						
 	else:
 		# switch initiatives
 		playerAttacking = !playerAttacking
