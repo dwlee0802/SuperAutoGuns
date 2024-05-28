@@ -89,6 +89,8 @@ static var enemyColor: Color
 @export var playerColorOverride: Color = Color.ROYAL_BLUE
 @export var enemyColorOverride: Color = Color.DARK_RED
 
+@export var turnTime: float = 60
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -111,10 +113,14 @@ func _ready():
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+	
 	GameManager.AddIncome(isPlayerTurn)
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	# defender always go first set attack dir ui to left
+	
+	# start turn timer
+	userInterface.turnTimer.start(turnTime)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	

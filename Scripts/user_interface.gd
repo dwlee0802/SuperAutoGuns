@@ -17,6 +17,8 @@ var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
 @export var defendColor = Color.BLUE
 @export var middleColor = Color.DARK_RED
 
+@onready var turnTimer: Timer = $Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/TurnTimer/TurnTimer
+
 
 func _ready():
 	$Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton.pressed.connect(HealButtonPressed)
