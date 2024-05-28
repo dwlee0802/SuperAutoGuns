@@ -44,6 +44,18 @@ static var playerCapturedSectorsCount: int = 5
 static var playerFunds: int = 0
 static var enemyFunds: int = 0
 
+static var playerTotalFunds: int = 0
+static var enemyTotalFunds: int = 0
+
+static var playerFundsHistory = []
+static var enemyFundsHistory = []
+
+static var playerTotalFundsHistory = []
+static var enemyTotalFundsHistory = []
+
+static var playerIncomeHistory = []
+static var enemyIncomeHistory = []
+
 static var baseIncomeAmount: int = 10
 
 static var autoHealRatio: float = 0.25
@@ -91,6 +103,8 @@ static var enemyColor: Color
 
 @export var turnTime: float = 60
 
+var fundsGraph: FundsGraph
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -130,6 +144,8 @@ func _ready():
 	
 	# link pass button
 	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
+	
+	fundsGraph = $FundsGraph
 	
 	#enemyAI = EnemyAI_Randomizer.new()
 	#enemyAI.editor = enemyEditor
@@ -731,8 +747,25 @@ static func AddIncome(toPlayer: bool):
 		else:
 			GameManager.enemyFunds += amount
 	
+	if toPlayer:
+		GameManager.playerTotalFunds += amount
+	else:
+		GameManager.enemyTotalFunds += amount
+		
 	userInterface.SetFundsLabel(toPlayer)
 	userInterface.SetLastIncomeLabel(amount)
+	
+	if toPlayer:
+		GameManager.playerIncomeHistory.append(amount)
+	else:
+		GameManager.enemyIncomeHistory.append(amount)
+	
+	GameManager.RecordFundsHistory(toPlayer)
+	GameManager.RecordTotalFundsHistory(toPlayer)
+	
+	print(GameManager.playerIncomeHistory)
+	print(GameManager.playerFundsHistory)
+	print(GameManager.playerTotalFundsHistory)
 
 
 static func ChangeFunds(amount, isPlayer: bool = true):
@@ -936,3 +969,18 @@ func UpdateCTKLabel():
 	var label = $CTKLabel
 	label.text = "player: " + str(EnemyAI_MinMax.CalculateWholeCTK(playerUnitMatrix, enemyUnitMatrix))
 	label.text += "\nenemy: " + str(EnemyAI_MinMax.CalculateWholeCTK(enemyUnitMatrix, playerUnitMatrix))
+
+
+# take a snap shot of current funds n record it
+static func RecordFundsHistory(player):
+	if player:
+		GameManager.playerFundsHistory.append(GameManager.playerFunds)
+	else:
+		GameManager.enemyFundsHistory.append(GameManager.enemyFunds)
+
+
+static func RecordTotalFundsHistory(player):
+	if player:
+		GameManager.playerTotalFundsHistory.append(GameManager.playerTotalFunds)
+	else:
+		GameManager.enemyTotalFundsHistory.append(GameManager.enemyTotalFunds)

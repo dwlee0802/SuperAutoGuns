@@ -85,6 +85,7 @@ vertical_alignment = 1
 [node name="FundsLabel" type="Label" parent="Root/MiddleScreen/MidLeftScreen"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 0
 text = "Funds: 0"
 vertical_alignment = 1
 

@@ -1,8 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=9 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://4hb2vpnf6a6n" path="res://Scenes/user_interface.tscn" id="2_2mya4"]
 [ext_resource type="Script" path="res://Scenes/tutorial.gd" id="3_tp731"]
+[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="4_5hliv"]
+[ext_resource type="Texture2D" uid="uid://bwb37bupd3bg7" path="res://Art/32x32_grey_square.png" id="5_2ah47"]
+[ext_resource type="Script" path="res://Scenes/FundsGraph.gd" id="6_3uwlk"]
+[ext_resource type="Texture2D" uid="uid://bh8xjsx82gbdc" path="res://Art/graph_icon.png" id="6_q5y3w"]
+[ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="7_creg4"]
 
 [node name="Game" type="Control"]
 texture_filter = 1
@@ -227,5 +232,36 @@ Reserve(예비) 에 있는 유닛을 슬롯에 배치
 수도와 가까울수록 돈이 많이 들어옴
 전투를 계속할수록 들어오는 돈도 많아짐"
 autowrap_mode = 2
+
+[node name="FundsGraph" type="TextureButton" parent="."]
+layout_mode = 0
+offset_left = 1253.0
+offset_top = 167.0
+offset_right = 1317.0
+offset_bottom = 231.0
+scale = Vector2(0.5, 0.5)
+toggle_mode = true
+texture_normal = ExtResource("4_5hliv")
+texture_pressed = ExtResource("5_2ah47")
+stretch_mode = 0
+script = ExtResource("6_3uwlk")
+
+[node name="TextureRect" type="TextureRect" parent="FundsGraph"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_q5y3w")
+expand_mode = 1
+
+[node name="Graph2D" type="Control" parent="FundsGraph"]
+anchors_preset = 0
+offset_left = 2.0
+offset_top = 76.0
+offset_right = 666.0
+offset_bottom = 488.0
+script = ExtResource("7_creg4")
 
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]
