@@ -121,6 +121,7 @@ func _ready():
 	
 	# start turn timer
 	userInterface.turnTimer.start(turnTime)
+	userInterface.turnTimer.timeout.connect(CommitButtonPressed)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	
@@ -181,7 +182,10 @@ func _on_cycle_timer_timeout():
 		userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		
 		cycleCount = 0
+		
+		# start next turn
 		GameManager.AddIncome(isPlayerTurn)
+		userInterface.turnTimer.start(turnTime)
 		
 		# update battle result
 		var resultLabel = $BattleResultLabel
@@ -282,7 +286,7 @@ func _on_battle_process_button_pressed():
 		cycleTimer.start(BattleSpeedUI.cycleSpeed)
 		userInterface.SetSlotColor(true, playerAttacking)
 	
-
+	
 static func ImportUnitMatrixBackup():
 	print("player attacking: " + str(playerAttacking))
 	
@@ -831,6 +835,7 @@ func CommitButtonPressed():
 			playerReserves = userInterface.ExportReserve()
 			
 			# start enemy offense turn
+			userInterface.turnTimer.start(turnTime)
 			# set attack dir to right
 			userInterface.SetAttackDirectionUI(false)
 			
@@ -859,6 +864,7 @@ func CommitButtonPressed():
 	else:
 		if !isPlayerTurn:
 			# start player offense turn
+			userInterface.turnTimer.start(turnTime)
 			# set attack dir ui to right
 			userInterface.SetAttackDirectionUI(false)
 			

@@ -13,7 +13,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if !timer.is_stopped():
 		timeLabel.text = str(int(timer.time_left))
 		radialUI.progress = timer.time_left / timer.wait_time * 100
