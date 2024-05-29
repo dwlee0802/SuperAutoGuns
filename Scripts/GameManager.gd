@@ -102,7 +102,7 @@ static var enemyColor: Color
 @export var playerColorOverride: Color = Color.ROYAL_BLUE
 @export var enemyColorOverride: Color = Color.DARK_RED
 
-@export var turnTime: float = 3
+@export var turnTime: float = 30
 
 static var fundsGraph
 
