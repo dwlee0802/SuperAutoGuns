@@ -83,7 +83,7 @@ func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
 
 func SetLastIncomeLabel(amount):
 	var label = $Root/MiddleScreen/MidLeftScreen/FundsLabel/LastIncomeLabel
-	label.text =  "(" + str(amount) + ")"
+	label.text =  "" + str(amount) + ""
 	
 
 func ImportReserve(reserveUnits):

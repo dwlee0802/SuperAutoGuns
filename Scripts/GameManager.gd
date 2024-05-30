@@ -45,6 +45,8 @@ static var playerCapturedSectorsCount: int = 5
 static var playerFunds: int = 0
 static var enemyFunds: int = 0
 
+static var interestRate: float = 0.1
+
 static var playerTotalFunds: int = 0
 static var enemyTotalFunds: int = 0
 
@@ -730,18 +732,25 @@ func AddIncome(toPlayer: bool):
 	var _playerDist = playerCapturedSectorsCount
 	var _enemyDist = totalSectorsCount - playerCapturedSectorsCount
 	
+	var battleCountBonus: int = battleCount
 	var amount: int = baseIncomeAmount + battleCount
 	
 	# distance from capital bonus
+	var captureBonus: int = 0
+	var difference: int = _playerDist - _enemyDist
 	if _playerDist > _enemyDist and toPlayer:
-		amount += 1
+		captureBonus = _playerDist - _enemyDist
 	if _playerDist < _enemyDist and !toPlayer:
-		amount += 1
+		captureBonus = _enemyDist - _playerDist
+		difference *= -1
+	
+	amount += captureBonus
 	
 	# interest bonus
-	amount += int(amount/10)
+	var interest = int(amount * GameManager.interestRate)
+	amount += interest
 	
-	ChangeFunds(amount, toPlayer)
+	ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
 	
 	# record stats
 	if toPlayer:
@@ -750,7 +759,14 @@ func AddIncome(toPlayer: bool):
 		GameManager.enemyTotalFunds += amount
 		
 	userInterface.SetFundsLabel(toPlayer)
-	userInterface.SetLastIncomeLabel(amount)
+	var incomeBreakup = "Income: +{total}\nBase: +{base} | Battle Count({count}): +{countbonus} | Capture({capdiff}): +{cap} |  interest({intrpc}): +{intr}"
+	incomeBreakup = incomeBreakup.format({
+		"total":amount,
+		"base":baseIncomeAmount, 
+		"count":battleCount, "countbonus":battleCountBonus,
+		"capdiff":difference, "cap":captureBonus,
+		"intrpc":str(int(GameManager.interestRate * 100)) + "%", "intr":interest})
+	userInterface.SetLastIncomeLabel(incomeBreakup)
 	
 	if toPlayer:
 		GameManager.playerIncomeHistory.append(amount)
