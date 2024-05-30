@@ -730,24 +730,20 @@ func AddIncome(toPlayer: bool):
 	var _playerDist = playerCapturedSectorsCount
 	var _enemyDist = totalSectorsCount - playerCapturedSectorsCount
 	
-	var bonusAmount = 0.05 * abs(_playerDist - _enemyDist)
-	# bonus is capped at 25 percent
-	bonusAmount = min(bonusAmount, 0.25)
-	
 	var amount: int = baseIncomeAmount + battleCount
 	
-	if _playerDist < _enemyDist and toPlayer:
-		amount *= 1 + bonusAmount
-		GameManager.playerFunds += amount
-	if _playerDist > _enemyDist and !toPlayer:
-		amount *= 1 + bonusAmount
-		GameManager.enemyFunds += amount
-	else:
-		if toPlayer:
-			GameManager.playerFunds += amount
-		else:
-			GameManager.enemyFunds += amount
+	# distance from capital bonus
+	if _playerDist > _enemyDist and toPlayer:
+		amount += 1
+	if _playerDist < _enemyDist and !toPlayer:
+		amount += 1
 	
+	# interest bonus
+	amount += int(amount/10)
+	
+	ChangeFunds(amount, toPlayer)
+	
+	# record stats
 	if toPlayer:
 		GameManager.playerTotalFunds += amount
 	else:
@@ -780,7 +776,9 @@ static func ChangeFunds(amount, isPlayer: bool = true):
 		enemyFunds += amount
 		print("changed enemy funds by " + str(amount))
 		print("New value: " + str(enemyFunds) + "\n")
-
+	
+	GameManager.userInterface.MakeFundsPopup(amount)
+	
 
 # returns the input unit's coordinates on the unit matrix
 static func GetCoord(unit):

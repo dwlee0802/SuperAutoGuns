@@ -19,6 +19,8 @@ var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
 
 @onready var turnTimer: Timer = $Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/TurnTimer/TurnTimer
 
+var popupScene = load("res://Scenes/damage_popup.tscn")
+
 
 func _ready():
 	$Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/HealButton.pressed.connect(HealButtonPressed)
@@ -491,3 +493,16 @@ func UpdateSellButtonLabel():
 		button.disabled = false
 	else:
 		label.text = ""
+
+
+func MakeFundsPopup(amount):
+	var newpopup = popupScene.instantiate()
+	if amount >= 0:
+		amount = "+" + str(amount)
+		newpopup.get_node("Label").self_modulate = Color.GREEN
+		
+	newpopup.get_node("Label").text = str(amount)
+	
+	newpopup.global_position = $Root/MiddleScreen/MidLeftScreen/FundsLabel/LastIncomeLabel.global_position
+	newpopup.get_node("AnimationPlayer").speed_scale = 0.5
+	add_child(newpopup)
