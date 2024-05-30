@@ -732,8 +732,16 @@ func AddIncome(toPlayer: bool):
 	var _playerDist = playerCapturedSectorsCount
 	var _enemyDist = totalSectorsCount - playerCapturedSectorsCount
 	
-	var battleCountBonus: int = battleCount
 	var amount: int = baseIncomeAmount + battleCount
+	var battleCountBonus: int = battleCount
+	
+	# interest bonus
+	var pastAmount = GameManager.playerFunds
+	if !toPlayer:
+		pastAmount = GameManager.enemyFunds
+		
+	var interest = int(pastAmount * GameManager.interestRate)
+	amount += interest
 	
 	# distance from capital bonus
 	var captureBonus: int = 0
@@ -745,10 +753,6 @@ func AddIncome(toPlayer: bool):
 		difference *= -1
 	
 	amount += captureBonus
-	
-	# interest bonus
-	var interest = int(amount * GameManager.interestRate)
-	amount += interest
 	
 	ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
 	
