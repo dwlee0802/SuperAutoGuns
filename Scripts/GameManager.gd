@@ -47,6 +47,8 @@ static var enemyFunds: int = 0
 
 static var interestRate: float = 0.1
 
+static var rerollCost: int = 1
+
 static var playerTotalFunds: int = 0
 static var enemyTotalFunds: int = 0
 
@@ -805,6 +807,7 @@ static func ChangeFunds(amount, isPlayer: bool = true):
 		print("New value: " + str(enemyFunds) + "\n")
 	
 	GameManager.userInterface.MakeFundsPopup(amount)
+	userInterface.SetFundsLabel(isPlayer)
 	
 
 # returns the input unit's coordinates on the unit matrix

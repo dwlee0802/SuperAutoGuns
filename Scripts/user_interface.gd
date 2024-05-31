@@ -33,7 +33,7 @@ func _ready():
 	# export reserve
 	$Root/MiddleScreen/MidLeftScreen/ReserveUI/Reserve/HBoxContainer.dropped.connect(DroppedIntoReserve)
 	
-	$Root/BottomScreen/RerollButton.pressed.connect(GenerateReinforcementOptions.bind(GameManager.isPlayerTurn, GameManager.reinforcementCount))
+	$Root/BottomScreen/RerollButton.pressed.connect(RerollButtonPressed)
 	
 	# defender goes first set attack dir ui to left
 	SetAttackDirectionUI(true)
@@ -166,6 +166,24 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enum
 		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
 
 
+# checks if player has reroll cost
+func RerollButtonPressed():
+	var isPlayer = GameManager.isPlayerTurn
+	
+	# check if theres enough funds
+	if isPlayer:
+		if GameManager.playerFunds < GameManager.rerollCost:
+			print("player has not enough funds!\n")
+			return false
+	else:
+		if GameManager.enemyFunds < GameManager.rerollCost:
+			print("enemy has not enough funds!\n")
+			return false
+			
+	GenerateReinforcementOptions(GameManager.isPlayerTurn, GameManager.reinforcementCount)
+	GameManager.ChangeFunds(-GameManager.rerollCost, isPlayer)
+	
+	
 # include middle
 # -1: middle col is owned by right side
 # 0: leave middle col empty
