@@ -1,10 +1,10 @@
 [gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dq7ycwras0q3i"]
 
-[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_qersc"]
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_l56xj"]
 
 [resource]
-script = ExtResource("1_qersc")
-name = "Frontal"
+script = ExtResource("1_l56xj")
+name = "Rifle"
 description = ""
 disabled = false
 type = 0
