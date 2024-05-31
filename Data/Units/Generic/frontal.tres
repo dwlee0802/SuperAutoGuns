@@ -14,6 +14,7 @@ maxHealthPoints = 10
 movementCost = 3
 attackCost = 4
 attackRange = 1
+attackFromBack = false
 attackDamage = 3
 flankingAttackModifier = 0.0
 defense = 0

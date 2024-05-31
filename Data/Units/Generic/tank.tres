@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://bpxupclmros2t"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_4ueyb"]
+
+[resource]
+script = ExtResource("1_4ueyb")
+name = "Tank"
+description = ""
+disabled = false
+type = 1
+purchaseCost = 3
+color = Color(0.510806, 0.535372, 0.533435, 1)
+maxHealthPoints = 10
+movementCost = 3
+attackCost = 3
+attackRange = 1
+attackFromBack = false
+attackDamage = 3
+flankingAttackModifier = 0.0
+defense = 1
+flankingDefenseModifier = 0.0

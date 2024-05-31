@@ -235,6 +235,8 @@ func _on_cycle_timer_timeout():
 
 # called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
+	userInterface.turnTimer.stop()
+	
 	GameManager.playerEffectiveDamage = 0
 	GameManager.enemyEffectiveDamage = 0
 	GameManager.UpdateEffectiveDamageUI()
