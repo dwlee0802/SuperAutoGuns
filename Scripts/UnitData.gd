@@ -25,6 +25,8 @@ class_name UnitData
 
 @export var attackRange: int = 1
 
+@export var attackFromBack: bool = false
+
 @export var attackDamage: int = 3
 @export var flankingAttackModifier: float = 0
 

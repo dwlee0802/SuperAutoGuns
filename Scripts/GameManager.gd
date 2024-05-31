@@ -487,7 +487,7 @@ static func UnitBehaviorProcess(unitMatrix):
 					unitMatrix[col][row].movementCyclesLeft = unitMatrix[col][row].data.movementCost
 					
 					# check if able to attack
-					var target = FindAttackTarget(unitMatrix[col][row])
+					var target = FindAttackTarget(unitMatrix[col][row], unitMatrix[col][row].data.attackFromBack)
 					
 					# valid attack target exists
 					if target != null:
@@ -619,7 +619,7 @@ static func FindAttackTargetCoord(isPlayer: bool, curRow, checkCols: int = 1):
 	return null
 
 
-static func FindAttackTarget(attacker: Unit) -> Unit:
+static func FindAttackTarget(attacker: Unit, fromBack: bool = false) -> Unit:
 	if attacker == null:
 		return null
 	
@@ -630,7 +630,14 @@ static func FindAttackTarget(attacker: Unit) -> Unit:
 	var curRow = attacker.coords.y
 	var curCol = attacker.coords.x
 	
-	for col_offset in range(attacker.data.attackRange - curCol):
+	var checkColCount = attacker.data.attackRange - curCol
+	if fromBack:
+		checkColCount = checkingMatrix.size()
+	
+	for col_offset in range(checkColCount):
+		if fromBack:
+			col_offset = -1 - col_offset
+			
 		var checkingColumn = checkingMatrix[col_offset]
 		for i in range(checkingColumn.size()):
 			var upper: Unit = null
