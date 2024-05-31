@@ -198,16 +198,16 @@ func ChangeStats(what: Enums.StatType, amount):
 
 func GetAttackDamage(isFlank: bool = false):
 	if isFlank:
-		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingAttackModifier
+		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage] * stackCount + data.flankingAttackModifier
 	else:
-		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage]
+		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage] * stackCount
 
 	
 func GetDefense(isFlank: bool = false):
 	if isFlank:
-		return data.defense + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingDefenseModifier
+		return data.defense + statAdditionModifier[Enums.StatType.Defense] + data.flankingDefenseModifier
 	else:
-		return data.defense + statAdditionModifier[Enums.StatType.AttackDamage]
+		return data.defense + statAdditionModifier[Enums.StatType.Defense]
 
 
 func GetAttackSpeed():
