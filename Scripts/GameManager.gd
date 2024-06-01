@@ -46,6 +46,7 @@ static var playerFunds: int = 0
 static var enemyFunds: int = 0
 
 static var interestRate: float = 0.1
+static var maxInterest: int = 10
 
 static var rerollCost: int = 1
 
@@ -763,6 +764,7 @@ func AddIncome(toPlayer: bool):
 		pastAmount = GameManager.enemyFunds
 		
 	var interest = int(pastAmount * GameManager.interestRate)
+	interest = min(interest, GameManager.maxInterest)
 	amount += interest
 	
 	# distance from capital bonus
