@@ -187,7 +187,7 @@ func _input(event: InputEvent) -> void:
 		if plot_rect.has_point(get_node("PlotArea").get_local_mouse_position()):
 			var pos: Vector2i = get_node("PlotArea").get_local_mouse_position()
 			var point = _pixel_to_coordinate(pos)
-			get_node("PlotArea/Coordinate").text = "(%.3f, %.3f)" % [point.x, point.y]
+			get_node("PlotArea/Coordinate").text = "(%d, %d)" % [point.x, point.y]
 
 ## Add plot to the graph and return an instance of plot.
 func add_plot_item(label = "", color = Color.WHITE, width = 1.0) -> PlotItem:

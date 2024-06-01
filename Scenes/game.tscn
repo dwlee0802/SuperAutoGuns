@@ -176,6 +176,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="KORTutorial" type="Panel" parent="Tutorial"]
+visible = false
 custom_minimum_size = Vector2(270, 500)
 layout_mode = 1
 anchors_preset = 15
@@ -246,6 +247,7 @@ offset_right = 100.0
 offset_bottom = 56.0
 theme_override_font_sizes/font_size = 20
 toggle_mode = true
+button_pressed = true
 button_group = SubResource("ButtonGroup_tx2ih")
 text = "Funds"
 script = ExtResource("4_cxk1o")
@@ -282,7 +284,11 @@ offset_right = 666.0
 offset_bottom = 488.0
 script = ExtResource("7_creg4")
 x_max = 25.0
+show_x_ticks = false
+show_x_numbers = false
 y_max = 100.0
+grid_horizontal_visible = true
+grid_vertical_visible = true
 
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]
 [connection signal="pressed" from="EconomyUI/FundsButton" to="." method="_on_economy_ui_buttton_pressed" binds= [0]]

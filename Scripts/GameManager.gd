@@ -135,6 +135,14 @@ func _ready():
 	userInterface.SetSlotAvailability(0, 3)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 	
+	playerIncomeHistory.append(0)
+	playerFundsHistory.append(0)
+	playerTotalFundsHistory.append(0)
+	
+	enemyIncomeHistory.append(0)
+	enemyFundsHistory.append(0)
+	enemyTotalFundsHistory.append(0)
+	
 	AddIncome(isPlayerTurn)
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
@@ -458,11 +466,14 @@ static func CycleProcess():
 	
 	if playerCount == 0 or enemyCount == 0:
 		if playerCount == 0 and enemyCount == 0:
+			# draw. defender victory
 			lastBattleResult = 0
 		if playerCount == 0 and enemyCount != 0:
+			# enemy victory
 			lastBattleResult = 1
 		if playerCount != 0 and enemyCount == 0:
 			EnemyAI_Randomizer.lostLastBattle = true
+			# player victory
 			lastBattleResult = -1
 		
 		return true
@@ -1062,25 +1073,71 @@ func _on_economy_ui_buttton_pressed(extra_arg_0):
 	match extra_arg_0:
 		# funds
 		0:
-			var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Funds", playerColor)
-			for i in playerFundsHistory.size():
-				fundsPlot.add_point(Vector2(i, playerFundsHistory[i]))
-			fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Funds", enemyColor)
-			for i in enemyFundsHistory.size():
-				fundsPlot.add_point(Vector2(i, enemyFundsHistory[i]))
+			if !isPlayerTurn:
+				var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Funds", playerColor)
+				for i in playerFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, playerFundsHistory[i]))
+				fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Funds", enemyColor)
+				for i in enemyFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, enemyFundsHistory[i]))
+				FitGraph(GameManager.fundsGraph, enemyFundsHistory)
+			else:				
+				var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Enemy Funds", enemyColor)
+				for i in enemyFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, enemyFundsHistory[i]))
+				fundsPlot = GameManager.fundsGraph.add_plot_item("Player Funds", playerColor)
+				for i in playerFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, playerFundsHistory[i]))
+				FitGraph(GameManager.fundsGraph, playerFundsHistory)
+				
 		# income
 		1:
-			var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Income", playerColor)
-			for i in playerIncomeHistory.size():
-				fundsPlot.add_point(Vector2(i, playerIncomeHistory[i]))
-			fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Income", enemyColor)
-			for i in enemyIncomeHistory.size():
-				fundsPlot.add_point(Vector2(i, enemyIncomeHistory[i]))
+			if !isPlayerTurn:
+				var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Income", playerColor)
+				for i in playerIncomeHistory.size():
+					fundsPlot.add_point(Vector2(i, playerIncomeHistory[i]))
+				fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Income", enemyColor)
+				for i in enemyIncomeHistory.size():
+					fundsPlot.add_point(Vector2(i, enemyIncomeHistory[i]))
+				
+				FitGraph(GameManager.fundsGraph, enemyIncomeHistory)
+			else:
+				var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Enemy Income", enemyColor)
+				for i in enemyIncomeHistory.size():
+					fundsPlot.add_point(Vector2(i, enemyIncomeHistory[i]))
+				fundsPlot = GameManager.fundsGraph.add_plot_item("Player Income", playerColor)
+				for i in playerIncomeHistory.size():
+					fundsPlot.add_point(Vector2(i, playerIncomeHistory[i]))
+				
+				FitGraph(GameManager.fundsGraph, playerIncomeHistory)
 		# total funds
 		2:
-			var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Total Funds", playerColor)
-			for i in playerTotalFundsHistory.size():
-				fundsPlot.add_point(Vector2(i, playerTotalFundsHistory[i]))
-			fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Total Funds", enemyColor)
-			for i in enemyTotalFundsHistory.size():
-				fundsPlot.add_point(Vector2(i, enemyTotalFundsHistory[i]))
+			# add current turn side later so it shows up top
+			if !isPlayerTurn:
+				var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Player Total Funds", playerColor)
+				for i in playerTotalFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, playerTotalFundsHistory[i]))
+				fundsPlot = GameManager.fundsGraph.add_plot_item("Enemy Total Funds", enemyColor)
+				for i in enemyTotalFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, enemyTotalFundsHistory[i]))
+				FitGraph(GameManager.fundsGraph, enemyTotalFundsHistory)
+			else:
+				var fundsPlot: PlotItem = GameManager.fundsGraph.add_plot_item("Enemy Total Funds", enemyColor)
+				for i in enemyTotalFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, enemyTotalFundsHistory[i]))
+				fundsPlot = GameManager.fundsGraph.add_plot_item("Player Total Funds", playerColor)
+				for i in playerTotalFundsHistory.size():
+					fundsPlot.add_point(Vector2(i, playerTotalFundsHistory[i]))
+				FitGraph(GameManager.fundsGraph, playerTotalFundsHistory)
+
+
+func FitGraph(graph: Graph2D, data):
+	graph.x_max = data.size() + 1
+	graph.x_min = 0
+	
+	var ymax = -1
+	for i in data.size():
+		if data[i] + 5 > ymax:
+			ymax = data[i] + 5
+			
+	graph.y_max = ymax
