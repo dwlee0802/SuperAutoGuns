@@ -17,3 +17,5 @@ func _process(_delta):
 	if !timer.is_stopped():
 		timeLabel.text = str(int(timer.time_left))
 		radialUI.progress = timer.time_left / timer.wait_time * 100
+		if radialUI.progress < 50:
+			radialUI.bar_color = Color.RED
