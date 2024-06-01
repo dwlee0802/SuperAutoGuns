@@ -765,7 +765,7 @@ func AddIncome(toPlayer: bool):
 	
 	amount += captureBonus
 	
-	ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
+	GameManager.ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
 	
 	# record stats
 	if toPlayer:
@@ -982,9 +982,9 @@ func SetBoughtThisTurn(player: bool):
 			unit.boughtThisTurn = false
 	
 	if player:
-		ProcessUnitMatrix(playerUnitMatrix, MakeUsed)
+		GameManager.ProcessUnitMatrix(playerUnitMatrix, MakeUsed)
 	else:
-		ProcessUnitMatrix(enemyUnitMatrix, MakeUsed)
+		GameManager.ProcessUnitMatrix(enemyUnitMatrix, MakeUsed)
 	
 	
 # assign empty matrix to the yielding side
