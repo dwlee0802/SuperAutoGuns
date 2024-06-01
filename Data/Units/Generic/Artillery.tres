@@ -5,10 +5,10 @@
 [resource]
 script = ExtResource("1_y52ge")
 name = "Ranged"
-description = ""
+description = "Long range"
 disabled = false
 type = 2
-purchaseCost = 3
+purchaseCost = 4
 color = Color(0.270588, 0.729412, 0.654902, 1)
 maxHealthPoints = 6
 movementCost = 4

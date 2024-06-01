@@ -28,6 +28,8 @@ var stackCount: int = 1
 
 var statAdditionModifier = []
 
+var boughtThisTurn: bool = true
+
 # signals
 signal received_hit(amount)
 
@@ -185,6 +187,7 @@ func _to_string():
 func Duplicate():
 	var clone = Unit.new(isPlayer, data, coords, stackCount)
 	clone.currentHealthPoints = currentHealthPoints
+	clone.boughtThisTurn = boughtThisTurn
 	
 	return clone
 	

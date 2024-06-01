@@ -356,4 +356,4 @@ func _swap_button_pressed():
 
 func UpdateDebugLabel():
 	# debug label
-	$DebugLabel.text = str(unit.coords)
+	$DebugLabel.text = str(unit.boughtThisTurn)

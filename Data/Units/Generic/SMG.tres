@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_afoe0")
 name = "SMG"
-description = ""
+description = "Bonus attack damage when flanking."
 disabled = false
 type = 0
 purchaseCost = 3

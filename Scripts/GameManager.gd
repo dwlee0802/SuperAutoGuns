@@ -903,6 +903,8 @@ func CommitButtonPressed():
 	userInterface.UpdateHealButtonLabel()
 	userInterface.UpdateSellButtonLabel()
 	
+	SetBoughtThisTurn(isPlayerTurn)
+	
 	if !playerAttacking:
 		if isPlayerTurn:
 			# save reserve
@@ -966,6 +968,25 @@ func CommitButtonPressed():
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 
 
+func SetBoughtThisTurn(player: bool):
+	var targetList = playerReserves
+	if !player:
+		targetList = enemyReserves
+		
+	for unit: Unit in targetList:
+		unit.boughtThisTurn = false
+	
+	# save initial coords inside unit matrix
+	var MakeUsed = func(unit):
+		if unit is Unit:
+			unit.boughtThisTurn = false
+	
+	if player:
+		ProcessUnitMatrix(playerUnitMatrix, MakeUsed)
+	else:
+		ProcessUnitMatrix(enemyUnitMatrix, MakeUsed)
+	
+	
 # assign empty matrix to the yielding side
 # combination of battle_process_button_pressed and cycle end
 func PassButtonPressed():

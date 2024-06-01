@@ -362,7 +362,10 @@ func SellButtonPressed(unitCard = UnitCard.selected):
 	else:
 		var isPlayer : bool = unitCard.unit.isPlayer
 		
-		var refundAmount: int = int(unitCard.unit.data.purchaseCost * unitCard.unit.stackCount * GameManager.refundRatio)
+		var refundAmount: int = int(unitCard.unit.data.purchaseCost * unitCard.unit.stackCount)
+		if unitCard.unit.boughtThisTurn == false:
+			refundAmount = int(GameManager.refundRatio * refundAmount)
+			
 		if unitCard.get_parent() is ReserveContainer:
 			GameManager.RemoveUnitFromReserve(unitCard.unit)
 			unitCard.queue_free()
@@ -505,7 +508,10 @@ func UpdateSellButtonLabel():
 	button.disabled = true
 	
 	if UnitCard.selected != null:
-		var amount = UnitCard.selected.unit.data.purchaseCost * UnitCard.selected.unit.stackCount / 2
+		var amount = UnitCard.selected.unit.data.purchaseCost * UnitCard.selected.unit.stackCount
+		if UnitCard.selected.unit.boughtThisTurn == false:
+			amount = int(amount * GameManager.refundRatio)
+			
 		var text = "Income: {num}"
 		label.text = text.format({"num": amount})
 		button.disabled = false

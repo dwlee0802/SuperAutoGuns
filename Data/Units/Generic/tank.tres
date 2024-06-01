@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_4ueyb")
 name = "Tank"
-description = ""
+description = "Takes 1 less damage."
 disabled = false
 type = 1
 purchaseCost = 4

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_l56xj")
 name = "Rifle"
-description = ""
+description = "Standard Issue Rifle"
 disabled = false
 type = 0
 purchaseCost = 3

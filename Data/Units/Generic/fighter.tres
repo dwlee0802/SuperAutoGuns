@@ -5,10 +5,10 @@
 [resource]
 script = ExtResource("1_hwwql")
 name = "Fighter"
-description = ""
+description = "Attacks units from the back most column."
 disabled = false
 type = 2
-purchaseCost = 3
+purchaseCost = 4
 color = Color(1, 0.436078, 0.44223, 1)
 maxHealthPoints = 4
 movementCost = 2
