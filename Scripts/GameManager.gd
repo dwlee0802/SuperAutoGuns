@@ -10,6 +10,8 @@ static var cycleCount: int = 0
 static var battleCount: int = 0
 static var maxBattleCount: int = 25
 
+static var battleResultLabel: Label
+
 # Column 0 is the frontline
 static var playerUnitMatrix
 static var enemyUnitMatrix
@@ -75,6 +77,9 @@ static var reinforcementCount: int = 6
 # -1 is player victory 0 is draw 1 is enemy victory
 static var lastBattleResult: int = 0
 
+static var playerPassed: bool = false
+static var enemyPassed: bool = false
+
 static var healCostPerStackCount: int = 2
 
 static var refundRatio: float = 0.5
@@ -131,6 +136,8 @@ func _ready():
 	userInterface = $UserInterface
 	
 	captureStatusUI = $UserInterface/Root/CaptureStatusUI
+	
+	battleResultLabel = $BattleResultLabel
 	
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)
@@ -216,23 +223,6 @@ func _on_cycle_timer_timeout():
 		# start next turn
 		AddIncome(isPlayerTurn)
 		userInterface.turnTimer.start(turnTime)
-		
-		# update battle result
-		var resultLabel = $BattleResultLabel
-		resultLabel.visible = true
-		if lastBattleResult == -1:
-			if playerAttacking:
-				resultLabel.text = "Player Offensive Victory"
-			else:
-				resultLabel.text = "Player Defensive Victory"
-		elif lastBattleResult == 0:
-			if playerAttacking:
-				resultLabel.text = "Draw. Defensive Victory"
-		elif lastBattleResult == 1:
-			if !playerAttacking:
-				resultLabel.text = "Enemy Offensive Victory"
-			else:
-				resultLabel.text = "Enemy Defensive Victory"
 	else:
 		if cycleTimer.is_stopped():
 			# should wait til animations are done
@@ -308,6 +298,11 @@ func _on_battle_process_button_pressed():
 	userInterface.UpdateSellButtonLabel()
 	
 	UpdateCTKLabel()
+	
+	if playerAttacking:
+		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
+	else:
+		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, -1)
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
@@ -448,20 +443,25 @@ static func CycleProcess():
 	var enemyCount = UnitCount(enemyUnitMatrix)
 	
 	EnemyAI_Randomizer.lostLastBattle = false
-	
+				
 	if enemyCount == 0 and playerCount == 0:
+		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(false)
 		print("\nSuccessful Defensive")
 	elif playerAttacking and enemyCount == 0:
+		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(true)
 		print("\nSuccessful Player Offensive")
 	elif !playerAttacking and playerCount == 0:
+		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(true)
 		print("\nSuccessful Enemy Offensive")
 	elif !playerAttacking and enemyCount == 0:
+		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(false)
 		print("\nSuccessful Player Defensive")
 	elif playerAttacking and playerCount == 0:
+		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(false)
 		print("\nSuccessful Enemy Defensive")
 	
@@ -482,6 +482,21 @@ static func CycleProcess():
 	return false
 
 
+static func UpdateBattleResultLabel(playerWon: bool, attackerVictory: bool):
+	# update battle result
+	battleResultLabel.visible = true
+	if playerWon:
+		if attackerVictory:
+			battleResultLabel.text = "Player Offensive Victory"
+		else:
+			battleResultLabel.text = "Player Defensive Victory"
+	else:
+		if attackerVictory:
+			battleResultLabel.text = "Enemy Offensive Victory"
+		else:
+			battleResultLabel.text = "Enemy Defensive Victory"
+			
+			
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement
 # move forward if front slot exists and is empty
@@ -776,7 +791,7 @@ func AddIncome(toPlayer: bool):
 		captureBonus = _enemyDist - _playerDist
 		difference *= -1
 	
-	amount += captureBonus
+	amount += captureBonus/2
 	
 	GameManager.ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
 	
@@ -870,7 +885,14 @@ static func ProcessUnitMatrix(unitMatrix, doStuff: Callable):
 
 # swap attack and defense based on battle result
 static func BattleResultProcess(attackerVictory: bool):
-	GameManager.ImportUnitMatrixBackup()
+	if attackerVictory == true and playerAttacking == true:
+		UpdateBattleResultLabel(true, true)
+	if attackerVictory == false and playerAttacking == true:
+		UpdateBattleResultLabel(false, false)
+	if attackerVictory == true and playerAttacking == false:
+		UpdateBattleResultLabel(false, true)
+	if attackerVictory == false and playerAttacking == false:
+		UpdateBattleResultLabel(true, false)
 	
 	if attackerVictory:
 		if playerAttacking:
@@ -1000,12 +1022,117 @@ func SetBoughtThisTurn(player: bool):
 		GameManager.ProcessUnitMatrix(enemyUnitMatrix, MakeUsed)
 	
 	
-# assign empty matrix to the yielding side
-# combination of battle_process_button_pressed and cycle end
 func PassButtonPressed():
-	pass
+	UnitCard.selected = null
+	userInterface.UpdateHealButtonLabel()
+	userInterface.UpdateSellButtonLabel()
+	
+	SetBoughtThisTurn(isPlayerTurn)
+	
+	userInterface.turnTimer.stop()
+	
+	GameManager.playerEffectiveDamage = 0
+	GameManager.enemyEffectiveDamage = 0
+	GameManager.UpdateEffectiveDamageUI()
+	
+	GameManager.battleCount+= 1
+	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
+	print("Battle #" + str(GameManager.battleCount))
+	
+	# player attack pass
+	if isPlayerTurn:
+		lastBattleResult = 1	# update battle result
+		var resultLabel = $BattleResultLabel
+		resultLabel.visible = true
+		# player victory
+		if lastBattleResult == -1:
+			if playerAttacking:
+				resultLabel.text = "Player Offensive Victory"
+			else:
+				resultLabel.text = "Player Defensive Victory"
+		elif lastBattleResult == 0:
+			if playerAttacking:
+				resultLabel.text = "Draw. Defensive Victory"
+			else:
+				resultLabel.text = "Draw. Defensive Victory"
+		# enemy victory
+		elif lastBattleResult == 1:
+			if !playerAttacking:
+				resultLabel.text = "Enemy Offensive Victory"
+			else:
+				resultLabel.text = "Enemy Defensive Victory"
+				
+		if playerAttacking:
+			print("Player passed attacking.")
+			# conclude this battle as enemy defensive win
+			# switch offense defense
+			BattleResultProcess(false)
+		else:
+			print("Player passed defending.")
+			# add income since we are skipping attacker's turn
+			AddIncome(false)
+			BattleResultProcess(true)
+	else:
+		lastBattleResult = -1	# update battle result
+		var resultLabel = $BattleResultLabel
+		resultLabel.visible = true
+		# player victory
+		if lastBattleResult == -1:
+			if playerAttacking:
+				resultLabel.text = "Player Offensive Victory"
+			else:
+				resultLabel.text = "Player Defensive Victory"
+		elif lastBattleResult == 0:
+			if playerAttacking:
+				resultLabel.text = "Draw. Defensive Victory"
+			else:
+				resultLabel.text = "Draw. Defensive Victory"
+		# enemy victory
+		elif lastBattleResult == 1:
+			if !playerAttacking:
+				resultLabel.text = "Enemy Offensive Victory"
+			else:
+				resultLabel.text = "Enemy Defensive Victory"
+				
+		# enemy attack pass
+		if !playerAttacking:
+			print("Enemy passed attacking.")
+			BattleResultProcess(false)
+		else:
+			print("Enemy passed defending.")
+			# add income since we are skipping attacker's turn
+			AddIncome(true)
+			BattleResultProcess(true)
+			
+	# start next battle preparation phase
+	userInterface.SetTurnLabel(isPlayerTurn)
+	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 
-
+	GameManager.HealUnits()
+	# defending player goes first
+	# set attack dir ui to left
+	userInterface.SetAttackDirectionUI(true)
+	
+	if !playerAttacking:
+		isPlayerTurn = true
+		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+		userInterface.ImportReserve(playerReserves)
+	else:
+		isPlayerTurn = false
+		userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
+		userInterface.ImportReserve(enemyReserves)
+		
+	userInterface.GenerateReinforcementOptions(isPlayerTurn, reinforcementCount)
+	
+	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+	
+	cycleCount = 0
+	
+	# start next turn
+	AddIncome(isPlayerTurn)
+	userInterface.turnTimer.start(turnTime)
+	
+	
 static func PrintUnitMatrix(unitMatrix):
 	var output = ""
 	var count = 0
