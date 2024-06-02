@@ -1067,12 +1067,12 @@ func PassButtonPressed():
 			print("Player passed attacking.")
 			# conclude this battle as enemy defensive win
 			# switch offense defense
-			BattleResultProcess(false)
+			GameManager.BattleResultProcess(false)
 		else:
 			print("Player passed defending.")
 			# add income since we are skipping attacker's turn
 			AddIncome(false)
-			BattleResultProcess(true)
+			GameManager.BattleResultProcess(true)
 	else:
 		lastBattleResult = -1	# update battle result
 		var resultLabel = $BattleResultLabel
@@ -1098,12 +1098,12 @@ func PassButtonPressed():
 		# enemy attack pass
 		if !playerAttacking:
 			print("Enemy passed attacking.")
-			BattleResultProcess(false)
+			GameManager.BattleResultProcess(false)
 		else:
 			print("Enemy passed defending.")
 			# add income since we are skipping attacker's turn
 			AddIncome(true)
-			BattleResultProcess(true)
+			GameManager.BattleResultProcess(true)
 			
 	# start next battle preparation phase
 	userInterface.SetTurnLabel(isPlayerTurn)
