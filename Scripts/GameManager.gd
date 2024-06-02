@@ -790,8 +790,9 @@ func AddIncome(toPlayer: bool):
 	if _playerDist < _enemyDist and !toPlayer:
 		captureBonus = _enemyDist - _playerDist
 		difference *= -1
-	
-	amount += captureBonus/2
+		
+	captureBonus/=2
+	amount += captureBonus
 	
 	GameManager.ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
 	
@@ -807,7 +808,7 @@ func AddIncome(toPlayer: bool):
 		"total":amount,
 		"base":baseIncomeAmount, 
 		"count":battleCount, "countbonus":battleCountBonus,
-		"capdiff":difference, "cap":captureBonus,
+		"capdiff":difference/2, "cap":captureBonus,
 		"intrpc":str(int(GameManager.interestRate * 100)) + "%", "intr":interest})
 	userInterface.SetLastIncomeLabel(incomeBreakup)
 	
