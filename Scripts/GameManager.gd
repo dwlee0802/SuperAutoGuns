@@ -785,13 +785,12 @@ func AddIncome(toPlayer: bool):
 	# distance from capital bonus
 	var captureBonus: int = 0
 	var difference: int = _playerDist - _enemyDist
-	if _playerDist > _enemyDist and toPlayer:
-		captureBonus = _playerDist - _enemyDist
-	if _playerDist < _enemyDist and !toPlayer:
-		captureBonus = _enemyDist - _playerDist
+	if !toPlayer:
 		difference *= -1
 		
-	captureBonus/=2
+	if difference > 0:
+		captureBonus = difference/2
+		
 	amount += captureBonus
 	
 	GameManager.ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
