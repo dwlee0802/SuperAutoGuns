@@ -265,18 +265,31 @@ func OnAttackAnimationFinished(animName):
 		if unit != null:
 			var newTarget = unit.attackTarget
 			
-			if newTarget is Unit:
-				unit.attackTargetCoord = newTarget.coords
+			# row attack
+			if unit.data.rowAttack:
+				var targets = GameManager.GetUnitMatrixRow(!unit.isPlayer, newTarget.coords.y)
 				
-				# call received hit animation
-				newTarget.ReceiveHit(unit)
-				
-				UpdateAttackLine(unit.coords.y != newTarget.coords.y)
+				for target in targets:
+					target.ReceiveHit(unit)
+					UpdateAttackLine(unit.coords.y != newTarget.coords.y)
 				
 				if unit.isPlayer:
 					GameManager.playerAttackingUnitsCount -= 1
 				else:
 					GameManager.enemyAttackingUnitsCount -= 1
+			else:
+				if newTarget is Unit:
+					unit.attackTargetCoord = newTarget.coords
+					
+					# call received hit animation
+					newTarget.ReceiveHit(unit)
+					
+					UpdateAttackLine(unit.coords.y != newTarget.coords.y)
+					
+					if unit.isPlayer:
+						GameManager.playerAttackingUnitsCount -= 1
+					else:
+						GameManager.enemyAttackingUnitsCount -= 1
 					
 					
 func UnitDied():

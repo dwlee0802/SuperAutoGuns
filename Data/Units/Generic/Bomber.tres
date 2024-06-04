@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dljbfxoxctonl"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_vn3kl"]
+
+[resource]
+script = ExtResource("1_vn3kl")
+name = "Bomber"
+description = "Attacks the whole row"
+disabled = false
+type = 2
+purchaseCost = 5
+color = Color(0.470588, 0.137255, 0, 1)
+maxHealthPoints = 5
+movementCost = 3
+attackCost = 6
+attackRange = 5
+attackFromBack = true
+rowAttack = true
+attackDamage = 2
+flankingAttackModifier = 0.0
+defense = 0
+flankingDefenseModifier = 0.0

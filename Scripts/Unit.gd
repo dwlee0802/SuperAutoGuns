@@ -146,11 +146,22 @@ func Attack(differentRow: bool = false):
 		#target = GameManager.playerUnitMatrix[attackTargetCoord.x][attackTargetCoord.y]
 	#
 	if attackTarget != null:
-		# is flank
-		if differentRow:
-			attackTarget.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
+		if data.rowAttack:
+			var targets = GameManager.GetUnitMatrixRow(!isPlayer, attackTarget.coords.y)
+			print("here?")
+			print(targets.size())
+			for unit in targets:
+				if differentRow:
+					attackTarget.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
+				else:
+					attackTarget.ReceiveHit(GetAttackDamage())
 		else:
-			attackTarget.ReceiveHit(GetAttackDamage())
+			print("is it here???")
+			# is flank
+			if differentRow:
+				attackTarget.ReceiveHit(GetAttackDamage() + data.flankingAttackModifier)
+			else:
+				attackTarget.ReceiveHit(GetAttackDamage())
 		
 		attacked.emit()
 	else:

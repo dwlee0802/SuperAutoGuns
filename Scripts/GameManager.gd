@@ -701,6 +701,21 @@ static func FindAttackTarget(attacker: Unit, fromBack: bool = false) -> Unit:
 	return null
 	
 
+# returns all units in the specified row in a list
+static func GetUnitMatrixRow(player: bool, rowNumber: int):
+	var checkingMatrix = playerUnitMatrix
+	if !player:
+		checkingMatrix = enemyUnitMatrix
+	
+	var output = []
+	
+	for col in checkingMatrix:
+		if col[rowNumber] != null:
+			output.append(col[rowNumber])
+	
+	return output
+	
+	
 static func AddReserveUnit(data: UnitData, isPlayer: bool):
 	var newUnit = Unit.new(isPlayer, data, null)
 	if isPlayer:

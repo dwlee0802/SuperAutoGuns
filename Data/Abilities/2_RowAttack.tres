@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3 uid="uid://cvnydfj3s7p5s"]
+
+[ext_resource type="Script" path="res://Scripts/AbilityData.gd" id="1_qt6mv"]
+
+[resource]
+script = ExtResource("1_qt6mv")
+abilityName = "Row Attack"
+ID = 2
+description = "Attacks entire row"
+isStatic = false
+callableName = "null"
+activiationCondition = 0
+statType = 0
+int_parameter = 1
+dir_parameter = Vector2(0, 0)
