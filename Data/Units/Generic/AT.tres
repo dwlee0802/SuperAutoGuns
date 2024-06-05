@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://csyupia764ci8"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_r4ju7"]
+
+[resource]
+script = ExtResource("1_r4ju7")
+name = "AT Cannon"
+description = ""
+disabled = false
+type = 2
+purchaseCost = 3
+color = Color(0.657777, 0.6101, 0.663689, 1)
+maxHealthPoints = 6
+movementCost = 3
+attackCost = 3
+attackRange = 2
+attackFromBack = false
+rowAttack = false
+attackDamage = 3
+flankingAttackModifier = 0.0
+defense = 0
+flankingDefenseModifier = 0.0
+penetration = 1

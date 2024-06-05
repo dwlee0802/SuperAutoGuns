@@ -79,7 +79,9 @@ func ReceiveHit(attacker: Unit):
 	else:
 		consoleOutput = "(Enemy)"
 	
-	amount -= GetDefense(isFlank)
+	var effectiveDefense = max(GetDefense(isFlank) - attacker.GetPenetration(), 0)
+	
+	amount -= effectiveDefense
 	
 	if amount < 0:
 		amount = 0
@@ -236,6 +238,10 @@ func GetAttackRange():
 	return data.attackRange
 
 
+func GetPenetration():
+	return data.penetration * stackCount
+	
+	
 # connects the right signal based on AbilityData to UseAbility
 func ConnectTargetSignals():
 	# start by removing connections from all signals

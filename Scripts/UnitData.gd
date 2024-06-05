@@ -37,3 +37,4 @@ class_name UnitData
 @export var defense: int = 0
 @export var flankingDefenseModifier: float = 0
 
+@export var penetration: int = 0
