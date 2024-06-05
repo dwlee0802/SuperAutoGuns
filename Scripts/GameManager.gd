@@ -528,11 +528,11 @@ static func UnitBehaviorProcess(unitMatrix):
 							attackingUnitsCount += 1
 					# no target. reset value
 					else:
-						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
+						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
 				# can move
 				elif unitMatrix[col - 1][row] == null or (unitMatrix[col - 1][row] != null and unitMatrix[col - 1][row].IsMoving()):
 					unitMatrix[col][row].movementCyclesLeft -= 1
-					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].data.attackCost
+					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
 	
 	return attackingUnitsCount
 	
@@ -579,6 +579,8 @@ static func ApplyUnitMovement(unitMatrix):
 						unitMatrix[col][row] = null
 						unitMatrix[col - 1][row].movementCyclesLeft = unitMatrix[col - 1][row].data.movementCost
 						
+						if unitMatrix[col - 1][row] is MachineGunUnit:
+							unitMatrix[col - 1][row].firstAttackAfterMoving = true
 					else:
 						print("ERROR! Unit movement cycle is below zero even though it cannot move.")
 				
@@ -718,6 +720,9 @@ static func GetUnitMatrixRow(player: bool, rowNumber: int):
 	
 static func AddReserveUnit(data: UnitData, isPlayer: bool):
 	var newUnit = Unit.new(isPlayer, data, null)
+	if data is MachineGunUnitData:
+		newUnit = MachineGunUnit.new(isPlayer, data, null)
+		
 	if isPlayer:
 		playerReserves.append(newUnit)
 		userInterface.ImportReserve(playerReserves)

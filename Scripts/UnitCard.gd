@@ -59,6 +59,9 @@ func SetUnit(_unit: Unit):
 		if unit.attackTargetCoord == null:
 			return
 			
+		if unit is MachineGunUnit:
+			unit.firstAttackAfterMoving = false
+			
 		attackAnimationPlayer.animation_finished.connect(OnAttackAnimationFinished)
 		if unit.isPlayer:
 			attackAnimationPlayer.play("attack_animation_left")
@@ -162,7 +165,7 @@ func UpdateMovementLabel():
 func UpdateAttackLabel():
 	var label = $TextureRect/AttackLabel
 	label.text = "Attack in: " + str(unit.attackCyclesLeft + 1)
-	if unit.attackCyclesLeft == unit.data.attackCost or unit.attackCyclesLeft == -1:
+	if unit.attackCyclesLeft == unit.GetAttackSpeed() or unit.attackCyclesLeft == -1:
 		label.visible = false
 	#else:
 		#label.visible = true
@@ -195,12 +198,12 @@ func UpdateRadialUI(first: bool = false):
 		else:
 			radialLabel.text = str(unit.movementCyclesLeft + 1)
 	
-	elif unit.attackCyclesLeft < unit.data.attackCost:
+	elif unit.attackCyclesLeft < unit.GetAttackSpeed():
 		radialUI.bar_color = Color.RED
-		ratio = 1 - (unit.attackCyclesLeft + 1) / float(unit.data.attackCost)
+		ratio = 1 - (unit.attackCyclesLeft + 1) / float(unit.GetAttackSpeed())
 		if first:
-			ratio = 1 - (unit.attackCyclesLeft + 2) / float(unit.data.attackCost)
-		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.data.attackCost)
+			ratio = 1 - (unit.attackCyclesLeft + 2) / float(unit.GetAttackSpeed())
+		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.GetAttackSpeed())
 		radialUI.visible = true
 		
 		# update label
@@ -260,7 +263,7 @@ func UpdateAttackLine(isFlanking: bool = false):
 func OnAttackAnimationFinished(animName):
 	if animName == "attack_animation_left" or animName == "attack_animation_right":
 		# reset attack cycle cost
-		unit.attackCyclesLeft = unit.data.attackCost
+		unit.attackCyclesLeft = unit.GetAttackSpeed()
 		
 		if unit != null:
 			var newTarget = unit.attackTarget
@@ -290,7 +293,7 @@ func OnAttackAnimationFinished(animName):
 						GameManager.playerAttackingUnitsCount -= 1
 					else:
 						GameManager.enemyAttackingUnitsCount -= 1
-					
+				
 					
 func UnitDied():
 	var neweffect: GPUParticles2D = deathEffect.instantiate()

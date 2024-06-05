@@ -58,8 +58,8 @@ func _init(_player, _data, _coord, _stack: int = 1):
 	
 
 func ResetStats():
-	movementCyclesLeft = data.movementCost
-	attackCyclesLeft = data.attackCost
+	movementCyclesLeft = GetMovementSpeed()
+	attackCyclesLeft = GetAttackSpeed()
 	currentHealthPoints = data.maxHealthPoints
 
 
@@ -234,7 +234,7 @@ func GetMovementSpeed():
 
 func GetAttackRange():
 	return data.attackRange
-	
+
 
 # connects the right signal based on AbilityData to UseAbility
 func ConnectTargetSignals():

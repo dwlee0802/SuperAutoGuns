@@ -15,6 +15,7 @@ movementCost = 3
 attackCost = 3
 attackRange = 2
 attackFromBack = false
+rowAttack = false
 attackDamage = 3
 flankingAttackModifier = 0.0
 defense = 0

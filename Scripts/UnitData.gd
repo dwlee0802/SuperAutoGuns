@@ -16,6 +16,9 @@ class_name UnitData
 
 @export var ability: AbilityData
 
+@export var onHitAbility: AbilityData = null
+
+
 @export_group("Combat Stats")
 @export var maxHealthPoints: int = 10
 
@@ -33,5 +36,4 @@ class_name UnitData
 
 @export var defense: int = 0
 @export var flankingDefenseModifier: float = 0
-
 

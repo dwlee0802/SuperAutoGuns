@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="MachineGunUnitData" load_steps=2 format=3 uid="uid://cjoyhjuke5m85"]
+
+[ext_resource type="Script" path="res://Scripts/MachinegunUnitData.gd" id="1_q6gbw"]
+
+[resource]
+script = ExtResource("1_q6gbw")
+setUpTime = 3
+name = "Machine Gun"
+description = ""
+disabled = false
+type = 0
+purchaseCost = 3
+color = Color(0.658824, 0.788235, 0, 1)
+maxHealthPoints = 7
+movementCost = 4
+attackCost = 1
+attackRange = 1
+attackFromBack = false
+rowAttack = false
+attackDamage = 2
+flankingAttackModifier = 0.0
+defense = 0
+flankingDefenseModifier = 0.0
