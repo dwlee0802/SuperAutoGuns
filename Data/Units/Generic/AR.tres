@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://b7xryy5uxk5yc"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_x2p7a"]
+
+[resource]
+script = ExtResource("1_x2p7a")
+name = "Assault Rifle"
+description = "Standard Issue Rifle"
+disabled = false
+type = 0
+purchaseCost = 4
+color = Color(0.235697, 0.488765, 0.687134, 1)
+maxHealthPoints = 10
+movementCost = 2
+attackCost = 2
+attackRange = 1
+attackFromBack = false
+rowAttack = false
+attackDamage = 3
+flankingAttackModifier = 0.0
+defense = 0
+flankingDefenseModifier = 0.0
