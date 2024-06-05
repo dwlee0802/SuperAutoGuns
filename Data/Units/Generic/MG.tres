@@ -4,14 +4,14 @@
 
 [resource]
 script = ExtResource("1_q6gbw")
-setUpTime = 3
+setUpTime = 4
 name = "Machine Gun"
 description = ""
 disabled = false
 type = 0
 purchaseCost = 3
 color = Color(0.658824, 0.788235, 0, 1)
-maxHealthPoints = 7
+maxHealthPoints = 8
 movementCost = 4
 attackCost = 1
 attackRange = 1
