@@ -5,16 +5,16 @@ var coords = null
 
 var canBeDropped: bool = true
 
-signal dropped
+var canWaitOrder: bool = false:
+	set(value):
+		canWaitOrder = value
 
-static var waitOrderData
+signal dropped
 
 var waitcount: int = 0
 
+@onready var debugLabel: Label = $WaitCountLabel
 
-static func _static_init():
-	waitOrderData = load("res://Data/Units/Generic/wait_order.tres")
-	
 
 func SetCanBeDropped(value):
 	canBeDropped = value
@@ -52,15 +52,23 @@ func _gui_input(event):
 			if _can_drop_data(Vector2.ZERO, UnitCard.selected):
 				_drop_data(Vector2.ZERO, UnitCard.selected)
 		
-		if UnitCard.selected == null and Input.is_action_just_pressed("left_click") and canBeDropped:
+		# possible to make units wait here if attacker turn and slot is in middle col
+		if UnitCard.selected == null and Input.is_action_just_pressed("left_click") and canWaitOrder:
 			print("add wait order here")
 			waitcount += 1
-			$Label.text = str(waitcount)
-		if UnitCard.selected == null and Input.is_action_just_pressed("right_click") and canBeDropped:
+			debugLabel.text = "wait " + str(waitcount) + " cycles"
+		if UnitCard.selected == null and Input.is_action_just_pressed("right_click") and canWaitOrder:
 			print("remove wait order here")
 			waitcount -= 1
-			$Label.text = str(waitcount)
-
+			if waitcount < 0:
+				waitcount = 0
+			debugLabel.text = "wait " + str(waitcount) + " cycles"
+			
+		if waitcount > 0:
+			debugLabel.visible = true
+		else:
+			debugLabel.visible = false
+			
 
 # returns the unit card here and null if none
 func GetUnitHere():

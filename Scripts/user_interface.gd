@@ -199,7 +199,7 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 		for slot in col.get_children():
 			for i in range(slot.get_child_count()):
 				var target = slot.get_child(i)
-				if !(target is TextureRect):
+				if target is UnitCard:
 					target.queue_free()
 
 	var colCount = unitMatrix.get_child_count()
@@ -456,7 +456,26 @@ func SetMiddleColumnColor(attackingTurn):
 		for slot in midCol.get_children():
 			slot.get_node("TextureRect").self_modulate = middleColor
 			
+			
+func SetMiddleColumnAvailability(available: bool):
+	var midCol = unitMatrix.get_child((unitMatrix.get_child_count()) / 2)
+	# set blue
+	for slot in midCol.get_children():
+		slot.canWaitOrder = available
+			
 
+# returns the wait times of the middle column as a list
+func ExportWaitTimes():
+	var output = []
+	
+	var midCol = unitMatrix.get_child((unitMatrix.get_child_count()) / 2)
+	# set blue
+	for slot : UnitSlot in midCol.get_children():
+		output.append(slot.waitcount)
+		
+	return output
+	
+	
 # looks for the unit card with unit set to input
 # might need optimization later on
 func FindUnitCard(unit: Unit):
