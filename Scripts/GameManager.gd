@@ -112,7 +112,7 @@ static var enemyColor: Color
 @export var playerColorOverride: Color = Color.ROYAL_BLUE
 @export var enemyColorOverride: Color = Color.DARK_RED
 
-@export var turnTime: float = 30
+@export var turnTime: float = 60
 
 static var fundsGraph
 
@@ -511,29 +511,34 @@ static func UnitBehaviorProcess(unitMatrix):
 		for row in range(len(unitMatrix[col])):
 			# check movement
 			if unitMatrix[col][row] != null:
-				# dont move if: is front column or front slot is occupied
-				# row based movement. cound down movement cycles left also if front unit is moving
-				if col == 0 or (unitMatrix[col - 1][row] != null and !unitMatrix[col - 1][row].IsMoving()):
-					# reset movement cost
-					unitMatrix[col][row].movementCyclesLeft = unitMatrix[col][row].data.movementCost
-					
-					# check if able to attack
-					var target = FindAttackTarget(unitMatrix[col][row], unitMatrix[col][row].data.attackFromBack)
-					
-					# valid attack target exists
-					if target != null:
-						unitMatrix[col][row].SetAttackTarget(target)
-						unitMatrix[col][row].attackCyclesLeft -= 1
-						if unitMatrix[col][row].attackCyclesLeft < 0:
-							attackingUnitsCount += 1
-					# no target. reset value
-					else:
+				if unitMatrix[col][row] is WaitOrder:
+					unitMatrix[col][row].waitCycles -= 1
+					if unitMatrix[col][row].waitCycles < 0:
+						unitMatrix[col][row].currentHealthPoints = -1
+				else:
+					# dont move if: is front column or front slot is occupied
+					# row based movement. cound down movement cycles left also if front unit is moving
+					if col == 0 or (unitMatrix[col - 1][row] != null and !unitMatrix[col - 1][row].IsMoving()):
+						# reset movement cost
+						unitMatrix[col][row].movementCyclesLeft = unitMatrix[col][row].data.movementCost
+						
+						# check if able to attack
+						var target = FindAttackTarget(unitMatrix[col][row], unitMatrix[col][row].data.attackFromBack)
+						
+						# valid attack target exists
+						if target != null:
+							unitMatrix[col][row].SetAttackTarget(target)
+							unitMatrix[col][row].attackCyclesLeft -= 1
+							if unitMatrix[col][row].attackCyclesLeft < 0:
+								attackingUnitsCount += 1
+						# no target. reset value
+						else:
+							unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
+					# can move
+					elif unitMatrix[col - 1][row] == null or (unitMatrix[col - 1][row] != null and unitMatrix[col - 1][row].IsMoving()):
+						unitMatrix[col][row].movementCyclesLeft -= 1
 						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
-				# can move
-				elif unitMatrix[col - 1][row] == null or (unitMatrix[col - 1][row] != null and unitMatrix[col - 1][row].IsMoving()):
-					unitMatrix[col][row].movementCyclesLeft -= 1
-					unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
-	
+		
 	return attackingUnitsCount
 	
 
@@ -722,6 +727,8 @@ static func AddReserveUnit(data: UnitData, isPlayer: bool):
 	var newUnit = Unit.new(isPlayer, data, null)
 	if data is MachineGunUnitData:
 		newUnit = MachineGunUnit.new(isPlayer, data, null)
+	if data.name == "Wait Order":
+		newUnit = WaitOrder.new(isPlayer, data, null)
 		
 	if isPlayer:
 		playerReserves.append(newUnit)
@@ -1290,3 +1297,7 @@ func FitGraph(graph: Graph2D, data):
 			ymax = data[i] + 5
 			
 	graph.y_max = ymax
+
+
+func AddWaitOrder():
+	pass

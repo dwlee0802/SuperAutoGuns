@@ -276,8 +276,8 @@ func ExportUnitMatrix(currentMatrix, includeMiddle: bool = false):
 	for offset in range(colCount):
 		# row index
 		for row in range(unitMatrix.get_child(colCount - offset - 1).get_child_count()):
-			if unitMatrix.get_child(colCount - offset - 1).get_child(row).get_child_count() == 2:
-				var unit_there = unitMatrix.get_child(colCount - offset - 1).get_child(row).get_child(-1)
+			var unit_there = unitMatrix.get_child(colCount - offset - 1).get_child(row).GetUnitHere()
+			if unit_there != null:
 				if invertY:
 					currentMatrix[offset][row] = unit_there.unit
 				else:

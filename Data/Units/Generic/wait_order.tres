@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dkvuk2hsa686y"]
+
+[ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_2rc7w"]
+
+[resource]
+script = ExtResource("1_2rc7w")
+name = "Wait Order"
+description = ""
+disabled = false
+type = 0
+purchaseCost = 0
+color = Color(1, 1, 1, 1)
+maxHealthPoints = 1
+movementCost = 0
+attackCost = 0
+attackRange = 1
+attackFromBack = false
+rowAttack = false
+attackDamage = 0
+flankingAttackModifier = 0.0
+defense = 0
+flankingDefenseModifier = 0.0
+penetration = 0

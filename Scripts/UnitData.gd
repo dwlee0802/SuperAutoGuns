@@ -6,6 +6,7 @@ class_name UnitData
 
 @export_multiline var description: String = ""
 
+# if true does not get added to data manager
 @export var disabled: bool = false
 
 @export var type: Enums.UnitType

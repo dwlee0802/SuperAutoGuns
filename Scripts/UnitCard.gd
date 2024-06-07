@@ -211,9 +211,23 @@ func UpdateRadialUI(first: bool = false):
 			radialLabel.text = "0"
 		else:
 			radialLabel.text = str(unit.attackCyclesLeft + 1)
+		
+	elif unit is WaitOrder and unit.waitCycles < unit.stackCount:
+		radialUI.bar_color = Color.ORANGE
+		radialUI.visible = true
+		ratio = 1 - (unit.waitCycles + 1) / float(unit.stackCount)
+		if first:
+			ratio = 1 - (unit.waitCycles + 2) / float(unit.stackCount)
+		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.stackCount)
+		
+		# update label
+		if unit.waitCycles + 1 <= 0:
+			radialLabel.text = "0"
+		else:
+			radialLabel.text = str(unit.waitCycles)
 	else:
 		radialUI.visible = false
-	
+		
 	if ratio < 0:
 		ratio = 0
 	if ratio > 1:

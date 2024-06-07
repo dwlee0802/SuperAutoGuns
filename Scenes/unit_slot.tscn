@@ -20,3 +20,8 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_wd3c4")
 expand_mode = 1
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
