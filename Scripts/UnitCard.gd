@@ -192,19 +192,23 @@ func UpdateRadialUI(first: bool = false):
 	# how much is finished in the process
 	var ratio : float = 0
 	
-	if unit is WaitOrder and unit.waitCycles < unit.stackCount:
+	if unit is WaitOrder and unit.waitCycles <= unit.stackCount:
 		radialUI.bar_color = Color.ORANGE
 		
 		# update label
 		if unit.waitCycles < 0:
 			radialLabel.text = "0"
 		else:
-			radialLabel.text = str(unit.waitCycles + 1)
+			radialLabel.text = str(unit.waitCycles)
 		
-		ratio = 1 - (unit.waitCycles + 1) / float(unit.stackCount)
+		ratio = (unit.stackCount - unit.waitCycles) / float(unit.stackCount)
 		if first:
-			ratio = 1 - (unit.waitCycles + 2) / float(unit.stackCount)
+			ratio = (unit.stackCount - unit.waitCycles - 1) / float(unit.stackCount)
 		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.stackCount)
+		
+		print("wait count: " + str(unit.waitCycles))
+		print("stack: " + str(unit.stackCount))
+		print("ratio: " + str(ratio))
 		
 	elif unit.movementCyclesLeft < unit.data.movementCost:
 		radialUI.bar_color = Color.SKY_BLUE
