@@ -47,8 +47,8 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 0
-static var enemyFunds: int = 0
+static var playerFunds: int = 100
+static var enemyFunds: int = 100
 
 static var interestRate: float = 0.1
 static var maxInterest: int = 10
@@ -119,6 +119,8 @@ static var enemyColor: Color
 
 static var fundsGraph
 
+static var researchUI
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -142,6 +144,8 @@ func _ready():
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
 	userInterface = $UserInterface
+	
+	researchUI = $ResearchUI
 	
 	captureStatusUI = $UserInterface/Root/CaptureStatusUI
 	
@@ -169,6 +173,7 @@ func _ready():
 	userInterface.turnTimer.timeout.connect(CommitButtonPressed)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+	researchUI.ImportResearchOptions(isPlayerTurn)
 	
 	# link commit button
 	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton").pressed.connect(CommitButtonPressed)

@@ -64,3 +64,16 @@ static func GetPurchasedUnits(player: bool):
 			output.append(key)
 	
 	return output
+
+
+static func ResearchUnit(player: bool, unit: UnitData):
+	var targetDict = playerPurchasedDict
+	if !player:
+		targetDict = enemyPurchasedDict
+	
+	targetDict[unit] = true
+	
+	if player:
+		print("Player Researched " + unit.name)
+	else:
+		print("Enemy Researched " + unit.name)
