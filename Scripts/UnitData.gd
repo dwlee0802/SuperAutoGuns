@@ -13,6 +13,8 @@ class_name UnitData
 
 @export var startingUnit: bool = false
 
+@export var researchCost: int = 5
+
 @export var purchaseCost: int = 3
 
 @export var color = Color.WHITE

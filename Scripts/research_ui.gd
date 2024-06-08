@@ -24,3 +24,7 @@ func ImportResearchOptions(isPlayer):
 		var newOption: ResearchOption = optionScene.instantiate()
 		newOption.SetData(unit, unitDict[unit])
 		optionsContainer.add_child(newOption)
+
+
+func ResearchOptionSelected():
+	pass

@@ -22,3 +22,8 @@ func SetData(_data: UnitData, purchased: bool):
 	
 	$StatsLabel.text = stats
 	$DescriptionLabel.text = data.description
+	
+	if purchased:
+		$SelectButton.text = data.name + " Research Complete"
+	else:
+		$SelectButton.text = "Research " + data.name + "(" + str(data.researchCost) + ")"

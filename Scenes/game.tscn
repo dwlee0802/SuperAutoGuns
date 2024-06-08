@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=8 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://4hb2vpnf6a6n" path="res://Scenes/user_interface.tscn" id="2_2mya4"]
-[ext_resource type="Script" path="res://Scenes/tutorial.gd" id="3_tp731"]
-[ext_resource type="Script" path="res://Scenes/FundsButton.gd" id="4_cxk1o"]
+[ext_resource type="Script" path="res://Scripts/tutorial.gd" id="3_tp731"]
+[ext_resource type="Script" path="res://Scripts/FundsButton.gd" id="4_cxk1o"]
+[ext_resource type="PackedScene" uid="uid://dq1g0sudslgo5" path="res://Scenes/research_ui.tscn" id="6_mxhfq"]
 [ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="7_creg4"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tx2ih"]
@@ -289,6 +290,19 @@ show_x_numbers = false
 y_max = 100.0
 grid_horizontal_visible = true
 grid_vertical_visible = true
+
+[node name="ResearchUI" parent="." instance=ExtResource("6_mxhfq")]
+custom_minimum_size = Vector2(300, 400)
+layout_mode = 1
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 1254.0
+offset_top = 423.0
+offset_right = 1586.0
+offset_bottom = 868.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]
 [connection signal="pressed" from="EconomyUI/FundsButton" to="." method="_on_economy_ui_buttton_pressed" binds= [0]]

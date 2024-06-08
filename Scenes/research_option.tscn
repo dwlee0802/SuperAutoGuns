@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://kaiavi6o78ta"]
 
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_6dfj2"]
-[ext_resource type="Script" path="res://Scenes/research_option.gd" id="1_ijwl0"]
+[ext_resource type="Script" path="res://Scripts/research_option.gd" id="1_ijwl0"]
 
 [node name="ResearchOption" type="Control"]
 texture_filter = 1
@@ -25,14 +25,11 @@ texture = ExtResource("1_6dfj2")
 
 [node name="SelectButton" type="Button" parent="."]
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 12
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -13.5
 offset_top = -31.0
-offset_right = 13.5
 grow_horizontal = 2
 grow_vertical = 0
 text = "10"
@@ -47,7 +44,7 @@ offset_top = 18.0
 offset_right = 120.0
 offset_bottom = 39.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 14
 text = "HP: 0 | ATK: 0| AS: 0| MS: 0
 "
 horizontal_alignment = 1
