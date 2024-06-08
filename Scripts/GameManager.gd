@@ -47,8 +47,8 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 100
-static var enemyFunds: int = 100
+static var playerFunds: int = 0
+static var enemyFunds: int = 0
 
 static var interestRate: float = 0.1
 static var maxInterest: int = 10
@@ -121,6 +121,8 @@ static var fundsGraph
 
 static var researchUI
 
+@export var debugEnabled: bool = false
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -191,6 +193,9 @@ func _ready():
 	#playerAI.unitMatrix = playerUnitMatrix
 	#playerAI.reserve = playerReserves
 	
+	# link debug buttons
+	$DebugMenu/Add10FundsButton.pressed.connect(ChangeFunds.bind(10, isPlayerTurn))
+
 
 func _process(_delta):
 	UpdateCTKLabel()

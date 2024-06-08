@@ -304,6 +304,17 @@ offset_bottom = 868.0
 grow_horizontal = 1
 grow_vertical = 1
 
+[node name="DebugMenu" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Add10FundsButton" type="Button" parent="DebugMenu"]
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+text = "Add 10 Funds"
+
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]
 [connection signal="pressed" from="EconomyUI/FundsButton" to="." method="_on_economy_ui_buttton_pressed" binds= [0]]
 [connection signal="pressed" from="EconomyUI/IncomeButton" to="." method="_on_economy_ui_buttton_pressed" binds= [1]]
