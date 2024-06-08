@@ -21,10 +21,9 @@ func _process(_delta):
 		SetRadialProcess(0)
 		BattleSpeedUI.currentCycleRatio = 0	
 	
-	
 
 func _on_pause_button_toggled(toggled_on):
-	cyclePaused = !toggled_on
+	cyclePaused = toggled_on
 
 
 func _on_speed_button_pressed(extra_arg_0):
@@ -34,5 +33,6 @@ func _on_speed_button_pressed(extra_arg_0):
 func SetRadialProcess(num):
 	radialProcess.progress = num
 	
-	
 
+func _on_single_button_pressed():
+	cyclePaused = true

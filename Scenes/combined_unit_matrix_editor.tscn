@@ -169,10 +169,13 @@ grow_horizontal = 2
 script = ExtResource("2_hthlt")
 
 [node name="PauseButton" type="Button" parent="BattleProcessSpeedUI"]
-visible = false
 layout_mode = 2
 toggle_mode = true
 text = "Pause"
+
+[node name="SingleButton" type="Button" parent="BattleProcessSpeedUI"]
+layout_mode = 2
+text = "Single"
 
 [node name="SlowButton" type="Button" parent="BattleProcessSpeedUI"]
 layout_mode = 2
@@ -212,6 +215,7 @@ thickness = 15.0
 bar_color = Color(1.2514e-05, 0.682346, 0.960476, 1)
 
 [connection signal="toggled" from="BattleProcessSpeedUI/PauseButton" to="BattleProcessSpeedUI" method="_on_pause_button_toggled"]
+[connection signal="pressed" from="BattleProcessSpeedUI/SingleButton" to="BattleProcessSpeedUI" method="_on_single_button_pressed"]
 [connection signal="pressed" from="BattleProcessSpeedUI/SlowButton" to="BattleProcessSpeedUI" method="_on_speed_button_pressed" binds= [1.2]]
 [connection signal="pressed" from="BattleProcessSpeedUI/NormalButton" to="BattleProcessSpeedUI" method="_on_speed_button_pressed" binds= [0.8]]
 [connection signal="pressed" from="BattleProcessSpeedUI/FastButton" to="BattleProcessSpeedUI" method="_on_speed_button_pressed" binds= [0.4]]

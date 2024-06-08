@@ -12,6 +12,8 @@ static var maxBattleCount: int = 25
 
 static var battleResultLabel: Label
 
+static var isBattleRunning: bool = false
+
 # Column 0 is the frontline
 static var playerUnitMatrix
 static var enemyUnitMatrix
@@ -183,6 +185,13 @@ func _ready():
 	# link pass button
 	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
 	
+	# link pause button
+	userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/PauseButton/").toggled.connect(ResumeCycleProcess)
+	
+	# link single button
+	userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/SingleButton/").pressed.connect(ProcessSingleCycle)
+	
+	
 	#enemyAI = EnemyAI_Randomizer.new()
 	#enemyAI.editor = enemyEditor
 	#enemyAI.unitMatrix = enemyUnitMatrix
@@ -213,6 +222,7 @@ func _process(_delta):
 func _on_cycle_timer_timeout():
 	# if battle is finished, stop timer
 	if GameManager.CycleProcess():
+		GameManager.isBattleRunning = false
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
 		
@@ -258,7 +268,7 @@ func _on_cycle_timer_timeout():
 		AddIncome(isPlayerTurn)
 		userInterface.turnTimer.start(turnTime)
 	else:
-		if cycleTimer.is_stopped():
+		if cycleTimer.is_stopped() and !BattleSpeedUI.cyclePaused:
 			# should wait til animations are done
 			cycleTimer.start(BattleSpeedUI.cycleSpeed)
 			
@@ -266,9 +276,31 @@ func _on_cycle_timer_timeout():
 	UpdateCTKLabel()
 	
 
+# called when battle speed ui cycle pause is toggled
+# starts timer if unpaused
+func ResumeCycleProcess(toggled_on):
+	if isBattleRunning and !toggled_on:
+		if cycleTimer.is_stopped():
+			# should wait til animations are done
+			cycleTimer.start(BattleSpeedUI.cycleSpeed)
+	
+
+func ProcessSingleCycle():
+	print("here")
+	if isBattleRunning:
+		if cycleTimer.is_stopped():
+			# should wait til animations are done
+			cycleTimer.start(BattleSpeedUI.cycleSpeed)
+			BattleSpeedUI.cyclePaused = true
+			
+		userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/PauseButton/").button_pressed = true
+	
+	
 # called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
 	userInterface.turnTimer.stop()
+	
+	GameManager.isBattleRunning = true
 	
 	GameManager.playerEffectiveDamage = 0
 	GameManager.enemyEffectiveDamage = 0
