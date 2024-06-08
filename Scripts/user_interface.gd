@@ -160,7 +160,7 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enum
 		# who's turn is it
 		newOption.isPlayer = isPlayer
 		
-		newOption.SetData(DataManager.unitDict[nation].pick_random())
+		newOption.SetData(DataManager.GetPurchasedUnits(isPlayer).pick_random())
 		reinforcementContainer.add_child(newOption)
 		
 		# connect signals

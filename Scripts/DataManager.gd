@@ -5,6 +5,10 @@ static var unit_resources_path: String = "res://Data/Units/"
 # index is the country
 static var unitDict = {}
 
+# key is unit type and value is a bool for purchased
+static var playerPurchasedDict = {}
+static var enemyPurchasedDict = {}
+
 static var waitOrderData
 
 
@@ -29,12 +33,15 @@ static func ImportUnits(nation: Enums.Nation):
 	while filename != "":
 		var fullpath = path + filename
 		
-		if '.tres.remap' in fullpath: # <---- NEW
-			fullpath = fullpath.trim_suffix('.remap') # <---- NEW
+		if '.tres.remap' in fullpath:
+			fullpath = fullpath.trim_suffix('.remap')
 			
-		var newthing = load(fullpath)
+		var newthing: UnitData = load(fullpath)
 		if !newthing.disabled:
 			germany_units.append(newthing)
+			playerPurchasedDict[newthing] = newthing.startingUnit
+			enemyPurchasedDict[newthing] = newthing.startingUnit
+			
 		filename = dir.get_next()
 		
 	unitDict[nation] = germany_units
@@ -44,3 +51,16 @@ static func ImportUnits(nation: Enums.Nation):
 	
 	for item in unitDict[nation]:
 		print(item.name)
+
+
+static func GetPurchasedUnits(player: bool):
+	var output = []
+	var targetDict = playerPurchasedDict
+	if !player:
+		targetDict = enemyPurchasedDict
+	
+	for key in targetDict.keys():
+		if targetDict[key]:
+			output.append(key)
+	
+	return output

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://kaiavi6o78ta"]
+[gd_scene load_steps=3 format=3 uid="uid://kaiavi6o78ta"]
 
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_6dfj2"]
+[ext_resource type="Script" path="res://Scenes/research_option.gd" id="1_ijwl0"]
 
 [node name="ResearchOption" type="Control"]
 texture_filter = 1
@@ -9,11 +10,17 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 300.0
 offset_bottom = 100.0
+script = ExtResource("1_ijwl0")
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -20.0
 offset_right = 40.0
-offset_bottom = 40.0
+offset_bottom = 20.0
+grow_vertical = 2
 texture = ExtResource("1_6dfj2")
 
 [node name="SelectButton" type="Button" parent="."]
@@ -35,9 +42,10 @@ layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -115.0
-offset_right = 115.0
-offset_bottom = 21.0
+offset_left = -110.0
+offset_top = 18.0
+offset_right = 120.0
+offset_bottom = 39.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 12
 text = "HP: 0 | ATK: 0| AS: 0| MS: 0
@@ -60,3 +68,16 @@ text = "Description text here. Description text here. Description text here."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -44.0
+offset_right = 44.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Name Here"
+horizontal_alignment = 1
+vertical_alignment = 1

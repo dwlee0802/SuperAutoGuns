@@ -4,10 +4,11 @@
 
 [resource]
 script = ExtResource("1_y52ge")
-name = "Ranged"
+name = "Artillery"
 description = "Long range"
 disabled = false
 type = 2
+startingUnit = false
 purchaseCost = 4
 color = Color(0.270588, 0.729412, 0.654902, 1)
 maxHealthPoints = 6
@@ -15,7 +16,9 @@ movementCost = 4
 attackCost = 4
 attackRange = 3
 attackFromBack = false
+rowAttack = false
 attackDamage = 3
 flankingAttackModifier = 0.0
 defense = 0
 flankingDefenseModifier = 0.0
+penetration = 0

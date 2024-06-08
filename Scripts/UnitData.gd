@@ -11,6 +11,8 @@ class_name UnitData
 
 @export var type: Enums.UnitType
 
+@export var startingUnit: bool = false
+
 @export var purchaseCost: int = 3
 
 @export var color = Color.WHITE
