@@ -59,7 +59,7 @@ func SetUnit(_unit: Unit):
 	UpdateRadialUI(true)
 	
 	if unit is WaitOrder:
-		if unit.waitCycles < 0:
+		if unit.waitCycles <= 0:
 			unit.currentHealthPoints = -1
 			
 	# determine if attacking this cycle
