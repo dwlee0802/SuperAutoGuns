@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3 uid="uid://kaiavi6o78ta"]
+
+[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_6dfj2"]
+
+[node name="ResearchOption" type="Control"]
+texture_filter = 1
+custom_minimum_size = Vector2(300, 120)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 300.0
+offset_bottom = 100.0
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_6dfj2")
+
+[node name="SelectButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -13.5
+offset_top = -31.0
+offset_right = 13.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "10"
+
+[node name="StatsLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -115.0
+offset_right = 115.0
+offset_bottom = 21.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 12
+text = "HP: 0 | ATK: 0| AS: 0| MS: 0
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -119.0
+offset_right = 119.0
+offset_bottom = 118.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 12
+text = "Description text here. Description text here. Description text here."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
