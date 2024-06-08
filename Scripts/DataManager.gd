@@ -5,12 +5,16 @@ static var unit_resources_path: String = "res://Data/Units/"
 # index is the country
 static var unitDict = {}
 
+static var waitOrderData
+
 
 # Called when the node enters the scene tree for the first time.
 static func _static_init():
 	print("***Start data import***\n")
 	
 	ImportUnits(Enums.Nation.Generic)
+	
+	waitOrderData = load("res://Data/Units/Generic/wait_order.tres")
 	
 	print("\n***End of data import***\n\n")
 

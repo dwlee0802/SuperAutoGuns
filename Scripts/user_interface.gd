@@ -460,8 +460,8 @@ func SetMiddleColumnColor(attackingTurn):
 func SetMiddleColumnAvailability(available: bool):
 	var midCol = unitMatrix.get_child((unitMatrix.get_child_count()) / 2)
 	# set blue
-	for slot in midCol.get_children():
-		slot.canWaitOrder = available
+	for slot: UnitSlot in midCol.get_children():
+		slot.SetCanWaitOrder(available)
 			
 
 # returns the wait times of the middle column as a list
@@ -474,6 +474,13 @@ func ExportWaitTimes():
 		output.append(slot.waitcount)
 		
 	return output
+
+
+func ImportWaitTimes(waitTimes):
+	var midCol = unitMatrix.get_child((unitMatrix.get_child_count()) / 2)
+	# set blue
+	for i in range(waitTimes.size()):
+		midCol.get_child(i).waitcount = waitTimes[i]
 	
 	
 # looks for the unit card with unit set to input

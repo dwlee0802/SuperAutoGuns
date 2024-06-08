@@ -6,7 +6,7 @@
 script = ExtResource("1_2rc7w")
 name = "Wait Order"
 description = ""
-disabled = false
+disabled = true
 type = 0
 purchaseCost = 0
 color = Color(1, 1, 1, 1)

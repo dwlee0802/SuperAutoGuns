@@ -5,10 +5,8 @@ var coords = null
 
 var canBeDropped: bool = true
 
-var canWaitOrder: bool = false:
-	set(value):
-		canWaitOrder = value
-
+var canWaitOrder: bool = false
+			
 signal dropped
 
 var waitcount: int = 0
@@ -64,7 +62,7 @@ func _gui_input(event):
 				waitcount = 0
 			debugLabel.text = "wait " + str(waitcount) + " cycles"
 			
-		if waitcount > 0:
+		if waitcount > 0 and canWaitOrder:
 			debugLabel.visible = true
 		else:
 			debugLabel.visible = false
@@ -77,3 +75,13 @@ func GetUnitHere():
 			return child
 	
 	return null
+
+
+func SetCanWaitOrder(value):
+	canWaitOrder = value
+	debugLabel.visible = value		
+	
+	if waitcount > 0 and canWaitOrder:
+		debugLabel.visible = true
+	else:
+		debugLabel.visible = false

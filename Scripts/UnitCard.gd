@@ -43,6 +43,10 @@ func SetUnit(_unit: Unit):
 	UpdateAttackLabel()
 	UpdateCombatStatsLabel()
 	
+	if unit is WaitOrder:
+		$TextureRect/Sprite/CombatStats.visible = false
+		radialLabel.text = str(unit.waitCycles)
+		
 	# UI signals
 	unit.stat_changed.connect(UpdateCombatStatsLabel)
 	
@@ -193,7 +197,7 @@ func UpdateRadialUI(first: bool = false):
 		radialUI.visible = true
 		
 		# update label
-		if unit.movementCyclesLeft + 1 <= 0:
+		if unit.movementCyclesLeft + 1 < 0:
 			radialLabel.text = "0"
 		else:
 			radialLabel.text = str(unit.movementCyclesLeft + 1)
@@ -207,24 +211,22 @@ func UpdateRadialUI(first: bool = false):
 		radialUI.visible = true
 		
 		# update label
-		if unit.attackCyclesLeft + 1 <= 0:
+		if unit.attackCyclesLeft + 1 < 0:
 			radialLabel.text = "0"
 		else:
 			radialLabel.text = str(unit.attackCyclesLeft + 1)
 		
-	elif unit is WaitOrder and unit.waitCycles < unit.stackCount:
+	elif unit is WaitOrder and unit.waitCycles <= unit.stackCount:
 		radialUI.bar_color = Color.ORANGE
 		radialUI.visible = true
-		ratio = 1 - (unit.waitCycles + 1) / float(unit.stackCount)
-		if first:
-			ratio = 1 - (unit.waitCycles + 2) / float(unit.stackCount)
+		ratio = 1 - (unit.waitCycles) / float(unit.stackCount)
 		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.stackCount)
 		
 		# update label
-		if unit.waitCycles + 1 <= 0:
+		if unit.waitCycles < 0:
 			radialLabel.text = "0"
 		else:
-			radialLabel.text = str(unit.waitCycles)
+			radialLabel.text = str(unit.waitCycles + 1)
 	else:
 		radialUI.visible = false
 		
@@ -232,6 +234,9 @@ func UpdateRadialUI(first: bool = false):
 		ratio = 0
 	if ratio > 1:
 		ratio = 1
+	
+	if unit is WaitOrder:
+		radialUI.visible = true
 		
 	radialUI.progress = 100 * ratio
 		
@@ -386,4 +391,8 @@ func _swap_button_pressed():
 
 func UpdateDebugLabel():
 	# debug label
-	$DebugLabel.text = str(unit.boughtThisTurn)
+	var output = ""
+	if unit is WaitOrder:
+		output = str(unit.waitCycles) + "/" + str(unit.stackCount)
+		
+	$DebugLabel.text = output

@@ -31,6 +31,9 @@ static var enemyAttackTargetMatrix
 static var playerEffectMatrix
 static var enemyEffectMatrix
 
+static var playerWaitOrderCount = []
+static var enemyWaitOrderCount = []
+
 # temporary value for the size of the matrix
 static var matrixWidth: int = 3
 static var matrixHeight: int = 6
@@ -119,6 +122,11 @@ static var fundsGraph
 
 static func _static_init():
 	InitializeMatrix()
+	GameManager.playerWaitOrderCount.resize(matrixHeight)
+	GameManager.playerWaitOrderCount.fill(0)
+	
+	GameManager.enemyWaitOrderCount.resize(matrixHeight)
+	GameManager.enemyWaitOrderCount.fill(0)
 
 
 func _ready():
@@ -204,6 +212,9 @@ func _on_cycle_timer_timeout():
 		# defending player goes first
 		# set attack dir ui to left
 		userInterface.SetAttackDirectionUI(true)
+		
+		# set middle column wait order not available
+		userInterface.SetMiddleColumnAvailability(false)
 		
 		if !playerAttacking:
 			isPlayerTurn = true
@@ -297,8 +308,18 @@ func _on_battle_process_button_pressed():
 	userInterface.UpdateHealButtonLabel()
 	userInterface.UpdateSellButtonLabel()
 	
-	UpdateCTKLabel()
+	#UpdateCTKLabel()
 	
+	# add wait orders
+	if playerAttacking:
+		for i in range(GameManager.playerWaitOrderCount.size()):
+			if GameManager.playerWaitOrderCount[i] > 0:
+				playerUnitMatrix[0][i] = WaitOrder.new(playerAttacking, DataManager.waitOrderData, Vector2(0,i), GameManager.playerWaitOrderCount[i] - 1)
+	else:
+		for i in range(GameManager.enemyWaitOrderCount.size()):
+			if GameManager.enemyWaitOrderCount[i] > 0:
+				enemyUnitMatrix[0][i] = WaitOrder.new(playerAttacking, DataManager.waitOrderData, Vector2(0,i), GameManager.enemyWaitOrderCount[i] - 1)
+				
 	if playerAttacking:
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
 	else:
@@ -306,7 +327,7 @@ func _on_battle_process_button_pressed():
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
-	GameManager.battleCount+= 1
+	GameManager.battleCount += 1
 	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
 	print("Battle #" + str(GameManager.battleCount))
 	if cycleTimer.is_stopped():
@@ -316,15 +337,6 @@ func _on_battle_process_button_pressed():
 	
 static func ImportUnitMatrixBackup():
 	print("player attacking: " + str(playerAttacking))
-	
-	print("backup")
-	PrintUnitMatrix(playerUnitMatrixBackup)
-	print("player unit")
-	PrintUnitMatrix(playerUnitMatrix)
-	print("backup")
-	PrintUnitMatrix(enemyUnitMatrixBackup)
-	print("enemy unit")
-	PrintUnitMatrix(enemyUnitMatrix)
 	
 	# update healths
 	# look through current unit matrix and move their health to new unit matrix
@@ -343,7 +355,6 @@ static func ImportUnitMatrixBackup():
 	ProcessUnitMatrix(enemyUnitMatrixBackup, SetHealthToZero)
 	
 	for survivor: Unit in leftPlayerUnits:
-		print("survivor coords: " + str(survivor.initialCoords))
 		if playerUnitMatrixBackup[survivor.initialCoords.x][survivor.initialCoords.y] != null:
 			playerUnitMatrixBackup[survivor.initialCoords.x][survivor.initialCoords.y].currentHealthPoints = survivor.currentHealthPoints
 		
@@ -549,7 +560,6 @@ static func ProcessStaticAbility(unitMatrix):
 			var currentUnit: Unit = unitMatrix[col][row]
 			if currentUnit != null and currentUnit.data.ability != null:
 				if currentUnit.data.ability.isStatic:
-					print(str(currentUnit) + "'s ability:")
 					var abilityData = currentUnit.data.ability
 					var abilityFunction = Callable(AbilityManager, abilityData.callableName)
 					abilityFunction.call(unitMatrix, GetCoord(currentUnit), abilityData.dir_parameter, abilityData.int_parameter, abilityData.statType)
@@ -683,8 +693,12 @@ static func FindAttackTarget(attacker: Unit, fromBack: bool = false) -> Unit:
 			
 			if curRow + i < matrixHeight:
 				lower = checkingColumn[curRow + i]
+				if lower is WaitOrder:
+					lower = null
 			if curRow - i >= 0:
 				upper = checkingColumn[curRow - i]
+				if upper is WaitOrder:
+					upper = null
 			
 			# both exists return the one that has lower HP
 			if upper != null and lower != null:
@@ -847,10 +861,6 @@ func AddIncome(toPlayer: bool):
 	GameManager.RecordTotalFundsHistory(toPlayer)
 	
 	UpdateFundsGraph()
-	
-	print(GameManager.playerIncomeHistory)
-	print(GameManager.playerFundsHistory)
-	print(GameManager.playerTotalFundsHistory)
 
 
 static func ChangeFunds(amount, isPlayer: bool = true):
@@ -977,6 +987,10 @@ func CommitButtonPressed():
 			# set attack dir to right
 			userInterface.SetAttackDirectionUI(false)
 			
+			# set middle column wait order available
+			userInterface.SetMiddleColumnAvailability(true)
+			userInterface.ImportWaitTimes(GameManager.enemyWaitOrderCount)
+			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			isPlayerTurn = false
@@ -995,6 +1009,9 @@ func CommitButtonPressed():
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			userInterface.SetSlotAvailability(0, matrixWidth)
 			
+			# save wait time counts
+			GameManager.enemyWaitOrderCount = userInterface.ExportWaitTimes()
+			
 			print("attacker finished turn. Start cycle process.")
 			isPlayerTurn = true
 			userInterface.SetTurnLabel(true)
@@ -1005,6 +1022,10 @@ func CommitButtonPressed():
 			userInterface.turnTimer.start(turnTime)
 			# set attack dir ui to right
 			userInterface.SetAttackDirectionUI(false)
+			
+			# set middle column wait order available
+			userInterface.SetMiddleColumnAvailability(true)
+			userInterface.ImportWaitTimes(GameManager.playerWaitOrderCount)
 			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
@@ -1020,6 +1041,9 @@ func CommitButtonPressed():
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			userInterface.SetSlotAvailability(0, matrixWidth)
+			
+			# save wait time counts
+			GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
 			
 			print("attacker finished turn. Start cycle process.")
 			isPlayerTurn = true

@@ -329,7 +329,6 @@ libraries = {
 speed_scale = 2.0
 
 [node name="DebugLabel" type="Label" parent="."]
-visible = false
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 anchors_preset = 5
