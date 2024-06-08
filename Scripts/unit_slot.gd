@@ -50,6 +50,10 @@ func _gui_input(event):
 			if _can_drop_data(Vector2.ZERO, UnitCard.selected):
 				_drop_data(Vector2.ZERO, UnitCard.selected)
 		
+		if UnitCard.selected != null and Input.is_action_just_pressed("left_click"):
+			# remove selected unit
+			UnitCard.selected.UnselectCard()
+		
 		# possible to make units wait here if attacker turn and slot is in middle col
 		if UnitCard.selected == null and Input.is_action_just_pressed("left_click") and canWaitOrder:
 			print("add wait order here")

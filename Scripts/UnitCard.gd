@@ -339,9 +339,7 @@ func _gui_input(event):
 	if event is InputEventMouse:
 		if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
 			if UnitCard.selected == self:
-				# unselect
-				$TextureRect/SelectionIndicator.visible = false
-				UnitCard.selected = null
+				UnitCard.UnselectCard()
 			else:
 				if UnitCard.selected != null:
 					UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
@@ -364,6 +362,12 @@ func _gui_input(event):
 					#controlButtons.visible = true
 
 
+static func UnselectCard():
+	if UnitCard.selected != null:
+		UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
+		UnitCard.selected = null
+	
+	
 func _unhandled_key_input(event):
 	if event is InputEventKey:
 		if event.keycode == KEY_ESCAPE and event.pressed:
