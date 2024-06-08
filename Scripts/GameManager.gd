@@ -309,16 +309,17 @@ func _on_battle_process_button_pressed():
 	userInterface.UpdateSellButtonLabel()
 	
 	#UpdateCTKLabel()
+	userInterface.SetMiddleColumnAvailability(false)
 	
 	# add wait orders
 	if playerAttacking:
 		for i in range(GameManager.playerWaitOrderCount.size()):
 			if GameManager.playerWaitOrderCount[i] > 0:
-				playerUnitMatrix[0][i] = WaitOrder.new(playerAttacking, DataManager.waitOrderData, Vector2(0,i), GameManager.playerWaitOrderCount[i] - 1)
+				playerUnitMatrix[0][i] = WaitOrder.new(playerAttacking, DataManager.waitOrderData, Vector2(0,i), GameManager.playerWaitOrderCount[i])
 	else:
 		for i in range(GameManager.enemyWaitOrderCount.size()):
 			if GameManager.enemyWaitOrderCount[i] > 0:
-				enemyUnitMatrix[0][i] = WaitOrder.new(playerAttacking, DataManager.waitOrderData, Vector2(0,i), GameManager.enemyWaitOrderCount[i] - 1)
+				enemyUnitMatrix[0][i] = WaitOrder.new(playerAttacking, DataManager.waitOrderData, Vector2(0,i), GameManager.enemyWaitOrderCount[i])
 				
 	if playerAttacking:
 		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 1)
@@ -524,8 +525,6 @@ static func UnitBehaviorProcess(unitMatrix):
 			if unitMatrix[col][row] != null:
 				if unitMatrix[col][row] is WaitOrder:
 					unitMatrix[col][row].waitCycles -= 1
-					if unitMatrix[col][row].waitCycles < 0:
-						unitMatrix[col][row].currentHealthPoints = -1
 				else:
 					# dont move if: is front column or front slot is occupied
 					# row based movement. cound down movement cycles left also if front unit is moving

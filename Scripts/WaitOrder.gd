@@ -15,5 +15,5 @@ func Merge(otherUnit: Unit):
 
 func _init(_player, _data, _coord, _stack: int = 1):
 	super._init(_player, _data, _coord, _stack)
-	
+	stackCount = _stack
 	waitCycles = _stack

@@ -58,6 +58,10 @@ func SetUnit(_unit: Unit):
 	
 	UpdateRadialUI(true)
 	
+	if unit is WaitOrder:
+		if unit.waitCycles < 0:
+			unit.currentHealthPoints = -1
+			
 	# determine if attacking this cycle
 	if unit.attackCyclesLeft < 0:
 		if unit.attackTargetCoord == null:
@@ -183,12 +187,26 @@ func UpdateRadialUI(first: bool = false):
 	if radialUI == null:
 		return
 		
-	radialUI.visible = true
+	#radialUI.visible = true
 	
 	# how much is finished in the process
 	var ratio : float = 0
 	
-	if unit.movementCyclesLeft < unit.data.movementCost:
+	if unit is WaitOrder and unit.waitCycles < unit.stackCount:
+		radialUI.bar_color = Color.ORANGE
+		
+		# update label
+		if unit.waitCycles < 0:
+			radialLabel.text = "0"
+		else:
+			radialLabel.text = str(unit.waitCycles + 1)
+		
+		ratio = 1 - (unit.waitCycles + 1) / float(unit.stackCount)
+		if first:
+			ratio = 1 - (unit.waitCycles + 2) / float(unit.stackCount)
+		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.stackCount)
+		
+	elif unit.movementCyclesLeft < unit.data.movementCost:
 		radialUI.bar_color = Color.SKY_BLUE
 		ratio = 1 - (unit.movementCyclesLeft + 1) / float(unit.data.movementCost)
 		if first:
@@ -215,18 +233,6 @@ func UpdateRadialUI(first: bool = false):
 			radialLabel.text = "0"
 		else:
 			radialLabel.text = str(unit.attackCyclesLeft + 1)
-		
-	elif unit is WaitOrder and unit.waitCycles <= unit.stackCount:
-		radialUI.bar_color = Color.ORANGE
-		radialUI.visible = true
-		ratio = 1 - (unit.waitCycles) / float(unit.stackCount)
-		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.stackCount)
-		
-		# update label
-		if unit.waitCycles < 0:
-			radialLabel.text = "0"
-		else:
-			radialLabel.text = str(unit.waitCycles + 1)
 	else:
 		radialUI.visible = false
 		
