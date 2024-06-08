@@ -216,6 +216,16 @@ func _on_cycle_timer_timeout():
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
 		
+		# set machinegun units' value to true
+		var resetMG = func(unit):
+			if unit is MachineGunUnit:
+				unit.attackCyclesLeft = unit.GetAttackSpeed()
+				unit.firstAttackAfterMoving = true
+				print("reset attack move")
+
+		ProcessUnitMatrix(playerUnitMatrix, resetMG)
+		ProcessUnitMatrix(enemyUnitMatrix, resetMG)
+	
 		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
 		GameManager.HealUnits()
 		
@@ -234,7 +244,7 @@ func _on_cycle_timer_timeout():
 			isPlayerTurn = false
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
-			
+		
 		# read in research ui
 		researchUI.ImportResearchOptions(isPlayerTurn)
 		
@@ -263,7 +273,7 @@ func _on_battle_process_button_pressed():
 	GameManager.playerEffectiveDamage = 0
 	GameManager.enemyEffectiveDamage = 0
 	GameManager.UpdateEffectiveDamageUI()
-	
+		
 	# back up unit matrix
 	playerUnitMatrixBackup = playerUnitMatrix.duplicate(true)
 	enemyUnitMatrixBackup = enemyUnitMatrix.duplicate(true)
