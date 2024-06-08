@@ -223,8 +223,8 @@ func _on_cycle_timer_timeout():
 				unit.firstAttackAfterMoving = true
 				print("reset attack move")
 
-		ProcessUnitMatrix(playerUnitMatrix, resetMG)
-		ProcessUnitMatrix(enemyUnitMatrix, resetMG)
+		GameManager.ProcessUnitMatrix(playerUnitMatrix, resetMG)
+		GameManager.ProcessUnitMatrix(enemyUnitMatrix, resetMG)
 	
 		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
 		GameManager.HealUnits()

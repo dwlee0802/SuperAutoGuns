@@ -145,7 +145,7 @@ func OnCardMerged():
 	
 # populate reinforcement option buttons
 # TODO need to make this consider bought status for each side
-func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, nation: Enums.Nation = Enums.Nation.Generic):
+func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enums.Nation = Enums.Nation.Generic):
 	# clear children
 	isPlayer = GameManager.isPlayerTurn
 	
