@@ -128,7 +128,6 @@ alignment = 1
 [node name="LeftSideLabel" type="Label" parent="UnitMatrix/AttackDirectionUI"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Left"
 
 [node name="Control" type="Control" parent="UnitMatrix/AttackDirectionUI"]
 layout_mode = 2
@@ -137,17 +136,16 @@ layout_mode = 2
 self_modulate = Color(0.98275, 6.08854e-06, 1.54018e-06, 1)
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
-offset_left = -9.08947
-offset_right = 20.9105
+offset_right = 30.0
 offset_bottom = 23.0
 pivot_offset = Vector2(15, 0)
 texture = ExtResource("1_7fvjg")
 expand_mode = 1
+flip_h = true
 
 [node name="RightSideLabel" type="Label" parent="UnitMatrix/AttackDirectionUI"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Right"
 horizontal_alignment = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UnitMatrix/AttackDirectionUI"]
