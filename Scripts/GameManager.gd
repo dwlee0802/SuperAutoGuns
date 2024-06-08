@@ -235,6 +235,9 @@ func _on_cycle_timer_timeout():
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
 			
+		# read in research ui
+		researchUI.ImportResearchOptions(isPlayerTurn)
+		
 		userInterface.GenerateReinforcementOptions(isPlayerTurn, reinforcementCount)
 		
 		userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
@@ -741,7 +744,8 @@ static func GetUnitMatrixRow(player: bool, rowNumber: int):
 	
 	for col in checkingMatrix:
 		if col[rowNumber] != null:
-			output.append(col[rowNumber])
+			if !col[rowNumber] is WaitOrder:
+				output.append(col[rowNumber])
 	
 	return output
 	
@@ -872,7 +876,7 @@ func AddIncome(toPlayer: bool):
 	UpdateFundsGraph()
 
 
-static func ChangeFunds(amount, isPlayer: bool = true):
+static func ChangeFunds(amount, isPlayer: bool):
 	if isPlayer:
 		playerFunds += amount
 		print("changed player funds by " + str(amount))
@@ -980,6 +984,8 @@ static func BattleResultProcess(attackerVictory: bool):
 
 
 func CommitButtonPressed():
+	print("commit button pressed\n")
+	
 	UnitCard.selected = null
 	userInterface.UpdateHealButtonLabel()
 	userInterface.UpdateSellButtonLabel()
@@ -1008,6 +1014,9 @@ func CommitButtonPressed():
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
 			
+			# read in research ui
+			researchUI.ImportResearchOptions(isPlayerTurn)
+	
 			userInterface.SetSlotAvailability(0, matrixWidth)
 			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		else:
@@ -1043,6 +1052,9 @@ func CommitButtonPressed():
 			AddIncome(isPlayerTurn)
 			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
 			userInterface.ImportReserve(playerReserves)
+			
+			# read in research ui
+			researchUI.ImportResearchOptions(isPlayerTurn)
 			
 			userInterface.SetSlotAvailability(0, matrixWidth)
 			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)

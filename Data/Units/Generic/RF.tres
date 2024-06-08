@@ -5,10 +5,11 @@
 [resource]
 script = ExtResource("1_l56xj")
 name = "Rifle"
-description = "Standard Issue Rifle"
+description = "Standard Issue Rifle."
 disabled = false
 type = 0
 startingUnit = true
+researchCost = 5
 purchaseCost = 3
 color = Color(0.396078, 0.654902, 0.866667, 1)
 maxHealthPoints = 10

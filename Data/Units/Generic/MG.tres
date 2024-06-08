@@ -6,9 +6,11 @@
 script = ExtResource("1_q6gbw")
 setUpTime = 4
 name = "Machine Gun"
-description = ""
+description = "High rate of fire after initial set up."
 disabled = false
 type = 0
+startingUnit = false
+researchCost = 5
 purchaseCost = 3
 color = Color(0.658824, 0.788235, 0, 1)
 maxHealthPoints = 8
@@ -21,3 +23,4 @@ attackDamage = 2
 flankingAttackModifier = 0.0
 defense = 0
 flankingDefenseModifier = 0.0
+penetration = 0

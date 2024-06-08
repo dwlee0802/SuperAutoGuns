@@ -5,9 +5,11 @@
 [resource]
 script = ExtResource("1_r4ju7")
 name = "AT Cannon"
-description = ""
+description = "Penetrates armor."
 disabled = false
 type = 2
+startingUnit = false
+researchCost = 5
 purchaseCost = 3
 color = Color(0.657777, 0.6101, 0.663689, 1)
 maxHealthPoints = 6

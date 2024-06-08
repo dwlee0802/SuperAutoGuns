@@ -5,9 +5,11 @@
 [resource]
 script = ExtResource("1_4ueyb")
 name = "Tank"
-description = "Takes 1 less damage."
+description = "Armored. Takes 1 less damage."
 disabled = false
 type = 1
+startingUnit = false
+researchCost = 5
 purchaseCost = 4
 color = Color(0.510806, 0.535372, 0.533435, 1)
 maxHealthPoints = 10
@@ -15,7 +17,9 @@ movementCost = 3
 attackCost = 3
 attackRange = 1
 attackFromBack = false
+rowAttack = false
 attackDamage = 3
 flankingAttackModifier = 0.0
 defense = 1
 flankingDefenseModifier = -1.0
+penetration = 0

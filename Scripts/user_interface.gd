@@ -338,14 +338,14 @@ func HealButtonPressed(unitCard = UnitCard.selected):
 		
 	if unitCard.unit.isPlayer:
 		if GameManager.playerFunds >= amount:
-			GameManager.ChangeFunds(-amount)
+			GameManager.ChangeFunds(-amount, unitCard.unit.isPlayer)
 			unitCard.unit.RatioHeal(1)
 			unitCard.UpdateHealthLabel(0)
 		else:
 			print("ERROR! Shouldn't be able to press Heal button when not enough funds.")
 	else:
 		if GameManager.enemyFunds >= amount:
-			GameManager.ChangeFunds(-amount, false)
+			GameManager.ChangeFunds(-amount, unitCard.unit.isPlayer)
 			unitCard.unit.RatioHeal(1)
 			unitCard.UpdateHealthLabel(0)
 		else:

@@ -5,9 +5,11 @@
 [resource]
 script = ExtResource("1_x2p7a")
 name = "Assault Rifle"
-description = "Standard Issue Rifle"
+description = "Standard Issue Assault Rifle."
 disabled = false
 type = 0
+startingUnit = false
+researchCost = 5
 purchaseCost = 4
 color = Color(0.235697, 0.488765, 0.687134, 1)
 maxHealthPoints = 10
@@ -20,3 +22,4 @@ attackDamage = 3
 flankingAttackModifier = 0.0
 defense = 0
 flankingDefenseModifier = 0.0
+penetration = 0

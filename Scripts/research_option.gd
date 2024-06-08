@@ -35,6 +35,11 @@ func SetData(_data: UnitData, purchased: bool, _player):
 		
 		
 func OnSelected():
-	if GameManager.playerFunds >= data.researchCost:
-		GameManager.ChangeFunds(-data.researchCost)
-		DataManager.ResearchUnit(isPlayer, data)
+	if isPlayer:
+		if GameManager.playerFunds >= data.researchCost:
+			GameManager.ChangeFunds(-data.researchCost, isPlayer)
+			DataManager.ResearchUnit(isPlayer, data)
+	else:
+		if GameManager.enemyFunds >= data.researchCost:
+			GameManager.ChangeFunds(-data.researchCost, isPlayer)
+			DataManager.ResearchUnit(isPlayer, data)

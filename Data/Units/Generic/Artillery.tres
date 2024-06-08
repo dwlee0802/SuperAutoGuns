@@ -5,10 +5,11 @@
 [resource]
 script = ExtResource("1_y52ge")
 name = "Artillery"
-description = "Long range"
+description = "Range 3. Long range fire support."
 disabled = false
 type = 2
 startingUnit = false
+researchCost = 5
 purchaseCost = 4
 color = Color(0.270588, 0.729412, 0.654902, 1)
 maxHealthPoints = 6

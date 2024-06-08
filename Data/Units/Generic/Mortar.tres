@@ -5,9 +5,11 @@
 [resource]
 script = ExtResource("1_1q7wl")
 name = "Mortar"
-description = ""
+description = "Range 2. Decent fire support."
 disabled = false
 type = 2
+startingUnit = false
+researchCost = 5
 purchaseCost = 3
 color = Color(0.385757, 0.738371, 0.367766, 1)
 maxHealthPoints = 7
@@ -20,3 +22,4 @@ attackDamage = 3
 flankingAttackModifier = 0.0
 defense = 0
 flankingDefenseModifier = 0.0
+penetration = 0
