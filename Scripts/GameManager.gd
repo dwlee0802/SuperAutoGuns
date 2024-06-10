@@ -236,39 +236,10 @@ func _on_cycle_timer_timeout():
 		GameManager.ProcessUnitMatrix(playerUnitMatrix, resetMG)
 		GameManager.ProcessUnitMatrix(enemyUnitMatrix, resetMG)
 	
-		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
-		
 		# defending player goes first
-		# set attack dir ui to left
-		userInterface.SetAttackDirectionUI(true)
-		
-		# set middle column wait order not available
-		userInterface.SetMiddleColumnAvailability(false)
-		
-		if !playerAttacking:
-			isPlayerTurn = true
-			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
-			userInterface.ImportReserve(playerReserves)
-		else:
-			isPlayerTurn = false
-			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
-			userInterface.ImportReserve(enemyReserves)
-		
-		# heal reserve units
-		GameManager.HealReserveUnits(isPlayerTurn)
-		
-		# read in research ui
-		researchUI.ImportResearchOptions(isPlayerTurn)
-		
-		userInterface.GenerateReinforcementOptions(isPlayerTurn, reinforcementCount)
-		
-		userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+		StartTurn(isPlayerTurn, false)
 		
 		cycleCount = 0
-		
-		# start next turn
-		AddIncome(isPlayerTurn)
-		userInterface.turnTimer.start(turnTime)
 	else:
 		if cycleTimer.is_stopped() and !BattleSpeedUI.cyclePaused:
 			# should wait til animations are done
@@ -451,6 +422,11 @@ static func HealReserveUnits(isPlayer: bool, ratioHeal: bool = true):
 		else:
 			unit.Heal(autoHealAmount)
 	
+	if isPlayer:
+		print("Healed units in player's reserves.")
+	else:
+		print("Healed units in enemy's reserves.")
+		
 	
 # first index is the column, second index is the row
 static func Make2DArray(h, w):
@@ -1049,22 +1025,23 @@ func CommitButtonPressed():
 	
 	SetBoughtThisTurn(isPlayerTurn)
 	
+	# save committed side's unit matrix
+	if isPlayerTurn:
+		userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+		playerReserves = userInterface.ExportReserve()
+	else:
+		userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+		enemyReserves = userInterface.ExportReserve()
+		
 	# committed player was attacking. start process
-	if playerAttacking == isPlayerTurn:
+	if GameManager.IsAttackerTurn():
 		# save reserve
 		# save editor unit matrix state
 		# save wait time counts
 		if !isPlayerTurn:
-			enemyReserves = userInterface.ExportReserve()
-			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			GameManager.enemyWaitOrderCount = userInterface.ExportWaitTimes()
 		else:
-			playerReserves = userInterface.ExportReserve()
-			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
-		
-		# heal reserve units
-		GameManager.HealReserveUnits(isPlayerTurn)
 		
 		print("attacker finished turn. Start cycle process.")
 		isPlayerTurn = true
@@ -1072,12 +1049,6 @@ func CommitButtonPressed():
 		_on_battle_process_button_pressed()
 	else:
 		# committed player was defending. start attacker turn.
-		# save committed side's unit matrix
-		if isPlayerTurn:
-			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-		else:
-			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-		
 		# attacker's turn
 		isPlayerTurn = playerAttacking
 		
@@ -1087,6 +1058,8 @@ func CommitButtonPressed():
 # start the turn of isPlayer
 func StartTurn(isPlayer, isAttacking):
 	userInterface.SetTurnLabel(isPlayer)
+	
+	SetBoughtThisTurn(isPlayer)
 	
 	userInterface.turnTimer.start(turnTime)
 	# false is right
@@ -1228,7 +1201,22 @@ func PassButtonPressed():
 			# add income since we are skipping attacker's turn
 			AddIncome(true)
 			GameManager.BattleResultProcess(true)
-			
+	
+	SetBoughtThisTurn(isPlayerTurn)
+	
+	# save committed side's unit matrix
+	if isPlayerTurn:
+		userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+		playerReserves = userInterface.ExportReserve()
+	else:
+		userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+		enemyReserves = userInterface.ExportReserve()
+	
+	if !isPlayerTurn:
+		GameManager.enemyWaitOrderCount = userInterface.ExportWaitTimes()
+	else:
+		GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
+		
 	# start next battle preparation phase
 	# defending player goes first
 	StartTurn(isPlayerTurn, false)
@@ -1375,5 +1363,5 @@ func FitGraph(graph: Graph2D, data):
 	graph.y_max = ymax
 
 
-func AddWaitOrder():
-	pass
+static func IsAttackerTurn():
+	return isPlayerTurn == playerAttacking
