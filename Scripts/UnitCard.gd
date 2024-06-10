@@ -409,15 +409,15 @@ func _merge_button_pressed():
 		
 
 func UpdateStars(count: int = unit.stackCount):
-	var goldCount = count / 3
-	var remainder = count - goldCount * 3
+	var goldCount = (count - 1) / 2
+	var remainder = (count + 1) % 2
 	
 	for star: TextureRect in starContainer.get_children():
 		if goldCount > 0:
 			star.visible = true
 			star.texture = UnitCard.goldStarImage
 			goldCount -= 1
-		elif remainder > 1:
+		elif remainder == 1:
 			star.visible = true
 			star.texture = UnitCard.greyStarImage
 			remainder = 0

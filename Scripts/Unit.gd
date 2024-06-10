@@ -183,7 +183,14 @@ func Merge(otherUnit: Unit):
 	Heal(otherUnit.currentHealthPoints)
 	print("\n" + str(otherUnit) + " and " + str(self) + " merged. New stack size: " + str(stackCount) + "\n")
 	
-	starCount = stackCount / 3
+	# 1 0 0
+	# 2 0 1
+	# 3 1 0
+	# 4 1.5 1
+	# 5 2 0
+	# 6 2.5 1
+	# 7 3
+	starCount = (stackCount - 1) / 2
 	
 	# remove other unit
 	# otherunit's parent is unit slot

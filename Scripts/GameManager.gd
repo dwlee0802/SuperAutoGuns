@@ -52,7 +52,7 @@ static var playerCapturedSectorsCount: int = 5
 static var playerFunds: int = 0
 static var enemyFunds: int = 0
 
-static var interestRate: float = 0.1
+static var interestRate: float = 0.05
 static var maxInterest: int = 10
 
 static var fundsMaxAmount: int = 100
