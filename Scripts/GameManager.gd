@@ -1083,6 +1083,9 @@ func CommitButtonPressed():
 			# save reserve
 			enemyReserves = userInterface.ExportReserve()
 			
+			# heal reserve units
+			HealReserveUnits(isPlayerTurn)
+			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
 			userInterface.SetSlotAvailability(0, matrixWidth)
@@ -1122,6 +1125,9 @@ func CommitButtonPressed():
 			userInterface.SetSlotAvailability(0, matrixWidth)
 			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 		else:
+			# heal reserve units
+			HealReserveUnits(isPlayerTurn)
+			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
 			userInterface.SetSlotAvailability(0, matrixWidth)
