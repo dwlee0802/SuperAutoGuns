@@ -102,4 +102,4 @@ libraries = {
 "": SubResource("AnimationLibrary_oauac")
 }
 autoplay = "damage_popup_animation"
-speed_scale = 1.2
+speed_scale = 0.8

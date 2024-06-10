@@ -11,6 +11,7 @@ func SetData(data: UnitData):
 	$Label.text = unitData.name
 	$Label.text += "\n Cost: " + str(unitData.purchaseCost)
 	self_modulate = unitData.color
+	tooltip_text = data.description
 
 
 # add to reserve

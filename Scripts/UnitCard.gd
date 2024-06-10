@@ -51,6 +51,8 @@ func SetUnit(_unit: Unit):
 	starContainer = $TextureRect/Stars
 	UpdateStars()
 	
+	tooltip_text = unit.data.description
+	
 	if unit is WaitOrder:
 		$TextureRect/Sprite/CombatStats.visible = false
 		radialLabel.text = str(unit.waitCycles)

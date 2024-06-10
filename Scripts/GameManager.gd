@@ -55,6 +55,8 @@ static var enemyFunds: int = 0
 static var interestRate: float = 0.1
 static var maxInterest: int = 10
 
+static var fundsMaxAmount: int = 100
+
 static var rerollCost: int = 1
 
 static var playerTotalFunds: int = 0
@@ -938,10 +940,12 @@ static func ChangeFunds(amount, isPlayer: bool):
 	if isPlayer:
 		playerFunds += amount
 		print("changed player funds by " + str(amount))
+		playerFunds = min(playerFunds, fundsMaxAmount)
 		print("New value: " + str(playerFunds) + "\n")
 	else:
 		enemyFunds += amount
 		print("changed enemy funds by " + str(amount))
+		enemyFunds = min(enemyFunds, fundsMaxAmount)
 		print("New value: " + str(enemyFunds) + "\n")
 	
 	GameManager.userInterface.MakeFundsPopup(amount)
