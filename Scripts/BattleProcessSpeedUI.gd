@@ -2,7 +2,7 @@ extends HBoxContainer
 class_name BattleSpeedUI
 
 # time between cycles
-static var cycleSpeed: float = 1
+static var cycleSpeed: float = 0.6
 
 static var cyclePaused: bool = false
 

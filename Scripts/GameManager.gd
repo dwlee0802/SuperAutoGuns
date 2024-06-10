@@ -336,7 +336,8 @@ func _on_battle_process_button_pressed():
 	userInterface.UpdateHealButtonLabel()
 	userInterface.UpdateSellButtonLabel()
 	
-	#UpdateCTKLabel()
+	userInterface.SetAttackDirectionUI(!playerAttacking)
+	
 	userInterface.SetMiddleColumnAvailability(false)
 	
 	# add wait orders
@@ -1076,7 +1077,7 @@ func CommitButtonPressed():
 		# attacker's turn
 		isPlayerTurn = playerAttacking
 		
-		StartTurn(isPlayerTurn, isPlayerTurn and playerAttacking)
+		StartTurn(isPlayerTurn, true)
 
 
 # start the turn of isPlayer
@@ -1088,10 +1089,10 @@ func StartTurn(isPlayer, isAttacking):
 	userInterface.turnTimer.start(turnTime)
 	# false is right
 	# set attack dir to right
-	userInterface.SetAttackDirectionUI(isAttacking == false)
+	userInterface.SetAttackDirectionUI(!isAttacking)
 	
 	# set slot color
-	userInterface.SetSlotColor(isPlayer, isPlayer == isAttacking)
+	userInterface.SetSlotColor(isPlayer, GameManager.playerAttacking)
 	
 	# heal reserve units
 	GameManager.HealReserveUnits(isPlayer)
