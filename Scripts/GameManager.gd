@@ -209,9 +209,9 @@ func _ready():
 func _process(_delta):
 	UpdateCTKLabel()
 	
-	if waitingForAttackAnimaionFinish:
+	if waitingForAttackAnimaionFinish and isBattleRunning:
 		if GameManager.playerAttackingUnitsCount == 0 and GameManager.enemyAttackingUnitsCount == 0:
-			# all units finished attack animations
+			 #all units finished attack animations
 			GameManager.ClearDeadUnits(GameManager.playerUnitMatrix)
 			GameManager.ClearDeadUnits(GameManager.enemyUnitMatrix)
 			GameManager.playerAttackingUnitsCount = 0
@@ -237,7 +237,6 @@ func _on_cycle_timer_timeout():
 		GameManager.ProcessUnitMatrix(enemyUnitMatrix, resetMG)
 	
 		userInterface.SetTurnLabel(GameManager.isPlayerTurn)	
-		GameManager.HealUnits()
 		
 		# defending player goes first
 		# set attack dir ui to left
@@ -254,6 +253,9 @@ func _on_cycle_timer_timeout():
 			isPlayerTurn = false
 			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
 			userInterface.ImportReserve(enemyReserves)
+		
+		# heal reserve units
+		HealReserveUnits(isPlayerTurn)
 		
 		# read in research ui
 		researchUI.ImportResearchOptions(isPlayerTurn)
@@ -299,7 +301,7 @@ func ProcessSingleCycle():
 # called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
 	userInterface.turnTimer.stop()
-	
+
 	GameManager.isBattleRunning = true
 	
 	GameManager.playerEffectiveDamage = 0
@@ -435,6 +437,19 @@ static func HealUnits():
 				enemyUnitMatrix[col][row].RatioHeal(autoHealRatio)
 			if playerUnitMatrix[col][row] != null:
 				playerUnitMatrix[col][row].RatioHeal(autoHealRatio)
+	
+
+# heals the units in reserve for both sides
+static func HealReserveUnits(isPlayer: bool, ratioHeal: bool = true):
+	var target = playerReserves
+	if !isPlayer:
+		target = enemyReserves
+		
+	for unit in target:
+		if ratioHeal:
+			unit.RatioHeal(autoHealRatio)
+		else:
+			unit.Heal(autoHealAmount)
 	
 	
 # first index is the column, second index is the row
@@ -1044,6 +1059,9 @@ func CommitButtonPressed():
 			# set attack dir to right
 			userInterface.SetAttackDirectionUI(false)
 			
+			# heal reserve units
+			HealReserveUnits(isPlayerTurn)
+			
 			# set middle column wait order available
 			userInterface.SetMiddleColumnAvailability(true)
 			userInterface.ImportWaitTimes(GameManager.enemyWaitOrderCount)
@@ -1086,6 +1104,9 @@ func CommitButtonPressed():
 			# set middle column wait order available
 			userInterface.SetMiddleColumnAvailability(true)
 			userInterface.ImportWaitTimes(GameManager.playerWaitOrderCount)
+			
+			# heal reserve units
+			HealReserveUnits(isPlayerTurn)
 			
 			# read in unit matrix
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
