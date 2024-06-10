@@ -235,7 +235,7 @@ func _on_cycle_timer_timeout():
 
 		GameManager.ProcessUnitMatrix(playerUnitMatrix, resetMG)
 		GameManager.ProcessUnitMatrix(enemyUnitMatrix, resetMG)
-	
+		
 		# defending player goes first
 		StartTurn(isPlayerTurn, false)
 		
@@ -613,9 +613,20 @@ static func ProcessStaticAbility(unitMatrix):
 # TODO goes through the unit matrix and moves units that have zero HP to reserve
 static func MoveDeadUnitsToReserve(isPlayer):
 	var sendToReserve = func(unit: Unit):
+		if unit == null:
+			return
+			
 		if unit.currentHealthPoints <= 0:
 			# send to reserve
-			pass
+			var targetUnit: Unit = unit
+			RemoveUnit(unit)
+			
+			if isPlayer:
+				playerReserves.append(targetUnit)
+				userInterface.ImportReserve(playerReserves)
+			else:
+				enemyReserves.append(targetUnit)
+				userInterface.ImportReserve(enemyReserves)
 	
 	if isPlayer:
 		ProcessUnitMatrix(playerUnitMatrix, sendToReserve)
@@ -1085,6 +1096,11 @@ func StartTurn(isPlayer, isAttacking):
 	# heal reserve units
 	GameManager.HealReserveUnits(isPlayer)
 	
+	# move dead units to reserve
+	# do this after StartTurn so they aren't healed 
+	GameManager.MoveDeadUnitsToReserve(isPlayerTurn)
+	GameManager.MoveDeadUnitsToReserve(!isPlayerTurn)
+		
 	# middle column is available when attacking
 	userInterface.SetMiddleColumnAvailability(isAttacking == true)
 	

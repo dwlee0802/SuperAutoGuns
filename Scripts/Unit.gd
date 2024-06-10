@@ -314,6 +314,10 @@ func IsMoving() -> bool:
 	return movementCyclesLeft < data.movementCost
 
 
+func IsDead() -> bool:
+	return currentHealthPoints <= 0
+	
+	
 func SaveCoords():
 	initialCoords = coords
 
