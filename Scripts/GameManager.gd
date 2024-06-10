@@ -1050,7 +1050,7 @@ func CommitButtonPressed():
 	SetBoughtThisTurn(isPlayerTurn)
 	
 	# committed player was attacking. start process
-	if playerAttacking and isPlayerTurn:
+	if playerAttacking == isPlayerTurn:
 		# save reserve
 		# save editor unit matrix state
 		# save wait time counts
@@ -1082,61 +1082,6 @@ func CommitButtonPressed():
 		isPlayerTurn = playerAttacking
 		
 		StartTurn(isPlayerTurn, isPlayerTurn and playerAttacking)
-		
-	#if !playerAttacking:
-		#if isPlayerTurn:
-			## save player unit matrix
-			#userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			#
-			## start enemy offense turn
-			#isPlayerTurn = false
-			#
-			#StartTurn(isPlayerTurn, isPlayerTurn and playerAttacking)
-		#else:
-			## save reserve
-			#enemyReserves = userInterface.ExportReserve()
-			#
-			## heal reserve units
-			#GameManager.HealReserveUnits(isPlayerTurn)
-			#
-			## read in unit matrix
-			#userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-			#userInterface.SetSlotAvailability(0, matrixWidth)
-			#
-			## save wait time counts
-			#GameManager.enemyWaitOrderCount = userInterface.ExportWaitTimes()
-			#
-			#print("attacker finished turn. Start cycle process.")
-			#isPlayerTurn = true
-			#userInterface.SetTurnLabel(true)
-			#_on_battle_process_button_pressed()
-	#else:
-		#if !isPlayerTurn:
-			## save enemy unit matrix
-			#userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-			#
-			## start player offense turn
-			#isPlayerTurn = true
-			#
-			#StartTurn(isPlayerTurn, isPlayerTurn and playerAttacking)
-		#else:
-			## heal reserve units
-			#GameManager.HealReserveUnits(isPlayerTurn)
-			#
-			## read in unit matrix
-			#userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			#userInterface.SetSlotAvailability(0, matrixWidth)
-			#
-			## save wait time counts
-			#GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
-			#
-			#print("attacker finished turn. Start cycle process.")
-			#isPlayerTurn = true
-			#userInterface.SetTurnLabel(true)
-			#_on_battle_process_button_pressed()
-	#
-	#userInterface.SetTurnLabel(isPlayerTurn)
-	#userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 
 
 # start the turn of isPlayer
@@ -1149,7 +1094,7 @@ func StartTurn(isPlayer, isAttacking):
 	userInterface.SetAttackDirectionUI(isAttacking == false)
 	
 	# set slot color
-	userInterface.SetSlotColor(isPlayer, isAttacking)
+	userInterface.SetSlotColor(isPlayer, isPlayer == isAttacking)
 	
 	# heal reserve units
 	GameManager.HealReserveUnits(isPlayer)
@@ -1285,33 +1230,10 @@ func PassButtonPressed():
 			GameManager.BattleResultProcess(true)
 			
 	# start next battle preparation phase
-	userInterface.SetTurnLabel(isPlayerTurn)
-	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
-
-	GameManager.HealReserveUnits(isPlayerTurn)
-	
 	# defending player goes first
-	# set attack dir ui to left
-	userInterface.SetAttackDirectionUI(true)
-	
-	if !playerAttacking:
-		isPlayerTurn = true
-		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
-		userInterface.ImportReserve(playerReserves)
-	else:
-		isPlayerTurn = false
-		userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
-		userInterface.ImportReserve(enemyReserves)
-		
-	userInterface.GenerateReinforcementOptions(isPlayerTurn, reinforcementCount)
-	
-	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+	StartTurn(isPlayerTurn, false)
 	
 	cycleCount = 0
-	
-	# start next turn
-	AddIncome(isPlayerTurn)
-	userInterface.turnTimer.start(turnTime)
 	
 	
 static func PrintUnitMatrix(unitMatrix):
