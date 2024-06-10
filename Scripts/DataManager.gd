@@ -1,4 +1,5 @@
 extends Node
+class_name DataManager
 
 static var unit_resources_path: String = "res://Data/Units/"
 

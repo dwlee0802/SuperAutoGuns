@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://dckjus8x2dn7h"]
+[gd_scene load_steps=10 format=3 uid="uid://dckjus8x2dn7h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="3_ogvuv"]
+[ext_resource type="Texture2D" uid="uid://6tqsxnc7atx3" path="res://Art/gold_star.png" id="3_p3cc1"]
 
 [sub_resource type="Animation" id="Animation_bjrsn"]
 length = 0.001
@@ -316,6 +317,48 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_oy87j")
 
+[node name="Stars" type="HFlowContainer" parent="TextureRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="TextureRect/Stars"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="TextureRect2" type="TextureRect" parent="TextureRect/Stars"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="TextureRect3" type="TextureRect" parent="TextureRect/Stars"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="TextureRect4" type="TextureRect" parent="TextureRect/Stars"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="TextureRect5" type="TextureRect" parent="TextureRect/Stars"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
 [node name="AttackAnimaitonPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_hohpx")
@@ -329,6 +372,7 @@ libraries = {
 speed_scale = 2.0
 
 [node name="DebugLabel" type="Label" parent="."]
+visible = false
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 1
 anchors_preset = 5

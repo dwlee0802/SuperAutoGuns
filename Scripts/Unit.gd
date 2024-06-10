@@ -26,6 +26,10 @@ var isMoving: bool = false
 
 var stackCount: int = 1
 
+# star increases by 1 per 3 stacks
+# stats are increased by stars
+var starCount: int = 0
+
 var statAdditionModifier = []
 
 var boughtThisTurn: bool = true
@@ -179,6 +183,8 @@ func Merge(otherUnit: Unit):
 	Heal(otherUnit.currentHealthPoints)
 	print("\n" + str(otherUnit) + " and " + str(self) + " merged. New stack size: " + str(stackCount) + "\n")
 	
+	starCount = stackCount / 3
+	
 	# remove other unit
 	# otherunit's parent is unit slot
 	## otherunit's parent is reserve
@@ -193,7 +199,6 @@ func Merge(otherUnit: Unit):
 
 func _to_string():
 	var output = data.name + str(stackCount)
-	output += "(" + str(currentHealthPoints) + "/" + str(data.maxHealthPoints * stackCount) + ")"
 	return output
 
 
@@ -214,16 +219,16 @@ func ChangeStats(what: Enums.StatType, amount):
 
 func GetAttackDamage(isFlank: bool = false):
 	if isFlank:
-		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage] * stackCount + data.flankingAttackModifier
+		return (data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingAttackModifier) * (starCount + 1)
 	else:
-		return data.attackDamage * stackCount + statAdditionModifier[Enums.StatType.AttackDamage] * stackCount
+		return (data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage]) * (starCount + 1)
 
 	
 func GetDefense(isFlank: bool = false):
 	if isFlank:
-		return data.defense + statAdditionModifier[Enums.StatType.Defense] + data.flankingDefenseModifier
+		return (data.defense + statAdditionModifier[Enums.StatType.Defense] + data.flankingDefenseModifier) * (starCount + 1)
 	else:
-		return data.defense + statAdditionModifier[Enums.StatType.Defense]
+		return (data.defense + statAdditionModifier[Enums.StatType.Defense]) * (starCount + 1)
 
 
 func GetAttackSpeed():
@@ -239,7 +244,7 @@ func GetAttackRange():
 
 
 func GetPenetration():
-	return data.penetration * stackCount
+	return data.penetration * (starCount + 1)
 	
 	
 # connects the right signal based on AbilityData to UseAbility

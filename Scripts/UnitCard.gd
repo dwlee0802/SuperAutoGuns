@@ -19,6 +19,11 @@ static var deathEffect
 
 @onready var radialLabel: Label = $RadialUI/RadialUI/Label
 
+@onready var starContainer: FlowContainer = $TextureRect/Stars
+
+static var goldStarImage = load("res://Art/gold_star.png")
+static var greyStarImage = load("res://Art/grey_star.png")
+
 signal clicked
 
 signal was_right_clicked(clicked_thing)
@@ -42,6 +47,9 @@ func SetUnit(_unit: Unit):
 	UpdateMovementLabel()
 	UpdateAttackLabel()
 	UpdateCombatStatsLabel()
+	
+	starContainer = $TextureRect/Stars
+	UpdateStars()
 	
 	if unit is WaitOrder:
 		$TextureRect/Sprite/CombatStats.visible = false
@@ -137,10 +145,10 @@ func UpdateHealthIndicator():
 
 func UpdateUnitInfoLabel():
 	if unit.isPlayer:
-		$TextureRect/Sprite/Name.text = "(P)" + unit.data.name + str(unit.stackCount)
+		$TextureRect/Sprite/Name.text = "(P) " + unit.data.name
 		$TextureRect.self_modulate = GameManager.playerColor
 	else:
-		$TextureRect/Sprite/Name.text = "(E)" + unit.data.name + str(unit.stackCount)
+		$TextureRect/Sprite/Name.text = "(E) " + unit.data.name
 		$TextureRect.self_modulate = GameManager.enemyColor
 	
 	
@@ -380,7 +388,7 @@ func _unhandled_key_input(event):
 func _merge_button_pressed():
 	if UnitCard.selected != null:
 		unit.Merge(UnitCard.selected.unit)
-	
+		UpdateStars()
 		# destroy other card
 		UnitCard.selected.get_parent().remove_child(UnitCard.selected)
 		UnitCard.selected.queue_free()
@@ -398,6 +406,23 @@ func _merge_button_pressed():
 		UpdateUnitInfoLabel()
 		
 
+func UpdateStars(count: int = unit.stackCount):
+	var goldCount = count / 3
+	var remainder = count - goldCount * 3
+	
+	for star: TextureRect in starContainer.get_children():
+		if goldCount > 0:
+			star.visible = true
+			star.texture = UnitCard.goldStarImage
+			goldCount -= 1
+		elif remainder > 1:
+			star.visible = true
+			star.texture = UnitCard.greyStarImage
+			remainder = 0
+		else:
+			star.visible = false
+				
+	
 func _swap_button_pressed():
 	if UnitCard.selected != null:
 		_drop_data(Vector2.ZERO, UnitCard.selected)

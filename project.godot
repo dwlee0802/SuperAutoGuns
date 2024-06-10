@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.2", "Mobile")
 
 [autoload]
 
-DataManager="*res://Scripts/DataManager.gd"
+DataManager="res://Scripts/DataManager.gd"
 
 [debug]
 
