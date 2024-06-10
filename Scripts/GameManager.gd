@@ -255,7 +255,7 @@ func _on_cycle_timer_timeout():
 			userInterface.ImportReserve(enemyReserves)
 		
 		# heal reserve units
-		HealReserveUnits(isPlayerTurn)
+		GameManager.HealReserveUnits(isPlayerTurn)
 		
 		# read in research ui
 		researchUI.ImportResearchOptions(isPlayerTurn)
@@ -1049,101 +1049,140 @@ func CommitButtonPressed():
 	
 	SetBoughtThisTurn(isPlayerTurn)
 	
-	if !playerAttacking:
-		if isPlayerTurn:
-			# save reserve
-			playerReserves = userInterface.ExportReserve()
-			
-			# start enemy offense turn
-			userInterface.turnTimer.start(turnTime)
-			# set attack dir to right
-			userInterface.SetAttackDirectionUI(false)
-			
-			# heal reserve units
-			HealReserveUnits(isPlayerTurn)
-			
-			# set middle column wait order available
-			userInterface.SetMiddleColumnAvailability(true)
-			userInterface.ImportWaitTimes(GameManager.enemyWaitOrderCount)
-			
-			# read in unit matrix
-			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			isPlayerTurn = false
-			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			AddIncome(isPlayerTurn)
-			userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
-			userInterface.ImportReserve(enemyReserves)
-			
-			# read in research ui
-			researchUI.ImportResearchOptions(isPlayerTurn)
-	
-			userInterface.SetSlotAvailability(0, matrixWidth)
-			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
-		else:
-			# save reserve
-			enemyReserves = userInterface.ExportReserve()
-			
-			# heal reserve units
-			HealReserveUnits(isPlayerTurn)
-			
-			# read in unit matrix
-			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-			userInterface.SetSlotAvailability(0, matrixWidth)
-			
-			# save wait time counts
-			GameManager.enemyWaitOrderCount = userInterface.ExportWaitTimes()
-			
-			print("attacker finished turn. Start cycle process.")
-			isPlayerTurn = true
-			userInterface.SetTurnLabel(true)
-			_on_battle_process_button_pressed()
-	else:
+	# committed player was attacking. start process
+	if playerAttacking and isPlayerTurn:
+		# save reserve
+		# save editor unit matrix state
+		# save wait time counts
 		if !isPlayerTurn:
-			# start player offense turn
-			userInterface.turnTimer.start(turnTime)
-			# set attack dir ui to right
-			userInterface.SetAttackDirectionUI(false)
-			
-			# set middle column wait order available
-			userInterface.SetMiddleColumnAvailability(true)
-			userInterface.ImportWaitTimes(GameManager.playerWaitOrderCount)
-			
-			# heal reserve units
-			HealReserveUnits(isPlayerTurn)
-			
-			# read in unit matrix
+			enemyReserves = userInterface.ExportReserve()
 			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
-			isPlayerTurn = true
-			userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-			AddIncome(isPlayerTurn)
-			userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
-			userInterface.ImportReserve(playerReserves)
-			
-			# read in research ui
-			researchUI.ImportResearchOptions(isPlayerTurn)
-			
-			userInterface.SetSlotAvailability(0, matrixWidth)
-			userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+			GameManager.enemyWaitOrderCount = userInterface.ExportWaitTimes()
 		else:
-			# heal reserve units
-			HealReserveUnits(isPlayerTurn)
-			
-			# read in unit matrix
+			playerReserves = userInterface.ExportReserve()
 			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
-			userInterface.SetSlotAvailability(0, matrixWidth)
-			
-			# save wait time counts
 			GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
-			
-			print("attacker finished turn. Start cycle process.")
-			isPlayerTurn = true
-			userInterface.SetTurnLabel(true)
-			_on_battle_process_button_pressed()
+		
+		# heal reserve units
+		GameManager.HealReserveUnits(isPlayerTurn)
+		
+		print("attacker finished turn. Start cycle process.")
+		isPlayerTurn = true
+		userInterface.SetTurnLabel(true)
+		_on_battle_process_button_pressed()
+	else:
+		# committed player was defending. start attacker turn.
+		# save committed side's unit matrix
+		if isPlayerTurn:
+			userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+		else:
+			userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+		
+		# attacker's turn
+		isPlayerTurn = playerAttacking
+		
+		StartTurn(isPlayerTurn, isPlayerTurn and playerAttacking)
+		
+	#if !playerAttacking:
+		#if isPlayerTurn:
+			## save player unit matrix
+			#userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+			#
+			## start enemy offense turn
+			#isPlayerTurn = false
+			#
+			#StartTurn(isPlayerTurn, isPlayerTurn and playerAttacking)
+		#else:
+			## save reserve
+			#enemyReserves = userInterface.ExportReserve()
+			#
+			## heal reserve units
+			#GameManager.HealReserveUnits(isPlayerTurn)
+			#
+			## read in unit matrix
+			#userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+			#userInterface.SetSlotAvailability(0, matrixWidth)
+			#
+			## save wait time counts
+			#GameManager.enemyWaitOrderCount = userInterface.ExportWaitTimes()
+			#
+			#print("attacker finished turn. Start cycle process.")
+			#isPlayerTurn = true
+			#userInterface.SetTurnLabel(true)
+			#_on_battle_process_button_pressed()
+	#else:
+		#if !isPlayerTurn:
+			## save enemy unit matrix
+			#userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+			#
+			## start player offense turn
+			#isPlayerTurn = true
+			#
+			#StartTurn(isPlayerTurn, isPlayerTurn and playerAttacking)
+		#else:
+			## heal reserve units
+			#GameManager.HealReserveUnits(isPlayerTurn)
+			#
+			## read in unit matrix
+			#userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+			#userInterface.SetSlotAvailability(0, matrixWidth)
+			#
+			## save wait time counts
+			#GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
+			#
+			#print("attacker finished turn. Start cycle process.")
+			#isPlayerTurn = true
+			#userInterface.SetTurnLabel(true)
+			#_on_battle_process_button_pressed()
+	#
+	#userInterface.SetTurnLabel(isPlayerTurn)
+	#userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+
+
+# start the turn of isPlayer
+func StartTurn(isPlayer, isAttacking):
+	userInterface.SetTurnLabel(isPlayer)
 	
-	userInterface.SetTurnLabel(isPlayerTurn)
-	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
+	userInterface.turnTimer.start(turnTime)
+	# false is right
+	# set attack dir to right
+	userInterface.SetAttackDirectionUI(isAttacking == false)
+	
+	# set slot color
+	userInterface.SetSlotColor(isPlayer, isAttacking)
+	
+	# heal reserve units
+	GameManager.HealReserveUnits(isPlayer)
+	
+	# middle column is available when attacking
+	userInterface.SetMiddleColumnAvailability(isAttacking == true)
+	
+	AddIncome(isPlayer)
+	
+	# read in research ui
+	researchUI.ImportResearchOptions(isPlayer)
+	
+	userInterface.GenerateReinforcementOptions(isPlayer, GameManager.reinforcementCount)
+	
+	userInterface.SetSlotAvailability(0, matrixWidth)
+	
+	if isPlayer:
+		userInterface.ImportUnitMatrix(playerUnitMatrix, enemyUnitMatrix, 0)
+		userInterface.ImportReserve(playerReserves)
+	else:
+		userInterface.ImportUnitMatrix(enemyUnitMatrix, playerUnitMatrix, 0)
+		userInterface.ImportReserve(enemyReserves)
+		
+	if isAttacking:
+		# set middle column wait order available
+		# read in wait order counts from previous battles
+		# read in unit matrix
+		if !isPlayer:
+			userInterface.ImportWaitTimes(GameManager.enemyWaitOrderCount)
+		else:
+			userInterface.ImportWaitTimes(GameManager.playerWaitOrderCount)
 
-
+	
 func SetBoughtThisTurn(player: bool):
 	var targetList = playerReserves
 	if !player:
@@ -1249,7 +1288,8 @@ func PassButtonPressed():
 	userInterface.SetTurnLabel(isPlayerTurn)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 
-	GameManager.HealUnits()
+	GameManager.HealReserveUnits(isPlayerTurn)
+	
 	# defending player goes first
 	# set attack dir ui to left
 	userInterface.SetAttackDirectionUI(true)

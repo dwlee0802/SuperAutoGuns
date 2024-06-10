@@ -52,7 +52,7 @@ func _gui_input(event):
 		
 		if UnitCard.selected != null and Input.is_action_just_pressed("left_click"):
 			# remove selected unit
-			UnitCard.selected.UnselectCard()
+			UnitCard.UnselectCard()
 		
 		# possible to make units wait here if attacker turn and slot is in middle col
 		if UnitCard.selected == null and Input.is_action_just_pressed("left_click") and canWaitOrder:
