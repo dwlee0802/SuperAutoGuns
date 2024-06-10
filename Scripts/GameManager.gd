@@ -610,6 +610,19 @@ static func ProcessStaticAbility(unitMatrix):
 					abilityFunction.call(unitMatrix, GetCoord(currentUnit), abilityData.dir_parameter, abilityData.int_parameter, abilityData.statType)
 			
 
+# TODO goes through the unit matrix and moves units that have zero HP to reserve
+static func MoveDeadUnitsToReserve(isPlayer):
+	var sendToReserve = func(unit: Unit):
+		if unit.currentHealthPoints <= 0:
+			# send to reserve
+			pass
+	
+	if isPlayer:
+		ProcessUnitMatrix(playerUnitMatrix, sendToReserve)
+	else:
+		ProcessUnitMatrix(enemyUnitMatrix, sendToReserve)
+	
+	
 # TODO
 # called at the start of every cycle
 # connects appropriate signals to callable
