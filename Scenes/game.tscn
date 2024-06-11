@@ -21,10 +21,10 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(1.9, 2.2),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.3, 1.9, 2.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -33,7 +33,7 @@ tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.4, 2.2),
+"times": PackedFloat32Array(0.3, 2.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -351,6 +351,7 @@ text = "Add 10 Funds"
 
 [node name="BattleStartOverlay" type="TextureRect" parent="."]
 visible = false
+modulate = Color(1, 1, 1, 0)
 self_modulate = Color(0, 0, 0, 0.811765)
 layout_mode = 1
 anchors_preset = 15
@@ -362,7 +363,7 @@ mouse_filter = 0
 texture = ExtResource("7_dtyuk")
 expand_mode = 1
 
-[node name="Label" type="Label" parent="BattleStartOverlay"]
+[node name="Label" type="RichTextLabel" parent="BattleStartOverlay"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -375,13 +376,14 @@ offset_right = 92.5
 offset_bottom = 24.5
 grow_horizontal = 2
 grow_vertical = 2
+bbcode_enabled = true
 text = "Battle #0 Concluded
 
 Player Offensive Victory
 
 Lasted 0 Cycles"
-horizontal_alignment = 1
-vertical_alignment = 1
+fit_content = true
+scroll_active = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BattleStartOverlay"]
 libraries = {

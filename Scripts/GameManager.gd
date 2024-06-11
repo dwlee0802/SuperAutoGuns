@@ -259,15 +259,15 @@ func PlayBattleStartOverlay():
 	var label = $BattleStartOverlay/Label
 	var output = "
 	Battle #{bc} Concluded\n\n
-	{what}\n\n
-	Lasted {cycles} Cycles
+	Lasted {cycles} Cycles\n\n
+	{what}
 	"
 	
-	label.text = output.format({
+	label.text = "[center]" + output.format({
 		"bc": battleCount,
 		"what": $BattleResultLabel.text,
 		"cycles": cycleCount
-	})
+	}) + "[/center]"
 	
 	$BattleStartOverlay/AnimationPlayer.play("new_battle_start_anim")
 	
