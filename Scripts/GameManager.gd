@@ -75,7 +75,7 @@ static var enemyIncomeHistory = []
 
 static var baseIncomeAmount: int = 10
 
-static var autoHealRatio: float = 0.8
+static var autoHealRatio: float = 0.6
 static var autoHealAmount: int = 1
 
 static var enemyAI

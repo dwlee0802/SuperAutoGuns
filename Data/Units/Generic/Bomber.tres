@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_vn3kl")
 name = "GENERIC_BOMBER_NAME"
-description = "Attacks the whole back row."
+description = "GENERIC_BOMBER_DESC"
 disabled = false
 type = 2
 startingUnit = false
@@ -16,7 +16,7 @@ maxHealthPoints = 5
 movementCost = 3
 attackCost = 6
 attackRange = 5
-attackFromBack = true
+attackFromBack = false
 rowAttack = true
 attackDamage = 2
 flankingAttackModifier = 0.0

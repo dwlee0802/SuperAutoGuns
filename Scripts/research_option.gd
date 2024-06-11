@@ -14,7 +14,7 @@ func SetData(_data: UnitData, purchased: bool, _player):
 	
 	$SelectButton.disabled = purchased
 	$Icon.self_modulate = data.color
-	$NameLabel.text = data.name
+	$NameLabel.text = tr(data.name)
 	
 	var stats = "HP: {hq} | ATK: {atk} | AS: {as} | MS: {ms}"
 	stats = stats.format({
@@ -25,12 +25,12 @@ func SetData(_data: UnitData, purchased: bool, _player):
 		})
 	
 	$StatsLabel.text = stats
-	$DescriptionLabel.text = data.description
+	$DescriptionLabel.text = tr(data.description)
 	
 	if purchased:
-		$SelectButton.text = data.name + " Research Complete"
+		$SelectButton.text = tr(data.name) + " Research Complete"
 	else:
-		$SelectButton.text = "Research " + data.name + "(" + str(data.researchCost) + ")"
+		$SelectButton.text = "Research " + tr(data.name) + "(" + str(data.researchCost) + ")"
 		$SelectButton.pressed.connect(OnSelected)
 		
 		

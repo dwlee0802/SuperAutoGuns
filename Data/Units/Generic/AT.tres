@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_r4ju7")
 name = "GENERIC_AT_NAME"
-description = "Penetrates armor."
+description = "GENERIC_AT_DESC"
 disabled = false
 type = 2
 startingUnit = false

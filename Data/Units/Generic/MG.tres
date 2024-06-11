@@ -6,7 +6,7 @@
 script = ExtResource("1_q6gbw")
 setUpTime = 4
 name = "GENERIC_MG_NAME"
-description = "High rate of fire after initial set up."
+description = "GENERIC_MG_DESC"
 disabled = false
 type = 0
 startingUnit = false

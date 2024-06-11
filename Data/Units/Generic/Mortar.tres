@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_1q7wl")
 name = "GENERIC_MORTAR_NAME"
-description = "Range 2. Decent fire support."
+description = "GENERIC_MORTAR_DESC"
 disabled = false
 type = 2
 startingUnit = true

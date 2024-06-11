@@ -9,3 +9,13 @@ GENERIC_AT_NAME,Anti-Tank Gun,대전차포
 GENERIC_TANK_NAME,Tank,전차
 GENERIC_FIGHTER_NAME,Fighter,전투기
 GENERIC_BOMBER_NAME,Bomber,폭격기
+GENERIC_RIFLE_DESC,Standard issue rifle,제식 무기
+GENERIC_SMG_DESC,Bonus attack damage when flanking,측면공격 시 추가데미지
+GENERIC_AR_DESC,Next generation automatic rifle,차세대 자동화기
+GENERIC_MG_DESC,High damage output after initial set up,거치대 설치 후 고화력 투사
+GENERIC_ARTY_DESC,Long distance(3) firepower projection,장거리(3) 화력 투사
+GENERIC_MORTAR_DESC,Ranged(2) fire support,중거리(2) 화력 투사
+GENERIC_AT_DESC,Penetrates armor,방어력 일정량 무시
+GENERIC_TANK_DESC,Reduced incoming damage,일정량 데미지 방어
+GENERIC_FIGHTER_DESC,Attacks units from the back most column,적 후방 우선공격
+GENERIC_BOMBER_DESC,Damage to all units in target row,한 줄의 모든 유닛 공격

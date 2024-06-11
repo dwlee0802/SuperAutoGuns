@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_l56xj")
 name = "GENERIC_RIFLE_NAME"
-description = "Standard Issue Rifle."
+description = "GENERIC_RIFLE_DESC"
 disabled = false
 type = 0
 startingUnit = true

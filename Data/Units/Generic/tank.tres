@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_4ueyb")
 name = "GENERIC_TANK_NAME"
-description = "Armored. Takes 1 less damage."
+description = "GENERIC_TANK_DESC"
 disabled = false
 type = 1
 startingUnit = false

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_hwwql")
 name = "GENERIC_FIGHTER_NAME"
-description = "Attacks units from the back most column."
+description = "GENERIC_FIGHTER_DESC"
 disabled = false
 type = 2
 startingUnit = false

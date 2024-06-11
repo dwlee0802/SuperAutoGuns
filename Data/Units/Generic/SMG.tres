@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_afoe0")
 name = "GENERIC_SMG_NAME"
-description = "Bonus attack damage when flanking."
+description = "GENERIC_SMG_DESC"
 disabled = false
 type = 0
 startingUnit = true
