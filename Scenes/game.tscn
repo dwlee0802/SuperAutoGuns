@@ -13,7 +13,7 @@ allow_unpress = true
 
 [sub_resource type="Animation" id="Animation_tqs2y"]
 resource_name = "new_battle_start_anim"
-length = 2.2
+length = 2.25
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
