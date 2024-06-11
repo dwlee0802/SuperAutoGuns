@@ -49,11 +49,13 @@ static var totalSectorsCount: int = 10
 static var playerCapturedSectorsCount: int = 5
 
 # economy stuff
-static var playerFunds: int = 0
-static var enemyFunds: int = 0
+static var playerFunds: int = 5
+static var enemyFunds: int = 5
 
-static var interestRate: float = 0.05
+static var interestRate: float = 0.1
 static var maxInterest: int = 10
+
+static var bonusPerCapture: float = 0.5
 
 static var fundsMaxAmount: int = 100
 
@@ -73,7 +75,7 @@ static var enemyIncomeHistory = []
 
 static var baseIncomeAmount: int = 10
 
-static var autoHealRatio: float = 0.25
+static var autoHealRatio: float = 0.8
 static var autoHealAmount: int = 1
 
 static var enemyAI
@@ -119,7 +121,7 @@ static var enemyColor: Color
 @export var playerColorOverride: Color = Color.ROYAL_BLUE
 @export var enemyColorOverride: Color = Color.DARK_RED
 
-@export var turnTime: float = 60
+@export var turnTime: float = 100
 
 static var fundsGraph
 
@@ -240,6 +242,8 @@ func _on_cycle_timer_timeout():
 		
 		# defending player goes first
 		StartTurn(isPlayerTurn, false)
+		
+		$BattleStartOverlay/AnimationPlayer.play("new_battle_start_anim")
 		
 		cycleCount = 0
 	else:
@@ -903,7 +907,7 @@ func AddIncome(toPlayer: bool):
 		difference *= -1
 		
 	if difference > 0:
-		captureBonus = difference/2
+		captureBonus = difference/2 * bonusPerCapture
 		
 	amount += captureBonus
 	

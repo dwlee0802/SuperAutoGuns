@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=11 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://4hb2vpnf6a6n" path="res://Scenes/user_interface.tscn" id="2_2mya4"]
@@ -6,9 +6,43 @@
 [ext_resource type="Script" path="res://Scripts/FundsButton.gd" id="4_cxk1o"]
 [ext_resource type="PackedScene" uid="uid://dq1g0sudslgo5" path="res://Scenes/research_ui.tscn" id="6_mxhfq"]
 [ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="7_creg4"]
+[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="7_dtyuk"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tx2ih"]
 allow_unpress = true
+
+[sub_resource type="Animation" id="Animation_tqs2y"]
+resource_name = "new_battle_start_anim"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.5, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 1.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k8hpl"]
+_data = {
+"new_battle_start_anim": SubResource("Animation_tqs2y")
+}
 
 [node name="Game" type="Control"]
 texture_filter = 1
@@ -314,6 +348,45 @@ layout_mode = 0
 offset_right = 8.0
 offset_bottom = 8.0
 text = "Add 10 Funds"
+
+[node name="BattleStartOverlay" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(0, 0, 0, 0.811765)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("7_dtyuk")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="BattleStartOverlay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.5
+offset_top = -24.5
+offset_right = 92.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Battle #0 Concluded
+
+Player Offensive Victory
+
+Lasted 0 Cycles"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BattleStartOverlay"]
+libraries = {
+"": SubResource("AnimationLibrary_k8hpl")
+}
 
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]
 [connection signal="pressed" from="EconomyUI/FundsButton" to="." method="_on_economy_ui_buttton_pressed" binds= [0]]
