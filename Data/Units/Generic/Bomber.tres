@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_vn3kl")
-name = "Bomber"
+name = "GENERIC_BOMBER_NAME"
 description = "Attacks the whole back row."
 disabled = false
 type = 2

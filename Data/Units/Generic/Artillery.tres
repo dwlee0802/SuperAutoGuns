@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_y52ge")
-name = "Artillery"
+name = "GENERIC_ARTY_NAME"
 description = "Range 3. Long range fire support."
 disabled = false
 type = 2

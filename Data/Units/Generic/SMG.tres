@@ -4,11 +4,12 @@
 
 [resource]
 script = ExtResource("1_afoe0")
-name = "SMG"
+name = "GENERIC_SMG_NAME"
 description = "Bonus attack damage when flanking."
 disabled = false
 type = 0
 startingUnit = true
+researchCost = 5
 purchaseCost = 3
 color = Color(1, 0.643137, 0.501961, 1)
 maxHealthPoints = 8

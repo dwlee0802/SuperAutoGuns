@@ -1,0 +1,11 @@
+keys,en,ko
+GENERIC_RIFLE_NAME,Rifle,소총
+GENERIC_SMG_NAME,Submachine Gun,기관단총
+GENERIC_AR_NAME,Assault Rifle,돌격소총
+GENERIC_MG_NAME,Machine Gun,기관총
+GENERIC_ARTY_NAME,Artillery,곡사포
+GENERIC_MORTAR_NAME,Mortar,박격포
+GENERIC_AT_NAME,Anti-Tank Gun,대전차포
+GENERIC_TANK_NAME,Tank,전차
+GENERIC_FIGHTER_NAME,Fighter,전투기
+GENERIC_BOMBER_NAME,Bomber,폭격기

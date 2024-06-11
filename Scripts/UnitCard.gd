@@ -147,10 +147,10 @@ func UpdateHealthIndicator():
 
 func UpdateUnitInfoLabel():
 	if unit.isPlayer:
-		$TextureRect/Sprite/Name.text = "(P) " + unit.data.name
+		$TextureRect/Sprite/Name.text = "(P) " + tr(unit.data.name)
 		$TextureRect.self_modulate = GameManager.playerColor
 	else:
-		$TextureRect/Sprite/Name.text = "(E) " + unit.data.name
+		$TextureRect/Sprite/Name.text = "(E) " + tr(unit.data.name)
 		$TextureRect.self_modulate = GameManager.enemyColor
 	
 	

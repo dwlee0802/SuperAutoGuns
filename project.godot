@@ -48,6 +48,10 @@ right_click={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://Localization/unit_translations.en.translation", "res://Localization/unit_translations.ko.translation")
+
 [rendering]
 
 renderer/rendering_method="mobile"

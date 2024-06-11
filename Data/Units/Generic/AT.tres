@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_r4ju7")
-name = "AT Cannon"
+name = "GENERIC_AT_NAME"
 description = "Penetrates armor."
 disabled = false
 type = 2
