@@ -924,7 +924,7 @@ func AddIncome(toPlayer: bool):
 		difference *= -1
 		
 	if difference > 0:
-		captureBonus = difference/2 * bonusPerCapture
+		captureBonus = int(difference / 2 * bonusPerCapture)
 		
 	amount += captureBonus
 	
