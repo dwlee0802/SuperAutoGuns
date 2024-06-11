@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://2lh8spf0pqoc"]
+[gd_scene load_steps=12 format=3 uid="uid://2lh8spf0pqoc"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://4hb2vpnf6a6n" path="res://Scenes/user_interface.tscn" id="2_2mya4"]
@@ -21,7 +21,7 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.3, 1.9, 2.2),
+"times": PackedFloat32Array(0, 0.4, 1.9, 2.2),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -33,15 +33,44 @@ tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.3, 2.2),
+"times": PackedFloat32Array(0.4, 2.2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_f0b81"]
+resource_name = "operation_over_anim"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k8hpl"]
 _data = {
-"new_battle_start_anim": SubResource("Animation_tqs2y")
+"new_battle_start_anim": SubResource("Animation_tqs2y"),
+"operation_over_anim": SubResource("Animation_f0b81")
 }
 
 [node name="Game" type="Control"]
@@ -364,6 +393,7 @@ texture = ExtResource("7_dtyuk")
 expand_mode = 1
 
 [node name="Label" type="RichTextLabel" parent="BattleStartOverlay"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -389,6 +419,78 @@ scroll_active = false
 libraries = {
 "": SubResource("AnimationLibrary_k8hpl")
 }
+
+[node name="GameConcludedOverlay" type="TextureRect" parent="."]
+self_modulate = Color(0, 0, 0, 0.811765)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("7_dtyuk")
+expand_mode = 1
+
+[node name="Label" type="RichTextLabel" parent="GameConcludedOverlay"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.5
+offset_top = -24.5
+offset_right = 92.5
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[center]
+Operation Over
+
+Player Victory
+
+Lasted 0 Battles 
+[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GameConcludedOverlay"]
+libraries = {
+"": SubResource("AnimationLibrary_k8hpl")
+}
+
+[node name="RestartButton" type="Button" parent="GameConcludedOverlay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -73.5
+offset_top = 200.0
+offset_right = 73.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Restart Operation"
+
+[node name="QuitButton" type="Button" parent="GameConcludedOverlay"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -21.0
+offset_top = 250.0
+offset_right = 21.0
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
 
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]
 [connection signal="pressed" from="EconomyUI/FundsButton" to="." method="_on_economy_ui_buttton_pressed" binds= [0]]

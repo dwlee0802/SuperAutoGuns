@@ -173,6 +173,8 @@ func _ready():
 	
 	AddIncome(isPlayerTurn)
 	
+	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
+	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	# defender always go first set attack dir ui to left
 	
@@ -243,7 +245,10 @@ func _on_cycle_timer_timeout():
 		# defending player goes first
 		StartTurn(isPlayerTurn, false)
 		
-		PlayBattleStartOverlay()
+		if playerCapturedSectorsCount == totalSectorsCount or playerCapturedSectorsCount == 0:
+			PlayOperationOverOverlay(playerCapturedSectorsCount == totalSectorsCount)
+		else:
+			PlayBattleStartOverlay()
 		
 		cycleCount = 0
 	else:
@@ -260,16 +265,42 @@ func PlayBattleStartOverlay():
 	var output = "
 	Battle #{bc} Concluded\n\n
 	Lasted {cycles} Cycles\n\n
-	{what}
+	[color={color}]{what}[/color]
 	"
 	
+	print("eh")
+	
 	label.text = "[center]" + output.format({
-		"bc": battleCount,
+		"bc": battleCount - 1,
 		"what": $BattleResultLabel.text,
-		"cycles": cycleCount
+		"cycles": cycleCount,
+		"color": GameManager.enemyColor
 	}) + "[/center]"
 	
 	$BattleStartOverlay/AnimationPlayer.play("new_battle_start_anim")
+	
+	
+func PlayOperationOverOverlay(playerWon: bool):
+	var label = $GameConcludedOverlay/Label
+	var output = "
+	Operation Over\n\n
+	Lasted {battles} Battles\n\n
+	[color={color}]{what}[/color]
+	"
+	
+	var whatText = "Player Victory"
+	var textColor = playerColor
+	if !playerWon:
+		whatText = "Enemy Victory"
+		textColor = enemyColor
+		
+	label.text = "[center]" + output.format({
+		"battles": battleCount - 1,
+		"what": whatText,
+		"color": textColor
+	}) + "[/center]"
+	
+	$GameConcludedOverlay/AnimationPlayer.play("operation_over_anim")
 	
 	
 # called when battle speed ui cycle pause is toggled
@@ -380,7 +411,6 @@ func _on_battle_process_button_pressed():
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
-	GameManager.battleCount += 1
 	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
 	print("Battle #" + str(GameManager.battleCount))
 	if cycleTimer.is_stopped():
@@ -1272,7 +1302,10 @@ func PassButtonPressed():
 	else:
 		GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
 		
-	PlayBattleStartOverlay()
+	if playerCapturedSectorsCount == totalSectorsCount or playerCapturedSectorsCount == 0:
+		PlayOperationOverOverlay(playerCapturedSectorsCount == totalSectorsCount)
+	else:
+		PlayBattleStartOverlay()
 	
 	# start next battle preparation phase
 	# defending player goes first
