@@ -7,7 +7,7 @@ static var cycleLabel: Label
 static var cycleTime: float = 0.5
 static var cycleCount: int = 0
 
-static var battleCount: int = 0
+static var battleCount: int = 1
 static var maxBattleCount: int = 25
 
 static var battleResultLabel: Label
@@ -243,7 +243,7 @@ func _on_cycle_timer_timeout():
 		# defending player goes first
 		StartTurn(isPlayerTurn, false)
 		
-		$BattleStartOverlay/AnimationPlayer.play("new_battle_start_anim")
+		PlayBattleStartOverlay()
 		
 		cycleCount = 0
 	else:
@@ -255,6 +255,23 @@ func _on_cycle_timer_timeout():
 	UpdateCTKLabel()
 	
 
+func PlayBattleStartOverlay():
+	var label = $BattleStartOverlay/Label
+	var output = "
+	Battle #{bc} Concluded\n\n
+	{what}\n\n
+	Lasted {cycles} Cycles
+	"
+	
+	label.text = output.format({
+		"bc": battleCount,
+		"what": $BattleResultLabel.text,
+		"cycles": cycleCount
+	})
+	
+	$BattleStartOverlay/AnimationPlayer.play("new_battle_start_anim")
+	
+	
 # called when battle speed ui cycle pause is toggled
 # starts timer if unpaused
 func ResumeCycleProcess(toggled_on):
@@ -888,8 +905,8 @@ func AddIncome(toPlayer: bool):
 	var _playerDist = playerCapturedSectorsCount
 	var _enemyDist = totalSectorsCount - playerCapturedSectorsCount
 	
-	var amount: int = baseIncomeAmount + battleCount
-	var battleCountBonus: int = battleCount
+	var amount: int = baseIncomeAmount + battleCount - 1
+	var battleCountBonus: int = battleCount - 1
 	
 	# interest bonus
 	var pastAmount = GameManager.playerFunds
@@ -911,7 +928,7 @@ func AddIncome(toPlayer: bool):
 		
 	amount += captureBonus
 	
-	GameManager.ChangeFunds(baseIncomeAmount + battleCount + interest + captureBonus, toPlayer)
+	GameManager.ChangeFunds(baseIncomeAmount + battleCountBonus + interest + captureBonus, toPlayer)
 	
 	# record stats
 	if toPlayer:
@@ -1255,6 +1272,8 @@ func PassButtonPressed():
 	else:
 		GameManager.playerWaitOrderCount = userInterface.ExportWaitTimes()
 		
+	PlayBattleStartOverlay()
+	
 	# start next battle preparation phase
 	# defending player goes first
 	StartTurn(isPlayerTurn, false)
