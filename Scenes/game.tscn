@@ -82,6 +82,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_su57y")
+playerColorOverride = null
+enemyColorOverride = null
+turnTime = null
+debugEnabled = null
 
 [node name="CycleTimer" type="Timer" parent="."]
 wait_time = 0.5

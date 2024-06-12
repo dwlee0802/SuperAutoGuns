@@ -78,3 +78,8 @@ static func ResearchUnit(player: bool, unit: UnitData):
 		print("Player Researched " + unit.name)
 	else:
 		print("Enemy Researched " + unit.name)
+
+
+static func ResetResearch():
+	playerPurchasedDict = {}
+	enemyPurchasedDict = {}

@@ -307,12 +307,12 @@ func PlayOperationOverOverlay(playerWon: bool):
 func RestartGame():
 	GameManager.battleCount = 1
 	GameManager.cycleCount = 0
-	GameManager.playerFunds = 10
-	GameManager.enemyFunds = 10
+	GameManager.playerFunds = 5
+	GameManager.enemyFunds = 5
 	GameManager.playerCapturedSectorsCount = GameManager.totalSectorsCount/2
 	GameManager.playerFundsHistory = []
 	GameManager.enemyFundsHistory = []
-	
+	DataManager.ResetResearch()
 	
 # called when battle speed ui cycle pause is toggled
 # starts timer if unpaused
