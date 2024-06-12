@@ -421,6 +421,8 @@ libraries = {
 }
 
 [node name="GameConcludedOverlay" type="TextureRect" parent="."]
+visible = false
+modulate = Color(1, 1, 1, 0)
 self_modulate = Color(0, 0, 0, 0.811765)
 layout_mode = 1
 anchors_preset = 15
@@ -470,7 +472,7 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -73.5
-offset_top = 200.0
+offset_top = 280.0
 offset_right = 73.5
 offset_bottom = 15.5
 grow_horizontal = 2
@@ -485,7 +487,7 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -21.0
-offset_top = 250.0
+offset_top = 360.0
 offset_right = 21.0
 offset_bottom = 15.5
 grow_horizontal = 2
