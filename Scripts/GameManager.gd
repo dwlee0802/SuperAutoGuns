@@ -262,18 +262,12 @@ func _on_cycle_timer_timeout():
 
 func PlayBattleStartOverlay():
 	var label = $BattleStartOverlay/Label
-	var output = "
-	Battle #{bc} Concluded\n\n
-	Lasted {cycles} Cycles\n\n
-	[color={color}]{what}[/color]
-	"
-	
-	print("eh")
+	var output = tr("BATTLE_CONCLUDED") + "\n\n" + tr("LASTED_CYCLES") + "\n\n" + "[color={color}]{what}[/color]"
 	
 	label.text = "[center]" + output.format({
-		"bc": battleCount - 1,
+		"battle_count": battleCount - 1,
 		"what": $BattleResultLabel.text,
-		"cycles": cycleCount,
+		"cycle_count": cycleCount,
 		"color": GameManager.enemyColor
 	}) + "[/center]"
 	

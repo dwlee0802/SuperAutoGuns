@@ -1,0 +1,26 @@
+keys,en,ko
+INCOME,Income,소득
+FUNDS,Funds,예산
+TOTAL_FUNDS,Total Funds,총예산
+ATTACK_DAMAGE,Attack Damage,공격력
+DEFENSE,Defense,방어력
+REINFORCEMENT,Reinforcement,증원
+RESERVE,Reserve,예비대
+BATTLE,Battle,전투
+CYCLE,Cycle,사이클
+RESEARCH,Research,연구
+REROLL,Reroll,재시도
+HEAL,Heal,회복
+SELL,Sell,판매
+PASS,Pass,포기
+COMMIT,Commit,턴 종료
+TIME_LEFT,Time Left,잔여 시간
+OFFENSIVE,Offensive,공세
+DEFENSIVE,Defensive,수비
+OFFENSIVE_VICTORY,{player_name} Offensive Victory,{player_name} 성공적 공세
+DEFENSIVE_VICTORY,{player_name} Defensive Victory,{player_name} 성공적 수비
+VICTORY,Victory,승리
+GENERIC_PLAYER_NAME,Player One,플레이어 1
+GENERIC_ENEMY_NAME,Player Two,플레이어 2
+LASTED_CYCLES,Lasted {cycle_count} Cycles,{cycle_count} 사이클동안 진행됨
+BATTLE_CONCLUDED,Battle #{battle_count} Concluded,{battle_count}번째 전투 종료

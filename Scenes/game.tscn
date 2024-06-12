@@ -422,7 +422,6 @@ libraries = {
 
 [node name="GameConcludedOverlay" type="TextureRect" parent="."]
 visible = false
-modulate = Color(1, 1, 1, 0)
 self_modulate = Color(0, 0, 0, 0.811765)
 layout_mode = 1
 anchors_preset = 15

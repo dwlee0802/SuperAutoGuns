@@ -50,7 +50,7 @@ right_click={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://Localization/unit_translations.en.translation", "res://Localization/unit_translations.ko.translation")
+locale/translations=PackedStringArray("res://Localization/unit_translations.en.translation", "res://Localization/unit_translations.ko.translation", "res://Localization/general_translations.en.translation", "res://Localization/general_translations.ko.translation")
 
 [rendering]
 
