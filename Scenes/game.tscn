@@ -440,6 +440,7 @@ libraries = {
 
 [node name="GameConcludedOverlay" type="TextureRect" parent="."]
 visible = false
+modulate = Color(1, 1, 1, 0)
 self_modulate = Color(0, 0, 0, 0.811765)
 layout_mode = 1
 anchors_preset = 15
@@ -482,6 +483,7 @@ libraries = {
 }
 
 [node name="RestartButton" type="Button" parent="GameConcludedOverlay"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -494,9 +496,10 @@ offset_right = 73.5
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Restart Operation"
+text = "RESTART_OPERATION"
 
 [node name="QuitButton" type="Button" parent="GameConcludedOverlay"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -509,7 +512,7 @@ offset_right = 21.0
 offset_bottom = 15.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Quit"
+text = "QUIT"
 
 [connection signal="toggled" from="Tutorial/KORButton" to="Tutorial" method="_on_kor_button_toggled"]
 [connection signal="pressed" from="EconomyUI/FundsButton" to="." method="_on_economy_ui_buttton_pressed" binds= [0]]

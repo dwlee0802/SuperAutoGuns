@@ -43,3 +43,5 @@ SINGLE,Single,1회
 SLOW,Slow,느림
 NORMAL,Normal,보통
 FAST,Fast,빠름
+RESTART_OPERATION,Restart Operation,작전 재시작
+QUIT,Quit,종료

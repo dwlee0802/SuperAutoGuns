@@ -202,6 +202,10 @@ func _ready():
 	# link single button
 	userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/SingleButton/").pressed.connect(ProcessSingleCycle)
 	
+	# link game concluded buttons
+	$GameConcludedOverlay/RestartButton.pressed.connect(get_tree().reload_current_scene)
+	$GameConcludedOverlay/RestartButton.pressed.connect(RestartGame)
+	$GameConcludedOverlay/QuitButton.pressed.connect(get_tree().quit)
 	
 	#enemyAI = EnemyAI_Randomizer.new()
 	#enemyAI.editor = enemyEditor
@@ -281,25 +285,33 @@ func PlayBattleStartOverlay():
 	
 func PlayOperationOverOverlay(playerWon: bool):
 	var label = $GameConcludedOverlay/Label
-	var output = "
-	Operation Over\n\n
-	Lasted {battles} Battles\n\n
-	[color={color}]{what}[/color]
-	"
+	var output = tr("OPERATION_OVER") + "\n\n" + tr("LASTED_BATTLES") + "\n\n[color={color}]{what}[/color]"
+
 	
-	var whatText = "Player Victory"
+	var whatText = tr("GENERIC_PLAYER_NAME") + " " + tr("VICTORY")
 	var textColor = playerColor
 	if !playerWon:
-		whatText = "Enemy Victory"
+		whatText = tr("GENERIC_ENEMY_NAME") + " " + tr("VICTORY")
 		textColor = enemyColor
 		
 	label.text = "[center]" + output.format({
-		"battles": battleCount - 1,
+		"battle_count": battleCount - 1,
 		"what": whatText,
 		"color": textColor
 	}) + "[/center]"
 	
 	$GameConcludedOverlay/AnimationPlayer.play("operation_over_anim")
+	
+
+# resets all variables
+func RestartGame():
+	GameManager.battleCount = 1
+	GameManager.cycleCount = 0
+	GameManager.playerFunds = 10
+	GameManager.enemyFunds = 10
+	GameManager.playerCapturedSectorsCount = GameManager.totalSectorsCount/2
+	GameManager.playerFundsHistory = []
+	GameManager.enemyFundsHistory = []
 	
 	
 # called when battle speed ui cycle pause is toggled
