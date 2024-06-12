@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ct8aanlsousat"]
+[gd_scene load_steps=18 format=3 uid="uid://ct8aanlsousat"]
 
 [ext_resource type="Texture2D" uid="uid://dyuiy3gp74qgf" path="res://Art/simple_white_arrow.png" id="1_7fvjg"]
 [ext_resource type="Script" path="res://Scripts/BattleProcessSpeedUI.gd" id="2_hthlt"]
@@ -66,7 +66,46 @@ _data = {
 "attack_right_arrow_animation": SubResource("Animation_hte5f")
 }
 
+[sub_resource type="InputEventKey" id="InputEventKey_qe62s"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_3dtws"]
+events = [SubResource("InputEventKey_qe62s")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_yfudo"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_g8rtr"]
+events = [SubResource("InputEventKey_yfudo")]
+
 [sub_resource type="ButtonGroup" id="ButtonGroup_8p7l3"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_pod3x"]
+device = -1
+keycode = 49
+unicode = 49
+
+[sub_resource type="Shortcut" id="Shortcut_kxsxq"]
+events = [SubResource("InputEventKey_pod3x")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_cp01l"]
+device = -1
+keycode = 50
+unicode = 50
+
+[sub_resource type="Shortcut" id="Shortcut_swocv"]
+events = [SubResource("InputEventKey_cp01l")]
+
+[sub_resource type="InputEventKey" id="InputEventKey_bbern"]
+device = -1
+keycode = 51
+unicode = 51
+
+[sub_resource type="Shortcut" id="Shortcut_ht5yk"]
+events = [SubResource("InputEventKey_bbern")]
 
 [node name="CombinedUnitMatrixEditor" type="Control"]
 layout_mode = 3
@@ -167,32 +206,47 @@ grow_horizontal = 2
 script = ExtResource("2_hthlt")
 
 [node name="PauseButton" type="Button" parent="BattleProcessSpeedUI"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 toggle_mode = true
-text = "Pause"
+shortcut = SubResource("Shortcut_3dtws")
+text = "PAUSE"
 
 [node name="SingleButton" type="Button" parent="BattleProcessSpeedUI"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
-text = "Single"
+theme_override_font_sizes/font_size = 12
+shortcut = SubResource("Shortcut_g8rtr")
+text = "SINGLE"
 
 [node name="SlowButton" type="Button" parent="BattleProcessSpeedUI"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 toggle_mode = true
 button_group = SubResource("ButtonGroup_8p7l3")
-text = "Slow"
+shortcut = SubResource("Shortcut_kxsxq")
+text = "SLOW"
 
 [node name="NormalButton" type="Button" parent="BattleProcessSpeedUI"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 toggle_mode = true
 button_pressed = true
 button_group = SubResource("ButtonGroup_8p7l3")
-text = "Normal"
+shortcut = SubResource("Shortcut_swocv")
+text = "NORMAL"
 
 [node name="FastButton" type="Button" parent="BattleProcessSpeedUI"]
+custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
+theme_override_font_sizes/font_size = 12
 toggle_mode = true
 button_group = SubResource("ButtonGroup_8p7l3")
-text = "Fast"
+shortcut = SubResource("Shortcut_ht5yk")
+text = "FAST"
 
 [node name="CycleProcessUI" type="Control" parent="BattleProcessSpeedUI"]
 custom_minimum_size = Vector2(30, 30)

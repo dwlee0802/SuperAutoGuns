@@ -37,3 +37,9 @@ CAPTURE,Capture,점령
 RESEARCH_COMPLETE,Research Complete,연구 완료
 INTEREST,Interest,이자
 BASE,Base,기본
+STATISTICS,Statistics,통계
+PAUSE,Pause,일시정지
+SINGLE,Single,1회
+SLOW,Slow,느림
+NORMAL,Normal,보통
+FAST,Fast,빠름

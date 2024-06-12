@@ -968,7 +968,7 @@ func AddIncome(toPlayer: bool):
 		GameManager.enemyTotalFunds += amount
 		
 	userInterface.SetFundsLabel(toPlayer)
-	var incomeBreakup = tr("INCOME") + ": +{total}\nBase: +{base} | " + tr("BATTLE_COUNT") + "({count}): +{countbonus} | " + tr("CAPTURE") + "({capdiff}): +{cap} | " + tr("INTEREST") + "({intrpc}): +{intr}"
+	var incomeBreakup = tr("INCOME") + ": +{total}\n" + tr("BASE") + ": +{base} | " + tr("BATTLE_COUNT") + "({count}): +{countbonus} | " + tr("CAPTURE") + "({capdiff}): +{cap} | " + tr("INTEREST") + "({intrpc}): +{intr}"
 	incomeBreakup = incomeBreakup.format({
 		"total":amount,
 		"base":baseIncomeAmount, 
