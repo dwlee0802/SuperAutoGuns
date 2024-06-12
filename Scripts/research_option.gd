@@ -28,9 +28,9 @@ func SetData(_data: UnitData, purchased: bool, _player):
 	$DescriptionLabel.text = tr(data.description)
 	
 	if purchased:
-		$SelectButton.text = tr(data.name) + " Research Complete"
+		$SelectButton.text = tr(data.name) + " " + tr("RESEARCH_COMPLETE")
 	else:
-		$SelectButton.text = "Research " + tr(data.name) + "(" + str(data.researchCost) + ")"
+		$SelectButton.text = tr("RESEARCH") + " " + tr(data.name) + "(" + str(data.researchCost) + ")"
 		$SelectButton.pressed.connect(OnSelected)
 		
 		

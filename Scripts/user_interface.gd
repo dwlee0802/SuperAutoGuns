@@ -76,14 +76,14 @@ func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
 	print("player: " + str(GameManager.playerFunds))
 	print("enemy: " + str(GameManager.enemyFunds))
 	if isPlayerTurn:
-		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(GameManager.playerFunds)
+		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = tr("FUNDS") + ": " + str(GameManager.playerFunds)
 	else:
-		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = "Funds: " + str(GameManager.enemyFunds)
+		$Root/MiddleScreen/MidLeftScreen/FundsLabel.text = tr("FUNDS") + ": " + str(GameManager.enemyFunds)
 
 
 func SetLastIncomeLabel(amount):
 	var label = $Root/MiddleScreen/MidLeftScreen/FundsLabel/LastIncomeLabel
-	label.text =  "" + str(amount) + ""
+	label.text = str(amount)
 	
 
 func ImportReserve(reserveUnits):
@@ -308,19 +308,19 @@ func OnUnitCardDropped():
 func SetTurnLabel(isPlayerTurn):
 	var label = $Root/MiddleScreen/MidLeftScreen/TurnLabel
 	if isPlayerTurn:
-		label.text = "Player's Turn"
+		label.text = tr("GENERIC_PLAYER_NAME") + " " + tr("TURN")
 		if GameManager.playerAttacking:
-			label.text += " - Offensive"
+			label.text += " - " + tr("OFFENSIVE")
 		else:
-			label.text += " - Defensive."
-		label.self_modulate = GameManager.playerColor
+			label.text += " - " + tr("DEFENSIVE")
+		#label.self_modulate = GameManager.playerColor
 	else:
-		label.text = "Enemy's Turn"
+		label.text = tr("GENERIC_ENEMY_NAME") + " " + tr("TURN")
 		if !GameManager.playerAttacking:
-			label.text += " - Offensive"
+			label.text += " - " + tr("OFFENSIVE")
 		else:
-			label.text += " - Defensive."
-		label.self_modulate = GameManager.enemyColor
+			label.text += " - " + tr("DEFENSIVE")
+		#label.self_modulate = GameManager.enemyColor
 
 
 func HealButtonPressed(unitCard = UnitCard.selected):
@@ -539,7 +539,7 @@ func UpdateSellButtonLabel():
 		if UnitCard.selected.unit.boughtThisTurn == false:
 			amount = int(amount * GameManager.refundRatio)
 			
-		var text = "Income: {num}"
+		var text = tr("INCOME") + ": {num}"
 		label.text = text.format({"num": amount})
 		button.disabled = false
 	else:

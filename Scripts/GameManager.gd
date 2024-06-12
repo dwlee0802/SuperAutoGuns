@@ -129,6 +129,8 @@ static var researchUI
 
 @export var debugEnabled: bool = false
 
+static var trInstance
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -145,6 +147,8 @@ func _ready():
 	
 	cycleTimer = $CycleTimer
 	cycleLabel = $CycleCountLabel
+	cycleLabel.text = Object.new().tr("CYCLE") + ": " + str(cycleCount)
+	
 	effectiveDamageUI = $EffectiveDamageUI
 	
 	GameManager.fundsGraph = $EconomyUI/Graph2D
@@ -158,6 +162,7 @@ func _ready():
 	captureStatusUI = $UserInterface/Root/CaptureStatusUI
 	
 	battleResultLabel = $BattleResultLabel
+	battleResultLabel.text = tr("OPERATION_START")
 	
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)
@@ -173,7 +178,7 @@ func _ready():
 	
 	AddIncome(isPlayerTurn)
 	
-	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
+	$BattleCountLabel.text = tr("BATTLE") + ": " + str(GameManager.battleCount)
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	# defender always go first set attack dir ui to left
@@ -503,7 +508,7 @@ static func InitializeMatrix():
 static func CycleProcess():
 	# stop cycle timer if one side wins
 	cycleCount += 1
-	cycleLabel.text = "Cycle: " + str(cycleCount)
+	cycleLabel.text = Object.new().tr("CYCLE") + ": " + str(cycleCount)
 	
 	# reset last received damage amount to zero
 	var SetLastDMGZero = func(unit):
@@ -589,20 +594,22 @@ static func CycleProcess():
 
 
 static func UpdateBattleResultLabel(playerWon: bool, attackerVictory: bool):
+	var obj = Object.new()
+	
 	# update battle result
 	battleResultLabel.visible = true
 	if playerWon:
 		if attackerVictory:
-			battleResultLabel.text = "Player Offensive Victory"
+			battleResultLabel.text = obj.tr("GENERIC_PLAYER_NAME") + " " + obj.tr("OFFENSIVE") + " " +  obj.tr("VICTORY")
 		else:
-			battleResultLabel.text = "Player Defensive Victory"
+			battleResultLabel.text = obj.tr("GENERIC_PLAYER_NAME") + " " + obj.tr("DEFENSIVE") + " " +  obj.tr("VICTORY")
 	else:
 		if attackerVictory:
-			battleResultLabel.text = "Enemy Offensive Victory"
+			battleResultLabel.text = obj.tr("GENERIC_ENEMY_NAME") + " " + obj.tr("OFFENSIVE") + " " +  obj.tr("VICTORY")
 		else:
-			battleResultLabel.text = "Enemy Defensive Victory"
-			
-			
+			battleResultLabel.text = obj.tr("GENERIC_ENEMY_NAME") + " " + obj.tr("DEFENSIVE") + " " +  obj.tr("VICTORY")
+	
+
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement
 # move forward if front slot exists and is empty
@@ -961,7 +968,7 @@ func AddIncome(toPlayer: bool):
 		GameManager.enemyTotalFunds += amount
 		
 	userInterface.SetFundsLabel(toPlayer)
-	var incomeBreakup = "Income: +{total}\nBase: +{base} | Battle Count({count}): +{countbonus} | Capture({capdiff}): +{cap} |  interest({intrpc}): +{intr}"
+	var incomeBreakup = tr("INCOME") + ": +{total}\nBase: +{base} | " + tr("BATTLE_COUNT") + "({count}): +{countbonus} | " + tr("CAPTURE") + "({capdiff}): +{cap} | " + tr("INTEREST") + "({intrpc}): +{intr}"
 	incomeBreakup = incomeBreakup.format({
 		"total":amount,
 		"base":baseIncomeAmount, 
@@ -1213,7 +1220,7 @@ func PassButtonPressed():
 	GameManager.UpdateEffectiveDamageUI()
 	
 	GameManager.battleCount+= 1
-	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
+	$BattleCountLabel.text = tr("BATTLE") + ": " + str(GameManager.battleCount)
 	print("Battle #" + str(GameManager.battleCount))
 	
 	# player attack pass
@@ -1224,20 +1231,20 @@ func PassButtonPressed():
 		# player victory
 		if lastBattleResult == -1:
 			if playerAttacking:
-				resultLabel.text = "Player Offensive Victory"
+				resultLabel.text = tr("GENERIC_PLAYER_NAME") + " " + tr("OFFENSIVE") + " " +  tr("VICTORY")
 			else:
-				resultLabel.text = "Player Defensive Victory"
+				resultLabel.text = tr("GENERIC_PLAYER_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
 		elif lastBattleResult == 0:
 			if playerAttacking:
-				resultLabel.text = "Draw. Defensive Victory"
+				resultLabel.text = tr("GENERIC_ENEMY_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
 			else:
-				resultLabel.text = "Draw. Defensive Victory"
+				resultLabel.text = tr("GENERIC_PLAYER_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
 		# enemy victory
 		elif lastBattleResult == 1:
 			if !playerAttacking:
-				resultLabel.text = "Enemy Offensive Victory"
+				resultLabel.text = tr("GENERIC_ENEMY_NAME") + " " + tr("OFFENSIVE") + " " +  tr("VICTORY")
 			else:
-				resultLabel.text = "Enemy Defensive Victory"
+				resultLabel.text = tr("GENERIC_ENEMY_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
 				
 		if playerAttacking:
 			print("Player passed attacking.")

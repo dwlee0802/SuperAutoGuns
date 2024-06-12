@@ -130,7 +130,7 @@ offset_top = -11.5
 offset_right = -10.0
 offset_bottom = 11.5
 grow_vertical = 2
-text = "Heal"
+text = "HEAL"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -166,7 +166,7 @@ offset_top = -11.5
 offset_right = -10.0
 offset_bottom = 11.5
 grow_vertical = 2
-text = "Sell"
+text = "SELL"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -198,7 +198,7 @@ offset_top = -11.5
 offset_right = -10.0
 offset_bottom = 11.5
 grow_vertical = 2
-text = "Pass"
+text = "PASS"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -219,7 +219,7 @@ offset_top = -11.5
 offset_right = -10.0
 offset_bottom = 11.5
 grow_vertical = 2
-text = "Commit"
+text = "COMMIT"
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -281,7 +281,7 @@ offset_top = -11.5
 offset_right = -10.0
 offset_bottom = 11.5
 grow_vertical = 2
-text = "Time Left:"
+text = "TIME_LEFT"
 horizontal_alignment = 2
 vertical_alignment = 1
 

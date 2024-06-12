@@ -24,3 +24,16 @@ GENERIC_PLAYER_NAME,Player One,플레이어 1
 GENERIC_ENEMY_NAME,Player Two,플레이어 2
 LASTED_CYCLES,Lasted {cycle_count} Cycles,{cycle_count} 사이클동안 진행됨
 BATTLE_CONCLUDED,Battle #{battle_count} Concluded,{battle_count}번째 전투 종료
+OPERATION_OVER,Operation Over,작전종료
+LASTED_BATTLES,Lasted {battle_count} Battles,{battle_count}번의 전투를 치름
+DRAW,Draw,무승부
+OPERATION_START,Operation Start,작전시작
+TURN,Turn,차례
+COST,Cost,비용
+FULL_HEALTH,Full Health,최대체력
+NOT_ENOUGH_FUNDS,Not Enough Funds,예산 부족
+BATTLE_COUNT,Battle Count,전투 횟수
+CAPTURE,Capture,점령
+RESEARCH_COMPLETE,Research Complete,연구 완료
+INTEREST,Interest,이자
+BASE,Base,기본

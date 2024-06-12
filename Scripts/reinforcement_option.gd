@@ -9,7 +9,7 @@ var unitData: UnitData
 func SetData(data: UnitData):
 	unitData = data
 	$Label.text = tr(unitData.name)
-	$Label.text += "\n Cost: " + str(unitData.purchaseCost)
+	$Label.text += "\n " + tr("COST") + ": " + str(unitData.purchaseCost)
 	self_modulate = unitData.color
 	tooltip_text = data.description
 
@@ -17,7 +17,6 @@ func SetData(data: UnitData):
 # add to reserve
 # update UI
 func _pressed():
-	print("rein op")
 	PurchseUnit()
 
 
