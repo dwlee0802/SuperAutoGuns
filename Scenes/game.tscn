@@ -198,14 +198,14 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
+offset_top = -590.0
+offset_right = 257.0
 grow_vertical = 0
 script = ExtResource("3_tp731")
 
 [node name="ENGButton" type="Button" parent="Tutorial"]
 visible = false
-layout_mode = 0
+layout_mode = 2
 offset_left = 81.0
 offset_top = 1.0
 offset_right = 150.0
@@ -213,17 +213,21 @@ offset_bottom = 32.0
 text = "Tutorial"
 
 [node name="KORButton" type="Button" parent="Tutorial"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 1.0
-offset_right = 74.0
-offset_bottom = 32.0
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -31.0
+offset_right = 72.0
+grow_vertical = 0
 toggle_mode = true
+button_pressed = true
 text = "튜토리얼"
 
 [node name="ENGTutorial" type="Panel" parent="Tutorial"]
 visible = false
-layout_mode = 0
+layout_mode = 2
 offset_top = -342.0
 offset_right = 259.0
 offset_bottom = -8.0
@@ -237,61 +241,78 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="KORTutorial" type="Panel" parent="Tutorial"]
-visible = false
-custom_minimum_size = Vector2(270, 500)
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = -823.0
-offset_right = 234.0
-offset_bottom = -49.0
+offset_left = 10.0
+offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Label" type="Label" parent="Tutorial/KORTutorial"]
+[node name="Label" type="RichTextLabel" parent="Tutorial/KORTutorial"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/normal_font_size = 14
 text = "튜토리얼
 
-조작법
-좌클릭 - 유닛 선택
-우클릭 - 선택 유닛 배치
-Commit 버튼(초록) - 턴 종료
-Heal 버튼(빨강) - 유닛 치료(단축키 H)
-Sell 버튼(노랑) - 유닛 판매(50% 환불)
+
+-조작법
+좌클릭 - 유닛 선택.
+우클릭 - 선택 유닛 배치.
+유닛 드레그로도 배치 가능.
+
+빈 슬롯에 우클릭 - 대기 명령 생성.
+
+턴 종료 버튼(초록) - 턴 종료.
+
+회복 - 유닛 치료(단축키 H).
+1스택 당 2원.
+
+판매 - 유닛 가격 50% 환불(단축기 S).
+구매한 턴에 바로 판매 시 전액 환불.
+
+숫자키 1,2,3 - 사이클 속도 선택.
+스페이스바 - 전투 일시 정지.
+엔터 - 사이클 1회씩 진행.
 
 
-기본 정보
-유닛
-Reinforcement(보충) 에서 유닛을 모집
-Reserve(예비) 에 있는 유닛을 슬롯에 배치
-배치 완료 후 Commit으로 턴 종
-전투는 사이클로 이루어져 있음
-유닛들은 일정 사이클 후에 공격과 이동과 같은 행동을 할 수 있음
-공격 대상은 바로 앞의 적 우선
-바로 앞 유닛이 없으면 가장 가까운 적 공격
+-기본 정보
+-유닛
+화면 하단 증원에서 유닛을 모집.
+예비대에 있는 유닛을 슬롯에 배치.
+연구를 통해 증원에 나올 수 있는 유닛 추가.
 
-공격과 수비
-공격 팀과 수비 팀이 존재
-공격 팀은 중간 1열을 통과해야 함
-수비팀이 먼저 유닛을 배치하고 공격 팀은 그 다음에 배치
-유닛이 먼저 전멸하는 쪽이 패배
-같은 사이클에 양측 모두 전멸하면 수비팀 승리대
-공격팀이 승리하면 영토를 점령하고 계속 공격
-공격이 실패하면 공수 교
-영토를 먼저 잃은 쪽이 게임 패배
+-전투
+전투는 사이클로 이루어져 있음.
+유닛들은 일정 사이클 후에 공격이나 이동과 같은 행동을 할 수 있음.
+유닛들은 이동을 우선. 움직일 수 없을 시 공격 가능 여부 고려.
+공격 대상은 바로 앞의 적 우선.
+바로 앞 유닛이 없으면 가장 가까운 적 공격.
 
-경제
+-공격과 수비
+매 전투마다 한쪽은 공격, 한쪽은 수비.
+공격 팀은 중간 1열을 이동해야 함.
+수비팀이 먼저 유닛을 배치하고 공격 팀은 그 다음에 배치.
+
+유닛이 먼저 전멸하는 쪽이 패배.
+무승부는 수비팀 승리로 판정.
+
+공격팀이 승리하면 영토를 점령하고 다음 전투에도 공격.
+공격이 실패하면 공수 교대.
+
+영토를 먼저 전부 잃은 쪽이 게임 패배.
+
+
+-경제
 매 턴 돈이 들어옴
-수도와 가까울수록 돈이 많이 들어옴
-전투를 계속할수록 들어오는 돈도 많아짐"
+전투를 계속할수록 들어오는 돈도 많아짐.
+점령한 적의 영토에 비례해 보너스 부여.
+마지막 턴에서 남은 양에 대해 이자 부여."
 autowrap_mode = 2
 
 [node name="EconomyUI" type="Control" parent="."]
