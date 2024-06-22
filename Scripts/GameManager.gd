@@ -519,6 +519,13 @@ static func InitializeMatrix():
 	playerAttackTargetMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyAttackTargetMatrix = Make2DArray(matrixHeight, matrixWidth)
 	
+	playerTerrainMatrix = Make2DArray(matrixHeight, matrixWidth)
+	enemyTerrainMatrix = Make2DArray(matrixHeight, matrixWidth)
+	middleTerrainList.resize(matrixHeight)
+	
+	var terData = load("res://Data/Terrains/Hills.tres")
+	middleTerrainList.fill(terData)
+	
 
 # returns true if battle is over
 static func CycleProcess():

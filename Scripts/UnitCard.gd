@@ -432,8 +432,15 @@ func _swap_button_pressed():
 
 func UpdateDebugLabel():
 	# debug label
-	var output = ""
-	if unit is WaitOrder:
-		output = str(unit.waitCycles) + "/" + str(unit.stackCount)
+	var output = "null"
+	
+	if unit == null:
+		return
+	if unit.coords == null:
+		return
 		
+	var ter = GameManager.GetTerrainData(unit.isPlayer, unit.coords)
+	if ter != null:
+		output = ter.name
+	
 	$DebugLabel.text = output
