@@ -38,6 +38,7 @@ static var enemyWaitOrderCount = []
 
 static var playerTerrainMatrix = []
 static var enemyTerrainMatrix = []
+static var middleTerrainList = []
 
 # temporary value for the size of the matrix
 static var matrixWidth: int = 3
@@ -738,7 +739,23 @@ static func ApplyUnitMovement(unitMatrix):
 					else:
 						print("ERROR! Unit movement cycle is below zero even though it cannot move.")
 				
-				
+
+# returns the terrain data in the terrain data matrix at the given coord
+static func GetTerrainData(isPlayer: bool, coords: Vector2):
+	var checkingMatrix = enemyTerrainMatrix
+	if isPlayer:
+		checkingMatrix = playerTerrainMatrix
+	
+	if IsAttacking(isPlayer):
+		# coords is in middle column
+		if coords.x == 0:
+			return middleTerrainList[coords.y]
+		else:
+			return checkingMatrix[coords.x - 1][coords.y]
+	
+	return checkingMatrix[coords.x][coords.y]
+	
+	
 static func GenerateDamageMatrix(unitMatrix):
 	var output = Make2DArray(matrixHeight, matrixWidth)
 	
@@ -1471,3 +1488,7 @@ func FitGraph(graph: Graph2D, data):
 
 static func IsAttackerTurn():
 	return isPlayerTurn == playerAttacking
+
+
+static func IsAttacking(player: bool):
+	return player == playerAttacking
