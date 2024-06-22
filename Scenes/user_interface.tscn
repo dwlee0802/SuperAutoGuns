@@ -325,8 +325,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 
 [node name="BottomScreen" type="HBoxContainer" parent="Root"]
-custom_minimum_size = Vector2(0, 200)
+custom_minimum_size = Vector2(700, 200)
 layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="Reinforcement" type="Control" parent="Root/BottomScreen"]
 custom_minimum_size = Vector2(0, 150)
@@ -375,24 +376,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("8_rjsst")
 expand_mode = 1
-
-[node name="CombatStatisticsUI" type="Control" parent="Root/BottomScreen"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Panel" type="Panel" parent="Root/BottomScreen/CombatStatisticsUI"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="Root/BottomScreen/CombatStatisticsUI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "Battle Statistics"
 
 [node name="ControlButtons" type="Control" parent="."]
 visible = false
