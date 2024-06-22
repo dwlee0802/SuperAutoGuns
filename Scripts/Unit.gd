@@ -247,8 +247,6 @@ func GetMovementSpeed():
 
 
 func GetAttackRange():
-	var currentTerrain: TerrainData
-	
 	return data.attackRange
 
 

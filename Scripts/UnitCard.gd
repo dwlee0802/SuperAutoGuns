@@ -439,7 +439,7 @@ func UpdateDebugLabel():
 	if unit.coords == null:
 		return
 		
-	var ter = GameManager.GetTerrainData(unit.isPlayer, unit.coords)
+	var ter = GameManager.GetTerrainData(unit)
 	if ter != null:
 		output = ter.name
 	

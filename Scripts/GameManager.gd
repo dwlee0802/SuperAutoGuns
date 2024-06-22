@@ -748,7 +748,10 @@ static func ApplyUnitMovement(unitMatrix):
 				
 
 # returns the terrain data in the terrain data matrix at the given coord
-static func GetTerrainData(isPlayer: bool, coords: Vector2):
+static func GetTerrainData(unit: Unit):
+	var isPlayer: bool = unit.isPlayer
+	var coords = unit.coords
+	
 	var checkingMatrix = enemyTerrainMatrix
 	if isPlayer:
 		checkingMatrix = playerTerrainMatrix
