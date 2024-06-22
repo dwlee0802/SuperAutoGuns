@@ -325,9 +325,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 8
 
 [node name="BottomScreen" type="HBoxContainer" parent="Root"]
-custom_minimum_size = Vector2(700, 200)
+custom_minimum_size = Vector2(820, 200)
 layout_mode = 2
-size_flags_horizontal = 4
+size_flags_horizontal = 8
 
 [node name="Reinforcement" type="Control" parent="Root/BottomScreen"]
 custom_minimum_size = Vector2(0, 150)

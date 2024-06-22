@@ -2,6 +2,8 @@ extends Resource
 class_name UnitData
 
 @export_group("Unit Info")
+@export var unitTexture: Texture = null
+
 @export var name: String = "Null"
 
 @export_multiline var description: String = ""
