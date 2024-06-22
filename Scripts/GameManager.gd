@@ -36,6 +36,9 @@ static var enemyEffectMatrix
 static var playerWaitOrderCount = []
 static var enemyWaitOrderCount = []
 
+static var playerTerrainMatrix = []
+static var enemyTerrainMatrix = []
+
 # temporary value for the size of the matrix
 static var matrixWidth: int = 3
 static var matrixHeight: int = 6
