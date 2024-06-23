@@ -56,3 +56,4 @@ locale/translations=PackedStringArray("res://Localization/unit_translations.en.t
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.165656, 0.165656, 0.165656, 1)
