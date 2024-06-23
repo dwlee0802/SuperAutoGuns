@@ -10,8 +10,20 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_flcne")
 
+[node name="SideIndicator" type="TextureRect" parent="."]
+self_modulate = Color(0.649653, 0, 0.0918464, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.05
+anchor_top = -0.05
+anchor_right = 1.05
+anchor_bottom = 1.05
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_wd3c4")
+expand_mode = 1
+
 [node name="TextureRect" type="TextureRect" parent="."]
-self_modulate = Color(0.340339, 0.340339, 0.340339, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

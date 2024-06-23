@@ -415,13 +415,13 @@ func UpdateControlButtons(rightClickTarget: UnitCard):
 
 func SetSlotColor(isPlayerTurn, isPlayerAttacking):
 	if isPlayerAttacking:
-		attackColor = GameManager.playerColor.lightened(0.5)
-		defendColor = GameManager.enemyColor.lightened(0.5)
-		middleColor = attackColor.darkened(0.3)
+		attackColor = GameManager.playerColor
+		defendColor = GameManager.enemyColor
+		middleColor = attackColor.darkened(0.5)
 	else:
-		attackColor = GameManager.enemyColor.lightened(0.5)
-		defendColor = GameManager.playerColor.lightened(0.5)
-		middleColor = attackColor.darkened(0.3)
+		attackColor = GameManager.enemyColor
+		defendColor = GameManager.playerColor
+		middleColor = attackColor.darkened(0.5)
 	
 	for col in range(unitMatrix.get_child_count()):
 		for row in range(unitMatrix.get_child(col).get_child_count()):
@@ -430,17 +430,17 @@ func SetSlotColor(isPlayerTurn, isPlayerAttacking):
 			if col <= int(unitMatrix.get_child_count() / 2):
 				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
 					# attacking. set slot to red
-					slot.get_node("TextureRect").self_modulate = attackColor
+					slot.get_node("SideIndicator").self_modulate = attackColor
 				else:
 					# defending. set slot to blue
-					slot.get_node("TextureRect").self_modulate = defendColor
+					slot.get_node("SideIndicator").self_modulate = defendColor
 			else:
 				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
 					# defending side set slot to blue
-					slot.get_node("TextureRect").self_modulate = defendColor
+					slot.get_node("SideIndicator").self_modulate = defendColor
 				else:
 					# attacking side. set slot to red
-					slot.get_node("TextureRect").self_modulate = attackColor
+					slot.get_node("SideIndicator").self_modulate = attackColor
 				
 	
 	SetMiddleColumnColor(true)
@@ -451,11 +451,11 @@ func SetMiddleColumnColor(attackingTurn):
 	if attackingTurn:
 		# set red
 		for slot in midCol.get_children():
-			slot.get_node("TextureRect").self_modulate = middleColor
+			slot.get_node("SideIndicator").self_modulate = middleColor
 	else:
 		# set blue
 		for slot in midCol.get_children():
-			slot.get_node("TextureRect").self_modulate = middleColor
+			slot.get_node("SideIndicator").self_modulate = middleColor
 			
 			
 func SetMiddleColumnAvailability(available: bool):
