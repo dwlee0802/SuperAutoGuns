@@ -241,9 +241,10 @@ func GetDefense(isFlank: bool = false):
 func GetAttackCost():
 	return data.attackCost
 	
-	
+
+# shoult take into account the terrain modifiers
 func GetMovementCost():
-	return data.movementCost
+	return data.movementCost + GameManager.GetTerrainMovementModifier(self)
 
 
 func GetAttackRange():

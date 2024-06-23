@@ -761,6 +761,39 @@ static func ApplyUnitMovement(unitMatrix):
 						print("ERROR! Unit movement cycle is below zero even though it cannot move.")
 				
 
+# returns the change in movement cost caused by terrain type
+static func GetTerrainMovementModifier(unit: Unit) -> int:
+	var output: int = 0
+	
+	if unit == null or unit.coords == null:
+		return output
+		
+	var checkingMatrix = enemyTerrainMatrix
+	if unit.isPlayer:
+		checkingMatrix = playerTerrainMatrix
+	
+	var currentSlot = GetTerrainData(unit)
+	var nextSlot = null
+	
+	# next slot exists
+	if unit.coords.x >= 1:
+		if IsAttacking(unit.isPlayer):
+			# next slot is middle
+			if unit.coords.x == 1:
+				nextSlot = middleTerrainList[unit.coords.y]
+			else:
+				nextSlot = checkingMatrix[unit.coords.x - 2][unit.coords.y]
+		else:
+			nextSlot = checkingMatrix[unit.coords.x - 1][unit.coords.y]
+		
+	if currentSlot != null:
+		output += currentSlot.exitCost
+	if nextSlot != null:
+		output += nextSlot.entryCost
+		
+	return output
+	
+	
 # returns the terrain data in the terrain data matrix at the given coord
 static func GetTerrainData(unit: Unit):
 	var isPlayer: bool = unit.isPlayer

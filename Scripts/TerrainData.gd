@@ -20,5 +20,9 @@ class_name TerrainData
 # extra movement cost required to enter this slot
 @export var entryCost: int = 0
 
+# extra movement cost required when leaving this slot
+@export var exitCost: int = 0
+
+
 func _to_string():
 	return name
