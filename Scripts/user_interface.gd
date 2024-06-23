@@ -559,7 +559,7 @@ func MakeFundsPopup(amount):
 	add_child(newpopup)
 
 
-func UpdateSlotTerrain(isPlayerTurn, isPlayerAttacking):
+func UpdateSlotTerrain(isPlayerTurn):
 	var currentTerrainMatrix = GameManager.enemyTerrainMatrix
 	if isPlayerTurn:
 		currentTerrainMatrix = GameManager.playerTerrainMatrix

@@ -247,7 +247,11 @@ func GetMovementSpeed():
 
 
 func GetAttackRange():
-	return data.attackRange
+	if coords == null:
+		return data.attackRange
+	else:
+		var terrainData = GameManager.GetTerrainData(self)
+		return data.attackRange + terrainData.attackRange
 
 
 func GetPenetration():

@@ -172,7 +172,7 @@ func _ready():
 	userInterface.SetSlotAvailability(0, 3)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 	
-	userInterface.UpdateSlotTerrain(isPlayerTurn, playerAttacking)
+	userInterface.UpdateSlotTerrain(isPlayerTurn)
 	
 	playerIncomeHistory.append(0)
 	playerFundsHistory.append(0)
@@ -858,7 +858,7 @@ static func FindAttackTarget(attacker: Unit, fromBack: bool = false) -> Unit:
 	var curRow = attacker.coords.y
 	var curCol = attacker.coords.x
 	
-	var checkColCount = attacker.data.attackRange - curCol
+	var checkColCount = attacker.GetAttackRange() - curCol
 	if fromBack:
 		checkColCount = checkingMatrix.size()
 	
@@ -1207,7 +1207,7 @@ func StartTurn(isPlayer, isAttacking):
 	userInterface.SetSlotColor(isPlayer, GameManager.playerAttacking)
 	
 	# set terrain ui
-	userInterface.UpdateSlotTerrain(isPlayerTurn, playerAttacking)
+	userInterface.UpdateSlotTerrain(isPlayerTurn)
 	
 	# heal reserve units
 	GameManager.HealReserveUnits(isPlayer)
