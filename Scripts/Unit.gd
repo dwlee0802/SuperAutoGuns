@@ -244,7 +244,7 @@ func GetAttackCost():
 
 # shoult take into account the terrain modifiers
 func GetMovementCost():
-	return data.movementCost + GameManager.GetTerrainMovementModifier(self)
+	return max(data.movementCost + GameManager.GetTerrainMovementModifier(self), 1)
 
 
 func GetAttackRange():
