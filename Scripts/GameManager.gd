@@ -471,14 +471,14 @@ static func ImportUnitMatrixBackup():
 	print("Imported backup unit matrix")
 	
 	
-static func HealUnits():
+static func HealUnits(ratio = autoHealRatio):
 	print("\nUnit Auto Heal\n")
 	for col in range(matrixWidth):
 		for row in range(matrixHeight):
 			if enemyUnitMatrix[col][row] != null:
-				enemyUnitMatrix[col][row].RatioHeal(autoHealRatio)
+				enemyUnitMatrix[col][row].RatioHeal(ratio)
 			if playerUnitMatrix[col][row] != null:
-				playerUnitMatrix[col][row].RatioHeal(autoHealRatio)
+				playerUnitMatrix[col][row].RatioHeal(ratio)
 	
 
 # heals the units in reserve for both sides
