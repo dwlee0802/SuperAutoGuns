@@ -89,3 +89,8 @@ func SetCanWaitOrder(value):
 		debugLabel.visible = true
 	else:
 		debugLabel.visible = false
+		
+		
+func SetTerrain(data: TerrainData):
+	$TerrainLabel.self_modulate = data.color
+	$TerrainLabel.text = data.name

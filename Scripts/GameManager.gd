@@ -172,6 +172,8 @@ func _ready():
 	userInterface.SetSlotAvailability(0, 3)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 	
+	userInterface.UpdateSlotTerrain(isPlayerTurn, playerAttacking)
+	
 	playerIncomeHistory.append(0)
 	playerFundsHistory.append(0)
 	playerTotalFundsHistory.append(0)
@@ -504,6 +506,7 @@ static func Make2DArray(h, w):
 	for i in range(w):
 		var newlist = []
 		newlist.resize(h)
+		
 		output[i] = newlist
 	
 	return output
@@ -521,10 +524,21 @@ static func InitializeMatrix():
 	
 	playerTerrainMatrix = Make2DArray(matrixHeight, matrixWidth)
 	enemyTerrainMatrix = Make2DArray(matrixHeight, matrixWidth)
-	middleTerrainList.resize(matrixHeight)
 	
-	var terData = load("res://Data/Terrains/Hills.tres")
-	middleTerrainList.fill(terData)
+	# randomly assign terrainData
+	for col in playerTerrainMatrix:
+		for i in range(col.size()):
+			col[i] = DataManager.terrainData.pick_random()
+			
+	for col in enemyTerrainMatrix:
+		for i in range(col.size()):
+			col[i] = DataManager.terrainData.pick_random()
+			
+	middleTerrainList = []
+	for i in range(matrixHeight):
+		middleTerrainList.append(DataManager.terrainData.pick_random())
+	
+	
 	
 
 # returns true if battle is over
@@ -752,11 +766,17 @@ static func GetTerrainData(unit: Unit):
 	var isPlayer: bool = unit.isPlayer
 	var coords = unit.coords
 	
+	print("get terrain data for player: " + str(isPlayer))
+	
 	var checkingMatrix = enemyTerrainMatrix
 	if isPlayer:
 		checkingMatrix = playerTerrainMatrix
 	
-	if IsAttacking(isPlayer):
+	print("checking\n" + str(checkingMatrix))
+	print("player\n" + str(playerTerrainMatrix))
+	print("enemy\n" + str(enemyTerrainMatrix))
+	
+	if isBattleRunning and IsAttacking(isPlayer):
 		# coords is in middle column
 		if coords.x == 0:
 			return middleTerrainList[coords.y]
@@ -1191,6 +1211,9 @@ func StartTurn(isPlayer, isAttacking):
 	
 	# set slot color
 	userInterface.SetSlotColor(isPlayer, GameManager.playerAttacking)
+	
+	# set terrain ui
+	userInterface.UpdateSlotTerrain(isPlayerTurn, playerAttacking)
 	
 	# heal reserve units
 	GameManager.HealReserveUnits(isPlayer)

@@ -7,6 +7,6 @@ script = ExtResource("1_li2j3")
 name = "HILLS"
 description = ""
 disabled = false
-color = Color(1, 1, 1, 1)
+color = Color(1, 0.560784, 0.419608, 1)
 attackRange = 1
 entryCost = 0

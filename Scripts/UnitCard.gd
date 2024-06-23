@@ -441,6 +441,6 @@ func UpdateDebugLabel():
 		
 	var ter = GameManager.GetTerrainData(unit)
 	if ter != null:
-		output = ter.name
+		output = ter.name + "(" + str(unit.coords) + ")"
 	
 	$DebugLabel.text = output

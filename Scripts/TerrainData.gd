@@ -18,3 +18,6 @@ class_name TerrainData
 
 # extra movement cost required to enter this slot
 @export var entryCost: int = 0
+
+func _to_string():
+	return name

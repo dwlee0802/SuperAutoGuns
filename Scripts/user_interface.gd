@@ -557,3 +557,37 @@ func MakeFundsPopup(amount):
 	newpopup.global_position = $Root/MiddleScreen/MidLeftScreen/FundsLabel/LastIncomeLabel.global_position
 	newpopup.get_node("AnimationPlayer").speed_scale = 0.5
 	add_child(newpopup)
+
+
+func UpdateSlotTerrain(isPlayerTurn, isPlayerAttacking):
+	var currentTerrainMatrix = GameManager.enemyTerrainMatrix
+	if isPlayerTurn:
+		currentTerrainMatrix = GameManager.playerTerrainMatrix
+	
+	var offset = 0
+	
+	for col in range(unitMatrix.get_child_count()):
+		# skip middle column
+		if col == int(unitMatrix.get_child_count() / 2):
+			continue
+			
+		# if past middle column, flip terrain matrices
+		if col > int(unitMatrix.get_child_count() / 2):
+			offset = int(unitMatrix.get_child_count() / 2) + 1
+			if isPlayerTurn:
+				currentTerrainMatrix = GameManager.enemyTerrainMatrix
+			else:
+				currentTerrainMatrix = GameManager.playerTerrainMatrix
+			
+		for row in range(unitMatrix.get_child(col).get_child_count()):
+			var slot: UnitSlot = unitMatrix.get_child(col).get_child(row)
+			
+			if offset == 0:
+				slot.SetTerrain(currentTerrainMatrix[int(unitMatrix.get_child_count() / 2) - 1 - col - offset][row])
+			else:
+				slot.SetTerrain(currentTerrainMatrix[col - offset][row])
+	
+	# set middle column
+	var middleCol = unitMatrix.get_child(int(unitMatrix.get_child_count() / 2)).get_children()
+	for i in range(middleCol.size()):
+		middleCol[i].SetTerrain(GameManager.middleTerrainList[i])

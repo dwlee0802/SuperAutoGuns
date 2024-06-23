@@ -7,6 +7,6 @@ script = ExtResource("1_vjfyb")
 name = "PLAINS"
 description = ""
 disabled = false
-color = Color(1, 1, 1, 1)
+color = Color(0.537786, 1, 0.506004, 1)
 attackRange = 0
 entryCost = 0
