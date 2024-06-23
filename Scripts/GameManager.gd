@@ -250,7 +250,7 @@ func _on_cycle_timer_timeout():
 		# set machinegun units' value to true
 		var resetMG = func(unit):
 			if unit is MachineGunUnit:
-				unit.attackCyclesLeft = unit.GetAttackSpeed()
+				unit.attackProgress = 0
 				unit.firstAttackAfterMoving = true
 				print("reset attack move")
 
@@ -676,16 +676,16 @@ static func UnitBehaviorProcess(unitMatrix):
 						# valid attack target exists
 						if target != null:
 							unitMatrix[col][row].SetAttackTarget(target)
-							unitMatrix[col][row].attackCyclesLeft -= 1
-							if unitMatrix[col][row].attackCyclesLeft < 0:
+							unitMatrix[col][row].attackProgress += 1
+							if unitMatrix[col][row].IsAttackReady():
 								attackingUnitsCount += 1
 						# no target. reset value
 						else:
-							unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
+							unitMatrix[col][row].attackProgress = 0
 					# can move
 					elif unitMatrix[col - 1][row] == null or (unitMatrix[col - 1][row] != null and unitMatrix[col - 1][row].IsMoving()):
 						unitMatrix[col][row].movementProgress += 1
-						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
+						unitMatrix[col][row].attackProgress = 0
 		
 	return attackingUnitsCount
 	
@@ -787,7 +787,7 @@ static func GenerateDamageMatrix(unitMatrix):
 		for row in range(len(unitMatrix[col])):
 			output[col][row] = -1
 			if unitMatrix[col][row] != null:
-				if unitMatrix[col][row].attackCyclesLeft < 0:
+				if unitMatrix[col][row].IsAttackReady():
 					# make sure
 					var targetCoord = unitMatrix[col][row].attackTarget.coords
 					output[targetCoord.x][targetCoord.y] = unitMatrix[col][row].GetAttackDamage()

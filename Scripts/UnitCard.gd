@@ -44,7 +44,6 @@ func SetUnit(_unit: Unit):
 	UpdateUnitInfoLabel()
 	
 	UpdateHealthLabel(0)
-	UpdateAttackLabel()
 	UpdateCombatStatsLabel()
 	
 	starContainer = $TextureRect/Stars
@@ -72,7 +71,7 @@ func SetUnit(_unit: Unit):
 			unit.currentHealthPoints = -1
 			
 	# determine if attacking this cycle
-	if unit.attackCyclesLeft < 0:
+	if unit.IsAttackReady():
 		if unit.attackTargetCoord == null:
 			return
 			
@@ -165,15 +164,6 @@ func HitAnimation(amount):
 	
 	var hitAnimPlayer: AnimationPlayer = $HitAnimaitonPlayer
 	hitAnimPlayer.play("hit_animation")
-
-	
-func UpdateAttackLabel():
-	var label = $TextureRect/AttackLabel
-	label.text = "Attack in: " + str(unit.attackCyclesLeft + 1)
-	if unit.attackCyclesLeft == unit.GetAttackSpeed() or unit.attackCyclesLeft == -1:
-		label.visible = false
-	#else:
-		#label.visible = true
 	
 
 func _process(_delta):
@@ -224,19 +214,19 @@ func UpdateRadialUI(first: bool = false):
 			radialLabel.text = str(unit.GetMovementCost() - unit.movementProgress + 1)
 	
 	# unit is currently attacking
-	elif unit.attackCyclesLeft < unit.GetAttackSpeed():
+	elif unit.attackProgress > 0:
 		radialUI.bar_color = Color.RED
-		ratio = 1 - (unit.attackCyclesLeft + 1) / float(unit.GetAttackSpeed())
+		ratio = 1 - (unit.GetCyclesTilAttack() + 1) / float(unit.GetAttackCost())
 		if first:
-			ratio = 1 - (unit.attackCyclesLeft + 2) / float(unit.GetAttackSpeed())
-		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.GetAttackSpeed())
+			ratio = 1 - (unit.GetCyclesTilAttack() + 2) / float(unit.GetAttackCost())
+		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.GetAttackCost())
 		radialUI.visible = true
 		
 		# update label
-		if unit.attackCyclesLeft + 1 < 0:
+		if unit.GetCyclesTilAttack() < 0:
 			radialLabel.text = "0"
 		else:
-			radialLabel.text = str(unit.attackCyclesLeft + 1)
+			radialLabel.text = str(unit.GetCyclesTilAttack() + 1)
 			
 	# unit is doing nothing
 	else:
@@ -261,7 +251,7 @@ func UpdateCombatStatsLabel():
 	
 	var text = "ATK: {atk}"
 	var atk = unit.GetAttackDamage()
-	var aspd = unit.GetAttackSpeed()
+	var aspd = unit.GetAttackCost()
 	var mvspd = unit.GetMovementCost()
 	
 	label.text = text.format({"atk": atk})
@@ -294,7 +284,7 @@ func UpdateAttackLine(isFlanking: bool = false):
 func OnAttackAnimationFinished(animName):
 	if animName == "attack_animation_left" or animName == "attack_animation_right":
 		# reset attack cycle cost
-		unit.attackCyclesLeft = unit.GetAttackSpeed()
+		unit.attackProgress = 0
 		
 		if unit != null:
 			var newTarget = unit.attackTarget

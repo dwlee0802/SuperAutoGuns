@@ -4,7 +4,7 @@ class_name MachineGunUnit
 var firstAttackAfterMoving: bool = true
 
 
-func GetAttackSpeed():
+func GetAttackCost():
 	if firstAttackAfterMoving:
 		return data.attackCost + data.setUpTime
 	else:

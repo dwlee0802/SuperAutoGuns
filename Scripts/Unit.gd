@@ -14,7 +14,6 @@ var lastReceivedDamage: int = 0
 var movementProgress: int = 0
 
 var attackProgress: int = 0
-var attackCyclesLeft: int = 0
 
 # holds the col and row index of attack target in enemy's matrix
 var attackTargetCoord: Vector2
@@ -64,7 +63,6 @@ func _init(_player, _data, _coord, _stack: int = 1):
 
 func ResetStats():
 	movementProgress = 0
-	attackCyclesLeft = GetAttackSpeed()
 	attackProgress = 0
 	currentHealthPoints = data.maxHealthPoints
 
@@ -175,7 +173,7 @@ func Attack(differentRow: bool = false):
 	else:
 		print("target null")
 		
-	attackCyclesLeft = data.attackCost
+	attackProgress = 0
 
 
 # merge with otherUnit
@@ -240,7 +238,7 @@ func GetDefense(isFlank: bool = false):
 		return (data.defense + statAdditionModifier[Enums.StatType.Defense]) * (starCount + 1)
 
 
-func GetAttackSpeed():
+func GetAttackCost():
 	return data.attackCost
 	
 	
@@ -332,8 +330,16 @@ func IsMoving() -> bool:
 	return movementProgress > 0
 
 
-func MovementCyclesLeft():
+func GetCyclesTilMovement():
 	return GetMovementCost() - movementProgress + 1
+	
+
+func GetCyclesTilAttack():
+	return GetAttackCost() - attackProgress
+	
+
+func IsAttackReady():
+	return attackProgress > GetAttackCost()
 	
 	
 func IsDead() -> bool:
