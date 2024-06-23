@@ -415,12 +415,12 @@ func UpdateControlButtons(rightClickTarget: UnitCard):
 
 func SetSlotColor(isPlayerTurn, isPlayerAttacking):
 	if isPlayerAttacking:
-		attackColor = GameManager.playerColor
-		defendColor = GameManager.enemyColor
+		attackColor = GameManager.playerColor.lightened(0.5)
+		defendColor = GameManager.enemyColor.lightened(0.5)
 		middleColor = attackColor.darkened(0.3)
 	else:
-		attackColor = GameManager.enemyColor
-		defendColor = GameManager.playerColor
+		attackColor = GameManager.enemyColor.lightened(0.5)
+		defendColor = GameManager.playerColor.lightened(0.5)
 		middleColor = attackColor.darkened(0.3)
 	
 	for col in range(unitMatrix.get_child_count()):

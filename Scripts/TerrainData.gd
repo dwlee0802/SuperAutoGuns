@@ -2,6 +2,7 @@ extends Resource
 class_name TerrainData
 
 @export_group("Terrain Info")
+@export var slotTexture: Texture = null
 @export var name: String = "Null"
 
 @export_multiline var description: String = ""
