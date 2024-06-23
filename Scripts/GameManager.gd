@@ -766,15 +766,9 @@ static func GetTerrainData(unit: Unit):
 	var isPlayer: bool = unit.isPlayer
 	var coords = unit.coords
 	
-	print("get terrain data for player: " + str(isPlayer))
-	
 	var checkingMatrix = enemyTerrainMatrix
 	if isPlayer:
 		checkingMatrix = playerTerrainMatrix
-	
-	print("checking\n" + str(checkingMatrix))
-	print("player\n" + str(playerTerrainMatrix))
-	print("enemy\n" + str(enemyTerrainMatrix))
 	
 	if isBattleRunning and IsAttacking(isPlayer):
 		# coords is in middle column
