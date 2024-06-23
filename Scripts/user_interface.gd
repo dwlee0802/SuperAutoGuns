@@ -417,11 +417,11 @@ func SetSlotColor(isPlayerTurn, isPlayerAttacking):
 	if isPlayerAttacking:
 		attackColor = GameManager.playerColor
 		defendColor = GameManager.enemyColor
-		middleColor = attackColor.darkened(0.5)
+		middleColor = attackColor.darkened(0.4)
 	else:
 		attackColor = GameManager.enemyColor
 		defendColor = GameManager.playerColor
-		middleColor = attackColor.darkened(0.5)
+		middleColor = attackColor.darkened(0.4)
 	
 	for col in range(unitMatrix.get_child_count()):
 		for row in range(unitMatrix.get_child(col).get_child_count()):
