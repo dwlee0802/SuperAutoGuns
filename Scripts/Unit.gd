@@ -12,7 +12,6 @@ var currentHealthPoints: int
 var lastReceivedDamage: int = 0
 
 var movementProgress: int = 0
-var movementCyclesLeft: int = 0
 
 var attackProgress: int = 0
 var attackCyclesLeft: int = 0
@@ -64,8 +63,9 @@ func _init(_player, _data, _coord, _stack: int = 1):
 	
 
 func ResetStats():
-	movementCyclesLeft = GetMovementSpeed()
+	movementProgress = 0
 	attackCyclesLeft = GetAttackSpeed()
+	attackProgress = 0
 	currentHealthPoints = data.maxHealthPoints
 
 
@@ -244,7 +244,7 @@ func GetAttackSpeed():
 	return data.attackCost
 	
 	
-func GetMovementSpeed():
+func GetMovementCost():
 	return data.movementCost
 
 
@@ -329,9 +329,13 @@ func IsFullHealth() -> bool:
 
 
 func IsMoving() -> bool:
-	return movementCyclesLeft < data.movementCost
+	return movementProgress > 0
 
 
+func MovementCyclesLeft():
+	return GetMovementCost() - movementProgress + 1
+	
+	
 func IsDead() -> bool:
 	return currentHealthPoints <= 0
 	

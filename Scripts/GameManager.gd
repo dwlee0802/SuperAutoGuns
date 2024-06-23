@@ -667,8 +667,8 @@ static func UnitBehaviorProcess(unitMatrix):
 					# dont move if: is front column or front slot is occupied
 					# row based movement. cound down movement cycles left also if front unit is moving
 					if col == 0 or (unitMatrix[col - 1][row] != null and !unitMatrix[col - 1][row].IsMoving()):
-						# reset movement cost
-						unitMatrix[col][row].movementCyclesLeft = unitMatrix[col][row].data.movementCost
+						# reset movement progress
+						unitMatrix[col][row].movementProgress = 0
 						
 						# check if able to attack
 						var target = FindAttackTarget(unitMatrix[col][row], unitMatrix[col][row].data.attackFromBack)
@@ -684,7 +684,7 @@ static func UnitBehaviorProcess(unitMatrix):
 							unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
 					# can move
 					elif unitMatrix[col - 1][row] == null or (unitMatrix[col - 1][row] != null and unitMatrix[col - 1][row].IsMoving()):
-						unitMatrix[col][row].movementCyclesLeft -= 1
+						unitMatrix[col][row].movementProgress += 1
 						unitMatrix[col][row].attackCyclesLeft = unitMatrix[col][row].GetAttackSpeed()
 		
 	return attackingUnitsCount
@@ -746,14 +746,14 @@ static func ApplyUnitMovement(unitMatrix):
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
 			if unitMatrix[col][row] != null:
-				if unitMatrix[col][row].movementCyclesLeft < 0:
+				if unitMatrix[col][row].movementProgress > unitMatrix[col][row].GetMovementCost():
 					# make sure front slot is empty
 					if col != 0 and unitMatrix[col - 1][row] == null:
 						# move forward
 						unitMatrix[col][row].coords -= Vector2.RIGHT
 						unitMatrix[col - 1][row] = unitMatrix[col][row]
 						unitMatrix[col][row] = null
-						unitMatrix[col - 1][row].movementCyclesLeft = unitMatrix[col - 1][row].data.movementCost
+						unitMatrix[col - 1][row].movementProgress = 0
 						
 						if unitMatrix[col - 1][row] is MachineGunUnit:
 							unitMatrix[col - 1][row].firstAttackAfterMoving = true

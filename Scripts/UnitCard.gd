@@ -44,7 +44,6 @@ func SetUnit(_unit: Unit):
 	UpdateUnitInfoLabel()
 	
 	UpdateHealthLabel(0)
-	UpdateMovementLabel()
 	UpdateAttackLabel()
 	UpdateCombatStatsLabel()
 	
@@ -168,18 +167,6 @@ func HitAnimation(amount):
 	hitAnimPlayer.play("hit_animation")
 
 	
-func UpdateMovementLabel():
-	var label = $TextureRect/MovementLabel
-	label.text = "Movement: " + str(unit.movementCyclesLeft + 1)
-	if unit.movementCyclesLeft == unit.data.movementCost:
-		label.visible = false
-	else:
-		#label.visible = true
-		if unit.movementCyclesLeft < 0:
-			label.text = "Ready"
-			label.text += "(" + str(unit.movementCyclesLeft + 1) + ")"
-			
-	
 func UpdateAttackLabel():
 	var label = $TextureRect/AttackLabel
 	label.text = "Attack in: " + str(unit.attackCyclesLeft + 1)
@@ -219,21 +206,24 @@ func UpdateRadialUI(first: bool = false):
 		print("wait count: " + str(unit.waitCycles))
 		print("stack: " + str(unit.stackCount))
 		print("ratio: " + str(ratio))
-		
-	elif unit.movementCyclesLeft < unit.data.movementCost:
+	
+	# unit is currently moving
+	elif unit.IsMoving():
 		radialUI.bar_color = Color.SKY_BLUE
-		ratio = 1 - (unit.movementCyclesLeft + 1) / float(unit.data.movementCost)
+		ratio = 1 - (unit.GetMovementCost() - unit.movementProgress + 1) / float(unit.GetMovementCost())
+		# workaround for blinking on first frame
 		if first:
-			ratio = 1 - (unit.movementCyclesLeft + 2) / float(unit.data.movementCost)
-		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.data.movementCost)
+			ratio = 1 - (unit.GetMovementCost() - unit.movementProgress + 2) / float(unit.GetMovementCost())
+		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.GetMovementCost())
 		radialUI.visible = true
 		
-		# update label
-		if unit.movementCyclesLeft + 1 < 0:
+		# update label to show number of cycles left til action
+		if unit.movementProgress - unit.GetMovementCost() > 0:
 			radialLabel.text = "0"
 		else:
-			radialLabel.text = str(unit.movementCyclesLeft + 1)
+			radialLabel.text = str(unit.GetMovementCost() - unit.movementProgress + 1)
 	
+	# unit is currently attacking
 	elif unit.attackCyclesLeft < unit.GetAttackSpeed():
 		radialUI.bar_color = Color.RED
 		ratio = 1 - (unit.attackCyclesLeft + 1) / float(unit.GetAttackSpeed())
@@ -247,6 +237,8 @@ func UpdateRadialUI(first: bool = false):
 			radialLabel.text = "0"
 		else:
 			radialLabel.text = str(unit.attackCyclesLeft + 1)
+			
+	# unit is doing nothing
 	else:
 		radialUI.visible = false
 		
@@ -270,7 +262,7 @@ func UpdateCombatStatsLabel():
 	var text = "ATK: {atk}"
 	var atk = unit.GetAttackDamage()
 	var aspd = unit.GetAttackSpeed()
-	var mvspd = unit.GetMovementSpeed()
+	var mvspd = unit.GetMovementCost()
 	
 	label.text = text.format({"atk": atk})
 	label2.text = "AS: " + str(aspd)
