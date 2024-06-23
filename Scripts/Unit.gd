@@ -11,8 +11,10 @@ var currentHealthPoints: int
 
 var lastReceivedDamage: int = 0
 
+var movementProgress: int = 0
 var movementCyclesLeft: int = 0
 
+var attackProgress: int = 0
 var attackCyclesLeft: int = 0
 
 # holds the col and row index of attack target in enemy's matrix
