@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_li2j3")
-name = "Hills"
+name = "HILLS"
 description = ""
 disabled = false
 color = Color(1, 1, 1, 1)

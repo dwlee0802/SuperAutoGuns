@@ -12,12 +12,18 @@ static var enemyPurchasedDict = {}
 
 static var waitOrderData
 
+# List that holds TerrainData
+static var terrain_resources_path: String = "res://Data/Terrains/"
+static var terrainData = []
+
 
 # Called when the node enters the scene tree for the first time.
 static func _static_init():
 	print("***Start data import***\n")
 	
 	ImportUnits(Enums.Nation.Generic)
+	
+	ImportTerrain()
 	
 	waitOrderData = load("res://Data/Units/Generic/wait_order.tres")
 	
@@ -54,6 +60,30 @@ static func ImportUnits(nation: Enums.Nation):
 		print(item.name)
 
 
+static func ImportTerrain():
+	var path = terrain_resources_path
+	var dir = DirAccess.open(path)
+	
+	dir.list_dir_begin()
+	var filename = dir.get_next()
+	while filename != "":
+		var fullpath = path + filename
+		
+		if '.tres.remap' in fullpath:
+			fullpath = fullpath.trim_suffix('.remap')
+			
+		var newthing: TerrainData = load(fullpath)
+		if !newthing.disabled:
+			terrainData.append(newthing)
+			
+		filename = dir.get_next()
+		
+	print("Imported " + str(terrainData.size()) + " TerrainData.")
+	
+	for item in terrainData:
+		print(item.name)
+	
+	
 static func GetPurchasedUnits(player: bool):
 	var output = []
 	var targetDict = playerPurchasedDict
