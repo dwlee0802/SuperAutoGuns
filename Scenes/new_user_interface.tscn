@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=3 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="PackedScene" uid="uid://c6noqxuhrv6do" path="res://Scenes/capture_status_ui.tscn" id="1_xj8rg"]
+[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_cgvah"]
 
 [node name="UserInterface" type="Control"]
 layout_mode = 3
@@ -29,3 +30,14 @@ size_flags_horizontal = 4
 text = "BATTLE 1"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="EditorBackground" type="TextureRect" parent="."]
+self_modulate = Color(0, 0, 0, 0.313726)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.15
+anchor_right = 1.0
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_cgvah")
