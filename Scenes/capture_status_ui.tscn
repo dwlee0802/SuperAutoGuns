@@ -22,23 +22,12 @@ theme_override_constants/separation = 10
 alignment = 1
 
 [node name="SectorIcon" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.218308, 0.452861, 1, 1)
 layout_mode = 2
 
 [node name="SectorIcon2" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.218308, 0.452861, 1, 1)
 layout_mode = 2
 
 [node name="SectorIcon3" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.218308, 0.452861, 1, 1)
-layout_mode = 2
-
-[node name="SectorIcon4" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.218308, 0.452861, 1, 1)
-layout_mode = 2
-
-[node name="SectorIcon5" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.218308, 0.452861, 1, 1)
 layout_mode = 2
 
 [node name="Contested" type="HBoxContainer" parent="."]
@@ -48,7 +37,7 @@ alignment = 1
 
 [node name="PlayerAttackArrow" type="TextureRect" parent="Contested"]
 self_modulate = Color(0.219608, 0.45098, 1, 1)
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(30, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -57,7 +46,7 @@ expand_mode = 1
 
 [node name="EnemyDefendArrow" type="TextureRect" parent="Contested"]
 self_modulate = Color(0.996078, 0, 0, 1)
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(30, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -67,7 +56,7 @@ expand_mode = 1
 [node name="PlayerDefendArrow" type="TextureRect" parent="Contested"]
 visible = false
 self_modulate = Color(0.219608, 0.45098, 1, 1)
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(30, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -78,7 +67,7 @@ flip_h = true
 [node name="EnemyAttackArrow" type="TextureRect" parent="Contested"]
 visible = false
 self_modulate = Color(0.996078, 0, 0, 1)
-custom_minimum_size = Vector2(24, 24)
+custom_minimum_size = Vector2(30, 24)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -91,14 +80,11 @@ layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
+[node name="SectorIcon" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+layout_mode = 2
+
+[node name="SectorIcon2" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+layout_mode = 2
+
 [node name="SectorIcon3" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.996945, 6.23293e-06, 1.54018e-06, 1)
-layout_mode = 2
-
-[node name="SectorIcon4" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.996945, 6.23293e-06, 1.54018e-06, 1)
-layout_mode = 2
-
-[node name="SectorIcon5" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
-self_modulate = Color(0.996945, 6.23293e-06, 1.54018e-06, 1)
 layout_mode = 2
