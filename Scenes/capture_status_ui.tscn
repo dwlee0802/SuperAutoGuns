@@ -1,0 +1,104 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6noqxuhrv6do"]
+
+[ext_resource type="Script" path="res://Scripts/ProcessUI.gd" id="1_om3mm"]
+[ext_resource type="PackedScene" uid="uid://beeh8a6601w3b" path="res://Scenes/sector_icon.tscn" id="2_lgrqn"]
+[ext_resource type="Texture2D" uid="uid://eikjm3k4l2ni" path="res://Art/capture status ui icons/atk_arrow_sqr.png" id="3_g06uv"]
+[ext_resource type="Texture2D" uid="uid://ck64mu1n7gka3" path="res://Art/capture status ui icons/dfs_arrow.png" id="4_1xhfy"]
+
+[node name="CaptureStatusUI" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_constants/separation = 30
+alignment = 1
+script = ExtResource("1_om3mm")
+
+[node name="LeftCaptured" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="SectorIcon" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.218308, 0.452861, 1, 1)
+layout_mode = 2
+
+[node name="SectorIcon2" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.218308, 0.452861, 1, 1)
+layout_mode = 2
+
+[node name="SectorIcon3" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.218308, 0.452861, 1, 1)
+layout_mode = 2
+
+[node name="SectorIcon4" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.218308, 0.452861, 1, 1)
+layout_mode = 2
+
+[node name="SectorIcon5" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.218308, 0.452861, 1, 1)
+layout_mode = 2
+
+[node name="Contested" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PlayerAttackArrow" type="TextureRect" parent="Contested"]
+self_modulate = Color(0.219608, 0.45098, 1, 1)
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_g06uv")
+expand_mode = 1
+
+[node name="EnemyDefendArrow" type="TextureRect" parent="Contested"]
+self_modulate = Color(0.996078, 0, 0, 1)
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_1xhfy")
+expand_mode = 1
+
+[node name="PlayerDefendArrow" type="TextureRect" parent="Contested"]
+visible = false
+self_modulate = Color(0.219608, 0.45098, 1, 1)
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_1xhfy")
+expand_mode = 1
+flip_h = true
+
+[node name="EnemyAttackArrow" type="TextureRect" parent="Contested"]
+visible = false
+self_modulate = Color(0.996078, 0, 0, 1)
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("3_g06uv")
+expand_mode = 1
+flip_h = true
+
+[node name="RightCaptured" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="SectorIcon3" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.996945, 6.23293e-06, 1.54018e-06, 1)
+layout_mode = 2
+
+[node name="SectorIcon4" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.996945, 6.23293e-06, 1.54018e-06, 1)
+layout_mode = 2
+
+[node name="SectorIcon5" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.996945, 6.23293e-06, 1.54018e-06, 1)
+layout_mode = 2
