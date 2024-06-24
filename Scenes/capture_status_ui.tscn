@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/ProcessUI.gd" id="1_om3mm"]
 [ext_resource type="PackedScene" uid="uid://beeh8a6601w3b" path="res://Scenes/sector_icon.tscn" id="2_lgrqn"]
-[ext_resource type="Texture2D" uid="uid://eikjm3k4l2ni" path="res://Art/capture status ui icons/atk_arrow_sqr.png" id="3_g06uv"]
-[ext_resource type="Texture2D" uid="uid://ck64mu1n7gka3" path="res://Art/capture status ui icons/dfs_arrow.png" id="4_1xhfy"]
+[ext_resource type="Texture2D" uid="uid://eikjm3k4l2ni" path="res://Art/Icons/capture status ui icons/atk_arrow_sqr.png" id="3_g06uv"]
+[ext_resource type="Texture2D" uid="uid://ck64mu1n7gka3" path="res://Art/Icons/capture status ui icons/dfs_arrow.png" id="4_1xhfy"]
 
 [node name="CaptureStatusUI" type="HBoxContainer"]
 custom_minimum_size = Vector2(0, 60)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3yqd1grfxolh"
-path="res://.godot/imported/atk_arrow.png-9d76b96678bf8958c84a376ed04768b5.ctex"
+uid="uid://de11clbc8y0h"
+path="res://.godot/imported/pause_icon.png-d203c7fdf5f06405bdade8f971341382.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/capture status ui icons/atk_arrow.png"
-dest_files=["res://.godot/imported/atk_arrow.png-9d76b96678bf8958c84a376ed04768b5.ctex"]
+source_file="res://Art/Icons/ProcessControl Icons/pause_icon.png"
+dest_files=["res://.godot/imported/pause_icon.png-d203c7fdf5f06405bdade8f971341382.ctex"]
 
 [params]
 

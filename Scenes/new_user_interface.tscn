@@ -44,7 +44,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EditorBackground" type="TextureRect" parent="."]
-self_modulate = Color(0, 0, 0, 0.313726)
+self_modulate = Color(0, 0, 0, 0.501961)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.15
