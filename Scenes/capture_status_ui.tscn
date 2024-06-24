@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ck64mu1n7gka3" path="res://Art/capture status ui icons/dfs_arrow.png" id="4_1xhfy"]
 
 [node name="CaptureStatusUI" type="HBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(0, 60)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -22,12 +22,19 @@ theme_override_constants/separation = 10
 alignment = 1
 
 [node name="SectorIcon" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.219608, 0.45098, 1, 1)
 layout_mode = 2
 
 [node name="SectorIcon2" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.219608, 0.45098, 1, 1)
+layout_mode = 2
+
+[node name="SectorIcon4" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.219608, 0.45098, 1, 1)
 layout_mode = 2
 
 [node name="SectorIcon3" parent="LeftCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.219608, 0.45098, 1, 1)
 layout_mode = 2
 
 [node name="Contested" type="HBoxContainer" parent="."]
@@ -81,10 +88,17 @@ theme_override_constants/separation = 10
 alignment = 1
 
 [node name="SectorIcon" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.996078, 0, 0, 1)
 layout_mode = 2
 
 [node name="SectorIcon2" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.996078, 0, 0, 1)
 layout_mode = 2
 
 [node name="SectorIcon3" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.996078, 0, 0, 1)
+layout_mode = 2
+
+[node name="SectorIcon4" parent="RightCaptured" instance=ExtResource("2_lgrqn")]
+self_modulate = Color(0.996078, 0, 0, 1)
 layout_mode = 2

@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=2 format=3 uid="uid://8m8hhrmb76q"]
+
+[ext_resource type="PackedScene" uid="uid://c6noqxuhrv6do" path="res://Scenes/capture_status_ui.tscn" id="1_xj8rg"]
 
 [node name="UserInterface" type="Control"]
 layout_mode = 3
@@ -7,3 +9,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TopScreen" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -212.5
+offset_right = 212.5
+offset_bottom = 50.0
+grow_horizontal = 2
+
+[node name="CaptureStatusUI" parent="TopScreen" instance=ExtResource("1_xj8rg")]
+layout_mode = 2
+
+[node name="BattleCountLabel" type="Label" parent="TopScreen"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "BATTLE 1"
+horizontal_alignment = 1
+vertical_alignment = 1
