@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=5 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="PackedScene" uid="uid://c6noqxuhrv6do" path="res://Scenes/capture_status_ui.tscn" id="1_xj8rg"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_cgvah"]
+[ext_resource type="PackedScene" uid="uid://dcbl4j6rqeg76" path="res://Scenes/process_control_menu.tscn" id="4_oe4ok"]
 
 [node name="UserInterface" type="Control"]
 layout_mode = 3
@@ -53,3 +54,9 @@ anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cgvah")
+
+[node name="ProcessControlMenu" parent="." instance=ExtResource("4_oe4ok")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.9
+anchor_bottom = 0.9
