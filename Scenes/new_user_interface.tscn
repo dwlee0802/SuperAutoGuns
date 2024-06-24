@@ -1,5 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=4 format=3 uid="uid://8m8hhrmb76q"]
 
+[ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="PackedScene" uid="uid://c6noqxuhrv6do" path="res://Scenes/capture_status_ui.tscn" id="1_xj8rg"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_cgvah"]
 
@@ -10,6 +11,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="."]
+self_modulate = Color(0.389287, 0.389287, 0.389286, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_fa31s")
+expand_mode = 1
 
 [node name="TopScreen" type="VBoxContainer" parent="."]
 layout_mode = 1
