@@ -202,40 +202,7 @@ grow_vertical = 2
 [node name="Title" type="Label" parent="EditorBackground/StatisticsMenu/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "UNITS"
-
-[node name="Reserve" type="VBoxContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Title" type="Label" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reserve"]
-layout_mode = 2
-text = "RESERVE"
-
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reserve"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="placeholder UnitCard" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reserve/FlowContainer" instance=ExtResource("4_qovi2")]
-layout_mode = 2
-script = null
-
-[node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
-
-[node name="Title" type="Label" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reinforcement"]
-layout_mode = 2
-text = "REINFORCEMENT"
-
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reinforcement"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="placeholderReinforcement OptionButton" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reinforcement/FlowContainer" instance=ExtResource("5_sn7kd")]
-layout_mode = 2
-script = null
+text = "STATISTICS"
 
 [node name="SideMenu" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 0.501961)
