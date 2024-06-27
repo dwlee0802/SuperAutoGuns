@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=8 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="PackedScene" uid="uid://c6noqxuhrv6do" path="res://Scenes/capture_status_ui.tscn" id="1_xj8rg"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_cgvah"]
+[ext_resource type="Texture2D" uid="uid://bgnqslajodkjb" path="res://Art/Icons/Menu Icons/units_icon.png" id="4_ggdh0"]
 [ext_resource type="PackedScene" uid="uid://dcbl4j6rqeg76" path="res://Scenes/process_control_menu.tscn" id="4_oe4ok"]
+[ext_resource type="Texture2D" uid="uid://2tekeu3k6hcc" path="res://Art/Icons/Menu Icons/research_icon.png" id="5_cmsuj"]
+[ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
 
 [node name="UserInterface" type="Control"]
 layout_mode = 3
@@ -54,6 +57,92 @@ anchor_bottom = 0.8
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cgvah")
+
+[node name="MenuButtonsBackground" type="TextureRect" parent="."]
+self_modulate = Color(0, 0, 0, 0.501961)
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_cgvah")
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="MenuButtonsBackground"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="UnitMenuButton" type="TextureButton" parent="MenuButtonsBackground/ButtonsContainer"]
+self_modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(40, 60)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("2_cgvah")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ButtonImage" type="TextureRect" parent="MenuButtonsBackground/ButtonsContainer/UnitMenuButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ggdh0")
+expand_mode = 2
+
+[node name="ResearchButton" type="TextureButton" parent="MenuButtonsBackground/ButtonsContainer"]
+self_modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(40, 60)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("2_cgvah")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ButtonImage" type="TextureRect" parent="MenuButtonsBackground/ButtonsContainer/ResearchButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_cmsuj")
+expand_mode = 1
+
+[node name="StatsButton" type="TextureButton" parent="MenuButtonsBackground/ButtonsContainer"]
+self_modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(40, 60)
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("2_cgvah")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ButtonImage" type="TextureRect" parent="MenuButtonsBackground/ButtonsContainer/StatsButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_s0tt4")
+expand_mode = 1
 
 [node name="ProcessControlMenu" parent="." instance=ExtResource("4_oe4ok")]
 layout_mode = 1
