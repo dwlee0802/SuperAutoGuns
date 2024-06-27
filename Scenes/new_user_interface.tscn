@@ -71,7 +71,8 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 20
 text = "$100"
 
-[node name="SideMenuWindow" type="TextureRect" parent="EditorBackground"]
+[node name="UnitMenu" type="TextureRect" parent="EditorBackground"]
+visible = false
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -82,7 +83,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cgvah")
 
-[node name="HBoxContainer" type="VBoxContainer" parent="EditorBackground/SideMenuWindow"]
+[node name="HBoxContainer" type="VBoxContainer" parent="EditorBackground/UnitMenu"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.9
@@ -90,42 +91,151 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="EditorBackground/SideMenuWindow/HBoxContainer"]
+[node name="Title" type="Label" parent="EditorBackground/UnitMenu/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "UNITS"
 
-[node name="Reserve" type="VBoxContainer" parent="EditorBackground/SideMenuWindow/HBoxContainer"]
+[node name="Reserve" type="VBoxContainer" parent="EditorBackground/UnitMenu/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Title" type="Label" parent="EditorBackground/SideMenuWindow/HBoxContainer/Reserve"]
+[node name="Title" type="Label" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve"]
 layout_mode = 2
 text = "RESERVE"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/SideMenuWindow/HBoxContainer/Reserve"]
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="placeholder UnitCard" parent="EditorBackground/SideMenuWindow/HBoxContainer/Reserve/FlowContainer" instance=ExtResource("4_qovi2")]
+[node name="placeholder UnitCard" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve/FlowContainer" instance=ExtResource("4_qovi2")]
 layout_mode = 2
 script = null
 
-[node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/SideMenuWindow/HBoxContainer"]
+[node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/UnitMenu/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="Title" type="Label" parent="EditorBackground/SideMenuWindow/HBoxContainer/Reinforcement"]
+[node name="Title" type="Label" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement"]
 layout_mode = 2
 text = "REINFORCEMENT"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/SideMenuWindow/HBoxContainer/Reinforcement"]
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="placeholderReinforcement OptionButton" parent="EditorBackground/SideMenuWindow/HBoxContainer/Reinforcement/FlowContainer" instance=ExtResource("5_sn7kd")]
+[node name="placeholderReinforcement OptionButton" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement/FlowContainer" instance=ExtResource("5_sn7kd")]
 layout_mode = 2
+script = null
+
+[node name="ScienceMenu" type="TextureRect" parent="EditorBackground"]
+visible = false
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_cgvah")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="EditorBackground/ScienceMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.9
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="EditorBackground/ScienceMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "SCIENCE"
+
+[node name="ResearchOptions" type="VBoxContainer" parent="EditorBackground/ScienceMenu/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="EditorBackground/ScienceMenu/HBoxContainer/ResearchOptions"]
+layout_mode = 2
+text = "RESEARCH"
+
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/ScienceMenu/HBoxContainer/ResearchOptions"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Current" type="VBoxContainer" parent="EditorBackground/ScienceMenu/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Title" type="Label" parent="EditorBackground/ScienceMenu/HBoxContainer/Current"]
+layout_mode = 2
+text = "COMPLETED"
+
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/ScienceMenu/HBoxContainer/Current"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="StatisticsMenu" type="TextureRect" parent="EditorBackground"]
+visible = false
+self_modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_cgvah")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="EditorBackground/StatisticsMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.9
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="EditorBackground/StatisticsMenu/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "UNITS"
+
+[node name="Reserve" type="VBoxContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Title" type="Label" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reserve"]
+layout_mode = 2
+text = "RESERVE"
+
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reserve"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="placeholder UnitCard" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reserve/FlowContainer" instance=ExtResource("4_qovi2")]
+layout_mode = 2
+script = null
+
+[node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Title" type="Label" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reinforcement"]
+layout_mode = 2
+text = "REINFORCEMENT"
+
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reinforcement"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="placeholderReinforcement OptionButton" parent="EditorBackground/StatisticsMenu/HBoxContainer/Reinforcement/FlowContainer" instance=ExtResource("5_sn7kd")]
+layout_mode = 2
+script = null
 
 [node name="SideMenu" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 0.501961)
