@@ -19,6 +19,8 @@ var menuDict = {}
 @onready var reserveContainer = $EditorBackground/UnitMenu/HBoxContainer/Reserve/ReserveContainer
 @onready var reinforcementContainer = $EditorBackground/UnitMenu/HBoxContainer/Reinforcement/ReinforcementContainer
 
+@onready var fundsLabel = $EditorBackground/FundsLabel
+
 
 func _ready():
 	# make menu dict
@@ -107,4 +109,23 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enu
 		
 		# TODO
 		# connect signals
-		#newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
+		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
+
+
+func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
+	print("player funds: " + str(GameManager.playerFunds))
+	print("enemy funds: " + str(GameManager.enemyFunds))
+	if isPlayerTurn:
+		fundsLabel.text = tr("FUNDS") + ": " + str(GameManager.playerFunds)
+	else:
+		fundsLabel.text = tr("FUNDS") + ": " + str(GameManager.enemyFunds)
+
+
+func ExportReserve():
+	var newReserve = []
+	for child in reserveContainer.get_children():
+		newReserve.append(child.unit)
+		
+	print("current reserve count: " + str(newReserve.size()))
+	
+	return newReserve
