@@ -146,6 +146,7 @@ func GenerateGrid(colCount: int, rowCount: int):
 	for i in range(colCount):
 		var newCol = VBoxContainer.new()
 		newCol.add_theme_constant_override("separation", 10)
+		newCol.begin
 		for j in range(rowCount):
 			var newSlot: UnitSlot = slotScene.instantiate()
 			
