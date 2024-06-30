@@ -247,7 +247,6 @@ theme_override_font_sizes/font_size = 20
 text = "$100"
 
 [node name="UnitMenu" type="TextureRect" parent="EditorBackground"]
-visible = false
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -279,28 +278,29 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "RESERVE"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve"]
+[node name="ReserveContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 
-[node name="placeholder UnitCard" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve/FlowContainer" instance=ExtResource("4_qovi2")]
+[node name="placeholder UnitCard" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve/ReserveContainer" instance=ExtResource("4_qovi2")]
 layout_mode = 2
 script = null
 
 [node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/UnitMenu/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.5
+size_flags_stretch_ratio = 0.55
 
 [node name="Title" type="Label" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement"]
 layout_mode = 2
 text = "REINFORCEMENT"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement"]
+[node name="ReinforcementContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="placeholderReinforcement OptionButton" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement/FlowContainer" instance=ExtResource("5_sn7kd")]
+[node name="placeholderReinforcement OptionButton" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement/ReinforcementContainer" instance=ExtResource("5_sn7kd")]
 layout_mode = 2
 script = null
 

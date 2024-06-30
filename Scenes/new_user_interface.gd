@@ -16,6 +16,9 @@ var menuDict = {}
 @onready var scienceMenu = $EditorBackground/ScienceMenu
 @onready var statsMenu = $EditorBackground/StatisticsMenu
 
+@onready var reserveContainer = $EditorBackground/UnitMenu/HBoxContainer/Reserve/ReserveContainer
+@onready var reinforcementContainer = $EditorBackground/UnitMenu/HBoxContainer/Reinforcement/ReinforcementContainer
+
 
 func _ready():
 	# make menu dict
@@ -27,6 +30,13 @@ func _ready():
 	$SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton.menu_button_pressed.connect(_on_menu_button_pressed)
 	$SideMenu/Buttons/MenuButtonsContainer/ResearchButton.menu_button_pressed.connect(_on_menu_button_pressed)
 	$SideMenu/Buttons/MenuButtonsContainer/StatsButton.menu_button_pressed.connect(_on_menu_button_pressed)
+	
+	# testing
+	var tempReserve = []
+	tempReserve.append(Unit.new(true, load("res://Data/Units/Generic/RF.tres"), null))
+	
+	ImportReserve(tempReserve)
+	GenerateReinforcementOptions(true, 3)
 	
 
 func _on_menu_button_pressed(menuType: Enums.MenuType):
@@ -40,5 +50,61 @@ func _on_menu_button_pressed(menuType: Enums.MenuType):
 		else:
 			menuDict[key].visible = false
 	
+
+func ImportReserve(reserveUnits):
+	print("Import Reserve\n")
+	# clear children
+	var children = reserveContainer.get_children()
+	for item in children:
+		item.queue_free()
+		
+	for unit: Unit in reserveUnits:
+		var newCard: UnitCard = _InstantiateUnitCard()
+		newCard.SetUnit(unit)
+		reserveContainer.add_child(newCard)
+	
+	# free reference
+	if UnitCard.selected != null:
+		UnitCard.selected.selectionIndicator.visible = false
+	UnitCard.selected = null
 	
 	
+# make new card and connect signals
+func _InstantiateUnitCard() -> UnitCard:
+	var newCard: UnitCard = unitCardScene.instantiate()
+	
+	# connect signals
+	#newCard.was_right_clicked.connect(UpdateControlButtons)
+	#newCard.clicked.connect(HideControlButtons)
+	#newCard.merged.connect(HideControlButtons)
+	#
+	#newCard.clicked.connect(UpdateHealButtonLabel)
+	#newCard.clicked.connect(UpdateSellButtonLabel)
+	#
+	#newCard.merged.connect(OnCardMerged)
+	
+	#newCard.merged.connect(ImportUnitMatrix)
+	#newCard.merged.connect(ImportReserve)
+	
+	return newCard
+	
+	
+# populate reinforcement option buttons
+func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enums.Nation = Enums.Nation.Generic):
+	# clear children
+	var children = reinforcementContainer.get_children()
+	for item in children:
+		item.queue_free()
+		
+	for i in range(optionCount):
+		var newOption: ReinforcementOptionButton = reinforcementOptionButton.instantiate()
+		
+		# who's turn is it
+		newOption.isPlayer = isPlayer
+		
+		newOption.SetData(DataManager.GetPurchasedUnits(isPlayer).pick_random())
+		reinforcementContainer.add_child(newOption)
+		
+		# TODO
+		# connect signals
+		#newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
