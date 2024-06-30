@@ -12,6 +12,8 @@ var popupScene = load("res://Scenes/damage_popup.tscn")
 
 var menuDict = {}
 
+@onready var unitMatrixEditor = $EditorBackground/UnitMatrixEditor/HBoxContainer
+
 @onready var unitMenu = $EditorBackground/UnitMenu
 @onready var scienceMenu = $EditorBackground/ScienceMenu
 @onready var statsMenu = $EditorBackground/StatisticsMenu
@@ -39,6 +41,8 @@ func _ready():
 	
 	ImportReserve(tempReserve)
 	GenerateReinforcementOptions(true, 3)
+	
+	GenerateGrid(7,5)
 	
 
 func _on_menu_button_pressed(menuType: Enums.MenuType):
@@ -129,3 +133,30 @@ func ExportReserve():
 	print("current reserve count: " + str(newReserve.size()))
 	
 	return newReserve
+	
+	
+# makes a grid with specified width and height slots
+func GenerateGrid(colCount: int, rowCount: int):
+	# clear preexisting grid
+	var cols = unitMatrixEditor.get_children()
+	
+	for item in cols:
+		item.queue_free()
+	
+	for i in range(colCount):
+		var newCol = VBoxContainer.new()
+		newCol.add_theme_constant_override("separation", 10)
+		for j in range(rowCount):
+			var newSlot: UnitSlot = slotScene.instantiate()
+			
+			newSlot.coords = Vector2(i, j)
+				
+			newCol.add_child(newSlot)
+			newSlot.reparent(newCol)
+			
+			# connect signals
+			#newSlot.dropped.connect(OnUnitCardDropped)
+			
+		unitMatrixEditor.add_child(newCol)
+		newCol.reparent(unitMatrixEditor)
+	
