@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=12 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
+[ext_resource type="Script" path="res://Scenes/new_user_interface.gd" id="1_xd3tx"]
 [ext_resource type="PackedScene" uid="uid://c6noqxuhrv6do" path="res://Scenes/capture_status_ui.tscn" id="1_xj8rg"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_cgvah"]
 [ext_resource type="Texture2D" uid="uid://bgnqslajodkjb" path="res://Art/Icons/Menu Icons/units_icon.png" id="4_ggdh0"]
@@ -9,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://2tekeu3k6hcc" path="res://Art/Icons/Menu Icons/research_icon.png" id="5_cmsuj"]
 [ext_resource type="PackedScene" uid="uid://6vjuvidiqfx6" path="res://Scenes/reinforcement_option.tscn" id="5_sn7kd"]
 [ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
+[ext_resource type="Script" path="res://Scenes/MenuButton.gd" id="7_mjnq0"]
 
 [node name="UserInterface" type="Control"]
 layout_mode = 3
@@ -17,6 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_xd3tx")
 
 [node name="Background" type="TextureRect" parent="."]
 self_modulate = Color(0.389287, 0.389287, 0.389286, 1)
@@ -240,6 +243,7 @@ toggle_mode = true
 texture_normal = ExtResource("2_cgvah")
 ignore_texture_size = true
 stretch_mode = 0
+script = ExtResource("7_mjnq0")
 
 [node name="ButtonImage" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton"]
 layout_mode = 1
@@ -261,6 +265,8 @@ toggle_mode = true
 texture_normal = ExtResource("2_cgvah")
 ignore_texture_size = true
 stretch_mode = 0
+script = ExtResource("7_mjnq0")
+buttonType = 1
 
 [node name="ButtonImage" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/ResearchButton"]
 layout_mode = 1
@@ -282,6 +288,8 @@ toggle_mode = true
 texture_normal = ExtResource("2_cgvah")
 ignore_texture_size = true
 stretch_mode = 0
+script = ExtResource("7_mjnq0")
+buttonType = 2
 
 [node name="ButtonImage" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/StatsButton"]
 layout_mode = 1

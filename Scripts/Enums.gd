@@ -38,3 +38,6 @@ static func StatTypeToString(num: StatType):
 
 
 enum AbilityCondition {Static, OnSelfAttack, OnHit, OnTargetAttack, OnTargetDeath}
+
+
+enum MenuType {UnitMenu, ScienceMenu, StatsMenu}
