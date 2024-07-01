@@ -124,3 +124,5 @@ offset_right = 45.0
 offset_bottom = 31.0
 grow_horizontal = 2
 text = "END TURN"
+
+[node name="TurnTimer" type="Timer" parent="."]

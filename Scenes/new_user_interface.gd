@@ -25,6 +25,9 @@ var menuDict = {}
 @onready var battleCountLabel = $TopScreen/BattleCountLabel
 @onready var cycleCountLabel = $ProcessControlMenu/CycleCountLabel
 
+@onready var commitButton = $ProcessControlMenu/CommitButton
+@onready var turnTimer: Timer = $ProcessControlMenu/TurnTimer
+
 
 func _ready():
 	# make menu dict
@@ -50,24 +53,6 @@ func _on_menu_button_pressed(menuType: Enums.MenuType):
 				menuDict[key].visible = false
 		else:
 			menuDict[key].visible = false
-	
-
-func ImportReserve(reserveUnits):
-	print("Import Reserve\n")
-	# clear children
-	var children = reserveContainer.get_children()
-	for item in children:
-		item.queue_free()
-		
-	for unit: Unit in reserveUnits:
-		var newCard: UnitCard = _InstantiateUnitCard()
-		newCard.SetUnit(unit)
-		reserveContainer.add_child(newCard)
-	
-	# free reference
-	if UnitCard.selected != null:
-		UnitCard.selected.selectionIndicator.visible = false
-	UnitCard.selected = null
 	
 	
 # make new card and connect signals
@@ -136,7 +121,7 @@ func SetTurnLabel(isPlayerTurn):
 
 func SetCycleCountLabel(count: int):
 	cycleCountLabel.text = tr("CYCLE") + " " + str(count)
-	
+
 	
 func MakeFundsPopup(amount):
 	var newpopup = popupScene.instantiate()
@@ -149,16 +134,6 @@ func MakeFundsPopup(amount):
 	newpopup.global_position = fundsLabel.global_position
 	newpopup.get_node("AnimationPlayer").speed_scale = 0.5
 	add_child(newpopup)
-	
-	
-func ExportReserve():
-	var newReserve = []
-	for child in reserveContainer.get_children():
-		newReserve.append(child.unit)
-		
-	print("current reserve count: " + str(newReserve.size()))
-	
-	return newReserve
 	
 	
 # makes a grid with specified width and height slots
@@ -240,7 +215,13 @@ func SetMiddleColumnColor(attackingTurn):
 		for slot in midCol.get_children():
 			slot.get_node("SideIndicator").self_modulate = middleColor
 
-
+func SetMiddleColumnAvailability(available: bool):
+	var midCol = unitMatrixEditor.get_child((unitMatrixEditor.get_child_count()) / 2)
+	# set blue
+	for slot: UnitSlot in midCol.get_children():
+		slot.SetCanWaitOrder(available)
+		
+		
 func UpdateSlotTerrain(leftTerrainMatrix, rightTerrainMatrix):
 	var currentTerrainMatrix = leftTerrainMatrix
 	
@@ -268,3 +249,155 @@ func UpdateSlotTerrain(leftTerrainMatrix, rightTerrainMatrix):
 	var middleCol = unitMatrixEditor.get_child(int(unitMatrixEditor.get_child_count() / 2)).get_children()
 	for i in range(middleCol.size()):
 		middleCol[i].SetTerrain(GameManager.middleTerrainList[i])
+		
+		
+func ExportReserve():
+	var newReserve = []
+	for child in reserveContainer.get_children():
+		newReserve.append(child.unit)
+		
+	print("current reserve count: " + str(newReserve.size()))
+	
+	return newReserve
+	
+
+# inserts the current unit matrix as seen in UI into currentMatrix
+# start from the right most column
+func ExportUnitMatrix(currentMatrix, includeMiddle: bool = false):
+	var colCount: int = int(unitMatrixEditor.get_child_count() / 2)
+	if includeMiddle:
+		colCount += 1
+	
+	var invertY: bool = true
+	
+	# column index
+	for offset in range(colCount):
+		# row index
+		for row in range(unitMatrixEditor.get_child(colCount - offset - 1).get_child_count()):
+			var unit_there = unitMatrixEditor.get_child(colCount - offset - 1).get_child(row).GetUnitHere()
+			if unit_there != null:
+				if invertY:
+					currentMatrix[offset][row] = unit_there.unit
+				else:
+					currentMatrix[colCount - offset - 1][row] = unit_there.unit
+			else:
+				if invertY:
+					currentMatrix[offset][row] = null
+				else:
+					currentMatrix[colCount - offset - 1][row] = null
+
+
+# returns the wait times of the middle column as a list
+func ExportWaitTimes():
+	var output = []
+	
+	var midCol = unitMatrixEditor.get_child((unitMatrixEditor.get_child_count()) / 2)
+	# set blue
+	for slot : UnitSlot in midCol.get_children():
+		output.append(slot.waitcount)
+		
+	return output
+
+
+# include middle
+# -1: middle col is owned by right side
+# 0: leave middle col empty
+# 1: middle col is owned by left side
+func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
+	var _frontLineUI
+	print("importing unit matrix")
+	# clear unit cards
+	for col in unitMatrixEditor.get_children():
+		if col is TextureRect:
+			_frontLineUI = col
+			continue
+		for slot in col.get_children():
+			for i in range(slot.get_child_count()):
+				var target = slot.get_child(i)
+				if target is UnitCard:
+					target.queue_free()
+
+	var colCount = unitMatrixEditor.get_child_count()
+	
+	var leftMatrixColCount = int((colCount) / 2) + includeMiddle
+	var leftStartingColIndex = int((colCount) / 2) + includeMiddle - 1
+	
+	var rightMatrixColCount = int((colCount) / 2) - includeMiddle
+	var rightStartingColIndex = colCount - int((colCount) / 2) - includeMiddle
+	
+	# 0 1 2 |3| 4 5 6
+	if includeMiddle == 0:
+		leftMatrixColCount = int((colCount) / 2) #3
+		rightMatrixColCount = int((colCount) / 2) #3
+		leftStartingColIndex = leftMatrixColCount - 1 #2
+		rightStartingColIndex = colCount - int((colCount) / 2) #4
+	elif includeMiddle == -1:
+		leftMatrixColCount = int((colCount) / 2) #3
+		rightMatrixColCount = int((colCount) / 2) + 1 #4
+		leftStartingColIndex = leftMatrixColCount - 1 #2
+		rightStartingColIndex = colCount - int((colCount) / 2) - 1 #3
+	elif includeMiddle == 1:
+		leftMatrixColCount = int((colCount) / 2) + 1 #4
+		rightMatrixColCount = int((colCount) / 2) #3
+		leftStartingColIndex = leftMatrixColCount #3
+		rightStartingColIndex = colCount - int((colCount) / 2) #4
+	
+	SetSlotAvailability(0, leftMatrixColCount)
+	
+	# fill in from middle column and go backwards
+	for col in range(min(leftUnitMatrix.size(), leftMatrixColCount)):
+		for row in range(leftUnitMatrix[col].size()):
+			if leftUnitMatrix[col][row] != null:
+				var newCard: UnitCard = _InstantiateUnitCard()
+				var slot: UnitSlot
+				if includeMiddle == 1:
+					slot = unitMatrixEditor.get_child(leftStartingColIndex - col - 1).get_child(row)
+				elif includeMiddle == -1:
+					slot = unitMatrixEditor.get_child(leftStartingColIndex - col).get_child(row)
+				else:
+					slot = unitMatrixEditor.get_child(leftStartingColIndex - col).get_child(row)
+					
+				slot.add_child(newCard)
+				newCard.reparent(slot)
+				newCard.SetUnit(leftUnitMatrix[col][row])
+				
+	for col in range(min(rightUnitMatrix.size(), rightMatrixColCount)):
+		for row in range(rightUnitMatrix[col].size()):
+			if rightUnitMatrix[col][row] != null:
+				var newCard: UnitCard = _InstantiateUnitCard()
+				var slot: UnitSlot
+				if includeMiddle == 1:
+					slot = unitMatrixEditor.get_child(rightStartingColIndex + col).get_child(row)
+				elif includeMiddle == -1:
+					slot = unitMatrixEditor.get_child(rightStartingColIndex + col).get_child(row)
+				else:
+					slot = unitMatrixEditor.get_child(rightStartingColIndex + col).get_child(row)
+					
+				slot.add_child(newCard)
+				newCard.reparent(slot)
+				newCard.SetUnit(rightUnitMatrix[col][row])
+
+
+func ImportReserve(reserveUnits):
+	print("Import Reserve\n")
+	# clear children
+	var children = reserveContainer.get_children()
+	for item in children:
+		item.queue_free()
+		
+	for unit: Unit in reserveUnits:
+		var newCard: UnitCard = _InstantiateUnitCard()
+		newCard.SetUnit(unit)
+		reserveContainer.add_child(newCard)
+	
+	# free reference
+	if UnitCard.selected != null:
+		UnitCard.selected.selectionIndicator.visible = false
+	UnitCard.selected = null
+	
+	
+func ImportWaitTimes(waitTimes):
+	var midCol = unitMatrixEditor.get_child((unitMatrixEditor.get_child_count()) / 2)
+	# set blue
+	for i in range(waitTimes.size()):
+		midCol.get_child(i).waitcount = waitTimes[i]

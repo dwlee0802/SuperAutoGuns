@@ -153,6 +153,7 @@ func _ready():
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
 	userInterface = $UserInterface
+	userInterface.commitButton.pressed.connect(CommitButtonPressed)
 	
 	# unit matrix editor set up
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
@@ -180,8 +181,8 @@ func _ready():
 	# defender always go first set attack dir ui to left
 	
 	# start turn timer
-	#userInterface.turnTimer.start(turnTime)
-	#userInterface.turnTimer.timeout.connect(CommitButtonPressed)
+	userInterface.turnTimer.start(turnTime)
+	userInterface.turnTimer.timeout.connect(CommitButtonPressed)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	
@@ -332,10 +333,6 @@ func _on_battle_process_button_pressed():
 	userInterface.turnTimer.stop()
 
 	GameManager.isBattleRunning = true
-	
-	GameManager.playerEffectiveDamage = 0
-	GameManager.enemyEffectiveDamage = 0
-	GameManager.UpdateEffectiveDamageUI()
 		
 	# back up unit matrix
 	playerUnitMatrixBackup = playerUnitMatrix.duplicate(true)
@@ -391,10 +388,10 @@ func _on_battle_process_button_pressed():
 	
 	## TODO: update UI
 	UnitCard.selected = null
-	userInterface.UpdateHealButtonLabel()
-	userInterface.UpdateSellButtonLabel()
+	#userInterface.UpdateHealButtonLabel()
+	#userInterface.UpdateSellButtonLabel()
 	
-	userInterface.SetAttackDirectionUI(!playerAttacking)
+	#userInterface.SetAttackDirectionUI(!playerAttacking)
 	
 	userInterface.SetMiddleColumnAvailability(false)
 	
@@ -415,7 +412,7 @@ func _on_battle_process_button_pressed():
 	
 	# process first cycle
 	print("***Starting Battle Process***\n")
-	$BattleCountLabel.text = "Battle: " + str(GameManager.battleCount)
+	userInterface.SetBattleCountLabel(GameManager.battleCount)
 	print("Battle #" + str(GameManager.battleCount))
 	if cycleTimer.is_stopped():
 		cycleTimer.start(BattleSpeedUI.cycleSpeed)
@@ -532,7 +529,7 @@ static func InitializeMatrix():
 static func CycleProcess():
 	# stop cycle timer if one side wins
 	cycleCount += 1
-	cycleLabel.text = Object.new().tr("CYCLE") + ": " + str(cycleCount)
+	userInterface.SetCycleCountLabel(cycleCount)
 	
 	# reset last received damage amount to zero
 	var SetLastDMGZero = func(unit):
@@ -616,23 +613,6 @@ static func CycleProcess():
 	
 	return false
 
-
-static func UpdateBattleResultLabel(playerWon: bool, attackerVictory: bool):
-	var obj = Object.new()
-	
-	# update battle result
-	battleResultLabel.visible = true
-	if playerWon:
-		if attackerVictory:
-			battleResultLabel.text = obj.tr("GENERIC_PLAYER_NAME") + " " + obj.tr("OFFENSIVE") + " " +  obj.tr("VICTORY")
-		else:
-			battleResultLabel.text = obj.tr("GENERIC_PLAYER_NAME") + " " + obj.tr("DEFENSIVE") + " " +  obj.tr("VICTORY")
-	else:
-		if attackerVictory:
-			battleResultLabel.text = obj.tr("GENERIC_ENEMY_NAME") + " " + obj.tr("OFFENSIVE") + " " +  obj.tr("VICTORY")
-		else:
-			battleResultLabel.text = obj.tr("GENERIC_ENEMY_NAME") + " " + obj.tr("DEFENSIVE") + " " +  obj.tr("VICTORY")
-	
 
 # go through all units and determine if unit is attacking or moving
 # units prioritizing movement
@@ -1125,14 +1105,14 @@ static func ProcessUnitMatrix(unitMatrix, doStuff: Callable):
 
 # swap attack and defense based on battle result
 static func BattleResultProcess(attackerVictory: bool):
-	if attackerVictory == true and playerAttacking == true:
-		UpdateBattleResultLabel(true, true)
-	if attackerVictory == false and playerAttacking == true:
-		UpdateBattleResultLabel(false, false)
-	if attackerVictory == true and playerAttacking == false:
-		UpdateBattleResultLabel(false, true)
-	if attackerVictory == false and playerAttacking == false:
-		UpdateBattleResultLabel(true, false)
+	#if attackerVictory == true and playerAttacking == true:
+		#UpdateBattleResultLabel(true, true)
+	#if attackerVictory == false and playerAttacking == true:
+		#UpdateBattleResultLabel(false, false)
+	#if attackerVictory == true and playerAttacking == false:
+		#UpdateBattleResultLabel(false, true)
+	#if attackerVictory == false and playerAttacking == false:
+		#UpdateBattleResultLabel(true, false)
 	
 	if attackerVictory:
 		if playerAttacking:
@@ -1177,8 +1157,8 @@ func CommitButtonPressed():
 	print("commit button pressed\n")
 	
 	UnitCard.selected = null
-	userInterface.UpdateHealButtonLabel()
-	userInterface.UpdateSellButtonLabel()
+	#userInterface.UpdateHealButtonLabel()
+	#userInterface.UpdateSellButtonLabel()
 	
 	SetBoughtThisTurn(isPlayerTurn)
 	
@@ -1219,9 +1199,10 @@ func StartTurn(isPlayer, isAttacking):
 	SetBoughtThisTurn(isPlayer)
 	
 	userInterface.turnTimer.start(turnTime)
+	
 	# false is right
 	# set attack dir to right
-	userInterface.SetAttackDirectionUI(!isAttacking)
+	#userInterface.SetAttackDirectionUI(!isAttacking)
 	
 	# set slot color
 	userInterface.SetSlotColor(isPlayer, GameManager.playerAttacking)
@@ -1244,9 +1225,6 @@ func StartTurn(isPlayer, isAttacking):
 	userInterface.SetMiddleColumnAvailability(isAttacking == true)
 	
 	AddIncome(isPlayer)
-	
-	# read in research ui
-	researchUI.ImportResearchOptions(isPlayer)
 	
 	userInterface.GenerateReinforcementOptions(isPlayer, GameManager.reinforcementCount)
 	
