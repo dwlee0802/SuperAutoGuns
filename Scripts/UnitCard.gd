@@ -200,10 +200,10 @@ func UpdateRadialUI(first: bool = false):
 	# unit is currently moving
 	elif unit.IsMoving():
 		radialUI.bar_color = Color.SKY_BLUE
-		ratio = 1 - (unit.GetMovementCost() - unit.movementProgress + 1) / float(unit.GetMovementCost())
+		ratio = 1 - unit.GetCyclesTilMovement() / float(unit.GetMovementCost())
 		# workaround for blinking on first frame
 		if first:
-			ratio = 1 - (unit.GetMovementCost() - unit.movementProgress + 2) / float(unit.GetMovementCost())
+			ratio = 1 - (unit.GetCyclesTilMovement() - 2) / float(unit.GetMovementCost())
 		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.GetMovementCost())
 		radialUI.visible = true
 		

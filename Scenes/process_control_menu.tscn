@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dcbl4j6rqeg76"]
+[gd_scene load_steps=5 format=3 uid="uid://dcbl4j6rqeg76"]
 
+[ext_resource type="Script" path="res://Scripts/BattleProcessSpeedUI.gd" id="1_6i58a"]
 [ext_resource type="Texture2D" uid="uid://de11clbc8y0h" path="res://Art/Icons/ProcessControl Icons/pause_icon.png" id="1_c8fwa"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_po828"]
+[ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="4_cnwnd"]
 
 [node name="ProcessControlMenu" type="Control"]
 layout_mode = 3
@@ -29,6 +31,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
 alignment = 1
+script = ExtResource("1_6i58a")
 
 [node name="ControlButtons" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -76,6 +79,21 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="RadialProgress" type="Control" parent="HBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_top = 20.0
+offset_bottom = 60.0
+grow_horizontal = 2
+script = ExtResource("4_cnwnd")
+radius = 10.0
 
 [node name="CycleCountLabel" type="Label" parent="."]
 visible = false

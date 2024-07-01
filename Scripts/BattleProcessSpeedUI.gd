@@ -8,7 +8,7 @@ static var cyclePaused: bool = false
 
 static var currentCycleRatio: float = 0
 
-@onready var radialProcess = $CycleProcessUI/RadialProgress
+@onready var radialProcess = $Control/RadialProgress
 
 
 func _process(_delta):
