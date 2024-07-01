@@ -177,6 +177,7 @@ func _ready():
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	# defender always go first set attack dir ui to left
+	userInterface.captureStatusUI.SetPlayerAttack(playerAttacking)
 	
 	# start turn timer
 	userInterface.turnTimer.start(turnTime)
@@ -1187,7 +1188,7 @@ func StartTurn(isPlayer, isAttacking):
 	
 	# false is right
 	# set attack dir to right
-	#userInterface.SetAttackDirectionUI(!isAttacking)
+	userInterface.captureStatusUI.SetPlayerAttack(playerAttacking)
 	
 	# set slot color
 	userInterface.SetSlotColor(isPlayer, GameManager.playerAttacking)
