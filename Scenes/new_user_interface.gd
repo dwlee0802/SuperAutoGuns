@@ -116,13 +116,8 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enu
 		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
 
 
-func SetFundsLabel(isPlayerTurn: bool = GameManager.isPlayerTurn):
-	print("player funds: " + str(GameManager.playerFunds))
-	print("enemy funds: " + str(GameManager.enemyFunds))
-	if isPlayerTurn:
-		fundsLabel.text = tr("FUNDS") + ": " + str(GameManager.playerFunds)
-	else:
-		fundsLabel.text = tr("FUNDS") + ": " + str(GameManager.enemyFunds)
+func SetFundsLabel(amount):
+	fundsLabel.text = tr("FUNDS") + ": " + str(amount)
 
 
 func ExportReserve():
