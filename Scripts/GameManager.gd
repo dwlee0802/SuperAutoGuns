@@ -46,8 +46,6 @@ static var matrixHeight: int = 6
 
 static var userInterface: UserInterface
 
-static var captureStatusUI: CaptureStatusUI
-
 static var totalSectorsCount: int = 10
 
 static var playerCapturedSectorsCount: int = 5
@@ -253,23 +251,23 @@ func _on_cycle_timer_timeout():
 		else:
 			PlayBattleStartOverlay()
 		
+		battleCount += 1
+		userInterface.SetBattleCountLabel(battleCount)
 		cycleCount = 0
+		userInterface.cycleCountLabel.visible = false
 	else:
 		if cycleTimer.is_stopped() and !BattleSpeedUI.cyclePaused:
 			# should wait til animations are done
 			cycleTimer.start(BattleSpeedUI.cycleSpeed)
-			
-	GameManager.UpdateEffectiveDamageUI()
-	UpdateCTKLabel()
 	
 
 func PlayBattleStartOverlay():
-	var label = $BattleStartOverlay/Label
+	var resultLabel: RichTextLabel = $BattleStartOverlay/Label
 	var output = tr("BATTLE_CONCLUDED") + "\n\n" + tr("LASTED_CYCLES") + "\n\n" + "[color={color}]{what}[/color]"
 	
-	label.text = "[center]" + output.format({
-		"battle_count": battleCount - 1,
-		"what": $BattleResultLabel.text,
+	resultLabel.text = "[center]" + output.format({
+		"battle_count": battleCount,
+		"what": GameManager.BattleResultToString(lastBattleResult),
 		"cycle_count": cycleCount,
 		"color": GameManager.enemyColor
 	}) + "[/center]"
@@ -387,6 +385,7 @@ func _on_battle_process_button_pressed():
 	enemyUnitMatrix = newEnemyUnitMatrix
 	
 	## TODO: update UI
+	userInterface.cycleCountLabel.visible = false
 	UnitCard.selected = null
 	#userInterface.UpdateHealButtonLabel()
 	#userInterface.UpdateSellButtonLabel()
@@ -1082,20 +1081,6 @@ static func CheckCoordInsideBounds(coord: Vector2) -> bool:
 	return false
 
 
-static func UpdateEffectiveDamageUI():
-	effectiveDamageUI.get_node("PlayerLabel").text = "Player Effective Damage Taken: " + str(GameManager.playerEffectiveDamage)
-	effectiveDamageUI.get_node("EnemyLabel").text = "Enemy Effective Damage Taken: " + str(GameManager.enemyEffectiveDamage)
-
-
-static func AddEffectiveDamage(isPlayer, amount):
-	if isPlayer:
-		GameManager.playerEffectiveDamage += amount
-	else:
-		GameManager.enemyEffectiveDamage += amount
-		
-	UpdateEffectiveDamageUI()
-
-
 # does doStuff to all units inside unitMatrix
 static func ProcessUnitMatrix(unitMatrix, doStuff: Callable):
 	for col in unitMatrix:
@@ -1128,7 +1113,7 @@ static func BattleResultProcess(attackerVictory: bool):
 			# defender starts
 			isPlayerTurn = true
 		
-		captureStatusUI.ReloadUI(playerCapturedSectorsCount)
+		userInterface.captureStatusUI.ReloadUI(playerCapturedSectorsCount)
 		
 		print("Capture status: " + str(playerCapturedSectorsCount) + " / " + str(totalSectorsCount - playerCapturedSectorsCount))
 		if playerCapturedSectorsCount == totalSectorsCount:
@@ -1275,10 +1260,6 @@ func PassButtonPressed():
 	
 	userInterface.turnTimer.stop()
 	
-	GameManager.playerEffectiveDamage = 0
-	GameManager.enemyEffectiveDamage = 0
-	GameManager.UpdateEffectiveDamageUI()
-	
 	GameManager.battleCount+= 1
 	$BattleCountLabel.text = tr("BATTLE") + ": " + str(GameManager.battleCount)
 	print("Battle #" + str(GameManager.battleCount))
@@ -1286,26 +1267,6 @@ func PassButtonPressed():
 	# player attack pass
 	if isPlayerTurn:
 		lastBattleResult = 1	# update battle result
-		var resultLabel = $BattleResultLabel
-		resultLabel.visible = true
-		# player victory
-		if lastBattleResult == -1:
-			if playerAttacking:
-				resultLabel.text = tr("GENERIC_PLAYER_NAME") + " " + tr("OFFENSIVE") + " " +  tr("VICTORY")
-			else:
-				resultLabel.text = tr("GENERIC_PLAYER_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
-		elif lastBattleResult == 0:
-			if playerAttacking:
-				resultLabel.text = tr("GENERIC_ENEMY_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
-			else:
-				resultLabel.text = tr("GENERIC_PLAYER_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
-		# enemy victory
-		elif lastBattleResult == 1:
-			if !playerAttacking:
-				resultLabel.text = tr("GENERIC_ENEMY_NAME") + " " + tr("OFFENSIVE") + " " +  tr("VICTORY")
-			else:
-				resultLabel.text = tr("GENERIC_ENEMY_NAME") + " " + tr("DEFENSIVE") + " " +  tr("VICTORY")
-				
 		if playerAttacking:
 			print("Player passed attacking.")
 			# conclude this battle as enemy defensive win
@@ -1520,3 +1481,25 @@ static func IsAttackerTurn():
 
 static func IsAttacking(player: bool):
 	return player == playerAttacking
+
+
+static func BattleResultToString(result: int):
+	var tempNode = Node.new()
+	
+	# player victory
+	if result == -1:
+		if playerAttacking:
+			return tempNode.tr("GENERIC_PLAYER_NAME") + " " + tempNode.tr("OFFENSIVE") + " " +  tempNode.tr("VICTORY")
+		else:
+			return tempNode.tr("GENERIC_PLAYER_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")
+	elif result == 0:
+		if playerAttacking:
+			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")
+		else:
+			return tempNode.tr("GENERIC_PLAYER_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")
+	# enemy victory
+	elif result == 1:
+		if !playerAttacking:
+			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("OFFENSIVE") + " " +  tempNode.tr("VICTORY")
+		else:
+			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")

@@ -102,8 +102,6 @@ func ReceiveHit(attacker: Unit):
 	received_hit.emit(amount)
 	
 	lastReceivedDamage += amount
-	
-	GameManager.AddEffectiveDamage(isPlayer, amount)
 		
 
 func Heal(amount = 0):

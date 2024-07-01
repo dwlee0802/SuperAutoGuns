@@ -14,6 +14,8 @@ var menuDict = {}
 
 @onready var unitMatrixEditor = $EditorBackground/UnitMatrixEditor/HBoxContainer
 
+@onready var captureStatusUI = $TopScreen/CaptureStatusUI
+
 @onready var unitMenu = $EditorBackground/UnitMenu
 @onready var scienceMenu = $EditorBackground/ScienceMenu
 @onready var statsMenu = $EditorBackground/StatisticsMenu
