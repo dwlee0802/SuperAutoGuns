@@ -150,21 +150,9 @@ func _ready():
 	GameManager.enemyColor = enemyColorOverride
 	
 	cycleTimer = $CycleTimer
-	
-	effectiveDamageUI = $EffectiveDamageUI
-	
-	GameManager.fundsGraph = $EconomyUI/Graph2D
-	
 	GameManager.cycleTimer.timeout.connect(_on_cycle_timer_timeout)
 	
 	userInterface = $UserInterface
-	
-	researchUI = $ResearchUI
-	
-	captureStatusUI = $UserInterface/Root/CaptureStatusUI
-	
-	battleResultLabel = $BattleResultLabel
-	battleResultLabel.text = tr("OPERATION_START")
 	
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)
