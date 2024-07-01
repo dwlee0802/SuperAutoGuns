@@ -227,7 +227,7 @@ vertical_alignment = 1
 [node name="TurnLabel" type="Label" parent="TopScreen"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "BATTLE 1"
+text = "ENEMY OFFENSIVE TURN"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -257,7 +257,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 50
 alignment = 1
 
 [node name="FundsLabel" type="Label" parent="EditorBackground"]

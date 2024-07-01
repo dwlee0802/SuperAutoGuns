@@ -23,6 +23,7 @@ var menuDict = {}
 
 @onready var fundsLabel = $EditorBackground/FundsLabel
 @onready var battleCountLabel = $TopScreen/BattleCountLabel
+@onready var cycleCountLabel = $ProcessControlMenu/CycleCountLabel
 
 
 func _ready():
@@ -133,6 +134,10 @@ func SetTurnLabel(isPlayerTurn):
 			label.text += " - " + tr("DEFENSIVE")
 		#label.self_modulate = GameManager.enemyColor
 
+func SetCycleCountLabel(count: int):
+	cycleCountLabel.text = tr("CYCLE") + " " + str(count)
+	
+	
 func MakeFundsPopup(amount):
 	var newpopup = popupScene.instantiate()
 	if amount >= 0:
