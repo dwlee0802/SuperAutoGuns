@@ -154,11 +154,15 @@ func _ready():
 	
 	userInterface = $UserInterface
 	
+	# unit matrix editor set up
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)
 	userInterface.SetSlotColor(isPlayerTurn, playerAttacking)
 	
-	userInterface.UpdateSlotTerrain(isPlayerTurn)
+	if isPlayerTurn:
+		userInterface.UpdateSlotTerrain(GameManager.playerTerrainMatrix, GameManager.enemyTerrainMatrix)
+	else:
+		userInterface.UpdateSlotTerrain(GameManager.enemyTerrainMatrix, GameManager.playerTerrainMatrix)
 	
 	playerIncomeHistory.append(0)
 	playerFundsHistory.append(0)
@@ -170,30 +174,29 @@ func _ready():
 	
 	AddIncome(isPlayerTurn)
 	
-	$BattleCountLabel.text = tr("BATTLE") + ": " + str(GameManager.battleCount)
+	userInterface.SetBattleCountLabel(GameManager.battleCount)
 	
 	userInterface.SetTurnLabel(GameManager.isPlayerTurn)
 	# defender always go first set attack dir ui to left
 	
 	# start turn timer
-	userInterface.turnTimer.start(turnTime)
-	userInterface.turnTimer.timeout.connect(CommitButtonPressed)
+	#userInterface.turnTimer.start(turnTime)
+	#userInterface.turnTimer.timeout.connect(CommitButtonPressed)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
-	researchUI.ImportResearchOptions(isPlayerTurn)
 	
-	# link commit button
-	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton").pressed.connect(CommitButtonPressed)
-	
-	# link pass button
-	userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
-	
-	# link pause button
-	userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/PauseButton/").toggled.connect(ResumeCycleProcess)
-	
-	# link single button
-	userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/SingleButton/").pressed.connect(ProcessSingleCycle)
-	
+	## link commit button
+	#userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton").pressed.connect(CommitButtonPressed)
+	#
+	## link pass button
+	#userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
+	#
+	## link pause button
+	#userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/PauseButton/").toggled.connect(ResumeCycleProcess)
+	#
+	## link single button
+	#userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/SingleButton/").pressed.connect(ProcessSingleCycle)
+	#
 	# link game concluded buttons
 	$GameConcludedOverlay/RestartButton.pressed.connect(get_tree().reload_current_scene)
 	$GameConcludedOverlay/RestartButton.pressed.connect(RestartGame)
@@ -214,8 +217,6 @@ func _ready():
 
 
 func _process(_delta):
-	UpdateCTKLabel()
-	
 	if waitingForAttackAnimaionFinish and isBattleRunning:
 		if GameManager.playerAttackingUnitsCount == 0 and GameManager.enemyAttackingUnitsCount == 0:
 			 #all units finished attack animations
@@ -1039,10 +1040,11 @@ func AddIncome(toPlayer: bool):
 	# record stats
 	if toPlayer:
 		GameManager.playerTotalFunds += amount
+		userInterface.SetFundsLabel(GameManager.playerTotalFunds)
 	else:
 		GameManager.enemyTotalFunds += amount
+		userInterface.SetFundsLabel(GameManager.enemyTotalFunds)
 		
-	userInterface.SetFundsLabel(toPlayer)
 	var incomeBreakup = tr("INCOME") + ": +{total}\n" + tr("BASE") + ": +{base} | " + tr("BATTLE_COUNT") + "({count}): +{countbonus} | " + tr("CAPTURE") + "({capdiff}): +{cap} | " + tr("INTEREST") + "({intrpc}): +{intr}"
 	incomeBreakup = incomeBreakup.format({
 		"total":amount,
@@ -1050,7 +1052,6 @@ func AddIncome(toPlayer: bool):
 		"count":battleCount, "countbonus":battleCountBonus,
 		"capdiff":difference/2, "cap":captureBonus,
 		"intrpc":str(int(GameManager.interestRate * 100)) + "%", "intr":interest})
-	userInterface.SetLastIncomeLabel(incomeBreakup)
 	
 	if toPlayer:
 		GameManager.playerIncomeHistory.append(amount)
@@ -1060,7 +1061,7 @@ func AddIncome(toPlayer: bool):
 	GameManager.RecordFundsHistory(toPlayer)
 	GameManager.RecordTotalFundsHistory(toPlayer)
 	
-	UpdateFundsGraph()
+	#UpdateFundsGraph()
 
 
 static func ChangeFunds(amount, isPlayer: bool):
@@ -1226,7 +1227,10 @@ func StartTurn(isPlayer, isAttacking):
 	userInterface.SetSlotColor(isPlayer, GameManager.playerAttacking)
 	
 	# set terrain ui
-	userInterface.UpdateSlotTerrain(isPlayerTurn)
+	if isPlayerTurn:
+		userInterface.UpdateSlotTerrain(GameManager.playerTerrainMatrix, GameManager.enemyTerrainMatrix)
+	else:
+		userInterface.UpdateSlotTerrain(GameManager.enemyTerrainMatrix, GameManager.playerTerrainMatrix)
 	
 	# heal reserve units
 	GameManager.HealReserveUnits(isPlayer)

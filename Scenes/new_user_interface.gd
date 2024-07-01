@@ -22,6 +22,7 @@ var menuDict = {}
 @onready var reinforcementContainer = $EditorBackground/UnitMenu/HBoxContainer/Reinforcement/ReinforcementContainer
 
 @onready var fundsLabel = $EditorBackground/FundsLabel
+@onready var battleCountLabel = $TopScreen/BattleCountLabel
 
 
 func _ready():
@@ -36,13 +37,6 @@ func _ready():
 	$SideMenu/Buttons/MenuButtonsContainer/StatsButton.menu_button_pressed.connect(_on_menu_button_pressed)
 	
 	# testing
-	var tempReserve = []
-	tempReserve.append(Unit.new(true, load("res://Data/Units/Generic/RF.tres"), null))
-	
-	ImportReserve(tempReserve)
-	GenerateReinforcementOptions(true, 3)
-	
-	GenerateGrid(7,5)
 	
 
 func _on_menu_button_pressed(menuType: Enums.MenuType):
@@ -116,10 +110,42 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enu
 		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
 
 
-func SetFundsLabel(amount):
+func SetFundsLabel(amount: int):
 	fundsLabel.text = tr("FUNDS") + ": " + str(amount)
+	
+func SetBattleCountLabel(amount):
+	battleCountLabel.text = tr("BATTLE") + ": " + str(amount)
+	
+func SetTurnLabel(isPlayerTurn):
+	var label = $TopScreen/TurnLabel
+	if isPlayerTurn:
+		label.text = tr("GENERIC_PLAYER_NAME") + " " + tr("TURN")
+		if GameManager.playerAttacking:
+			label.text += " - " + tr("OFFENSIVE")
+		else:
+			label.text += " - " + tr("DEFENSIVE")
+		#label.self_modulate = GameManager.playerColor
+	else:
+		label.text = tr("GENERIC_ENEMY_NAME") + " " + tr("TURN")
+		if !GameManager.playerAttacking:
+			label.text += " - " + tr("OFFENSIVE")
+		else:
+			label.text += " - " + tr("DEFENSIVE")
+		#label.self_modulate = GameManager.enemyColor
 
-
+func MakeFundsPopup(amount):
+	var newpopup = popupScene.instantiate()
+	if amount >= 0:
+		amount = "+" + str(amount)
+		newpopup.get_node("Label").self_modulate = Color.GREEN
+		
+	newpopup.get_node("Label").text = str(amount)
+	
+	newpopup.global_position = fundsLabel.global_position
+	newpopup.get_node("AnimationPlayer").speed_scale = 0.5
+	add_child(newpopup)
+	
+	
 func ExportReserve():
 	var newReserve = []
 	for child in reserveContainer.get_children():
@@ -157,3 +183,83 @@ func GenerateGrid(colCount: int, rowCount: int):
 		unitMatrixEditor.add_child(newCol)
 		newCol.reparent(unitMatrixEditor)
 	
+	
+func SetSlotAvailability(_startIndex: int = 0, endIndex: int = 2):
+	for col in range(unitMatrixEditor.get_child_count()):
+		for row in range(unitMatrixEditor.get_child(col).get_child_count()):
+			var slot: UnitSlot = unitMatrixEditor.get_child(col).get_child(row)
+			slot.SetCanBeDropped(col < endIndex)
+
+
+func SetSlotColor(isPlayerTurn, isPlayerAttacking):
+	if isPlayerAttacking:
+		attackColor = GameManager.playerColor
+		defendColor = GameManager.enemyColor
+		middleColor = attackColor.darkened(0.4)
+	else:
+		attackColor = GameManager.enemyColor
+		defendColor = GameManager.playerColor
+		middleColor = attackColor.darkened(0.4)
+	
+	for col in range(unitMatrixEditor.get_child_count()):
+		for row in range(unitMatrixEditor.get_child(col).get_child_count()):
+			var slot: UnitSlot = unitMatrixEditor.get_child(col).get_child(row)
+			# current turn side
+			if col <= int(unitMatrixEditor.get_child_count() / 2):
+				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
+					# attacking. set slot to red
+					slot.get_node("SideIndicator").self_modulate = attackColor
+				else:
+					# defending. set slot to blue
+					slot.get_node("SideIndicator").self_modulate = defendColor
+			else:
+				if (isPlayerTurn and isPlayerAttacking) or (!isPlayerTurn and !isPlayerAttacking):
+					# defending side set slot to blue
+					slot.get_node("SideIndicator").self_modulate = defendColor
+				else:
+					# attacking side. set slot to red
+					slot.get_node("SideIndicator").self_modulate = attackColor
+				
+	
+	SetMiddleColumnColor(true)
+	
+	
+func SetMiddleColumnColor(attackingTurn):
+	var midCol = unitMatrixEditor.get_child((unitMatrixEditor.get_child_count()) / 2)
+	if attackingTurn:
+		# set red
+		for slot in midCol.get_children():
+			slot.get_node("SideIndicator").self_modulate = middleColor
+	else:
+		# set blue
+		for slot in midCol.get_children():
+			slot.get_node("SideIndicator").self_modulate = middleColor
+
+
+func UpdateSlotTerrain(leftTerrainMatrix, rightTerrainMatrix):
+	var currentTerrainMatrix = leftTerrainMatrix
+	
+	var offset = 0
+	
+	for col in range(unitMatrixEditor.get_child_count()):
+		# skip middle column
+		if col == int(unitMatrixEditor.get_child_count() / 2):
+			continue
+			
+		# if past middle column, flip terrain matrices
+		if col > int(unitMatrixEditor.get_child_count() / 2):
+			offset = int(unitMatrixEditor.get_child_count() / 2) + 1
+			currentTerrainMatrix = rightTerrainMatrix
+			
+		for row in range(unitMatrixEditor.get_child(col).get_child_count()):
+			var slot: UnitSlot = unitMatrixEditor.get_child(col).get_child(row)
+			
+			if offset == 0:
+				slot.SetTerrain(currentTerrainMatrix[int(unitMatrixEditor.get_child_count() / 2) - 1 - col - offset][row])
+			else:
+				slot.SetTerrain(currentTerrainMatrix[col - offset][row])
+	
+	# set middle column
+	var middleCol = unitMatrixEditor.get_child(int(unitMatrixEditor.get_child_count() / 2)).get_children()
+	for i in range(middleCol.size()):
+		middleCol[i].SetTerrain(GameManager.middleTerrainList[i])
