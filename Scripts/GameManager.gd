@@ -150,8 +150,6 @@ func _ready():
 	GameManager.enemyColor = enemyColorOverride
 	
 	cycleTimer = $CycleTimer
-	cycleLabel = $CycleCountLabel
-	cycleLabel.text = Object.new().tr("CYCLE") + ": " + str(cycleCount)
 	
 	effectiveDamageUI = $EffectiveDamageUI
 	

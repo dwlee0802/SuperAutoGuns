@@ -1,5 +1,5 @@
 extends Control
-class_name UserInterface
+class_name OldUserInterface
 
 var unitCardScene = load("res://Scenes/unit_card.tscn")
 
