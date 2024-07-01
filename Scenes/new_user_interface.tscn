@@ -12,31 +12,31 @@
 [ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
 [ext_resource type="Script" path="res://Scenes/MenuButton.gd" id="7_mjnq0"]
 
-[sub_resource type="Animation" id="Animation_ay3ql"]
-resource_name = "unit_button_mouse_hover_anim"
+[sub_resource type="Animation" id="Animation_0ab43"]
+resource_name = "science_button_mouse_exit_anim"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton:self_modulate")
+tracks/0/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton/ButtonImage:self_modulate")
+tracks/1/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton/ButtonImage:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_r7tao"]
@@ -64,6 +64,33 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_plsh2"]
+resource_name = "stats_button_mouse_exit_anim"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Buttons/MenuButtonsContainer/StatsButton:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Buttons/MenuButtonsContainer/StatsButton/ButtonImage:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_qiyfb"]
@@ -120,58 +147,31 @@ tracks/1/keys = {
 "values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_0ab43"]
-resource_name = "science_button_mouse_exit_anim"
+[sub_resource type="Animation" id="Animation_ay3ql"]
+resource_name = "unit_button_mouse_hover_anim"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton:self_modulate")
+tracks/0/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton/ButtonImage:self_modulate")
+tracks/1/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton/ButtonImage:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_plsh2"]
-resource_name = "stats_button_mouse_exit_anim"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/StatsButton:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
 "values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/StatsButton/ButtonImage:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vn1l3"]
@@ -235,6 +235,24 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cgvah")
 
+[node name="UnitMatrixEditor" type="Control" parent="EditorBackground"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorBackground/UnitMatrixEditor"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
 [node name="FundsLabel" type="Label" parent="EditorBackground"]
 custom_minimum_size = Vector2(150, 30)
 layout_mode = 1
@@ -247,6 +265,7 @@ theme_override_font_sizes/font_size = 20
 text = "$100"
 
 [node name="UnitMenu" type="TextureRect" parent="EditorBackground"]
+visible = false
 self_modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = -1
@@ -378,23 +397,6 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "STATISTICS"
-
-[node name="UnitMatrixEditor" type="Control" parent="EditorBackground"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="EditorBackground/UnitMatrixEditor"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
 
 [node name="SideMenu" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 1)
