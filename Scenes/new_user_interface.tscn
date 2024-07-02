@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=21 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="Script" path="res://Scripts/User Interface/new_user_interface.gd" id="1_w4yik"]
@@ -7,8 +7,81 @@
 [ext_resource type="Texture2D" uid="uid://bgnqslajodkjb" path="res://Art/Icons/Menu Icons/units_icon.png" id="4_ggdh0"]
 [ext_resource type="PackedScene" uid="uid://dcbl4j6rqeg76" path="res://Scenes/process_control_menu.tscn" id="4_oe4ok"]
 [ext_resource type="Script" path="res://Scripts/User Interface/MenuButton.gd" id="5_4gd2l"]
+[ext_resource type="ButtonGroup" uid="uid://cyefxx2pkhvqi" path="res://Misc/menu_button_group.tres" id="5_42me5"]
 [ext_resource type="Texture2D" uid="uid://2tekeu3k6hcc" path="res://Art/Icons/Menu Icons/research_icon.png" id="5_cmsuj"]
 [ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
+
+[sub_resource type="Animation" id="Animation_0ns8d"]
+resource_name = "show_menu_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:anchor_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:anchor_right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.4, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0001, 0.01),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_g8vov"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:anchor_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:anchor_right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wt1kx"]
+_data = {
+"RESET": SubResource("Animation_g8vov"),
+"show_menu_animation": SubResource("Animation_0ns8d")
+}
 
 [sub_resource type="Animation" id="Animation_0ab43"]
 resource_name = "science_button_mouse_exit_anim"
@@ -269,70 +342,61 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 20
 text = "$100"
 
-[node name="UnitMenu" type="TextureRect" parent="EditorBackground"]
+[node name="Menu" type="TextureRect" parent="EditorBackground"]
 visible = false
 self_modulate = Color(0, 0, 0, 0.772549)
+clip_contents = true
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.6
-anchor_right = 1.0
+anchor_left = 0.9
+anchor_right = 1.3
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cgvah")
 
-[node name="HBoxContainer" type="VBoxContainer" parent="EditorBackground/UnitMenu"]
+[node name="UnitMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
+visible = false
 layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.9
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="EditorBackground/UnitMenu/HBoxContainer"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/UnitMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "UNITS"
 
-[node name="Reserve" type="VBoxContainer" parent="EditorBackground/UnitMenu/HBoxContainer"]
+[node name="Reserve" type="VBoxContainer" parent="EditorBackground/Menu/UnitMenu"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Title" type="Label" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/UnitMenu/Reserve"]
 layout_mode = 2
 text = "RESERVE"
 
-[node name="ReserveContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reserve"]
+[node name="ReserveContainer" type="FlowContainer" parent="EditorBackground/Menu/UnitMenu/Reserve"]
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 
-[node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/UnitMenu/HBoxContainer"]
+[node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/Menu/UnitMenu"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.55
 
-[node name="Title" type="Label" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/UnitMenu/Reinforcement"]
 layout_mode = 2
 text = "REINFORCEMENT"
 
-[node name="ReinforcementContainer" type="FlowContainer" parent="EditorBackground/UnitMenu/HBoxContainer/Reinforcement"]
+[node name="ReinforcementContainer" type="FlowContainer" parent="EditorBackground/Menu/UnitMenu/Reinforcement"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScienceMenu" type="TextureRect" parent="EditorBackground"]
+[node name="ScienceMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
 visible = false
-self_modulate = Color(0, 0, 0, 0.772549)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.6
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_cgvah")
-
-[node name="HBoxContainer" type="VBoxContainer" parent="EditorBackground/ScienceMenu"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.9
@@ -340,49 +404,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="EditorBackground/ScienceMenu/HBoxContainer"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/ScienceMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "SCIENCE"
 
-[node name="ResearchOptions" type="VBoxContainer" parent="EditorBackground/ScienceMenu/HBoxContainer"]
+[node name="ResearchOptions" type="VBoxContainer" parent="EditorBackground/Menu/ScienceMenu"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Title" type="Label" parent="EditorBackground/ScienceMenu/HBoxContainer/ResearchOptions"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/ScienceMenu/ResearchOptions"]
 layout_mode = 2
 text = "RESEARCH"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/ScienceMenu/HBoxContainer/ResearchOptions"]
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/Menu/ScienceMenu/ResearchOptions"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Current" type="VBoxContainer" parent="EditorBackground/ScienceMenu/HBoxContainer"]
+[node name="Current" type="VBoxContainer" parent="EditorBackground/Menu/ScienceMenu"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="Title" type="Label" parent="EditorBackground/ScienceMenu/HBoxContainer/Current"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/ScienceMenu/Current"]
 layout_mode = 2
 text = "COMPLETED"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/ScienceMenu/HBoxContainer/Current"]
+[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/Menu/ScienceMenu/Current"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="StatisticsMenu" type="TextureRect" parent="EditorBackground"]
+[node name="StatsMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
 visible = false
-self_modulate = Color(0, 0, 0, 0.772549)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.6
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("2_cgvah")
-
-[node name="HBoxContainer" type="VBoxContainer" parent="EditorBackground/StatisticsMenu"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.9
@@ -390,10 +443,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="EditorBackground/StatisticsMenu/HBoxContainer"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/StatsMenu"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "STATISTICS"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EditorBackground/Menu"]
+libraries = {
+"": SubResource("AnimationLibrary_wt1kx")
+}
 
 [node name="SideMenu" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 1)
@@ -430,6 +488,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 toggle_mode = true
+button_group = ExtResource("5_42me5")
 texture_normal = ExtResource("2_cgvah")
 ignore_texture_size = true
 stretch_mode = 0
@@ -461,6 +520,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 toggle_mode = true
+button_group = ExtResource("5_42me5")
 texture_normal = ExtResource("2_cgvah")
 ignore_texture_size = true
 stretch_mode = 0
@@ -493,6 +553,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 toggle_mode = true
+button_group = ExtResource("5_42me5")
 texture_normal = ExtResource("2_cgvah")
 ignore_texture_size = true
 stretch_mode = 0

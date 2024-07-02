@@ -11,17 +11,16 @@ var popupScene = load("res://Scenes/damage_popup.tscn")
 @export var middleColor = Color.DARK_RED
 
 var menuDict = {}
+var menuButtonsGroup: ButtonGroup
+@onready var menuWindow = $EditorBackground/Menu
+@onready var menuAnimPlayer: AnimationPlayer = $EditorBackground/Menu/AnimationPlayer
 
 @onready var unitMatrixEditor = $EditorBackground/UnitMatrixEditor/HBoxContainer
 
 @onready var captureStatusUI = $TopScreen/CaptureStatusUI
 
-@onready var unitMenu = $EditorBackground/UnitMenu
-@onready var scienceMenu = $EditorBackground/ScienceMenu
-@onready var statsMenu = $EditorBackground/StatisticsMenu
-
-@onready var reserveContainer = $EditorBackground/UnitMenu/HBoxContainer/Reserve/ReserveContainer
-@onready var reinforcementContainer = $EditorBackground/UnitMenu/HBoxContainer/Reinforcement/ReinforcementContainer
+@onready var reserveContainer = $EditorBackground/Menu/UnitMenu/Reserve/ReserveContainer
+@onready var reinforcementContainer = $EditorBackground/Menu/UnitMenu/Reinforcement/ReinforcementContainer
 
 @onready var fundsLabel = $EditorBackground/FundsLabel
 @onready var battleCountLabel = $TopScreen/BattleCountLabel
@@ -36,9 +35,11 @@ var menuDict = {}
 
 func _ready():
 	# make menu dict
-	menuDict[Enums.MenuType.UnitMenu] = $EditorBackground/UnitMenu
-	menuDict[Enums.MenuType.ScienceMenu] = $EditorBackground/ScienceMenu
-	menuDict[Enums.MenuType.StatsMenu] = $EditorBackground/StatisticsMenu
+	menuDict[Enums.MenuType.UnitMenu] = $EditorBackground/Menu/UnitMenu
+	menuDict[Enums.MenuType.ScienceMenu] = $EditorBackground/Menu/ScienceMenu
+	menuDict[Enums.MenuType.StatsMenu] = $EditorBackground/Menu/StatsMenu
+	
+	menuButtonsGroup = $SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton.button_group
 	
 	# connect menu button signals
 	$SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton.menu_button_pressed.connect(_on_menu_button_pressed)
@@ -49,22 +50,22 @@ func _ready():
 	
 
 func _on_menu_button_pressed(menuType: Enums.MenuType):
-	# hide all of them
-	for key in menuDict.keys():
-		if key == menuType:
-			if menuDict[key].visible == false:
-				menuDict[key].visible = true
-			else:
-				menuDict[key].visible = false
-		else:
+	# no buttons pressed. hide menu
+	if menuButtonsGroup.get_pressed_button() == null:
+		menuAnimPlayer.play_backwards("show_menu_animation")
+	else:
+		# skip animation if menu is already shown
+		if menuWindow.visible != true:
+			menuAnimPlayer.play("show_menu_animation")
+		
+		for key in menuDict.keys():
 			menuDict[key].visible = false
-	
+		menuDict[menuType].visible = true
+		
 
 func _process(_delta):
 	if Input.is_action_just_pressed("close_menu"):
-		for key in menuDict.keys():
-			if menuDict[key].visible == true:
-				menuDict[key].visible = false
+		menuAnimPlayer.play_backwards("show_menu_animation")
 		
 		
 # make new card and connect signals
