@@ -20,7 +20,7 @@ var menuButtonsGroup: ButtonGroup
 @onready var captureStatusUI = $TopScreen/CaptureStatusUI
 
 @onready var reserveContainer = $EditorBackground/Menu/UnitMenu/Reserve/ReserveContainer
-@onready var reinforcementContainer = $EditorBackground/Menu/UnitMenu/Reinforcement/ReinforcementContainer
+@onready var reinforcementContainer = $EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer/ReinforcementContainer
 
 @onready var fundsLabel = $EditorBackground/FundsLabel
 @onready var battleCountLabel = $TopScreen/BattleCountLabel
@@ -31,6 +31,7 @@ var menuButtonsGroup: ButtonGroup
 
 @onready var singleCycleButton = $ProcessControlMenu/HBoxContainer/ControlButtons/SingleCycleButton
 @onready var pauseCycleButton = $ProcessControlMenu/HBoxContainer/ControlButtons/PauseButton
+@onready var rerollButton = $EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer/RerollButton
 
 
 func _ready():
@@ -40,11 +41,14 @@ func _ready():
 	menuDict[Enums.MenuType.StatsMenu] = $EditorBackground/Menu/StatsMenu
 	
 	menuButtonsGroup = $SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton.button_group
+	menuWindow.visible = false
 	
 	# connect menu button signals
 	$SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton.menu_button_pressed.connect(_on_menu_button_pressed)
 	$SideMenu/Buttons/MenuButtonsContainer/ResearchButton.menu_button_pressed.connect(_on_menu_button_pressed)
 	$SideMenu/Buttons/MenuButtonsContainer/StatsButton.menu_button_pressed.connect(_on_menu_button_pressed)
+	
+	rerollButton.pressed.connect(RerollButtonPressed)
 	
 	# testing
 	
@@ -109,7 +113,16 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enu
 		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
 
 
+func RerollButtonPressed():
+	if GameManager.CheckFunds(GameManager.rerollCost):
+		GenerateReinforcementOptions(GameManager.isPlayerTurn, GameManager.reinforcementCount)
+		GameManager.ChangeFunds(-GameManager.rerollCost)
+	
+	
 func SetFundsLabel(amount: int):
+	if !(amount is int):
+		push_error("Shouldn't try to set funds label to non int value.")
+		
 	fundsLabel.text = tr("FUNDS") + ": " + str(amount)
 	
 func SetBattleCountLabel(amount):

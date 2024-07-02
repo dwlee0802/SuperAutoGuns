@@ -17,7 +17,6 @@ func _mouse_entered():
 		return
 		
 	player.play("mouse_entered_animation")
-	print("eh")
 	
 	
 func _mouse_exited():

@@ -1019,10 +1019,8 @@ func AddIncome(toPlayer: bool):
 	# record stats
 	if toPlayer:
 		GameManager.playerTotalFunds += amount
-		userInterface.SetFundsLabel(GameManager.playerTotalFunds)
 	else:
 		GameManager.enemyTotalFunds += amount
-		userInterface.SetFundsLabel(GameManager.enemyTotalFunds)
 		
 	var incomeBreakup = tr("INCOME") + ": +{total}\n" + tr("BASE") + ": +{base} | " + tr("BATTLE_COUNT") + "({count}): +{countbonus} | " + tr("CAPTURE") + "({capdiff}): +{cap} | " + tr("INTEREST") + "({intrpc}): +{intr}"
 	incomeBreakup = incomeBreakup.format({
@@ -1043,22 +1041,40 @@ func AddIncome(toPlayer: bool):
 	#UpdateFundsGraph()
 
 
-static func ChangeFunds(amount, isPlayer: bool):
+static func ChangeFunds(amount, isPlayer: bool = GameManager.isPlayerTurn):
 	if isPlayer:
 		playerFunds += amount
 		print("changed player funds by " + str(amount))
 		playerFunds = min(playerFunds, fundsMaxAmount)
 		print("New value: " + str(playerFunds) + "\n")
+		userInterface.SetFundsLabel(playerFunds)
 	else:
 		enemyFunds += amount
 		print("changed enemy funds by " + str(amount))
 		enemyFunds = min(enemyFunds, fundsMaxAmount)
 		print("New value: " + str(enemyFunds) + "\n")
+		userInterface.SetFundsLabel(enemyFunds)
 	
 	GameManager.userInterface.MakeFundsPopup(amount)
-	userInterface.SetFundsLabel(isPlayer)
 	
 
+# checks whether current turn side has enough funds
+static func CheckFunds(amount):
+	var isPlayer = GameManager.isPlayerTurn
+	
+	# check if theres enough funds
+	if isPlayer:
+		if GameManager.playerFunds < amount:
+			print("player has not enough funds!\n")
+			return false
+	else:
+		if GameManager.enemyFunds < amount:
+			print("enemy has not enough funds!\n")
+			return false
+	
+	return true
+	
+	
 # returns the input unit's coordinates on the unit matrix
 static func GetCoord(unit):
 	var checkingMatrix = enemyUnitMatrix

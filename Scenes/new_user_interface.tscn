@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=21 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="Script" path="res://Scripts/User Interface/new_user_interface.gd" id="1_w4yik"]
@@ -9,79 +9,9 @@
 [ext_resource type="Script" path="res://Scripts/User Interface/MenuButton.gd" id="5_4gd2l"]
 [ext_resource type="ButtonGroup" uid="uid://cyefxx2pkhvqi" path="res://Misc/menu_button_group.tres" id="5_42me5"]
 [ext_resource type="Texture2D" uid="uid://2tekeu3k6hcc" path="res://Art/Icons/Menu Icons/research_icon.png" id="5_cmsuj"]
+[ext_resource type="Script" path="res://Scripts/User Interface/AnimatedButton.gd" id="6_o45cg"]
 [ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
-
-[sub_resource type="Animation" id="Animation_0ns8d"]
-resource_name = "show_menu_animation"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:anchor_left")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.0, 0.6]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:anchor_right")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [1.4, 1.0]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.0001, 0.01),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
-[sub_resource type="Animation" id="Animation_g8vov"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:anchor_left")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.9]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:anchor_right")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1.3]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_wt1kx"]
-_data = {
-"RESET": SubResource("Animation_g8vov"),
-"show_menu_animation": SubResource("Animation_0ns8d")
-}
+[ext_resource type="Texture2D" uid="uid://ca61wpdhiruwu" path="res://Art/Icons/reroll_icon.png" id="7_xr70f"]
 
 [sub_resource type="Animation" id="Animation_xf7a2"]
 resource_name = "button_pressed_animation"
@@ -199,6 +129,78 @@ _data = {
 "mouse_exited_animation": SubResource("Animation_5evc3")
 }
 
+[sub_resource type="Animation" id="Animation_g8vov"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:anchor_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.9]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:anchor_right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.3]
+}
+
+[sub_resource type="Animation" id="Animation_0ns8d"]
+resource_name = "show_menu_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:anchor_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.0, 0.6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:anchor_right")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [1.4, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.0001, 0.01),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wt1kx"]
+_data = {
+"RESET": SubResource("Animation_g8vov"),
+"show_menu_animation": SubResource("Animation_0ns8d")
+}
+
 [node name="UserInterface" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -287,7 +289,6 @@ theme_override_font_sizes/font_size = 20
 text = "$100"
 
 [node name="Menu" type="TextureRect" parent="EditorBackground"]
-visible = false
 self_modulate = Color(0, 0, 0, 0.772549)
 clip_contents = true
 layout_mode = 1
@@ -295,12 +296,15 @@ anchors_preset = -1
 anchor_left = 0.9
 anchor_right = 1.3
 anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -70.0
+offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cgvah")
 
 [node name="UnitMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -335,9 +339,42 @@ size_flags_stretch_ratio = 0.55
 layout_mode = 2
 text = "REINFORCEMENT"
 
-[node name="ReinforcementContainer" type="FlowContainer" parent="EditorBackground/Menu/UnitMenu/Reinforcement"]
+[node name="HBoxContainer" type="HBoxContainer" parent="EditorBackground/Menu/UnitMenu/Reinforcement"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="ReinforcementContainer" type="FlowContainer" parent="EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RerollButton" type="TextureButton" parent="EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer"]
+self_modulate = Color(0, 0, 0, 1)
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_cgvah")
+ignore_texture_size = true
+stretch_mode = 0
+script = ExtResource("6_o45cg")
+
+[node name="TextureRect" type="TextureRect" parent="EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer/RerollButton"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_xr70f")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer/RerollButton"]
+libraries = {
+"": SubResource("AnimationLibrary_6pdgn")
+}
+speed_scale = 5.0
 
 [node name="ScienceMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
 visible = false
