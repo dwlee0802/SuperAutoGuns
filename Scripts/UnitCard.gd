@@ -244,7 +244,6 @@ func UpdateRadialUI(first: bool = false):
 		radialUI.visible = true
 		
 	radialUI.progress = 100 * ratio
-	print(ratio)
 		
 	
 func UpdateCombatStatsLabel():

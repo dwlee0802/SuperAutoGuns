@@ -10,6 +10,9 @@ static var currentCycleRatio: float = 0
 
 @onready var radialProcess = $Control/RadialProgress
 
+# time for each cycle in seconds
+static var cycleSpeeds = [1, 0.5, 0.3]
+
 
 func _process(_delta):
 	if !GameManager.cycleTimer.is_stopped():
@@ -27,7 +30,7 @@ func _on_pause_button_toggled(toggled_on):
 
 
 func _on_speed_button_pressed(extra_arg_0):
-	cycleSpeed = extra_arg_0
+	cycleSpeed = cycleSpeeds[extra_arg_0]
 
 
 func SetRadialProcess(num):

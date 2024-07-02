@@ -57,7 +57,7 @@ func _on_menu_button_pressed(menuType: Enums.MenuType):
 			menuDict[key].visible = false
 	
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("close_menu"):
 		for key in menuDict.keys():
 			if menuDict[key].visible == true:

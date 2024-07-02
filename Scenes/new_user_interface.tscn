@@ -452,7 +452,7 @@ root_node = NodePath("../../../..")
 libraries = {
 "": SubResource("AnimationLibrary_vn1l3")
 }
-speed_scale = 4.0
+speed_scale = 5.0
 
 [node name="ResearchButton" type="TextureButton" parent="SideMenu/Buttons/MenuButtonsContainer"]
 self_modulate = Color(0, 0, 0, 1)
@@ -484,7 +484,7 @@ root_node = NodePath("../../../..")
 libraries = {
 "": SubResource("AnimationLibrary_vn1l3")
 }
-speed_scale = 4.0
+speed_scale = 5.0
 
 [node name="StatsButton" type="TextureButton" parent="SideMenu/Buttons/MenuButtonsContainer"]
 self_modulate = Color(0, 0, 0, 1)
@@ -517,7 +517,7 @@ root_node = NodePath("../../../..")
 libraries = {
 "": SubResource("AnimationLibrary_vn1l3")
 }
-speed_scale = 4.0
+speed_scale = 5.0
 
 [node name="ProcessControlMenu" parent="." instance=ExtResource("4_oe4ok")]
 layout_mode = 1
