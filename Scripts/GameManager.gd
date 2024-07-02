@@ -87,6 +87,7 @@ static var reinforcementCount: int = 6
 
 # -1 is player victory 0 is draw 1 is enemy victory
 static var lastBattleResult: int = 0
+static var lastBattleResultText: String = ""
 
 static var playerPassed: bool = false
 static var enemyPassed: bool = false
@@ -1485,22 +1486,24 @@ static func IsAttacking(player: bool):
 
 
 static func BattleResultToString(result: int):
+	print("battle result: " + str(result))
 	var tempNode = Node.new()
 	
 	# player victory
+	# flipped
 	if result == -1:
-		if playerAttacking:
+		if !playerAttacking:
 			return tempNode.tr("GENERIC_PLAYER_NAME") + " " + tempNode.tr("OFFENSIVE") + " " +  tempNode.tr("VICTORY")
 		else:
 			return tempNode.tr("GENERIC_PLAYER_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")
 	elif result == 0:
-		if playerAttacking:
+		if !playerAttacking:
 			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")
 		else:
 			return tempNode.tr("GENERIC_PLAYER_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")
 	# enemy victory
 	elif result == 1:
-		if !playerAttacking:
+		if playerAttacking:
 			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("OFFENSIVE") + " " +  tempNode.tr("VICTORY")
 		else:
 			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")

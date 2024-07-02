@@ -56,7 +56,14 @@ func _on_menu_button_pressed(menuType: Enums.MenuType):
 		else:
 			menuDict[key].visible = false
 	
-	
+
+func _process(delta):
+	if Input.is_action_just_pressed("close_menu"):
+		for key in menuDict.keys():
+			if menuDict[key].visible == true:
+				menuDict[key].visible = false
+		
+		
 # make new card and connect signals
 func _InstantiateUnitCard() -> UnitCard:
 	var newCard: UnitCard = unitCardScene.instantiate()
