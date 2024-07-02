@@ -1,8 +1,17 @@
 extends TextureButton
+class_name AnimatedButton
 
-func _toggled(toggled_on):
-	print("toggled " + str(toggled_on))
-	if toggled_on:
-		$AnimationPlayer.play("button_pressed_animation")
-	else:
-		$AnimationPlayer.play("button_unpressed_animation")
+func _ready():
+	self.mouse_entered.connect(_mouse_entered)
+	self.mouse_exited.connect(_mouse_exited)
+	
+	
+func _mouse_entered():
+	$AnimationPlayer.play("mouse_entered_animation")
+	
+func _mouse_exited():
+	$AnimationPlayer.play("mouse_exited_animation")
+
+func _pressed():
+	$AnimationPlayer.play("mouse_entered_animation")
+	

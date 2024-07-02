@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://dcbl4j6rqeg76"]
+[gd_scene load_steps=17 format=3 uid="uid://dcbl4j6rqeg76"]
 
-[ext_resource type="Script" path="res://Scripts/User Interface/BattleProcessSpeedUI.gd" id="1_6i58a"]
 [ext_resource type="Texture2D" uid="uid://de11clbc8y0h" path="res://Art/Icons/ProcessControl Icons/pause_icon.png" id="1_c8fwa"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_po828"]
+[ext_resource type="Script" path="res://Scripts/User Interface/BattleProcessSpeedUI.gd" id="1_x0yjl"]
 [ext_resource type="Script" path="res://Scripts/User Interface/AnimatedButton.gd" id="3_wmbxi"]
+[ext_resource type="Script" path="res://Scripts/User Interface/AnimatedToggleButton.gd" id="3_ys2ai"]
 [ext_resource type="ButtonGroup" uid="uid://dxcec2olgkvk1" path="res://Misc/speed_button_group.tres" id="4_4oljm"]
 [ext_resource type="Texture2D" uid="uid://dljoh5pv0krnt" path="res://Art/Icons/ProcessControl Icons/single_icon.png" id="4_8hjif"]
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="4_cnwnd"]
@@ -65,10 +66,66 @@ tracks/1/keys = {
 "values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_qucb3"]
+resource_name = "mouse_entered_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_5evc3"]
+resource_name = "mouse_exited_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6pdgn"]
 _data = {
 "button_pressed_animation": SubResource("Animation_xf7a2"),
-"button_unpressed_animation": SubResource("Animation_cwog7")
+"button_unpressed_animation": SubResource("Animation_cwog7"),
+"mouse_entered_animation": SubResource("Animation_qucb3"),
+"mouse_exited_animation": SubResource("Animation_5evc3")
 }
 
 [node name="ProcessControlMenu" type="Control"]
@@ -97,7 +154,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
 alignment = 1
-script = ExtResource("1_6i58a")
+script = ExtResource("1_x0yjl")
 
 [node name="ControlButtons" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -112,7 +169,7 @@ toggle_mode = true
 texture_normal = ExtResource("1_po828")
 ignore_texture_size = true
 stretch_mode = 0
-script = ExtResource("3_wmbxi")
+script = ExtResource("3_ys2ai")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/ControlButtons/PauseButton"]
 layout_mode = 1
@@ -141,6 +198,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
+script = ExtResource("3_wmbxi")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/ControlButtons/SingleCycleButton"]
 layout_mode = 1
@@ -153,6 +211,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_8hjif")
 expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HBoxContainer/ControlButtons/SingleCycleButton"]
+libraries = {
+"": SubResource("AnimationLibrary_6pdgn")
+}
+speed_scale = 5.0
 
 [node name="SpeedButtons" type="HBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -167,7 +231,7 @@ toggle_mode = true
 button_group = ExtResource("4_4oljm")
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
-script = ExtResource("3_wmbxi")
+script = ExtResource("3_ys2ai")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/SpeedButtons/SlowButton"]
 layout_mode = 1
@@ -202,7 +266,7 @@ button_pressed = true
 button_group = ExtResource("4_4oljm")
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
-script = ExtResource("3_wmbxi")
+script = ExtResource("3_ys2ai")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/SpeedButtons/NormalButton"]
 self_modulate = Color(0, 0, 0, 1)
@@ -233,7 +297,7 @@ toggle_mode = true
 button_group = ExtResource("4_4oljm")
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
-script = ExtResource("3_wmbxi")
+script = ExtResource("3_ys2ai")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/SpeedButtons/FastButton"]
 layout_mode = 1
