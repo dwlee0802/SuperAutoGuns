@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://kaiavi6o78ta"]
 
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_6dfj2"]
-[ext_resource type="Script" path="res://Scripts/research_option.gd" id="1_ijwl0"]
+[ext_resource type="Script" path="res://Scripts/User Interface/research_option.gd" id="1_ijwl0"]
 
 [node name="ResearchOption" type="Control"]
 texture_filter = 1

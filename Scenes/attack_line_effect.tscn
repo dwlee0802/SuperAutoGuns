@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://7ajlsgiqj4bl"]
 
-[ext_resource type="Script" path="res://Scripts/attack_line_effect.gd" id="1_o6gvx"]
+[ext_resource type="Script" path="res://Scripts/User Interface/attack_line_effect.gd" id="1_o6gvx"]
 
 [sub_resource type="Animation" id="Animation_gelro"]
 length = 0.001

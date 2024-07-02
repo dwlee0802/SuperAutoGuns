@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_su57y"]
 [ext_resource type="PackedScene" uid="uid://8m8hhrmb76q" path="res://Scenes/new_user_interface.tscn" id="2_rxj5d"]
-[ext_resource type="Script" path="res://Scripts/tutorial.gd" id="3_tp731"]
+[ext_resource type="Script" path="res://Scripts/User Interface/tutorial.gd" id="3_tp731"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="7_dtyuk"]
 
 [sub_resource type="Animation" id="Animation_tqs2y"]

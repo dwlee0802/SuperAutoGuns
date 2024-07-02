@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dq1g0sudslgo5"]
 
-[ext_resource type="Script" path="res://Scripts/research_ui.gd" id="1_2ffox"]
+[ext_resource type="Script" path="res://Scripts/User Interface/research_ui.gd" id="1_2ffox"]
 
 [node name="ResearchUI" type="Control"]
 layout_mode = 3

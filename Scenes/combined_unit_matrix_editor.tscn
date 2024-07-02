@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://ct8aanlsousat"]
 
 [ext_resource type="Texture2D" uid="uid://dyuiy3gp74qgf" path="res://Art/simple_white_arrow.png" id="1_7fvjg"]
-[ext_resource type="Script" path="res://Scripts/BattleProcessSpeedUI.gd" id="2_hthlt"]
+[ext_resource type="Script" path="res://Scripts/User Interface/BattleProcessSpeedUI.gd" id="2_hthlt"]
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="2_kxn5j"]
 
 [sub_resource type="Animation" id="Animation_vhbo2"]
