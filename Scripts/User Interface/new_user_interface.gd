@@ -110,10 +110,6 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enu
 		newOption.SetData(DataManager.GetPurchasedUnits(isPlayer).pick_random())
 		reinforcementContainer.add_child(newOption)
 		
-		# TODO
-		# connect signals
-		newOption.pressed.connect(SetFundsLabel.bind(GameManager.isPlayerTurn))
-
 
 func RerollButtonPressed():
 	if GameManager.CheckFunds(GameManager.rerollCost):

@@ -22,19 +22,12 @@ func _pressed():
 
 func PurchseUnit():
 	# check if theres enough funds
-	if isPlayer:
-		if GameManager.playerFunds < unitData.purchaseCost:
-			print("player has not enough funds!\n")
-			return false
-	else:
-		if GameManager.enemyFunds < unitData.purchaseCost:
-			print("enemy has not enough funds!\n")
-			return false
-		
-	# add unit to reserve
-	GameManager.AddReserveUnit(unitData, isPlayer)
-	GameManager.ChangeFunds(-unitData.purchaseCost, isPlayer)
-	pressed.emit()
-	queue_free()
-	return true
+	if GameManager.CheckFunds(unitData.purchaseCost):
+		# add unit to reserve
+		GameManager.AddReserveUnit(unitData, isPlayer)
+		GameManager.ChangeFunds(-unitData.purchaseCost, isPlayer)
+		pressed.emit()
+		queue_free()
+		return true
 	
+	return false
