@@ -1,4 +1,4 @@
-extends HFlowContainer
+extends FlowContainer
 class_name ReserveContainer
 
 signal dropped
@@ -22,5 +22,6 @@ func _drop_data(_at_position, data):
 func _gui_input(event):
 	if event is InputEventMouse:
 		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
+			print("right clicked")
 			# check if merging is available: same type
 			_drop_data(Vector2.ZERO, UnitCard.selected)

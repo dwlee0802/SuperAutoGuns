@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=22 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="Script" path="res://Scripts/User Interface/new_user_interface.gd" id="1_w4yik"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://Scripts/User Interface/MenuButton.gd" id="5_4gd2l"]
 [ext_resource type="ButtonGroup" uid="uid://cyefxx2pkhvqi" path="res://Misc/menu_button_group.tres" id="5_42me5"]
 [ext_resource type="Texture2D" uid="uid://2tekeu3k6hcc" path="res://Art/Icons/Menu Icons/research_icon.png" id="5_cmsuj"]
+[ext_resource type="Script" path="res://Scripts/User Interface/ReserveContainer.gd" id="5_jtju5"]
 [ext_resource type="Script" path="res://Scripts/User Interface/AnimatedButton.gd" id="6_o45cg"]
 [ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
 [ext_resource type="Texture2D" uid="uid://ca61wpdhiruwu" path="res://Art/Icons/reroll_icon.png" id="7_xr70f"]
@@ -290,7 +291,6 @@ text = "$100"
 
 [node name="Menu" type="TextureRect" parent="EditorBackground"]
 self_modulate = Color(0, 0, 0, 0.772549)
-clip_contents = true
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.9
@@ -328,7 +328,7 @@ text = "RESERVE"
 [node name="ReserveContainer" type="FlowContainer" parent="EditorBackground/Menu/UnitMenu/Reserve"]
 layout_mode = 2
 size_flags_vertical = 3
-mouse_filter = 2
+script = ExtResource("5_jtju5")
 
 [node name="Reinforcement" type="VBoxContainer" parent="EditorBackground/Menu/UnitMenu"]
 layout_mode = 2

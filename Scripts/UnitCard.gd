@@ -123,6 +123,7 @@ func _drop_data(_at_position, data):
 		get_parent().dropped.emit()
 	if get_parent() is ReserveContainer:
 		get_parent().dropped.emit()
+		unit.coords = null
 	
 	# swapping inside reserve container
 	if !(get_parent() is ReserveContainer and data.get_parent() is ReserveContainer):
@@ -422,6 +423,7 @@ func UpdateDebugLabel():
 	if unit == null:
 		return
 	if unit.coords == null:
+		$DebugLabel.text = "NULL"
 		return
 		
 	var ter = GameManager.GetTerrainData(unit)
