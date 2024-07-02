@@ -166,8 +166,11 @@ func HitAnimation(amount):
 	hitAnimPlayer.play("hit_animation")
 	
 
+# workaround for radial ui blinking
+var tempWorkaround = true
 func _process(_delta):
-	UpdateRadialUI()
+	UpdateRadialUI(tempWorkaround)
+	tempWorkaround = false
 	
 	
 func UpdateRadialUI(first: bool = false):
@@ -203,7 +206,7 @@ func UpdateRadialUI(first: bool = false):
 		ratio = 1 - unit.GetCyclesTilMovement() / float(unit.GetMovementCost())
 		# workaround for blinking on first frame
 		if first:
-			ratio = 1 - (unit.GetCyclesTilMovement() - 2) / float(unit.GetMovementCost())
+			ratio = 1 - (unit.GetCyclesTilMovement() + 1) / float(unit.GetMovementCost())
 		ratio += BattleSpeedUI.currentCycleRatio * (1.0 / unit.GetMovementCost())
 		radialUI.visible = true
 		
@@ -241,6 +244,7 @@ func UpdateRadialUI(first: bool = false):
 		radialUI.visible = true
 		
 	radialUI.progress = 100 * ratio
+	print(ratio)
 		
 	
 func UpdateCombatStatsLabel():
