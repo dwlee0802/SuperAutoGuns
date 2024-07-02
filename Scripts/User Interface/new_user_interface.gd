@@ -48,6 +48,8 @@ func _ready():
 	$SideMenu/Buttons/MenuButtonsContainer/ResearchButton.menu_button_pressed.connect(_on_menu_button_pressed)
 	$SideMenu/Buttons/MenuButtonsContainer/StatsButton.menu_button_pressed.connect(_on_menu_button_pressed)
 	
+	reserveContainer.dropped.connect(DroppedIntoReserve)
+	
 	rerollButton.pressed.connect(RerollButtonPressed)
 	
 	# testing
@@ -189,7 +191,7 @@ func GenerateGrid(colCount: int, rowCount: int):
 		unitMatrixEditor.add_child(newCol)
 		newCol.reparent(unitMatrixEditor)
 	
-	
+		
 func SetSlotAvailability(_startIndex: int = 0, endIndex: int = 2):
 	for col in range(unitMatrixEditor.get_child_count()):
 		for row in range(unitMatrixEditor.get_child(col).get_child_count()):
@@ -287,6 +289,13 @@ func ExportReserve():
 	return newReserve
 	
 
+func DroppedIntoReserve():
+	if GameManager.isPlayerTurn:
+		GameManager.playerReserves = ExportReserve()
+	else:
+		GameManager.enemyReserves = ExportReserve()
+		
+		
 # inserts the current unit matrix as seen in UI into currentMatrix
 # start from the right most column
 func ExportUnitMatrix(currentMatrix, includeMiddle: bool = false):

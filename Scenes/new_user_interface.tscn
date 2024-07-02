@@ -212,7 +212,7 @@ grow_vertical = 2
 script = ExtResource("1_w4yik")
 
 [node name="Background" type="TextureRect" parent="."]
-self_modulate = Color(0.389287, 0.389287, 0.389286, 1)
+self_modulate = Color(0.683077, 0.683078, 0.683076, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -305,6 +305,7 @@ grow_vertical = 2
 texture = ExtResource("2_cgvah")
 
 [node name="UnitMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
