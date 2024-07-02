@@ -193,10 +193,10 @@ func _ready():
 	#userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
 	#
 	## link pause button
-	#userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/PauseButton/").toggled.connect(ResumeCycleProcess)
+	userInterface.pauseCycleButton.toggled.connect(ResumeCycleProcess)
 	#
 	## link single button
-	#userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/SingleButton/").pressed.connect(ProcessSingleCycle)
+	userInterface.singleCycleButton.pressed.connect(ProcessSingleCycle)
 	#
 	# link game concluded buttons
 	$GameConcludedOverlay/RestartButton.pressed.connect(get_tree().reload_current_scene)
@@ -324,8 +324,6 @@ func ProcessSingleCycle():
 			# should wait til animations are done
 			cycleTimer.start(BattleSpeedUI.cycleSpeed)
 			BattleSpeedUI.cyclePaused = true
-			
-		userInterface.get_node("Root/MiddleScreen/CombinedUnitMatrixEditor/BattleProcessSpeedUI/PauseButton/").button_pressed = true
 	
 	
 # called when player ends preparation phase and presses process battle button

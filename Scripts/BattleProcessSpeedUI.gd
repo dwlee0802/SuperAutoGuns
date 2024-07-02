@@ -39,3 +39,4 @@ func SetRadialProcess(num):
 
 func _on_single_button_pressed():
 	cyclePaused = true
+	$ControlButtons/PauseButton.button_pressed = cyclePaused

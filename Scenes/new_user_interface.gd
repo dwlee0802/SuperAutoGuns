@@ -30,6 +30,9 @@ var menuDict = {}
 @onready var commitButton = $ProcessControlMenu/CommitButton
 @onready var turnTimer: Timer = $ProcessControlMenu/TurnTimer
 
+@onready var singleCycleButton = $ProcessControlMenu/HBoxContainer/ControlButtons/SingleCycleButton
+@onready var pauseCycleButton = $ProcessControlMenu/HBoxContainer/ControlButtons/PauseButton
+
 
 func _ready():
 	# make menu dict

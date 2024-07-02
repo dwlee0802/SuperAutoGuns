@@ -112,6 +112,7 @@ toggle_mode = true
 texture_normal = ExtResource("1_po828")
 ignore_texture_size = true
 stretch_mode = 0
+script = ExtResource("6_qy5ur")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/ControlButtons/PauseButton"]
 layout_mode = 1
@@ -125,6 +126,12 @@ grow_vertical = 2
 texture = ExtResource("1_c8fwa")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="HBoxContainer/ControlButtons/PauseButton"]
+libraries = {
+"": SubResource("AnimationLibrary_6pdgn")
+}
+speed_scale = 5.0
 
 [node name="SingleCycleButton" type="TextureButton" parent="HBoxContainer/ControlButtons"]
 self_modulate = Color(0, 0, 0, 1)
