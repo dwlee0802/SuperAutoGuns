@@ -31,6 +31,7 @@ func _on_pause_button_toggled(toggled_on):
 
 func _on_speed_button_pressed(extra_arg_0):
 	cycleSpeed = cycleSpeeds[extra_arg_0]
+	print("speed: " + str(extra_arg_0))
 
 
 func SetRadialProcess(num):

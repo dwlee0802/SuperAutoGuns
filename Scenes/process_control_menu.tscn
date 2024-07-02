@@ -1,10 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcbl4j6rqeg76"]
+[gd_scene load_steps=16 format=3 uid="uid://dcbl4j6rqeg76"]
 
 [ext_resource type="Texture2D" uid="uid://de11clbc8y0h" path="res://Art/Icons/ProcessControl Icons/pause_icon.png" id="1_c8fwa"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_po828"]
 [ext_resource type="Script" path="res://Scripts/User Interface/BattleProcessSpeedUI.gd" id="1_x0yjl"]
 [ext_resource type="Script" path="res://Scripts/User Interface/AnimatedButton.gd" id="3_wmbxi"]
-[ext_resource type="Script" path="res://Scripts/User Interface/AnimatedToggleButton.gd" id="3_ys2ai"]
 [ext_resource type="ButtonGroup" uid="uid://dxcec2olgkvk1" path="res://Misc/speed_button_group.tres" id="4_4oljm"]
 [ext_resource type="Texture2D" uid="uid://dljoh5pv0krnt" path="res://Art/Icons/ProcessControl Icons/single_icon.png" id="4_8hjif"]
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="4_cnwnd"]
@@ -169,7 +168,7 @@ toggle_mode = true
 texture_normal = ExtResource("1_po828")
 ignore_texture_size = true
 stretch_mode = 0
-script = ExtResource("3_ys2ai")
+script = ExtResource("3_wmbxi")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/ControlButtons/PauseButton"]
 layout_mode = 1
@@ -231,7 +230,7 @@ toggle_mode = true
 button_group = ExtResource("4_4oljm")
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
-script = ExtResource("3_ys2ai")
+script = ExtResource("3_wmbxi")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/SpeedButtons/SlowButton"]
 layout_mode = 1
@@ -266,7 +265,7 @@ button_pressed = true
 button_group = ExtResource("4_4oljm")
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
-script = ExtResource("3_ys2ai")
+script = ExtResource("3_wmbxi")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/SpeedButtons/NormalButton"]
 self_modulate = Color(0, 0, 0, 1)
@@ -297,7 +296,7 @@ toggle_mode = true
 button_group = ExtResource("4_4oljm")
 texture_normal = ExtResource("1_po828")
 stretch_mode = 0
-script = ExtResource("3_ys2ai")
+script = ExtResource("3_wmbxi")
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/SpeedButtons/FastButton"]
 layout_mode = 1
