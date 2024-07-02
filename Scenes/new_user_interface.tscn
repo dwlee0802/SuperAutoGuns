@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=19 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="Script" path="res://Scripts/User Interface/new_user_interface.gd" id="1_w4yik"]
@@ -83,39 +83,12 @@ _data = {
 "show_menu_animation": SubResource("Animation_0ns8d")
 }
 
-[sub_resource type="Animation" id="Animation_0ab43"]
-resource_name = "science_button_mouse_exit_anim"
+[sub_resource type="Animation" id="Animation_xf7a2"]
+resource_name = "button_pressed_animation"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton/ButtonImage:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_r7tao"]
-resource_name = "science_button_mouse_hover_anim"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton:self_modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -127,7 +100,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/ResearchButton/ButtonImage:self_modulate")
+tracks/1/path = NodePath("TextureRect:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -137,12 +110,12 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_plsh2"]
-resource_name = "stats_button_mouse_exit_anim"
+[sub_resource type="Animation" id="Animation_cwog7"]
+resource_name = "button_unpressed_animation"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/StatsButton:self_modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -154,7 +127,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/StatsButton/ButtonImage:self_modulate")
+tracks/1/path = NodePath("TextureRect:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -164,12 +137,12 @@ tracks/1/keys = {
 "values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_qiyfb"]
-resource_name = "stats_button_mouse_hover_anim"
+[sub_resource type="Animation" id="Animation_qucb3"]
+resource_name = "mouse_entered_animation"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/StatsButton:self_modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -181,7 +154,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/StatsButton/ButtonImage:self_modulate")
+tracks/1/path = NodePath("TextureRect:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -191,12 +164,12 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_406hu"]
-resource_name = "unit_button_mouse_exit_anim"
+[sub_resource type="Animation" id="Animation_5evc3"]
+resource_name = "mouse_exited_animation"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton:self_modulate")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -208,7 +181,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton/ButtonImage:self_modulate")
+tracks/1/path = NodePath("TextureRect:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -218,41 +191,12 @@ tracks/1/keys = {
 "values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_ay3ql"]
-resource_name = "unit_button_mouse_hover_anim"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Buttons/MenuButtonsContainer/UnitMenuButton/ButtonImage:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0, 0, 0, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_vn1l3"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6pdgn"]
 _data = {
-"science_button_mouse_exit_anim": SubResource("Animation_0ab43"),
-"science_button_mouse_hover_anim": SubResource("Animation_r7tao"),
-"stats_button_mouse_exit_anim": SubResource("Animation_plsh2"),
-"stats_button_mouse_hover_anim": SubResource("Animation_qiyfb"),
-"unit_button_mouse_exit_anim": SubResource("Animation_406hu"),
-"unit_button_mouse_hover_anim": SubResource("Animation_ay3ql")
+"button_pressed_animation": SubResource("Animation_xf7a2"),
+"button_unpressed_animation": SubResource("Animation_cwog7"),
+"mouse_entered_animation": SubResource("Animation_qucb3"),
+"mouse_exited_animation": SubResource("Animation_5evc3")
 }
 
 [node name="UserInterface" type="Control"]
@@ -452,6 +396,7 @@ text = "STATISTICS"
 libraries = {
 "": SubResource("AnimationLibrary_wt1kx")
 }
+speed_scale = 5.0
 
 [node name="SideMenu" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 1)
@@ -494,7 +439,7 @@ ignore_texture_size = true
 stretch_mode = 0
 script = ExtResource("5_4gd2l")
 
-[node name="ButtonImage" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton"]
+[node name="TextureRect" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
@@ -506,10 +451,9 @@ grow_vertical = 2
 texture = ExtResource("4_ggdh0")
 expand_mode = 2
 
-[node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton"]
-root_node = NodePath("../../../..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SideMenu/Buttons/MenuButtonsContainer/UnitMenuButton"]
 libraries = {
-"": SubResource("AnimationLibrary_vn1l3")
+"": SubResource("AnimationLibrary_6pdgn")
 }
 speed_scale = 5.0
 
@@ -527,7 +471,7 @@ stretch_mode = 0
 script = ExtResource("5_4gd2l")
 buttonType = 1
 
-[node name="ButtonImage" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/ResearchButton"]
+[node name="TextureRect" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/ResearchButton"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
@@ -539,10 +483,9 @@ grow_vertical = 2
 texture = ExtResource("5_cmsuj")
 expand_mode = 1
 
-[node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="SideMenu/Buttons/MenuButtonsContainer/ResearchButton"]
-root_node = NodePath("../../../..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SideMenu/Buttons/MenuButtonsContainer/ResearchButton"]
 libraries = {
-"": SubResource("AnimationLibrary_vn1l3")
+"": SubResource("AnimationLibrary_6pdgn")
 }
 speed_scale = 5.0
 
@@ -560,7 +503,7 @@ stretch_mode = 0
 script = ExtResource("5_4gd2l")
 buttonType = 2
 
-[node name="ButtonImage" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/StatsButton"]
+[node name="TextureRect" type="TextureRect" parent="SideMenu/Buttons/MenuButtonsContainer/StatsButton"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2
@@ -573,10 +516,9 @@ grow_vertical = 2
 texture = ExtResource("6_s0tt4")
 expand_mode = 1
 
-[node name="ButtonAnimationPlayer" type="AnimationPlayer" parent="SideMenu/Buttons/MenuButtonsContainer/StatsButton"]
-root_node = NodePath("../../../..")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SideMenu/Buttons/MenuButtonsContainer/StatsButton"]
 libraries = {
-"": SubResource("AnimationLibrary_vn1l3")
+"": SubResource("AnimationLibrary_6pdgn")
 }
 speed_scale = 5.0
 

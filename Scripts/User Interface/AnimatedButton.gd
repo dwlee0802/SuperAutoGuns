@@ -1,12 +1,13 @@
 extends TextureButton
 class_name AnimatedButton
 
-@onready var player: AnimationPlayer = $AnimationPlayer
+var player: AnimationPlayer
 
 var mouseInsideAfterUntoggle: bool = false
 
 
 func _ready():
+	player = $AnimationPlayer
 	self.mouse_entered.connect(_mouse_entered)
 	self.mouse_exited.connect(_mouse_exited)
 	
