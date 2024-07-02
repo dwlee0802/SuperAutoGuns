@@ -94,6 +94,8 @@ offset_bottom = 60.0
 grow_horizontal = 2
 script = ExtResource("4_cnwnd")
 radius = 10.0
+progress = 60.0
+thickness = 10.0
 
 [node name="CycleCountLabel" type="Label" parent="."]
 visible = false
