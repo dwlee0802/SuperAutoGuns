@@ -54,14 +54,6 @@ func _input(event):
 					if is_mouse_inside():
 						print(get_option(get_mouse_angle()))
 						pressed.emit(get_option(get_mouse_angle()))
-				
-				
-func _gui_input(event):
-	if !press_only_inside:
-		if event is InputEventMouseButton:
-			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-				print(get_option(get_mouse_angle()))
-				pressed.emit(get_option(get_mouse_angle()))
 	
 	
 # fit circle to smaller of width & height
