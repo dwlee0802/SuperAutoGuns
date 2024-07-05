@@ -1,0 +1,127 @@
+@tool
+extends Control
+class_name RadialMenu
+
+@export var option_count: int = 4
+@export var snap: bool = false
+@export var press_only_inside: bool = false
+
+@export var ring: bool = false
+@export var thickness: float = 20.0
+
+@export var bg_color: Color = Color.DARK_GRAY
+@export var cursor_color: Color = Color.WHITE
+@export_range(0.01, 2)  var cursor_size_multiplier: float = 1
+
+@export var polygon_pt_count: int = 32
+
+signal pressed(index)
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+func _process(_delta: float) -> void:
+	queue_redraw()
+
+
+func _draw() -> void:
+	var radius = get_radius()
+	var cursor_angle = get_cursor_angle()
+	var mouse_angle = get_mouse_angle()
+	var center: Vector2 = get_center()
+	
+	if ring:
+		draw_ring_arc(center, radius, radius-thickness, 0.0, TAU, bg_color)
+		draw_ring_arc(center, radius, radius-thickness, mouse_angle - cursor_angle / 2, mouse_angle + cursor_angle / 2, cursor_color)
+	else:
+		draw_circle_arc(center, radius, 0.0, TAU, bg_color)
+		draw_circle_arc(center, radius, 0.0, cursor_angle, cursor_color)
+
+
+func _input(event):
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+				if !press_only_inside:
+					print(get_option(get_mouse_angle()))
+					pressed.emit(get_option(get_mouse_angle()))
+				else:
+					if is_mouse_inside():
+						print(get_option(get_mouse_angle()))
+						pressed.emit(get_option(get_mouse_angle()))
+				
+				
+func _gui_input(event):
+	if !press_only_inside:
+		if event is InputEventMouseButton:
+			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+				print(get_option(get_mouse_angle()))
+				pressed.emit(get_option(get_mouse_angle()))
+	
+	
+# fit circle to smaller of width & height
+func get_radius():
+	return min(size.x, size.y) / 2
+	
+
+func get_cursor_angle():
+	return TAU / option_count * cursor_size_multiplier
+
+	
+func get_mouse_angle():
+	var angle: float = get_center().angle_to_point(get_local_mouse_position()) + PI/2
+	if snap:
+		return snappedf(angle, TAU / option_count)
+		
+	return angle
+	
+
+func is_mouse_inside():
+	var dist_from_center = abs(get_center().distance_to(get_local_mouse_position()))
+	if dist_from_center < get_radius():
+		if ring:
+			if dist_from_center < get_radius() - thickness:
+				return false
+		
+		return true
+		
+	
+func get_option(angle: float):
+	if angle < 0:
+		angle = angle + TAU
+	
+	return str(snappedf(angle, TAU / option_count) / (TAU / option_count))
+	
+	
+func get_center():
+	return size/2
+	
+	
+func draw_circle_arc(center: Vector2, radius: float, angle_from: float,\
+		angle_to: float, color: Color) -> void:
+	var points_arc := PackedVector2Array()
+	points_arc.push_back(center)
+	var colors := PackedColorArray([color])
+	var a: float = angle_from - (PI / 2.0)
+	var b: float = (angle_to - angle_from) / float(polygon_pt_count)
+	for i in range(polygon_pt_count + 1):
+		var angle_point: float = a + float(i) * b
+		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius)
+	draw_polygon(points_arc, colors)
+
+
+func draw_ring_arc(center: Vector2, radius1: float, radius2: float,\
+		angle_from: float, angle_to: float, color: Color) -> void:
+	var points_arc := PackedVector2Array()
+	var colors := PackedColorArray([color])
+	var a: float = angle_from - (PI / 2.0)
+	var b: float = (angle_to - angle_from) / float(polygon_pt_count)
+	for i in range(polygon_pt_count + 1):
+		var angle_point: float = a + float(i) * b
+		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius1)
+	for i in range(polygon_pt_count, -1, -1):
+		var angle_point: float = a + float(i) * b
+		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius2)
+	draw_polygon(points_arc, colors)
