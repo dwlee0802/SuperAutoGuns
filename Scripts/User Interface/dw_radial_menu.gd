@@ -2,11 +2,12 @@
 extends Control
 class_name RadialMenu
 
+## The number of segments the circle is divided into.
 @export var option_count: int = 4
 @export var snap: bool = false
 @export var press_only_inside: bool = false
 
-@export var ring: bool = false
+@export var ring: bool = true
 @export var thickness: float = 20.0
 
 @export var bg_color: Color = Color.DARK_GRAY
@@ -25,7 +26,7 @@ func _ready():
 
 func _process(_delta: float) -> void:
 	queue_redraw()
-
+	
 
 func _draw() -> void:
 	var radius = get_radius()
@@ -39,7 +40,9 @@ func _draw() -> void:
 	else:
 		draw_circle_arc(center, radius, 0.0, TAU, bg_color)
 		draw_circle_arc(center, radius, 0.0, cursor_angle, cursor_color)
-
+	
+	place_children()
+	
 
 func _input(event):
 		if event is InputEventMouseButton:
@@ -78,7 +81,7 @@ func get_mouse_angle():
 	return angle
 	
 
-func is_mouse_inside():
+func is_mouse_inside() -> bool:
 	var dist_from_center = abs(get_center().distance_to(get_local_mouse_position()))
 	if dist_from_center < get_radius():
 		if ring:
@@ -86,6 +89,8 @@ func is_mouse_inside():
 				return false
 		
 		return true
+	
+	return false
 		
 	
 func get_option(angle: float):
@@ -93,7 +98,7 @@ func get_option(angle: float):
 		angle = angle + TAU
 	
 	return str(snappedf(angle, TAU / option_count) / (TAU / option_count))
-	
+
 	
 func get_center():
 	return size/2
@@ -125,3 +130,13 @@ func draw_ring_arc(center: Vector2, radius1: float, radius2: float,\
 		var angle_point: float = a + float(i) * b
 		points_arc.push_back(center + Vector2(cos(angle_point), sin(angle_point)) * radius2)
 	draw_polygon(points_arc, colors)
+
+
+func place_children():
+	var children = get_children()
+	
+	var dist_from_center = get_radius() - thickness / 2
+	
+	for i in range(children.size()):
+		var current_angle = i * TAU / option_count
+		children[i].position = get_center() + Vector2.UP.rotated(current_angle) * dist_from_center - children[i].size/2
