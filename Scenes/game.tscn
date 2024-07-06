@@ -79,6 +79,9 @@ script = ExtResource("1_su57y")
 
 [node name="UserInterface" parent="." instance=ExtResource("2_rxj5d")]
 layout_mode = 1
+attackColor = Color(1, 0, 0, 1)
+defendColor = Color(0, 0, 1, 1)
+middleColor = Color(0.545098, 0, 0, 1)
 
 [node name="CycleTimer" type="Timer" parent="."]
 wait_time = 0.5

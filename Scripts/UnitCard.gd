@@ -62,6 +62,10 @@ func SetUnit(_unit: Unit):
 	$HitAnimaitonPlayer.animation_finished.connect(UpdateHealthLabel)
 	
 	unit.received_hit.connect(HitAnimation)
+	unit.received_hit.connect(UpdateHealthLabel)
+	
+	unit.healed.connect(HealAnimation)
+	unit.healed.connect(UpdateHealthLabel)
 	
 	unit.unit_died.connect(UnitDied)
 	
@@ -158,12 +162,16 @@ func UpdateUnitInfoLabel():
 # make damage pop up
 # play unit animation
 func HitAnimation(amount):
-	MakePopup(amount, Color.RED, Color.RED)
+	MakePopup(amount, Color.RED, Color.WHITE)
 	
 	var hitAnimPlayer: AnimationPlayer = $HitAnimaitonPlayer
 	hitAnimPlayer.play("hit_animation")
 	
 
+func HealAnimation(amount):
+	MakePopup(amount, Color.GREEN, Color.WHITE)
+	
+	
 # makes a popup that displays content
 func MakePopup(content, color = Color.WHITE, outline_color = Color.GRAY):
 	var newPopup = damagePopupScene.instantiate()

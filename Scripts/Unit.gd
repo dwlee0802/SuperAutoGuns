@@ -36,6 +36,7 @@ var boughtThisTurn: bool = true
 
 # signals
 signal received_hit(amount)
+signal healed(amount)
 
 signal unit_died
 
@@ -45,7 +46,6 @@ signal was_attacked
 
 signal stat_changed
 
-signal hp_changed
 
 
 func _init(_player, _data, _coord, _stack: int = 1):
@@ -123,6 +123,8 @@ func Heal(amount = 0):
 	if currentHealthPoints > data.maxHealthPoints * stackCount:
 		currentHealthPoints = data.maxHealthPoints * stackCount
 	
+	healed.emit(amount)
+	
 		
 func RatioHeal(ratio: float = 0):
 	if ratio == 0:
@@ -142,6 +144,8 @@ func RatioHeal(ratio: float = 0):
 		currentHealthPoints = data.maxHealthPoints * stackCount
 		
 	#print(str(self) + " healed " + str(int(ratio * 100)) + "% of max health(" + str(amount) + ")")
+	
+	healed.emit(amount)
 	
 	
 func Attack(differentRow: bool = false):

@@ -155,9 +155,10 @@ func SetCycleCountLabel(count: int):
 	
 func MakeFundsPopup(amount):
 	var newpopup = popupScene.instantiate()
+	newpopup.get_node("Label").self_modulate = Color.RED
 	if amount >= 0:
 		amount = "+" + str(amount)
-		newpopup.get_node("Label").add_theme_color_override("font_color", Color.GREEN)
+		newpopup.get_node("Label").self_modulate = Color.GREEN
 		
 	newpopup.get_node("Label").text = str(amount)
 	
