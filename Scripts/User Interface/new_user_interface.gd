@@ -157,7 +157,7 @@ func MakeFundsPopup(amount):
 	var newpopup = popupScene.instantiate()
 	if amount >= 0:
 		amount = "+" + str(amount)
-		newpopup.get_node("Label").self_modulate = Color.GREEN
+		newpopup.get_node("Label").add_theme_color_override("font_color", Color.GREEN)
 		
 	newpopup.get_node("Label").text = str(amount)
 	
@@ -188,7 +188,7 @@ func GenerateGrid(colCount: int, rowCount: int):
 			newSlot.reparent(newCol)
 			
 			# connect signals
-			#newSlot.dropped.connect(OnUnitCardDropped)
+			newSlot.dropped.connect(GameManager.UpdateUnitPositions)
 			
 		unitMatrixEditor.add_child(newCol)
 		newCol.reparent(unitMatrixEditor)
@@ -476,7 +476,8 @@ func UnitMenuOptionSelected(optionIndex: int):
 	match optionIndex:
 		Enums.UnitMenuType.Heal:
 			print("Heal " + tr(unit.data.name))
-			GameManager.HealUnit(unit)
+			if GameManager.HealUnit(unit):
+				UnitCard.rightClicked
 		Enums.UnitMenuType.Sell:
 			print("Sell " + tr(unit.data.name))
 			GameManager.SellUnit(unit)

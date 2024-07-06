@@ -211,6 +211,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_w4yik")
+attackColor = null
+defendColor = null
+middleColor = null
 
 [node name="Background" type="TextureRect" parent="."]
 self_modulate = Color(0.683077, 0.683078, 0.683076, 1)

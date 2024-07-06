@@ -16,10 +16,13 @@ static var waitOrderData
 static var terrain_resources_path: String = "res://Data/Terrains/"
 static var terrainData = []
 
+static var showImportConsoleOutput: bool = false
+
 
 # Called when the node enters the scene tree for the first time.
 static func _static_init():
-	print("***Start data import***\n")
+	if showImportConsoleOutput:
+		print("***Start data import***\n")
 	
 	ImportUnits(Enums.Nation.Generic)
 	
@@ -27,7 +30,8 @@ static func _static_init():
 	
 	waitOrderData = load("res://Data/Units/Generic/wait_order.tres")
 	
-	print("\n***End of data import***\n\n")
+	if showImportConsoleOutput:
+		print("\n***End of data import***\n\n")
 
 
 static func ImportUnits(nation: Enums.Nation):
@@ -53,11 +57,11 @@ static func ImportUnits(nation: Enums.Nation):
 		
 	unitDict[nation] = germany_units
 	
-	print("Imported " + str(unitDict[nation].size()) + " units for " + Enums.NationToString(nation))
-	
-	
-	for item in unitDict[nation]:
-		print(item.name)
+	if showImportConsoleOutput:
+		print("Imported " + str(unitDict[nation].size()) + " units for " + Enums.NationToString(nation))
+		
+		for item in unitDict[nation]:
+			print(item.name)
 
 
 static func ImportTerrain():
@@ -77,11 +81,12 @@ static func ImportTerrain():
 			terrainData.append(newthing)
 			
 		filename = dir.get_next()
-		
-	print("Imported " + str(terrainData.size()) + " TerrainData.")
 	
-	for item in terrainData:
-		print(item.name)
+	if showImportConsoleOutput:
+		print("Imported " + str(terrainData.size()) + " TerrainData.")
+	
+		for item in terrainData:
+			print(item.name)
 	
 	
 static func GetPurchasedUnits(player: bool):

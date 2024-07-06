@@ -453,7 +453,7 @@ static func ImportUnitMatrixBackup():
 	
 	print("Imported backup unit matrix")
 	
-	
+
 static func HealUnits(ratio = autoHealRatio):
 	print("\nUnit Auto Heal\n")
 	for col in range(matrixWidth):
@@ -482,14 +482,18 @@ static func HealReserveUnits(isPlayer: bool, ratioHeal: bool = true):
 		print("Healed units in enemy's reserves.")
 		
 
+## Unit Menu Button Functionalities
+# returns a bool of whether the operation succeeded
 static func HealUnit(unit: Unit):
 	# check funds
 	var cost = GameManager.healCostPerStackCount * unit.stackCount
 	if GameManager.CheckFunds(cost):
 		unit.RatioHeal(1)
 		GameManager.ChangeFunds(-cost)
+		return true
 	else:
 		print("Not enough funds to heal unit!")
+		return false
 		
 
 static func SellUnit(unit: Unit):
@@ -948,9 +952,11 @@ static func AddReserveUnit(data: UnitData, isPlayer: bool):
 		
 	if isPlayer:
 		playerReserves.append(newUnit)
+		print("Added " + str(newUnit) + " to player reserve")
 		userInterface.ImportReserve(playerReserves)
 	else:
 		enemyReserves.append(newUnit)
+		print("Added " + str(newUnit) + " to enemy reserve")
 		userInterface.ImportReserve(enemyReserves)
 	
 
@@ -1410,6 +1416,16 @@ static func GetUnitsInMatrix(matrix):
 	return output
 
 
+static func UpdateUnitPositions():
+	print("Reimporting unit positions from UI\n")
+	if GameManager.isPlayerTurn:
+		userInterface.ExportUnitMatrix(playerUnitMatrix, false)
+		GameManager.playerReserves = userInterface.ExportReserve()
+	else:
+		userInterface.ExportUnitMatrix(enemyUnitMatrix, false)
+		GameManager.enemyReserves = userInterface.ExportReserve()
+	
+	
 func UpdateCTKLabel():
 	var label = $CTKLabel
 	label.text = "player: " + str(EnemyAI_MinMax.CalculateWholeCTK(playerUnitMatrix, enemyUnitMatrix))

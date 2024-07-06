@@ -45,6 +45,8 @@ signal was_attacked
 
 signal stat_changed
 
+signal hp_changed
+
 
 func _init(_player, _data, _coord, _stack: int = 1):
 	if _data == null:
@@ -120,7 +122,7 @@ func Heal(amount = 0):
 	
 	if currentHealthPoints > data.maxHealthPoints * stackCount:
 		currentHealthPoints = data.maxHealthPoints * stackCount
-		
+	
 		
 func RatioHeal(ratio: float = 0):
 	if ratio == 0:

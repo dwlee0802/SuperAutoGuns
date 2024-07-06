@@ -158,16 +158,25 @@ func UpdateUnitInfoLabel():
 # make damage pop up
 # play unit animation
 func HitAnimation(amount):
-	var newPopup = damagePopupScene.instantiate()
-	newPopup.global_position = global_position + Vector2(32, 32) + Vector2(randi_range(-10, 10), randi_range(-10, 10))
-	newPopup.get_node("Label").text = str(amount)
-	newPopup.get_node("AnimationPlayer").play("damage_popup_animation")
-	get_tree().current_scene.add_child(newPopup)
+	MakePopup(amount, Color.RED, Color.RED)
 	
 	var hitAnimPlayer: AnimationPlayer = $HitAnimaitonPlayer
 	hitAnimPlayer.play("hit_animation")
 	
 
+# makes a popup that displays content
+func MakePopup(content, color = Color.WHITE, outline_color = Color.GRAY):
+	var newPopup = damagePopupScene.instantiate()
+	newPopup.global_position = global_position + Vector2(32, 32) + Vector2(randi_range(-10, 10), randi_range(-10, 10))
+	var label: Label = newPopup.get_node("Label")
+	label.text = str(content)
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_color_override("font_outline_color", outline_color)
+	label.add_theme_color_override("outline_size", 10)
+	newPopup.get_node("AnimationPlayer").play("damage_popup_animation")
+	get_tree().current_scene.add_child(newPopup)
+	
+	
 # workaround for radial ui blinking
 var tempWorkaround = true
 func _process(_delta):
