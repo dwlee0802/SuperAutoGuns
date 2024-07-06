@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dckjus8x2dn7h"]
+[gd_scene load_steps=11 format=3 uid="uid://dckjus8x2dn7h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="3_ogvuv"]
 [ext_resource type="Texture2D" uid="uid://6tqsxnc7atx3" path="res://Art/gold_star.png" id="3_p3cc1"]
+[ext_resource type="Texture2D" uid="uid://d1yjx3ua287nb" path="res://Art/Units/Generic/kar98k.png" id="3_rjj6t"]
 
 [sub_resource type="Animation" id="Animation_bjrsn"]
 length = 0.001
@@ -108,15 +109,15 @@ size_flags_vertical = 4
 script = ExtResource("1_lsm36")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-self_modulate = Color(7.70092e-07, 0.728413, 0.119544, 1)
+self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 offset_right = 64.0
 offset_bottom = 64.0
 texture = ExtResource("1_oy87j")
+expand_mode = 1
 
 [node name="Sprite" type="TextureRect" parent="TextureRect"]
-self_modulate = Color(0, 0.666667, 1, 1)
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 1
 anchors_preset = 8
@@ -130,8 +131,9 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_oy87j")
+texture = ExtResource("3_rjj6t")
 expand_mode = 2
+stretch_mode = 5
 
 [node name="Name" type="Label" parent="TextureRect/Sprite"]
 layout_mode = 1

@@ -39,7 +39,16 @@ static func _static_init():
 func SetUnit(_unit: Unit):
 	unit = _unit
 	
-	$TextureRect/Sprite.self_modulate = unit.data.color
+	if unit.data.unitTexture != null:
+		$TextureRect/Sprite.texture = unit.data.unitTexture
+		
+		# flip if right side
+		if GameManager.isPlayerTurn != unit.isPlayer:
+			$TextureRect/Sprite.flip_h = true
+		else:
+			$TextureRect/Sprite.flip_h = false
+	else:
+		$TextureRect/Sprite.self_modulate = unit.data.color
 	
 	# update info ui for this unit
 	UpdateUnitInfoLabel()

@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dq7ycwras0q3i"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://dq7ycwras0q3i"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_l56xj"]
+[ext_resource type="Texture2D" uid="uid://d1yjx3ua287nb" path="res://Art/Units/Generic/kar98k.png" id="2_g1luj"]
 
 [resource]
 script = ExtResource("1_l56xj")
+unitTexture = ExtResource("2_g1luj")
 name = "GENERIC_RIFLE_NAME"
 description = "GENERIC_RIFLE_DESC"
 disabled = false
