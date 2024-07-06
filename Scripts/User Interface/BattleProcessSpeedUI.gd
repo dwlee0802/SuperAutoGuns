@@ -22,7 +22,8 @@ func _process(_delta):
 	else:
 		radialProcess.visible = false
 		SetRadialProcess(0)
-		BattleSpeedUI.currentCycleRatio = 0	
+		BattleSpeedUI.currentCycleRatio = 0
+		
 	
 
 func _on_pause_button_toggled(toggled_on):

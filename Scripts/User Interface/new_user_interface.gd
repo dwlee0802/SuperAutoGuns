@@ -29,6 +29,7 @@ var menuButtonsGroup: ButtonGroup
 
 @onready var commitButton = $ProcessControlMenu/CommitButton
 @onready var turnTimer: Timer = $ProcessControlMenu/TurnTimer
+@onready var turnTimerLabel: Label = $ProcessControlMenu/TurnTimeLabel
 
 @onready var singleCycleButton = $ProcessControlMenu/HBoxContainer/ControlButtons/SingleCycleButton
 @onready var pauseCycleButton = $ProcessControlMenu/HBoxContainer/ControlButtons/PauseButton
@@ -87,6 +88,11 @@ func HideSideMenu():
 func _process(_delta):
 	if Input.is_action_just_pressed("close_menu"):
 		HideSideMenu()
+		
+	if turnTimer.is_stopped():
+		turnTimerLabel.visible = false
+	else:
+		turnTimerLabel.text = tr("TIME LEFT") + ": " + str(int(turnTimer.time_left)) + " S"
 		
 		
 # make new card and connect signals
