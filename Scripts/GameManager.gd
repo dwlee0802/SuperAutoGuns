@@ -318,7 +318,6 @@ func ResumeCycleProcess(toggled_on):
 	
 
 func ProcessSingleCycle():
-	print("here")
 	if isBattleRunning:
 		if cycleTimer.is_stopped():
 			# should wait til animations are done
@@ -506,6 +505,8 @@ static func SellUnit(unit: Unit):
 	# remove unit
 	if !RemoveUnit(unit):
 		RemoveUnitFromReserve(unit)
+		
+	print("Sold " + str(unit) + " for " + str(refund) + "\n")
 	
 	
 # first index is the column, second index is the row
@@ -1410,7 +1411,6 @@ static func GetUnitsInMatrix(matrix):
 	for col in range(matrix.size()):
 		for row in range(matrix[col].size()):
 			if matrix[col][row] != null:
-				print("added unit")
 				output.append(matrix[col][row])
 	
 	return output

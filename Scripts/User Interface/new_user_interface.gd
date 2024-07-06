@@ -455,12 +455,10 @@ func FindUnitCard(unit: Unit):
 
 
 func ShowUnitMenu(target: UnitCard):
-	if UnitCard.selected == null:
-		# show unit menu at target
-		pass
+	if UnitCard.selected == null or UnitCard.selected == target:
+		unitMenu.ShowSelfButtons()
 	else:
-		# check same type or not
-		pass
+		unitMenu.ShowOtherUnitButtons()
 	
 	unitMenu.set_center_position(target.global_position + target.size / 2)
 	unitMenu.visible = true
@@ -478,18 +476,27 @@ func UnitMenuOptionSelected(optionIndex: int):
 		Enums.UnitMenuType.Heal:
 			print("Heal " + tr(unit.data.name))
 			if GameManager.HealUnit(unit):
-				UnitCard.rightClicked
+				UnitCard.rightClicked = null
+				
 		Enums.UnitMenuType.Sell:
 			print("Sell " + tr(unit.data.name))
 			GameManager.SellUnit(unit)
 			
 			UnitCard.rightClicked.queue_free()
+			if UnitCard.selected == UnitCard.rightClicked:
+				UnitCard.selected = null
 			UnitCard.rightClicked = null
 			
 		Enums.UnitMenuType.Reserve:
 			print("Reserve " + tr(unit.data.name))
+			reserveContainer._drop_data(Vector2.ZERO, UnitCard.rightClicked)
+
+			UnitCard.UnselectCard()
+			UnitCard.rightClicked = null
+			
 		Enums.UnitMenuType.Swap:
 			print("Swap " + tr(unit.data.name))
 		Enums.UnitMenuType.Merge:
 			print("Merge " + tr(unit.data.name))
 			
+

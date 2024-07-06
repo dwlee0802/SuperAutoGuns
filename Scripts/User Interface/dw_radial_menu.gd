@@ -14,6 +14,9 @@ class_name RadialMenu
 @export var cursor_color: Color = Color.WHITE
 @export_range(0.01, 2)  var cursor_size_multiplier: float = 1
 
+## Offset of starting angle. Up is zero and goes clockwise.
+@export var starting_point_angle: float = 0
+
 @export var polygon_pt_count: int = 32
 
 signal pressed(index)
@@ -89,7 +92,7 @@ func is_mouse_inside() -> bool:
 func get_option(angle: float) -> int:
 	if angle < 0:
 		angle = angle + TAU
-	
+		
 	return int(snappedf(angle, TAU / option_count) / (TAU / option_count))
 
 	
@@ -133,10 +136,13 @@ func draw_ring_arc(center: Vector2, radius1: float, radius2: float,\
 
 
 func place_children():
-	var children = get_children()
-	
+	var children = []
+	for child in get_children():
+		if child.visible:
+			children.append(child)
+			
 	var dist_from_center = get_radius() - thickness / 2
 	
-	for i in range(children.size()):
+	for i in range(option_count):
 		var current_angle = i * TAU / option_count
 		children[i].position = get_center() + Vector2.UP.rotated(current_angle) * dist_from_center - children[i].size/2

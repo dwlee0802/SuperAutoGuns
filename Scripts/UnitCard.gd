@@ -350,6 +350,9 @@ func UnitDied():
 # when left clicked on this, update selected unit card
 # when right clicked onto this, emit signal right clicked
 func _gui_input(event):
+	if GameManager.isPlayerTurn != unit.isPlayer:
+		return
+		
 	if event is InputEventMouse:
 		if event.button_mask == MOUSE_BUTTON_LEFT and Input.is_action_just_pressed("left_click"):
 			if UnitCard.selected == self:
@@ -362,20 +365,16 @@ func _gui_input(event):
 			
 			clicked.emit()
 		
-		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
-			UnitCard.rightClicked = self
-			was_right_clicked.emit(self)
-			
+		if Input.is_action_just_pressed("right_click"):
 			# check if merging is available: same type
-			if UnitCard.selected.unit.data != unit.data:
+			if UnitCard.selected != null and UnitCard.selected.unit.data != unit.data:
 				# swap positions immediately
 				_drop_data(Vector2.ZERO, UnitCard.selected)
 			else:
-				pass
-				## show context menu
-				#if UnitCard.selected != self:
-					#controlButtons.visible = true
-
+				## show correct context menu
+				UnitCard.rightClicked = self
+				was_right_clicked.emit(self)
+		
 
 static func UnselectCard():
 	if UnitCard.selected != null:
