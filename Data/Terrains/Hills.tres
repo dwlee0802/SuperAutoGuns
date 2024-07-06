@@ -1,15 +1,15 @@
 [gd_resource type="Resource" script_class="TerrainData" load_steps=3 format=3 uid="uid://cipnjur87gog3"]
 
 [ext_resource type="Script" path="res://Scripts/TerrainData.gd" id="1_li2j3"]
-[ext_resource type="Texture2D" uid="uid://23tpjaucqmga" path="res://Art/Terrain/hills_tile.png" id="2_i4xyk"]
+[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_p2pbo"]
 
 [resource]
 script = ExtResource("1_li2j3")
-slotTexture = ExtResource("2_i4xyk")
+slotTexture = ExtResource("2_p2pbo")
 name = "HILLS"
 description = "HILLS_DESCRIPTION"
 disabled = false
-color = Color(1, 1, 1, 1)
+color = Color(0.243137, 0, 0, 1)
 attackRange = 1
 entryCost = 1
 exitCost = 0

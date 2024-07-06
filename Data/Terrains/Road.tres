@@ -1,15 +1,15 @@
 [gd_resource type="Resource" script_class="TerrainData" load_steps=3 format=3 uid="uid://cle20q0elo4k2"]
 
 [ext_resource type="Script" path="res://Scripts/TerrainData.gd" id="1_ybei5"]
-[ext_resource type="Texture2D" uid="uid://ladgpv2hbefl" path="res://Art/Terrain/road_tile.png" id="2_wp8ub"]
+[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_tkmi7"]
 
 [resource]
 script = ExtResource("1_ybei5")
-slotTexture = ExtResource("2_wp8ub")
+slotTexture = ExtResource("2_tkmi7")
 name = "ROAD"
 description = "ROAD_DESCRIPTION"
 disabled = false
-color = Color(1, 1, 1, 1)
+color = Color(0.2, 0.2, 0.2, 1)
 attackRange = 0
 entryCost = -1
 exitCost = 0

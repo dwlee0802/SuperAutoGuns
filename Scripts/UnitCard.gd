@@ -41,12 +41,6 @@ func SetUnit(_unit: Unit):
 	
 	if unit.data.unitTexture != null:
 		$TextureRect/Sprite.texture = unit.data.unitTexture
-		
-		# flip if right side
-		if GameManager.isPlayerTurn != unit.isPlayer:
-			$TextureRect/Sprite.flip_h = true
-		else:
-			$TextureRect/Sprite.flip_h = false
 	else:
 		$TextureRect/Sprite.self_modulate = unit.data.color
 	
@@ -55,6 +49,11 @@ func SetUnit(_unit: Unit):
 	
 	UpdateHealthLabel(0)
 	UpdateCombatStatsLabel()
+	
+	if unit.isPlayer:
+		SetSideIndicatorColor(GameManager.playerColor)
+	else:
+		SetSideIndicatorColor(GameManager.enemyColor)
 	
 	starContainer = $TextureRect/Stars
 	UpdateStars()
@@ -100,7 +99,15 @@ func SetUnit(_unit: Unit):
 			
 	UpdateDebugLabel()
 	
+
+func SetSpriteHFlipped(value: bool):
+	$TextureRect/Sprite.flip_h = value
+		
+		
+func SetSideIndicatorColor(color: Color) -> void:
+	$TextureRect/Sprite.self_modulate = color
 	
+		
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	set_drag_preview(make_drag_preview())
 	return self
@@ -161,10 +168,8 @@ func UpdateHealthIndicator():
 func UpdateUnitInfoLabel():
 	if unit.isPlayer:
 		$TextureRect/Sprite/Name.text = "(P) " + tr(unit.data.name)
-		$TextureRect.self_modulate = GameManager.playerColor
 	else:
 		$TextureRect/Sprite/Name.text = "(E) " + tr(unit.data.name)
-		$TextureRect.self_modulate = GameManager.enemyColor
 	
 	
 # plays when unit received damage

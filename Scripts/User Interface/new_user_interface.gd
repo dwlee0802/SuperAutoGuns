@@ -405,6 +405,7 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 				slot.add_child(newCard)
 				newCard.reparent(slot)
 				newCard.SetUnit(leftUnitMatrix[col][row])
+				newCard.SetSpriteHFlipped(false)
 				
 	for col in range(min(rightUnitMatrix.size(), rightMatrixColCount)):
 		for row in range(rightUnitMatrix[col].size()):
@@ -421,6 +422,7 @@ func ImportUnitMatrix(leftUnitMatrix, rightUnitMatrix, includeMiddle: int):
 				slot.add_child(newCard)
 				newCard.reparent(slot)
 				newCard.SetUnit(rightUnitMatrix[col][row])
+				newCard.SetSpriteHFlipped(true)
 
 
 func ImportReserve(reserveUnits):

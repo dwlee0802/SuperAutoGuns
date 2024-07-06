@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://cjq06d6fe8jxr"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://cjq06d6fe8jxr"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_afoe0"]
+[ext_resource type="Texture2D" uid="uid://btc64ca1ntdlq" path="res://Art/Units/Generic/mp40.png" id="2_0fr3c"]
 
 [resource]
 script = ExtResource("1_afoe0")
+unitTexture = ExtResource("2_0fr3c")
 name = "GENERIC_SMG_NAME"
 description = "GENERIC_SMG_DESC"
 disabled = false
