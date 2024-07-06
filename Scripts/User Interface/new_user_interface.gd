@@ -33,6 +33,8 @@ var menuButtonsGroup: ButtonGroup
 @onready var pauseCycleButton = $ProcessControlMenu/HBoxContainer/ControlButtons/PauseButton
 @onready var rerollButton = $EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer/RerollButton
 
+@onready var unitMenu: UnitMenu = $UnitMenu
+
 
 func _ready():
 	# make menu dict
@@ -51,6 +53,9 @@ func _ready():
 	reserveContainer.dropped.connect(DroppedIntoReserve)
 	
 	rerollButton.pressed.connect(RerollButtonPressed)
+	
+	# connect unit menu signals
+	unitMenu.pressed.connect(UnitMenuOptionSelected)
 	
 	# testing
 	
@@ -79,7 +84,8 @@ func _InstantiateUnitCard() -> UnitCard:
 	var newCard: UnitCard = unitCardScene.instantiate()
 	
 	# connect signals
-	#newCard.was_right_clicked.connect(UpdateControlButtons)
+	newCard.was_right_clicked.connect(ShowUnitMenu)
+	
 	#newCard.clicked.connect(HideControlButtons)
 	#newCard.merged.connect(HideControlButtons)
 	#
@@ -445,3 +451,43 @@ func FindUnitCard(unit: Unit):
 					return unitCard
 	
 	return null
+
+
+func ShowUnitMenu(target: UnitCard):
+	if UnitCard.selected == null:
+		# show unit menu at target
+		pass
+	else:
+		# check same type or not
+		pass
+	
+	unitMenu.set_center_position(target.global_position + target.size / 2)
+	unitMenu.visible = true
+
+
+func UnitMenuOptionSelected(optionIndex: int):
+	if UnitCard.rightClicked == null:
+		push_error("Shouldn't be able to select unit menu when right clicked unit doesnt exist")
+		return
+		
+	unitMenu.visible = false
+	var unit: Unit = UnitCard.rightClicked.unit
+	
+	match optionIndex:
+		Enums.UnitMenuType.Heal:
+			print("Heal " + tr(unit.data.name))
+			GameManager.HealUnit(unit)
+		Enums.UnitMenuType.Sell:
+			print("Sell " + tr(unit.data.name))
+			GameManager.SellUnit(unit)
+			
+			UnitCard.rightClicked.queue_free()
+			UnitCard.rightClicked = null
+			
+		Enums.UnitMenuType.Reserve:
+			print("Reserve " + tr(unit.data.name))
+		Enums.UnitMenuType.Swap:
+			print("Swap " + tr(unit.data.name))
+		Enums.UnitMenuType.Merge:
+			print("Merge " + tr(unit.data.name))
+			

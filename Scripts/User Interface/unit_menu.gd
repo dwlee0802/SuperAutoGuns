@@ -9,6 +9,8 @@ class_name UnitMenu
 @onready var swapButton = $SwapButton
 @onready var mergeButton = $MergeButton
 
+var targetUnit: UnitCard
+
 
 func ShowOtherUnitButtons():
 	option_count = 2

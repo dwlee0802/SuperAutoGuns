@@ -45,14 +45,15 @@ func _draw() -> void:
 	
 
 func _input(event):
+	if visible:
 		if event is InputEventMouseButton:
 			if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 				if !press_only_inside:
-					print(get_option(get_mouse_angle()))
+					#print(get_option(get_mouse_angle()))
 					pressed.emit(get_option(get_mouse_angle()))
 				else:
 					if is_mouse_inside():
-						print(get_option(get_mouse_angle()))
+						#print(get_option(get_mouse_angle()))
 						pressed.emit(get_option(get_mouse_angle()))
 	
 	
@@ -85,15 +86,22 @@ func is_mouse_inside() -> bool:
 	return false
 		
 	
-func get_option(angle: float):
+func get_option(angle: float) -> int:
 	if angle < 0:
 		angle = angle + TAU
 	
-	return str(snappedf(angle, TAU / option_count) / (TAU / option_count))
+	return int(snappedf(angle, TAU / option_count) / (TAU / option_count))
 
 	
 func get_center():
 	return size/2
+
+func get_center_position():
+	return global_position + get_center()
+
+# set self's position to pos
+func set_center_position(pos):
+	global_position = pos - size/2
 	
 	
 func draw_circle_arc(center: Vector2, radius: float, angle_from: float,\

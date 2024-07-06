@@ -41,3 +41,6 @@ enum AbilityCondition {Static, OnSelfAttack, OnHit, OnTargetAttack, OnTargetDeat
 
 
 enum MenuType {UnitMenu, ScienceMenu, StatsMenu}
+
+
+enum UnitMenuType {Heal, Sell, Reserve, Swap, Merge}

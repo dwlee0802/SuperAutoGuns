@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=23 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="Script" path="res://Scripts/User Interface/new_user_interface.gd" id="1_w4yik"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Scripts/User Interface/AnimatedButton.gd" id="6_o45cg"]
 [ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
 [ext_resource type="Texture2D" uid="uid://ca61wpdhiruwu" path="res://Art/Icons/reroll_icon.png" id="7_xr70f"]
+[ext_resource type="Script" path="res://Scripts/User Interface/unit_menu.gd" id="14_5d8wd"]
 
 [sub_resource type="Animation" id="Animation_xf7a2"]
 resource_name = "button_pressed_animation"
@@ -565,3 +566,69 @@ layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.9
 anchor_bottom = 0.9
+
+[node name="UnitMenu" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 1079.0
+offset_top = 489.0
+offset_right = 1279.0
+offset_bottom = 689.0
+script = ExtResource("14_5d8wd")
+option_count = 5
+snap = true
+press_only_inside = true
+thickness = 50.0
+bg_color = Color(0, 0, 0, 1)
+cursor_color = Color(0.404511, 0.404511, 0.404511, 1)
+polygon_pt_count = 50
+
+[node name="HealButton" type="Label" parent="UnitMenu"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 13.5
+offset_right = 120.0
+offset_bottom = 36.5
+text = "Heal"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SellButton" type="Label" parent="UnitMenu"]
+layout_mode = 0
+offset_left = 151.329
+offset_top = 65.3237
+offset_right = 191.329
+offset_bottom = 88.3237
+text = "Sell"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReserveButton" type="Label" parent="UnitMenu"]
+layout_mode = 0
+offset_left = 113.084
+offset_top = 149.176
+offset_right = 175.084
+offset_bottom = 172.176
+text = "Reserve"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SwapButton" type="Label" parent="UnitMenu"]
+layout_mode = 0
+offset_left = 34.9161
+offset_top = 149.176
+offset_right = 76.9161
+offset_bottom = 172.176
+text = "Swap"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MergeButton" type="Label" parent="UnitMenu"]
+layout_mode = 0
+offset_left = 3.67076
+offset_top = 65.3237
+offset_right = 53.6708
+offset_bottom = 88.3237
+text = "Merge"
+horizontal_alignment = 1
+vertical_alignment = 1

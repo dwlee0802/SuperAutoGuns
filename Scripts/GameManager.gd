@@ -92,7 +92,7 @@ static var lastBattleResultText: String = ""
 static var playerPassed: bool = false
 static var enemyPassed: bool = false
 
-static var healCostPerStackCount: int = 2
+static var healCostPerStackCount: int = 1
 
 static var refundRatio: float = 0.5
 
@@ -481,6 +481,28 @@ static func HealReserveUnits(isPlayer: bool, ratioHeal: bool = true):
 	else:
 		print("Healed units in enemy's reserves.")
 		
+
+static func HealUnit(unit: Unit):
+	# check funds
+	var cost = GameManager.healCostPerStackCount * unit.stackCount
+	if GameManager.CheckFunds(cost):
+		unit.RatioHeal(1)
+		GameManager.ChangeFunds(-cost)
+	else:
+		print("Not enough funds to heal unit!")
+		
+
+static func SellUnit(unit: Unit):
+	# refund cost
+	var refund: int = int(unit.data.purchaseCost * unit.stackCount)
+	if unit.boughtThisTurn == false:
+		refund = int(GameManager.refundRatio * refund)
+	GameManager.ChangeFunds(refund, unit.isPlayer)
+	
+	# remove unit
+	if !RemoveUnit(unit):
+		RemoveUnitFromReserve(unit)
+	
 	
 # first index is the column, second index is the row
 static func Make2DArray(h, w):
@@ -969,6 +991,8 @@ static func RemoveUnit(unit: Unit):
 	return false
 
 
+# returns true if unit was removed successfully
+# false if unit was not found
 static func RemoveUnitFromReserve(unit: Unit):
 	var reserve = playerReserves
 	if !unit.isPlayer:

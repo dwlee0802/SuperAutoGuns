@@ -10,6 +10,7 @@ var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 @onready var attackAnimationPlayer: AnimationPlayer = $AttackAnimaitonPlayer
 
 static var selected: UnitCard
+static var rightClicked: UnitCard
 
 @onready var selectionIndicator = $TextureRect/SelectionIndicator
 
@@ -345,6 +346,7 @@ func _gui_input(event):
 			clicked.emit()
 		
 		if UnitCard.selected != null and Input.is_action_just_pressed("right_click"):
+			UnitCard.rightClicked = self
 			was_right_clicked.emit(self)
 			
 			# check if merging is available: same type
