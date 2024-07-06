@@ -493,10 +493,23 @@ func UnitMenuOptionSelected(optionIndex: int):
 
 			UnitCard.UnselectCard()
 			UnitCard.rightClicked = null
-			
+		
+		# swap positions between right clicked unit and selected unit
 		Enums.UnitMenuType.Swap:
 			print("Swap " + tr(unit.data.name))
+			if UnitCard.selected == null:
+				push_error("Swapping but no UnitCard selected!")
+			else:
+				UnitCard.rightClicked._drop_data(Vector2.ZERO, UnitCard.selected)
+			UnitCard.rightClicked = null
+			
 		Enums.UnitMenuType.Merge:
 			print("Merge " + tr(unit.data.name))
+			if UnitCard.selected == null:
+				push_error("Merging but no UnitCard selected!")
+			else:
+				UnitCard.rightClicked._merge_button_pressed()
+			UnitCard.rightClicked = null
+				
 			
 
