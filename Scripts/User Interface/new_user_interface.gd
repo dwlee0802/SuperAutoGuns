@@ -74,6 +74,12 @@ func _on_menu_button_pressed(menuType: Enums.MenuType):
 		menuDict[menuType].visible = true
 		
 
+func HideSideMenu():
+	menuAnimPlayer.play_backwards("show_menu_animation")
+	for button: BaseButton in menuButtonsGroup.get_buttons():
+		button.button_pressed = false
+	
+	
 func _process(_delta):
 	if Input.is_action_just_pressed("close_menu"):
 		menuAnimPlayer.play_backwards("show_menu_animation")

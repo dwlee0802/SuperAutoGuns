@@ -1189,8 +1189,8 @@ func CommitButtonPressed():
 	print("commit button pressed\n")
 	
 	UnitCard.selected = null
-	#userInterface.UpdateHealButtonLabel()
-	#userInterface.UpdateSellButtonLabel()
+	
+	userInterface.HideSideMenu()
 	
 	SetBoughtThisTurn(isPlayerTurn)
 	
