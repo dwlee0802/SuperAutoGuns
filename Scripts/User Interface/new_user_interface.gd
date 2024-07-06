@@ -52,6 +52,7 @@ func _ready():
 	
 	reserveContainer.dropped.connect(DroppedIntoReserve)
 	
+	# reroll button signal
 	rerollButton.pressed.connect(RerollButtonPressed)
 	
 	# connect unit menu signals
@@ -82,7 +83,7 @@ func HideSideMenu():
 	
 func _process(_delta):
 	if Input.is_action_just_pressed("close_menu"):
-		menuAnimPlayer.play_backwards("show_menu_animation")
+		HideSideMenu()
 		
 		
 # make new card and connect signals
