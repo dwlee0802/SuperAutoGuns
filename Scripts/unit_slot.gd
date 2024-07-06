@@ -35,7 +35,9 @@ func _drop_data(_at_position, data):
 	data.get_parent().remove_child(data)
 	add_child(data)
 	data.reparent(self)
-	data.position = Vector2.ZERO
+	
+	# need to set its center position to self's center position
+	data.position = size/2 - data.size/2
 	
 	data.unit.coords = GameManager.EditorCoordsToMatrixCoords(coords)
 	

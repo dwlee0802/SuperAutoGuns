@@ -66,7 +66,7 @@ func _init(_player, _data, _coord, _stack: int = 1):
 func ResetStats():
 	movementProgress = 0
 	attackProgress = 0
-	currentHealthPoints = data.maxHealthPoints
+	currentHealthPoints = GetMaxHealth()
 
 
 func ResetStatModifiers():
@@ -234,6 +234,10 @@ func GetAttackDamage(isFlank: bool = false):
 	else:
 		return (data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage]) * (starCount + 1)
 
+
+func GetMaxHealth():
+	return data.maxHealthPoints * stackCount
+	
 	
 func GetDefense(isFlank: bool = false):
 	if isFlank:

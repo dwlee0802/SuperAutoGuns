@@ -3,6 +3,8 @@ class_name UnitCard
 
 var unit: Unit
 
+@onready var healthBar: ProgressBar = $HealthBar
+
 static var attackLineScene = load("res://Scenes/attack_line_effect.tscn")
 
 var damagePopupScene = load("res://Scenes/damage_popup.tscn")
@@ -38,6 +40,7 @@ static func _static_init():
 	
 func SetUnit(_unit: Unit):
 	unit = _unit
+	healthBar = $HealthBar
 	
 	if unit.data.unitTexture != null:
 		$TextureRect/Sprite.texture = unit.data.unitTexture
@@ -115,6 +118,10 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 
 func make_drag_preview() -> TextureRect:
 	var newT = TextureRect.new()
+	newT.size = size
+	newT.texture = unit.data.unitTexture
+	newT.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	newT.material = material
 	return newT
 
 
@@ -161,8 +168,12 @@ func UpdateHealthLabel(_num = 0):
 	
 
 func UpdateHealthIndicator():
-	var currentHealthRatio: float = float(unit.currentHealthPoints) / (unit.data.maxHealthPoints * unit.stackCount)
-	$TextureRect/Sprite/HealthIndicator.anchor_bottom = 1 - currentHealthRatio
+	healthBar.max_value = unit.GetMaxHealth()
+	healthBar.value = unit.currentHealthPoints
+	return
+	
+	#var currentHealthRatio: float = float(unit.currentHealthPoints) / (unit.data.maxHealthPoints * unit.stackCount)
+	#$TextureRect/Sprite/HealthIndicator.anchor_bottom = 1 - currentHealthRatio
 	
 
 func UpdateUnitInfoLabel():
