@@ -155,6 +155,7 @@ func _ready():
 	
 	userInterface = $UserInterface
 	userInterface.commitButton.pressed.connect(CommitButtonPressed)
+	userInterface.passButton.pressed.connect(PassButtonPressed)
 	
 	# unit matrix editor set up
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
@@ -188,12 +189,6 @@ func _ready():
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
 	
-	## link commit button
-	#userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/CommitButton").pressed.connect(CommitButtonPressed)
-	#
-	## link pass button
-	#userInterface.get_node("Root/MiddleScreen/MidLeftScreen/ReserveUI/UnitManagementButtons/PassButton").pressed.connect(PassButtonPressed)
-	#
 	## link pause button
 	userInterface.pauseCycleButton.toggled.connect(ResumeCycleProcess)
 	#
@@ -1302,15 +1297,16 @@ func SetBoughtThisTurn(player: bool):
 	
 func PassButtonPressed():
 	UnitCard.selected = null
-	userInterface.UpdateHealButtonLabel()
-	userInterface.UpdateSellButtonLabel()
+	
+	userInterface.HideSideMenu()
 	
 	SetBoughtThisTurn(isPlayerTurn)
 	
 	userInterface.turnTimer.stop()
 	
-	GameManager.battleCount+= 1
-	$BattleCountLabel.text = tr("BATTLE") + ": " + str(GameManager.battleCount)
+	userInterface.SetBattleCountLabel(GameManager.battleCount)
+	GameManager.battleCount += 1
+	
 	print("Battle #" + str(GameManager.battleCount))
 	
 	# player attack pass
@@ -1328,25 +1324,6 @@ func PassButtonPressed():
 			GameManager.BattleResultProcess(true)
 	else:
 		lastBattleResult = -1	# update battle result
-		var resultLabel = $BattleResultLabel
-		resultLabel.visible = true
-		# player victory
-		if lastBattleResult == -1:
-			if playerAttacking:
-				resultLabel.text = "Player Offensive Victory"
-			else:
-				resultLabel.text = "Player Defensive Victory"
-		elif lastBattleResult == 0:
-			if playerAttacking:
-				resultLabel.text = "Draw. Defensive Victory"
-			else:
-				resultLabel.text = "Draw. Defensive Victory"
-		# enemy victory
-		elif lastBattleResult == 1:
-			if !playerAttacking:
-				resultLabel.text = "Enemy Offensive Victory"
-			else:
-				resultLabel.text = "Enemy Defensive Victory"
 				
 		# enemy attack pass
 		if !playerAttacking:

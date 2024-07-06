@@ -27,7 +27,9 @@ var menuButtonsGroup: ButtonGroup
 @onready var battleCountLabel = $TopScreen/BattleCountLabel
 @onready var cycleCountLabel = $ProcessControlMenu/CycleCountLabel
 
-@onready var commitButton = $ProcessControlMenu/CommitButton
+@onready var commitButton = $ProcessControlMenu/TurnButtons/CommitButton
+@onready var passButton = $ProcessControlMenu/TurnButtons/PassButton
+
 @onready var turnTimer: Timer = $ProcessControlMenu/TurnTimer
 @onready var turnTimerLabel: Label = $ProcessControlMenu/TurnTimeLabel
 

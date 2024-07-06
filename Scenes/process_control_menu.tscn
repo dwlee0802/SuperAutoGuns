@@ -389,19 +389,32 @@ text = "TIME LEFT: 00:00"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CommitButton" type="Button" parent="."]
+[node name="TurnTimer" type="Timer" parent="."]
+
+[node name="TurnButtons" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-offset_left = -45.0
-offset_top = 30.0
-offset_right = 45.0
-offset_bottom = 31.0
+anchor_bottom = 1.0
+offset_left = -92.0
+offset_top = 60.0
+offset_right = 92.0
+offset_bottom = 60.0
 grow_horizontal = 2
+grow_vertical = 0
+
+[node name="CommitButton" type="Button" parent="TurnButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "END TURN"
 
-[node name="TurnTimer" type="Timer" parent="."]
+[node name="PassButton" type="Button" parent="TurnButtons"]
+visible = false
+layout_mode = 2
+tooltip_text = "Lose battle without taking damage"
+text = "PASS"
 
 [connection signal="toggled" from="HBoxContainer/ControlButtons/PauseButton" to="HBoxContainer" method="_on_pause_button_toggled"]
 [connection signal="pressed" from="HBoxContainer/ControlButtons/SingleCycleButton" to="HBoxContainer" method="_on_single_button_pressed"]
