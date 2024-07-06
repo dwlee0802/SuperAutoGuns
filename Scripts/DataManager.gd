@@ -89,14 +89,14 @@ static func ImportTerrain():
 			print(item.name)
 	
 	
-static func GetPurchasedUnits(player: bool):
+static func GetPurchasedUnits(player: bool, completed: bool = true):
 	var output = []
 	var targetDict = playerPurchasedDict
 	if !player:
 		targetDict = enemyPurchasedDict
 	
 	for key in targetDict.keys():
-		if targetDict[key]:
+		if targetDict[key] == completed:
 			output.append(key)
 	
 	return output

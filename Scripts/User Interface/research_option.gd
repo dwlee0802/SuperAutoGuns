@@ -1,9 +1,7 @@
-extends Control
+extends TextureButton
 class_name ResearchOption
 
 var data
-
-@onready var selectButton: Button = $SelectButton
 
 var isPlayer: bool
 
@@ -12,9 +10,8 @@ func SetData(_data: UnitData, purchased: bool, _player):
 	data = _data
 	isPlayer = _player
 	
-	$SelectButton.disabled = purchased
-	$Icon.self_modulate = data.color
-	$NameLabel.text = tr(data.name)
+	$HBoxContainer/Icon.self_modulate = data.color
+	$HBoxContainer/NameLabel.text = tr(data.name)
 	
 	var stats = "HP: {hq} | ATK: {atk} | AS: {as} | MS: {ms}"
 	stats = stats.format({
@@ -24,14 +21,13 @@ func SetData(_data: UnitData, purchased: bool, _player):
 		"ms": data.movementCost
 		})
 	
-	$StatsLabel.text = stats
-	$DescriptionLabel.text = tr(data.description)
+	$HBoxContainer/DescriptionLabel.text = tr(data.description) + "\n" + tr("COST") + ": " + str(data.researchCost)
+	
+	self.pressed.connect(OnSelected)
 	
 	if purchased:
-		$SelectButton.text = tr(data.name) + " " + tr("RESEARCH_COMPLETE")
-	else:
-		$SelectButton.text = tr("RESEARCH") + " " + tr(data.name) + "(" + str(data.researchCost) + ")"
-		$SelectButton.pressed.connect(OnSelected)
+		modulate = modulate.darkened(0.5)
+		disabled = true
 		
 		
 func OnSelected():
@@ -39,7 +35,11 @@ func OnSelected():
 		if GameManager.playerFunds >= data.researchCost:
 			GameManager.ChangeFunds(-data.researchCost, isPlayer)
 			DataManager.ResearchUnit(isPlayer, data)
+			modulate = modulate.darkened(0.5)
+			disabled = true
 	else:
 		if GameManager.enemyFunds >= data.researchCost:
 			GameManager.ChangeFunds(-data.researchCost, isPlayer)
 			DataManager.ResearchUnit(isPlayer, data)
+			modulate = modulate.darkened(0.5)
+			disabled = true

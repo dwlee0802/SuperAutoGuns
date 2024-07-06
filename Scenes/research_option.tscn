@@ -1,80 +1,51 @@
-[gd_scene load_steps=3 format=3 uid="uid://kaiavi6o78ta"]
+[gd_scene load_steps=4 format=3 uid="uid://kaiavi6o78ta"]
 
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_6dfj2"]
+[ext_resource type="Texture2D" uid="uid://bwb37bupd3bg7" path="res://Art/32x32_grey_square.png" id="1_7l3nf"]
 [ext_resource type="Script" path="res://Scripts/User Interface/research_option.gd" id="1_ijwl0"]
 
-[node name="ResearchOption" type="Control"]
+[node name="ResearchOption" type="TextureButton"]
+self_modulate = Color(0.289108, 0.0685491, 0, 1)
 texture_filter = 1
-custom_minimum_size = Vector2(300, 120)
-layout_mode = 3
-anchors_preset = 0
 offset_right = 300.0
-offset_bottom = 100.0
+offset_bottom = 203.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource("1_7l3nf")
+texture_hover = ExtResource("1_6dfj2")
+ignore_texture_size = true
+stretch_mode = 0
 script = ExtResource("1_ijwl0")
 
-[node name="Icon" type="TextureRect" parent="."]
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -20.0
-offset_right = 40.0
-offset_bottom = 20.0
-grow_vertical = 2
-texture = ExtResource("1_6dfj2")
-
-[node name="SelectButton" type="Button" parent="."]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -31.0
 grow_horizontal = 2
-grow_vertical = 0
-text = "10"
+grow_vertical = 2
 
-[node name="StatsLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -110.0
-offset_top = 18.0
-offset_right = 120.0
-offset_bottom = 39.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 14
-text = "HP: 0 | ATK: 0| AS: 0| MS: 0
-"
+[node name="NameLabel" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Name Here"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
 
-[node name="DescriptionLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -119.0
-offset_right = 119.0
-offset_bottom = 118.0
-grow_horizontal = 2
+[node name="Icon" type="TextureRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_6dfj2")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DescriptionLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.78
 theme_override_font_sizes/font_size = 12
 text = "Description text here. Description text here. Description text here."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
-
-[node name="NameLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -44.0
-offset_right = 44.0
-offset_bottom = 23.0
-grow_horizontal = 2
-text = "Name Here"
-horizontal_alignment = 1
-vertical_alignment = 1

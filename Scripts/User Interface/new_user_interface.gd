@@ -4,6 +4,7 @@ class_name UserInterface
 var unitCardScene = load("res://Scenes/unit_card.tscn")
 var slotScene = load("res://Scenes/unit_slot.tscn")
 var reinforcementOptionButton = load("res://Scenes/reinforcement_option.tscn")
+var researchOptionButton = load("res://Scenes/research_option.tscn")
 var popupScene = load("res://Scenes/damage_popup.tscn")
 
 @export var attackColor = Color.RED
@@ -22,7 +23,7 @@ var menuButtonsGroup: ButtonGroup
 @onready var reserveContainer = $EditorBackground/Menu/UnitMenu/Reserve/ReserveContainer
 @onready var reinforcementContainer = $EditorBackground/Menu/UnitMenu/Reinforcement/HBoxContainer/ReinforcementContainer
 
-@onready var fundsLabel = $EditorBackground/FundsLabel
+@onready var fundsLabel = $SideMenu/FundsLabel
 @onready var battleCountLabel = $TopScreen/BattleCountLabel
 @onready var cycleCountLabel = $ProcessControlMenu/CycleCountLabel
 
@@ -59,6 +60,8 @@ func _ready():
 	unitMenu.pressed.connect(UnitMenuOptionSelected)
 	
 	# testing
+	GenerateResearchOptions(GameManager.isPlayerTurn, 3)
+	ImportCompletedResearches(GameManager.isPlayerTurn)
 	
 
 func _on_menu_button_pressed(menuType: Enums.MenuType):
@@ -129,6 +132,39 @@ func RerollButtonPressed():
 		GenerateReinforcementOptions(GameManager.isPlayerTurn, GameManager.reinforcementCount)
 		GameManager.ChangeFunds(-GameManager.rerollCost)
 	
+
+# make research options
+func GenerateResearchOptions(isPlayer: bool, optionCount: int):
+	# clear children
+	var researchContainer = $EditorBackground/Menu/ScienceMenu/ResearchOptions/FlowContainer
+	DW_ToolBox.RemoveAllChildren(researchContainer)
+	
+	var options = DW_ToolBox.PickRandomNumber(DataManager.GetPurchasedUnits(isPlayer, false), optionCount, false)
+	for option in options:
+		var newOption: ResearchOption = researchOptionButton.instantiate()
+		newOption.SetData(option, false, isPlayer)
+		newOption.pressed.connect(ImportCompletedResearches.bind(GameManager.isPlayerTurn))
+		researchContainer.add_child(newOption)
+	
+	
+func ImportCompletedResearches(isPlayer: bool):
+	var completedContainer = $EditorBackground/Menu/ScienceMenu/Completed/CompletedContainer
+	DW_ToolBox.RemoveAllChildren(completedContainer)
+	var completed = DataManager.GetPurchasedUnits(isPlayer)
+	
+	for item in completed:
+		var newIcon = ColorRect.new()
+		var icon = TextureRect.new()
+		
+		icon.set_anchors_preset(PRESET_FULL_RECT)
+		icon.texture = item.unitTexture
+		newIcon.modulate = Color.DIM_GRAY
+		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		newIcon.custom_minimum_size = Vector2(50, 50)
+		newIcon.add_child(icon)
+		newIcon.tooltip_text = item.description
+		completedContainer.add_child(newIcon)
+		
 	
 func SetFundsLabel(amount: int):
 	if !(amount is int):

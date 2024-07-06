@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://8m8hhrmb76q"]
+[gd_scene load_steps=24 format=3 uid="uid://8m8hhrmb76q"]
 
 [ext_resource type="Texture2D" uid="uid://d1rufx43cfpek" path="res://Art/bg_barbarossa.png" id="1_fa31s"]
 [ext_resource type="Script" path="res://Scripts/User Interface/new_user_interface.gd" id="1_w4yik"]
@@ -13,6 +13,7 @@
 [ext_resource type="Script" path="res://Scripts/User Interface/AnimatedButton.gd" id="6_o45cg"]
 [ext_resource type="Texture2D" uid="uid://dp1nroaqtoy2n" path="res://Art/Icons/Menu Icons/graph_icon.png" id="6_s0tt4"]
 [ext_resource type="Texture2D" uid="uid://ca61wpdhiruwu" path="res://Art/Icons/reroll_icon.png" id="7_xr70f"]
+[ext_resource type="PackedScene" uid="uid://kaiavi6o78ta" path="res://Scenes/research_option.tscn" id="8_q6fi2"]
 [ext_resource type="Script" path="res://Scripts/User Interface/unit_menu.gd" id="14_5d8wd"]
 
 [sub_resource type="Animation" id="Animation_xf7a2"]
@@ -280,17 +281,6 @@ grow_vertical = 2
 theme_override_constants/separation = 150
 alignment = 1
 
-[node name="FundsLabel" type="Label" parent="EditorBackground"]
-custom_minimum_size = Vector2(150, 30)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-grow_horizontal = 0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 20
-text = "$100"
-
 [node name="Menu" type="TextureRect" parent="EditorBackground"]
 self_modulate = Color(0, 0, 0, 0.772549)
 layout_mode = 1
@@ -382,7 +372,6 @@ libraries = {
 speed_scale = 5.0
 
 [node name="ScienceMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.9
@@ -404,20 +393,29 @@ size_flags_vertical = 3
 layout_mode = 2
 text = "RESEARCH"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/Menu/ScienceMenu/ResearchOptions"]
+[node name="FlowContainer" type="HBoxContainer" parent="EditorBackground/Menu/ScienceMenu/ResearchOptions"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Current" type="VBoxContainer" parent="EditorBackground/Menu/ScienceMenu"]
+[node name="ResearchOption" parent="EditorBackground/Menu/ScienceMenu/ResearchOptions/FlowContainer" instance=ExtResource("8_q6fi2")]
+layout_mode = 2
+
+[node name="ResearchOption2" parent="EditorBackground/Menu/ScienceMenu/ResearchOptions/FlowContainer" instance=ExtResource("8_q6fi2")]
+layout_mode = 2
+
+[node name="ResearchOption3" parent="EditorBackground/Menu/ScienceMenu/ResearchOptions/FlowContainer" instance=ExtResource("8_q6fi2")]
+layout_mode = 2
+
+[node name="Completed" type="VBoxContainer" parent="EditorBackground/Menu/ScienceMenu"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="Title" type="Label" parent="EditorBackground/Menu/ScienceMenu/Current"]
+[node name="Title" type="Label" parent="EditorBackground/Menu/ScienceMenu/Completed"]
 layout_mode = 2
 text = "COMPLETED"
 
-[node name="FlowContainer" type="FlowContainer" parent="EditorBackground/Menu/ScienceMenu/Current"]
+[node name="CompletedContainer" type="FlowContainer" parent="EditorBackground/Menu/ScienceMenu/Completed"]
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -564,6 +562,19 @@ libraries = {
 "": SubResource("AnimationLibrary_6pdgn")
 }
 speed_scale = 5.0
+
+[node name="FundsLabel" type="Label" parent="SideMenu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.102
+anchor_right = 1.0
+anchor_bottom = 0.125
+offset_left = -150.0
+offset_right = 212.5
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "$100"
 
 [node name="ProcessControlMenu" parent="." instance=ExtResource("4_oe4ok")]
 layout_mode = 1

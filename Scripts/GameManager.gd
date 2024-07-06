@@ -85,6 +85,8 @@ static var playerAI
 
 static var reinforcementCount: int = 6
 
+static var researchOptionCount: int = 3
+
 # -1 is player victory 0 is draw 1 is enemy victory
 static var lastBattleResult: int = 0
 static var lastBattleResultText: String = ""
