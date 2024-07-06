@@ -8,9 +8,10 @@ var unitData: UnitData
 
 func SetData(data: UnitData):
 	unitData = data
-	$Label.text = tr(unitData.name)
-	$Label.text += "\n " + tr("COST") + ": " + str(unitData.purchaseCost)
-	self_modulate = unitData.color
+	$TextureRect.texture = data.unitTexture
+	#$Label.text = tr(unitData.name)
+	$Label.text = str(unitData.purchaseCost)
+	#self_modulate = unitData.color
 	tooltip_text = data.description
 
 

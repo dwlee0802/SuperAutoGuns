@@ -1,11 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://6vjuvidiqfx6"]
+[gd_scene load_steps=4 format=3 uid="uid://6vjuvidiqfx6"]
 
-[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_h55kq"]
+[ext_resource type="Shader" path="res://Scenes/unit_card.gdshader" id="2_0vwj5"]
 [ext_resource type="Script" path="res://Scripts/reinforcement_option.gd" id="2_36vq8"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g2g46"]
+shader = ExtResource("2_0vwj5")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 5.0
+shader_parameter/pattern = 1
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+
 [node name="ReinforcementOptionButton\\" type="TextureButton"]
-self_modulate = Color(1, 0.733333, 0.380392, 1)
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(120, 64)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -19,8 +26,8 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture_normal = ExtResource("1_h55kq")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
 script = ExtResource("2_36vq8")
 
 [node name="Label" type="Label" parent="."]
@@ -30,10 +37,23 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 14
-text = "reinforcement option"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+text = "3"
+horizontal_alignment = 2
+vertical_alignment = 2
 autowrap_mode = 1
 text_overrun_behavior = 3
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_g2g46")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 2
+stretch_mode = 5
