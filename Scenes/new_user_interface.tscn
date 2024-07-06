@@ -252,6 +252,7 @@ vertical_alignment = 1
 
 [node name="EditorBackground" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 0.501961)
+clip_contents = true
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.15
@@ -306,6 +307,7 @@ grow_vertical = 2
 texture = ExtResource("2_cgvah")
 
 [node name="UnitMenu" type="VBoxContainer" parent="EditorBackground/Menu"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -387,6 +389,7 @@ anchor_right = 0.9
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 10
 
 [node name="Title" type="Label" parent="EditorBackground/Menu/ScienceMenu"]
 layout_mode = 2
