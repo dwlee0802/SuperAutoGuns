@@ -1,10 +1,19 @@
-[gd_scene load_steps=11 format=3 uid="uid://dckjus8x2dn7h"]
+[gd_scene load_steps=13 format=3 uid="uid://dckjus8x2dn7h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="3_ogvuv"]
 [ext_resource type="Texture2D" uid="uid://6tqsxnc7atx3" path="res://Art/gold_star.png" id="3_p3cc1"]
+[ext_resource type="Shader" path="res://Scenes/unit_card.gdshader" id="3_rauiq"]
 [ext_resource type="Texture2D" uid="uid://d1yjx3ua287nb" path="res://Art/Units/Generic/kar98k.png" id="3_rjj6t"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_t01gi"]
+shader = ExtResource("3_rauiq")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 10.0
+shader_parameter/pattern = 1
+shader_parameter/inside = false
+shader_parameter/add_margins = true
 
 [sub_resource type="Animation" id="Animation_bjrsn"]
 length = 0.001
@@ -109,7 +118,7 @@ size_flags_vertical = 4
 script = ExtResource("1_lsm36")
 
 [node name="TextureRect" type="TextureRect" parent="."]
-self_modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0.560784)
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 offset_right = 64.0
@@ -118,21 +127,22 @@ texture = ExtResource("1_oy87j")
 expand_mode = 1
 
 [node name="Sprite" type="TextureRect" parent="TextureRect"]
-custom_minimum_size = Vector2(60, 60)
+material = SubResource("ShaderMaterial_t01gi")
+custom_minimum_size = Vector2(120, 60)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -32.0
+offset_top = -30.0
+offset_right = 32.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_rjj6t")
-expand_mode = 2
+expand_mode = 1
 stretch_mode = 5
 
 [node name="Name" type="Label" parent="TextureRect/Sprite"]
