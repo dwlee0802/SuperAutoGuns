@@ -211,7 +211,7 @@ func _ready():
 	#playerAI.reserve = playerReserves
 	
 	# link debug buttons
-	$DebugMenu/Add10FundsButton.pressed.connect(ChangeFunds.bind(10, isPlayerTurn))
+	$DebugMenu/Add10FundsButton.pressed.connect(ChangeFunds.bind(10))
 
 
 func _process(_delta):

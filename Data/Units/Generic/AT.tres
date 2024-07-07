@@ -1,14 +1,16 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://csyupia764ci8"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://csyupia764ci8"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_r4ju7"]
+[ext_resource type="Texture2D" uid="uid://1qlqijsy8ywj" path="res://Art/Units/Generic/antitank.png" id="2_hkv4r"]
 
 [resource]
 script = ExtResource("1_r4ju7")
+unitTexture = ExtResource("2_hkv4r")
 name = "GENERIC_AT_NAME"
 description = "GENERIC_AT_DESC"
 disabled = false
 type = 2
-startingUnit = false
+startingUnit = true
 researchCost = 4
 purchaseCost = 3
 color = Color(0.657777, 0.6101, 0.663689, 1)

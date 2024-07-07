@@ -1,14 +1,16 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://bpxupclmros2t"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://bpxupclmros2t"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_4ueyb"]
+[ext_resource type="Texture2D" uid="uid://cio5j0nef5x6u" path="res://Art/Units/Generic/tank.png" id="2_wech6"]
 
 [resource]
 script = ExtResource("1_4ueyb")
+unitTexture = ExtResource("2_wech6")
 name = "GENERIC_TANK_NAME"
 description = "GENERIC_TANK_DESC"
 disabled = false
 type = 1
-startingUnit = false
+startingUnit = true
 researchCost = 6
 purchaseCost = 4
 color = Color(0.510806, 0.535372, 0.533435, 1)
