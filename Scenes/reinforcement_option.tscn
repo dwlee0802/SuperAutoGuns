@@ -12,7 +12,7 @@ shader_parameter/inside = false
 shader_parameter/add_margins = true
 
 [node name="ReinforcementOptionButton\\" type="TextureButton"]
-custom_minimum_size = Vector2(120, 64)
+custom_minimum_size = Vector2(120, 60)
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -24,6 +24,7 @@ offset_right = 16.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.9, 0.9)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 ignore_texture_size = true

@@ -1,14 +1,16 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://xic7g0qjgo4h"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://xic7g0qjgo4h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_hwwql"]
+[ext_resource type="Texture2D" uid="uid://d1lb70idq1p2h" path="res://Art/Units/Generic/fighter.png" id="2_kspti"]
 
 [resource]
 script = ExtResource("1_hwwql")
+unitTexture = ExtResource("2_kspti")
 name = "GENERIC_FIGHTER_NAME"
 description = "GENERIC_FIGHTER_DESC"
 disabled = false
 type = 2
-startingUnit = false
+startingUnit = true
 researchCost = 5
 purchaseCost = 4
 color = Color(1, 0.436078, 0.44223, 1)

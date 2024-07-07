@@ -1188,6 +1188,7 @@ func CommitButtonPressed():
 	UnitCard.selected = null
 	
 	userInterface.HideSideMenu()
+	userInterface.HideUnitMenu()
 	
 	SetBoughtThisTurn(isPlayerTurn)
 	
@@ -1299,6 +1300,7 @@ func PassButtonPressed():
 	UnitCard.selected = null
 	
 	userInterface.HideSideMenu()
+	userInterface.HideUnitMenu()
 	
 	SetBoughtThisTurn(isPlayerTurn)
 	

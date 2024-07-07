@@ -1,14 +1,16 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://rjv7siqadca0"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://rjv7siqadca0"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_y52ge"]
+[ext_resource type="Texture2D" uid="uid://d1h5lfhdcbavp" path="res://Art/Units/Generic/artillery.png" id="2_otlfw"]
 
 [resource]
 script = ExtResource("1_y52ge")
+unitTexture = ExtResource("2_otlfw")
 name = "GENERIC_ARTY_NAME"
 description = "GENERIC_ARTY_DESC"
 disabled = false
 type = 2
-startingUnit = false
+startingUnit = true
 researchCost = 5
 purchaseCost = 4
 color = Color(0.270588, 0.729412, 0.654902, 1)

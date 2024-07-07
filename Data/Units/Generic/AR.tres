@@ -1,14 +1,16 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://b7xryy5uxk5yc"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://b7xryy5uxk5yc"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_x2p7a"]
+[ext_resource type="Texture2D" uid="uid://mlkye46hyyi3" path="res://Art/Units/Generic/stg44.png" id="2_5h5nv"]
 
 [resource]
 script = ExtResource("1_x2p7a")
+unitTexture = ExtResource("2_5h5nv")
 name = "GENERIC_AR_NAME"
 description = "GENERIC_AR_DESC"
 disabled = false
 type = 0
-startingUnit = false
+startingUnit = true
 researchCost = 6
 purchaseCost = 4
 color = Color(0.235697, 0.488765, 0.687134, 1)

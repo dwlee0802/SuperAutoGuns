@@ -5,17 +5,15 @@
 [ext_resource type="Script" path="res://addons/radial_progress/RadialProgress.gd" id="3_ogvuv"]
 [ext_resource type="Texture2D" uid="uid://6tqsxnc7atx3" path="res://Art/gold_star.png" id="3_p3cc1"]
 [ext_resource type="Shader" path="res://Scenes/unit_card.gdshader" id="3_rauiq"]
+[ext_resource type="Texture2D" uid="uid://mlkye46hyyi3" path="res://Art/Units/Generic/stg44.png" id="3_y5uy0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t01gi"]
 shader = ExtResource("3_rauiq")
 shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 5.0
+shader_parameter/width = 6.0
 shader_parameter/pattern = 1
 shader_parameter/inside = false
 shader_parameter/add_margins = true
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_cc67p"]
-size = Vector2(50, 50)
 
 [sub_resource type="Animation" id="Animation_bjrsn"]
 length = 0.001
@@ -136,7 +134,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("PlaceholderTexture2D_cc67p")
+texture = ExtResource("3_y5uy0")
 expand_mode = 1
 stretch_mode = 5
 

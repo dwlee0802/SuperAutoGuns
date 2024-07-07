@@ -89,7 +89,14 @@ func HideSideMenu():
 	
 func _process(_delta):
 	if Input.is_action_just_pressed("close_menu"):
-		HideSideMenu()
+		if unitMenu.visible:
+			HideUnitMenu()
+		else:
+			HideSideMenu()
+	
+	#if Input.is_action_just_pressed("right_click"):
+		#if unitMenu.visible:
+			#HideUnitMenu()
 		
 	if turnTimer.is_stopped():
 		turnTimerLabel.visible = false
@@ -517,12 +524,18 @@ func ShowUnitMenu(target: UnitCard):
 	unitMenu.visible = true
 
 
+func HideUnitMenu():
+	unitMenu.visible = false
+	UnitCard.rightClicked = null
+	
+
 func UnitMenuOptionSelected(optionIndex: int):
+	unitMenu.visible = false
+	
 	if UnitCard.rightClicked == null:
 		push_error("Shouldn't be able to select unit menu when right clicked unit doesnt exist")
 		return
 		
-	unitMenu.visible = false
 	var unit: Unit = UnitCard.rightClicked.unit
 	
 	match optionIndex:
