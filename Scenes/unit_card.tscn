@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dckjus8x2dn7h"]
+[gd_scene load_steps=22 format=3 uid="uid://dckjus8x2dn7h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://6tqsxnc7atx3" path="res://Art/gold_star.png" id="3_p3cc1"]
 [ext_resource type="Shader" path="res://Scenes/unit_card.gdshader" id="3_rauiq"]
 [ext_resource type="Texture2D" uid="uid://mlkye46hyyi3" path="res://Art/Units/Generic/stg44.png" id="3_y5uy0"]
+[ext_resource type="Texture2D" uid="uid://bbylbuof3gd0e" path="res://Art/Icons/Stat Icons/health_icon.png" id="7_et4a6"]
+[ext_resource type="Texture2D" uid="uid://bs8ynfv576mic" path="res://Art/Icons/Stat Icons/movement_icon.png" id="8_dorte"]
+[ext_resource type="Texture2D" uid="uid://bcdaodvx4lywv" path="res://Art/Icons/Stat Icons/atk_dmg_icon.png" id="8_vposh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_t01gi"]
 shader = ExtResource("3_rauiq")
@@ -14,6 +17,29 @@ shader_parameter/width = 6.0
 shader_parameter/pattern = 1
 shader_parameter/inside = false
 shader_parameter/add_margins = true
+
+[sub_resource type="Animation" id="Animation_bjrsn"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_33cfl"]
+resource_name = "attack_animation_left"
+length = 0.2
+
+[sub_resource type="Animation" id="Animation_xnhfc"]
+resource_name = "attack_animation_right"
+length = 0.2
+
+[sub_resource type="Animation" id="Animation_sk0rq"]
+resource_name = "hit_animation"
+length = 0.2
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hohpx"]
+_data = {
+"RESET": SubResource("Animation_bjrsn"),
+"attack_animation_left": SubResource("Animation_33cfl"),
+"attack_animation_right": SubResource("Animation_xnhfc"),
+"hit_animation": SubResource("Animation_sk0rq")
+}
 
 [sub_resource type="Gradient" id="Gradient_alq6e"]
 offsets = PackedFloat32Array(0, 0.383117, 1)
@@ -27,6 +53,7 @@ fill_to = Vector2(0.880734, 0.844037)
 
 [sub_resource type="Animation" id="Animation_kgui6"]
 resource_name = "star_light_effect_animation"
+length = 4.0
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -35,10 +62,10 @@ tracks/0/path = NodePath(".:energy")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
+"times": PackedFloat32Array(0, 2, 4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [2.0, 10.0, 2.0]
+"values": [0.5, 1.5, 0.5]
 }
 
 [sub_resource type="Animation" id="Animation_s0coy"]
@@ -56,450 +83,89 @@ tracks/0/keys = {
 "values": [2.0]
 }
 
+[sub_resource type="Animation" id="Animation_rdxal"]
+resource_name = "silver_star_light_effect_animation"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.5, 1.0, 0.5]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a1hw5"]
 _data = {
 "RESET": SubResource("Animation_s0coy"),
+"silver_star_light_effect_animation": SubResource("Animation_rdxal"),
 "star_light_effect_animation": SubResource("Animation_kgui6")
-}
-
-[sub_resource type="Animation" id="Animation_bjrsn"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("TextureRect/Sprite/HitTextureRect:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_33cfl"]
-resource_name = "attack_animation_left"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0001, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 7.46426, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-25, 0), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_xnhfc"]
-resource_name = "attack_animation_right"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0001, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 7.46426, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 0), Vector2(25, 0), Vector2(0, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_sk0rq"]
-resource_name = "hit_animation"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("TextureRect/Sprite/HitTextureRect:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_hohpx"]
-_data = {
-"RESET": SubResource("Animation_bjrsn"),
-"attack_animation_left": SubResource("Animation_33cfl"),
-"attack_animation_right": SubResource("Animation_xnhfc"),
-"hit_animation": SubResource("Animation_sk0rq")
 }
 
 [node name="UnitCard" type="Control"]
 texture_filter = 1
-custom_minimum_size = Vector2(120, 64)
+custom_minimum_size = Vector2(170, 90)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -60.0
-offset_top = -32.0
-offset_right = 60.0
-offset_bottom = 32.0
+offset_left = -86.0
+offset_top = -45.5
+offset_right = 86.0
+offset_bottom = 45.5
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("1_lsm36")
 
-[node name="TextureRect" type="TextureRect" parent="."]
-self_modulate = Color(1, 1, 1, 0.560784)
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 1
-offset_right = 120.0
-offset_bottom = 64.0
-expand_mode = 1
-
-[node name="Sprite" type="TextureRect" parent="TextureRect"]
+[node name="Sprite" type="TextureRect" parent="."]
 material = SubResource("ShaderMaterial_t01gi")
-custom_minimum_size = Vector2(120, 60)
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
+anchors_preset = -1
+anchor_left = 0.023
+anchor_top = 0.591
+anchor_right = 0.023
+anchor_bottom = 0.591
+offset_top = -30.0
+offset_right = 110.0
+offset_bottom = 30.0
 grow_vertical = 2
 texture = ExtResource("3_y5uy0")
 expand_mode = 1
-stretch_mode = 5
 
-[node name="Name" type="Label" parent="TextureRect/Sprite"]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -25.0
-offset_right = 25.0
-offset_bottom = 14.0
-grow_horizontal = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 10
-text = "unit name"
-horizontal_alignment = 1
-
-[node name="HealthPointsLabel" type="Label" parent="TextureRect/Sprite"]
-visible = false
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -17.0
-offset_top = -11.0
-offset_right = 16.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 9
-text = "HP: 100"
-horizontal_alignment = 1
-
-[node name="CombatStats" type="Control" parent="TextureRect/Sprite"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="AttackLabel" type="Label" parent="TextureRect/Sprite/CombatStats"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -16.5
-offset_top = 10.0
-offset_right = 16.5
-offset_bottom = 23.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 11
-text = "ATK: 0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="ASLabel" type="Label" parent="TextureRect/Sprite/CombatStats"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -16.0
-offset_top = 19.0
-offset_right = 17.0
-offset_bottom = 35.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 11
-text = "AS: 0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SpeedLabel" type="Label" parent="TextureRect/Sprite/CombatStats"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -16.0
-offset_top = 28.0
-offset_right = 17.0
-offset_bottom = 44.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 11
-text = "MS: 0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="RangeLabel" type="Label" parent="TextureRect/Sprite/CombatStats"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -16.0
-offset_top = 37.0
-offset_right = 17.0
-offset_bottom = 53.0
-grow_horizontal = 2
-size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 11
-text = "RNG: 0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="HitTextureRect" type="TextureRect" parent="TextureRect/Sprite"]
+[node name="HitTextureRect" type="TextureRect" parent="Sprite"]
 visible = false
 self_modulate = Color(1, 1, 1, 0.752941)
 custom_minimum_size = Vector2(60, 60)
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -30.0
-offset_right = 30.0
-offset_bottom = 30.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_oy87j")
-
-[node name="HealthIndicator" type="TextureRect" parent="TextureRect/Sprite"]
-self_modulate = Color(0.176471, 0.176471, 0.176471, 0.490196)
-custom_minimum_size = Vector2(60, 0)
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -30.0
-offset_right = 30.0
-grow_horizontal = 2
-texture = ExtResource("1_oy87j")
-expand_mode = 1
-
-[node name="MovementLabel" type="Label" parent="TextureRect"]
-visible = false
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 10
-text = "Movment: 3"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="AttackLabel" type="Label" parent="TextureRect"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 10
-text = "Attack in: 3"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="SelectionIndicator" type="TextureRect" parent="TextureRect"]
-visible = false
-self_modulate = Color(1, 1, 1, 0.372549)
-custom_minimum_size = Vector2(70, 70)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 3.0
-offset_bottom = 3.0
-grow_horizontal = 2
-grow_vertical = 2
 texture = ExtResource("1_oy87j")
 
-[node name="Stars" type="HFlowContainer" parent="TextureRect"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = -0.3
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/h_separation = 2
-theme_override_constants/v_separation = 0
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="TextureRect/Stars"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-texture = ExtResource("3_p3cc1")
-expand_mode = 1
-
-[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect"]
-position = Vector2(10, 12.2)
-texture = SubResource("GradientTexture2D_v12rn")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect"]
-libraries = {
-"": SubResource("AnimationLibrary_a1hw5")
-}
-autoplay = "star_light_effect_animation"
-
-[node name="TextureRect2" type="TextureRect" parent="TextureRect/Stars"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-texture = ExtResource("3_p3cc1")
-expand_mode = 1
-
-[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect2"]
-position = Vector2(10, 12.2)
-texture = SubResource("GradientTexture2D_v12rn")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect2"]
-libraries = {
-"": SubResource("AnimationLibrary_a1hw5")
-}
-autoplay = "star_light_effect_animation"
-
-[node name="TextureRect3" type="TextureRect" parent="TextureRect/Stars"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-texture = ExtResource("3_p3cc1")
-expand_mode = 1
-
-[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect3"]
-position = Vector2(10, 12.2)
-texture = SubResource("GradientTexture2D_v12rn")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect3"]
-libraries = {
-"": SubResource("AnimationLibrary_a1hw5")
-}
-autoplay = "star_light_effect_animation"
-
-[node name="TextureRect4" type="TextureRect" parent="TextureRect/Stars"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-texture = ExtResource("3_p3cc1")
-expand_mode = 1
-
-[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect4"]
-position = Vector2(10, 12.2)
-texture = SubResource("GradientTexture2D_v12rn")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect4"]
-libraries = {
-"": SubResource("AnimationLibrary_a1hw5")
-}
-autoplay = "star_light_effect_animation"
-
-[node name="TextureRect5" type="TextureRect" parent="TextureRect/Stars"]
-custom_minimum_size = Vector2(20, 20)
-layout_mode = 2
-texture = ExtResource("3_p3cc1")
-expand_mode = 1
-
-[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect5"]
-position = Vector2(10, 12.2)
-color = Color(1, 1, 0.678431, 1)
-energy = 2.0
-texture = SubResource("GradientTexture2D_v12rn")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect5/PointLight2D"]
-libraries = {
-"": SubResource("AnimationLibrary_a1hw5")
-}
-autoplay = "star_light_effect_animation"
-
-[node name="AttackAnimaitonPlayer" type="AnimationPlayer" parent="."]
+[node name="HitAnimaitonPlayer" type="AnimationPlayer" parent="Sprite/HitTextureRect"]
+root_node = NodePath("../../..")
 libraries = {
 "": SubResource("AnimationLibrary_hohpx")
 }
 speed_scale = 2.0
 
-[node name="HitAnimaitonPlayer" type="AnimationPlayer" parent="."]
+[node name="AttackAnimaitonPlayer" type="AnimationPlayer" parent="Sprite"]
+root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_hohpx")
 }
 speed_scale = 2.0
-
-[node name="DebugLabel" type="Label" parent="."]
-visible = false
-custom_minimum_size = Vector2(64, 0)
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -32.0
-offset_top = -23.0
-offset_right = 32.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
-theme_override_font_sizes/font_size = 8
-text = "asdf"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="RadialUI" type="Control" parent="."]
 modulate = Color(1, 1, 1, 0.513726)
@@ -524,7 +190,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("3_ogvuv")
-radius = 15.0
+radius = 20.0
 progress = 100.0
 thickness = 10.0
 bar_color = Color(0.501961, 0.501961, 0.501961, 1)
@@ -555,8 +221,7 @@ anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -2.0
-offset_bottom = 2.0
+offset_bottom = 6.0
 grow_horizontal = 2
 grow_vertical = 2
 value = 50.0
@@ -564,3 +229,225 @@ nine_patch_stretch = true
 texture_under = ExtResource("1_oy87j")
 texture_progress = ExtResource("1_oy87j")
 tint_under = Color(0, 0, 0, 1)
+tint_progress = Color(1, 0.346577, 0.280009, 1)
+
+[node name="Stars" type="HFlowContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = -5.0
+offset_bottom = 20.0
+grow_horizontal = 2
+theme_override_constants/h_separation = 2
+theme_override_constants/v_separation = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Stars"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="Stars/TextureRect"]
+position = Vector2(10, 12.2)
+energy = 2.0
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Stars/TextureRect/PointLight2D"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
+[node name="TextureRect2" type="TextureRect" parent="Stars"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="Stars/TextureRect2"]
+position = Vector2(10, 12.2)
+energy = 2.0
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Stars/TextureRect2/PointLight2D"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
+[node name="TextureRect3" type="TextureRect" parent="Stars"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="Stars/TextureRect3"]
+position = Vector2(10, 12.2)
+energy = 2.0
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Stars/TextureRect3/PointLight2D"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
+[node name="TextureRect4" type="TextureRect" parent="Stars"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="Stars/TextureRect4"]
+position = Vector2(10, 12.2)
+energy = 2.0
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Stars/TextureRect4/PointLight2D"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
+[node name="TextureRect5" type="TextureRect" parent="Stars"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("3_p3cc1")
+expand_mode = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="Stars/TextureRect5"]
+position = Vector2(10, 12.2)
+color = Color(1, 1, 0.678431, 1)
+energy = 2.0
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Stars/TextureRect5/PointLight2D"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
+[node name="Stats" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.9
+anchor_top = 0.3
+anchor_right = 0.9
+anchor_bottom = 1.0
+offset_left = -16.8
+offset_top = -8.8
+offset_right = 3.2
+offset_bottom = -4.5
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 1
+
+[node name="Health" type="TextureRect" parent="Stats"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("7_et4a6")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Stats/Health"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 12
+text = "100"
+vertical_alignment = 1
+
+[node name="AttackDamage" type="TextureRect" parent="Stats"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("8_vposh")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Stats/AttackDamage"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 12
+text = "10
+"
+vertical_alignment = 1
+
+[node name="MoveSpeed" type="TextureRect" parent="Stats"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+texture = ExtResource("8_dorte")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Stats/MoveSpeed"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = -11.5
+offset_right = 40.0
+offset_bottom = 11.5
+grow_vertical = 2
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 12
+text = "10
+"
+vertical_alignment = 1
+
+[node name="SelectionIndicator" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color(1, 1, 1, 0.372549)
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_oy87j")
+
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -23.0
+offset_right = 32.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 8
+text = "asdf"
+horizontal_alignment = 1
+vertical_alignment = 1

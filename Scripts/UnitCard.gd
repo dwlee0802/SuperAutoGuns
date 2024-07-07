@@ -1,6 +1,9 @@
 extends Control
 class_name UnitCard
 
+static var selected: UnitCard
+static var rightClicked: UnitCard
+
 var unit: Unit
 
 @onready var healthBar: TextureProgressBar = $HealthBar
@@ -9,12 +12,10 @@ static var attackLineScene = load("res://Scenes/attack_line_effect.tscn")
 
 var damagePopupScene = load("res://Scenes/damage_popup.tscn")
 
-@onready var attackAnimationPlayer: AnimationPlayer = $AttackAnimaitonPlayer
+@onready var attackAnimationPlayer: AnimationPlayer = $Sprite/AttackAnimaitonPlayer
+@onready var hitAnimationPlayer: AnimationPlayer = $Sprite/HitTextureRect/HitAnimaitonPlayer
 
-static var selected: UnitCard
-static var rightClicked: UnitCard
-
-@onready var selectionIndicator = $TextureRect/SelectionIndicator
+@onready var selectionIndicator = $SelectionIndicator
 
 static var deathEffect
 
@@ -22,7 +23,7 @@ static var deathEffect
 
 @onready var radialLabel: Label = $RadialUI/RadialUI/Label
 
-@onready var starContainer: FlowContainer = $TextureRect/Stars
+@onready var starContainer: FlowContainer = $Stars
 
 static var goldStarImage = load("res://Art/gold_star.png")
 static var greyStarImage = load("res://Art/grey_star.png")
@@ -41,36 +42,33 @@ static func _static_init():
 func SetUnit(_unit: Unit):
 	unit = _unit
 	healthBar = $HealthBar
-	
+	#
 	if unit.data.unitTexture != null:
-		$TextureRect/Sprite.texture = unit.data.unitTexture
+		$Sprite.texture = unit.data.unitTexture
+		$Sprite.expand_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	else:
-		$TextureRect/Sprite.self_modulate = unit.data.color
-	
-	# update info ui for this unit
-	UpdateUnitInfoLabel()
+		$Sprite.self_modulate = unit.data.color
 	
 	UpdateHealthLabel(0)
-	UpdateCombatStatsLabel()
 	
 	if unit.isPlayer:
 		SetSideIndicatorColor(GameManager.playerColor)
 	else:
 		SetSideIndicatorColor(GameManager.enemyColor)
 	
-	starContainer = $TextureRect/Stars
+	starContainer = $Stars
 	UpdateStars()
 	
 	tooltip_text = tr(unit.data.description)
 	
 	if unit is WaitOrder:
-		$TextureRect/Sprite/CombatStats.visible = false
+		#$TextureRect/Sprite/CombatStats.visible = false
 		radialLabel.text = str(unit.waitCycles)
 		
 	# UI signals
-	unit.stat_changed.connect(UpdateCombatStatsLabel)
+	unit.stat_changed.connect(UpdateStatLabels)
 	
-	$HitAnimaitonPlayer.animation_finished.connect(UpdateHealthLabel)
+	$Sprite/HitTextureRect/HitAnimaitonPlayer.animation_finished.connect(UpdateHealthLabel)
 	
 	unit.received_hit.connect(HitAnimation)
 	unit.received_hit.connect(UpdateHealthLabel)
@@ -101,14 +99,15 @@ func SetUnit(_unit: Unit):
 			attackAnimationPlayer.play("attack_animation_right")
 			
 	UpdateDebugLabel()
+	UpdateStatLabels()
 	
 
 func SetSpriteHFlipped(value: bool):
-	$TextureRect/Sprite.flip_h = value
+	$Sprite.flip_h = value
 		
 		
 func SetSideIndicatorColor(color: Color) -> void:
-	$TextureRect/Sprite.self_modulate = color
+	$Sprite.self_modulate = color
 	
 		
 func _get_drag_data(_at_position: Vector2) -> Variant:
@@ -153,34 +152,20 @@ func _drop_data(_at_position, data):
 		get_parent().dropped.emit()
 		unit.coords = null
 	
-	# swapping inside reserve container
-	if !(get_parent() is ReserveContainer and data.get_parent() is ReserveContainer):
-		data.position = Vector2.ZERO
-		position = Vector2.ZERO
+	var temp2 = position
+	position = data.position
+	data.position = temp
 	
 	UpdateDebugLabel()
 	data.UpdateDebugLabel()
+	UpdateStatLabels()
 	
 	
 func UpdateHealthLabel(_num = 0):
-	$TextureRect/Sprite/HealthPointsLabel.text = "HP: " + str(unit.currentHealthPoints) + "/" + str(unit.data.maxHealthPoints * unit.stackCount)
-	UpdateHealthIndicator()
+	$Stats/Health/Label.text = str(unit.currentHealthPoints)
 	
-
-func UpdateHealthIndicator():
 	healthBar.max_value = unit.GetMaxHealth()
 	healthBar.value = unit.currentHealthPoints
-	return
-	
-	#var currentHealthRatio: float = float(unit.currentHealthPoints) / (unit.data.maxHealthPoints * unit.stackCount)
-	#$TextureRect/Sprite/HealthIndicator.anchor_bottom = 1 - currentHealthRatio
-	
-
-func UpdateUnitInfoLabel():
-	if unit.isPlayer:
-		$TextureRect/Sprite/Name.text = "(P) " + tr(unit.data.name)
-	else:
-		$TextureRect/Sprite/Name.text = "(E) " + tr(unit.data.name)
 	
 	
 # plays when unit received damage
@@ -189,8 +174,7 @@ func UpdateUnitInfoLabel():
 func HitAnimation(amount):
 	MakePopup(amount, Color.RED, Color.WHITE)
 	
-	var hitAnimPlayer: AnimationPlayer = $HitAnimaitonPlayer
-	hitAnimPlayer.play("hit_animation")
+	hitAnimationPlayer.play("hit_animation")
 	
 
 func HealAnimation(amount):
@@ -288,23 +272,15 @@ func UpdateRadialUI(first: bool = false):
 		radialUI.visible = true
 		
 	radialUI.progress = 100 * ratio
-		
 	
-func UpdateCombatStatsLabel():
-	var label = $TextureRect/Sprite/CombatStats/AttackLabel
-	var label2 = $TextureRect/Sprite/CombatStats/ASLabel
-	var label3 = $TextureRect/Sprite/CombatStats/SpeedLabel
-	var label4 = $TextureRect/Sprite/CombatStats/RangeLabel
-	
-	var text = "ATK: {atk}"
-	var atk = unit.GetAttackDamage()
-	var aspd = unit.GetAttackCost()
-	var mvspd = unit.GetMovementCost()
-	
-	label.text = text.format({"atk": atk})
-	label2.text = "AS: " + str(aspd)
-	label3.text = "MS: " + str(mvspd)
-	label4.text = "RNG " + str(unit.GetAttackRange())
+
+func UpdateStatLabels():
+	var healthLabel: Label = $Stats/MoveSpeed/Label
+	var damageLabel: Label = $Stats/AttackDamage/Label
+	var moveLabel: Label = $Stats/MoveSpeed/Label
+	healthLabel.text = str(unit.currentHealthPoints)
+	damageLabel.text = str(unit.GetAttackDamage()) + "/" + str(unit.GetAttackCost())
+	moveLabel.text = str(unit.GetMovementCost())
 	
 	
 func UpdateAttackLine(isFlanking: bool = false):
@@ -384,9 +360,9 @@ func _gui_input(event):
 				UnitCard.UnselectCard()
 			else:
 				if UnitCard.selected != null:
-					UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
+					UnitCard.selected.get_node("SelectionIndicator").visible = false
 				UnitCard.selected = self
-				$TextureRect/SelectionIndicator.visible = true
+				$SelectionIndicator.visible = true
 			
 			clicked.emit()
 		
@@ -403,7 +379,7 @@ func _gui_input(event):
 
 static func UnselectCard():
 	if UnitCard.selected != null:
-		UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
+		UnitCard.selected.get_node("SelectionIndicator").visible = false
 		UnitCard.selected = null
 	
 	
@@ -411,7 +387,7 @@ func _unhandled_key_input(event):
 	if event is InputEventKey:
 		if event.keycode == KEY_ESCAPE and event.pressed:
 			if UnitCard.selected != null:
-				UnitCard.selected.get_node("TextureRect/SelectionIndicator").visible = false
+				UnitCard.selected.get_node("SelectionIndicator").visible = false
 				
 			UnitCard.selected = null
 
@@ -433,8 +409,7 @@ func _merge_button_pressed():
 		
 		merged.emit()
 		UpdateHealthLabel(0)
-		UpdateCombatStatsLabel()
-		UpdateUnitInfoLabel()
+		UpdateStatLabels()
 		
 
 func UpdateStars(count: int = unit.stackCount):
