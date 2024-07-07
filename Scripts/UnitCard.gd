@@ -3,7 +3,7 @@ class_name UnitCard
 
 var unit: Unit
 
-@onready var healthBar: ProgressBar = $HealthBar
+@onready var healthBar: TextureProgressBar = $HealthBar
 
 static var attackLineScene = load("res://Scenes/attack_line_effect.tscn")
 
@@ -449,6 +449,7 @@ func UpdateStars(count: int = unit.stackCount):
 		elif remainder == 1:
 			star.visible = true
 			star.texture = UnitCard.greyStarImage
+			star.get_node("PointLight2D").energy = 1
 			remainder = 0
 		else:
 			star.visible = false

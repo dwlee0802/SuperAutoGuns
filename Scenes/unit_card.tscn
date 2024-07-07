@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dckjus8x2dn7h"]
+[gd_scene load_steps=18 format=3 uid="uid://dckjus8x2dn7h"]
 
 [ext_resource type="Script" path="res://Scripts/UnitCard.gd" id="1_lsm36"]
 [ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="1_oy87j"]
@@ -14,6 +14,53 @@ shader_parameter/width = 6.0
 shader_parameter/pattern = 1
 shader_parameter/inside = false
 shader_parameter/add_margins = true
+
+[sub_resource type="Gradient" id="Gradient_alq6e"]
+offsets = PackedFloat32Array(0, 0.383117, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.409091, 0.409091, 0.409091, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_v12rn"]
+gradient = SubResource("Gradient_alq6e")
+fill = 1
+fill_from = Vector2(0.490826, 0.522936)
+fill_to = Vector2(0.880734, 0.844037)
+
+[sub_resource type="Animation" id="Animation_kgui6"]
+resource_name = "star_light_effect_animation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 10.0, 2.0]
+}
+
+[sub_resource type="Animation" id="Animation_s0coy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a1hw5"]
+_data = {
+"RESET": SubResource("Animation_s0coy"),
+"star_light_effect_animation": SubResource("Animation_kgui6")
+}
 
 [sub_resource type="Animation" id="Animation_bjrsn"]
 length = 0.001
@@ -344,11 +391,31 @@ layout_mode = 2
 texture = ExtResource("3_p3cc1")
 expand_mode = 1
 
+[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect"]
+position = Vector2(10, 12.2)
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
 [node name="TextureRect2" type="TextureRect" parent="TextureRect/Stars"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 texture = ExtResource("3_p3cc1")
 expand_mode = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect2"]
+position = Vector2(10, 12.2)
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect2"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
 
 [node name="TextureRect3" type="TextureRect" parent="TextureRect/Stars"]
 custom_minimum_size = Vector2(20, 20)
@@ -356,17 +423,49 @@ layout_mode = 2
 texture = ExtResource("3_p3cc1")
 expand_mode = 1
 
+[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect3"]
+position = Vector2(10, 12.2)
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect3"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
 [node name="TextureRect4" type="TextureRect" parent="TextureRect/Stars"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 texture = ExtResource("3_p3cc1")
 expand_mode = 1
 
+[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect4"]
+position = Vector2(10, 12.2)
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect4"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
+
 [node name="TextureRect5" type="TextureRect" parent="TextureRect/Stars"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 texture = ExtResource("3_p3cc1")
 expand_mode = 1
+
+[node name="PointLight2D" type="PointLight2D" parent="TextureRect/Stars/TextureRect5"]
+position = Vector2(10, 12.2)
+color = Color(1, 1, 0.678431, 1)
+energy = 2.0
+texture = SubResource("GradientTexture2D_v12rn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TextureRect/Stars/TextureRect5/PointLight2D"]
+libraries = {
+"": SubResource("AnimationLibrary_a1hw5")
+}
+autoplay = "star_light_effect_animation"
 
 [node name="AttackAnimaitonPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -450,19 +549,18 @@ text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HealthBar" type="ProgressBar" parent="."]
-self_modulate = Color(1, 0.300051, 0.236805, 1)
+[node name="HealthBar" type="TextureProgressBar" parent="."]
 layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
+anchors_preset = -1
+anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 7.0
-offset_top = -31.0
-offset_right = 14.0
-offset_bottom = 31.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = 2.0
+grow_horizontal = 2
 grow_vertical = 2
-fill_mode = 3
-show_percentage = false
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("1_oy87j")
+texture_progress = ExtResource("1_oy87j")
+tint_under = Color(0, 0, 0, 1)
