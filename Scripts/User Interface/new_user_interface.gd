@@ -86,8 +86,21 @@ func HideSideMenu():
 	for button: BaseButton in menuButtonsGroup.get_buttons():
 		button.button_pressed = false
 	
-	
+
+var initialMousePosition: Vector2 = Vector2.ZERO
+var initialPosition: Vector2 = Vector2.ZERO
 func _process(_delta):
+	# handle mouse panning
+	# save mouse coords
+	if Input.is_action_just_pressed("start_panning"):
+		initialMousePosition = get_local_mouse_position()
+		initialPosition = unitMatrixEditor.position
+	if Input.is_action_pressed("start_panning"):
+		var pannedAmount: Vector2 = initialMousePosition - get_local_mouse_position()
+		unitMatrixEditor.position = initialPosition + pannedAmount
+		print("panned amount " + str(pannedAmount))
+		print("pos: " + str(unitMatrixEditor.position))
+		
 	if Input.is_action_just_pressed("close_menu"):
 		if unitMenu.visible:
 			HideUnitMenu()
@@ -102,6 +115,16 @@ func _process(_delta):
 		turnTimerLabel.visible = false
 	else:
 		turnTimerLabel.text = tr("TIME LEFT") + ": " + str(int(turnTimer.time_left)) + " S"
+		
+	
+func _gui_input(event):
+	# handle zoom
+	if event is InputEventMouseButton:
+		if event.is_pressed():
+			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				unitMatrixEditor.scale += Vector2.ONE / 10.0
+			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				unitMatrixEditor.scale -= Vector2.ONE / 10.0
 		
 		
 # make new card and connect signals
