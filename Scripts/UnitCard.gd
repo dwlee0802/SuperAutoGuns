@@ -152,9 +152,10 @@ func _drop_data(_at_position, data):
 		get_parent().dropped.emit()
 		unit.coords = null
 	
-	var temp2 = position
-	position = data.position
-	data.position = temp
+	# swapping inside reserve container
+	if !(get_parent() is ReserveContainer and data.get_parent() is ReserveContainer):
+		data.global_position = global_position
+		position = Vector2.ZERO
 	
 	UpdateDebugLabel()
 	data.UpdateDebugLabel()
@@ -173,7 +174,6 @@ func UpdateHealthLabel(_num = 0):
 # play unit animation
 func HitAnimation(amount):
 	MakePopup(amount, Color.RED, Color.WHITE)
-	
 	hitAnimationPlayer.play("hit_animation")
 	
 
