@@ -18,6 +18,7 @@ var menuButtonsGroup: ButtonGroup
 
 @onready var editorBackground = $EditorBackground
 @onready var unitMatrixEditor = $EditorBackground/UnitMatrixEditor/HBoxContainer
+var zoomSpeed: float = 1.5
 
 @onready var captureStatusUI = $TopScreen/CaptureStatusUI
 
@@ -127,9 +128,9 @@ func _gui_input(event):
 			var tween = get_tree().create_tween()
 			#centerOffset += (get_global_mouse_position() - centerOffset) / 2
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + Vector2.ONE / 10.0, 0.1)
+				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + zoomSpeed * Vector2.ONE / 10.0, 0.1)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - Vector2.ONE / 10.0, 0.1)
+				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - zoomSpeed * Vector2.ONE / 10.0, 0.1)
 			
 			var newCenter = unitMatrixEditor.global_position + (unitMatrixEditor.size * unitMatrixEditor.scale) / 2
 			#unitMatrixEditor.global_position -= newCenter - prevCenter
@@ -207,7 +208,7 @@ func ImportCompletedResearches(isPlayer: bool):
 		
 		icon.set_anchors_preset(PRESET_FULL_RECT)
 		icon.texture = item.unitTexture
-		newIcon.modulate = Color.DIM_GRAY
+		newIcon.self_modulate = item.color.darkened(0.2)
 		icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		newIcon.custom_minimum_size = Vector2(50, 50)
 		newIcon.add_child(icon)
