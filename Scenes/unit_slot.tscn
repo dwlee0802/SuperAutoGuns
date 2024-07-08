@@ -13,13 +13,15 @@ offset_bottom = 64.0
 script = ExtResource("1_flcne")
 
 [node name="SideIndicator" type="TextureRect" parent="."]
-custom_minimum_size = Vector2(120, 30)
+custom_minimum_size = Vector2(160, 30)
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
+offset_top = 30.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("2_dtsmh")
@@ -27,17 +29,17 @@ expand_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
 self_modulate = Color(0, 0, 0, 1)
-custom_minimum_size = Vector2(110, 24)
+custom_minimum_size = Vector2(150, 24)
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -55.0
-offset_top = -29.0
-offset_right = 55.0
-offset_bottom = -4.0
+offset_left = -75.0
+offset_top = 2.0
+offset_right = 75.0
+offset_bottom = 28.0
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("2_dtsmh")

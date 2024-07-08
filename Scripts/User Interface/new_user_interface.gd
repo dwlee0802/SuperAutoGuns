@@ -16,6 +16,7 @@ var menuButtonsGroup: ButtonGroup
 @onready var menuWindow = $EditorBackground/Menu
 @onready var menuAnimPlayer: AnimationPlayer = $EditorBackground/Menu/AnimationPlayer
 
+@onready var editorBackground = $EditorBackground
 @onready var unitMatrixEditor = $EditorBackground/UnitMatrixEditor/HBoxContainer
 
 @onready var captureStatusUI = $TopScreen/CaptureStatusUI
@@ -97,9 +98,7 @@ func _process(_delta):
 		initialPosition = unitMatrixEditor.position
 	if Input.is_action_pressed("start_panning"):
 		var pannedAmount: Vector2 = initialMousePosition - get_local_mouse_position()
-		unitMatrixEditor.position = initialPosition + pannedAmount
-		print("panned amount " + str(pannedAmount))
-		print("pos: " + str(unitMatrixEditor.position))
+		unitMatrixEditor.position = initialPosition - pannedAmount
 		
 	if Input.is_action_just_pressed("close_menu"):
 		if unitMenu.visible:
@@ -121,11 +120,25 @@ func _gui_input(event):
 	# handle zoom
 	if event is InputEventMouseButton:
 		if event.is_pressed():
+			# vector from center of screen to editor center
+			# should be constant with zoom
+			var prevCenter = unitMatrixEditor.global_position + (unitMatrixEditor.size * unitMatrixEditor.scale) / 2
+			
+			#centerOffset += (get_global_mouse_position() - centerOffset) / 2
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+				#var tween = get_tree().create_tween()
+				#tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + Vector2.ONE / 10.0, 0)
 				unitMatrixEditor.scale += Vector2.ONE / 10.0
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+				#var tween = get_tree().create_tween()
+				#tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - Vector2.ONE / 10.0, 0)
 				unitMatrixEditor.scale -= Vector2.ONE / 10.0
-		
+			
+			var newCenter = unitMatrixEditor.global_position + (unitMatrixEditor.size * unitMatrixEditor.scale) / 2
+			unitMatrixEditor.global_position -= newCenter - prevCenter
+			
+			print("prev: " + str(prevCenter))
+			print("current: " + str(newCenter))
 		
 # make new card and connect signals
 func _InstantiateUnitCard() -> UnitCard:
