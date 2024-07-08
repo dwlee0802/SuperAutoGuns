@@ -10,7 +10,8 @@ func SetData(_data: UnitData, purchased: bool, _player):
 	data = _data
 	isPlayer = _player
 	
-	$HBoxContainer/Icon.self_modulate = data.color
+	$HBoxContainer/Icon.texture = data.unitTexture
+	self_modulate = data.color
 	$HBoxContainer/NameLabel.text = tr(data.name)
 	
 	var stats = "HP: {hq} | ATK: {atk} | AS: {as} | MS: {ms}"

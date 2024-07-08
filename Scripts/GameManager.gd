@@ -188,6 +188,7 @@ func _ready():
 	userInterface.turnTimer.timeout.connect(CommitButtonPressed)
 	
 	userInterface.GenerateReinforcementOptions(isPlayerTurn, GameManager.reinforcementCount)
+	userInterface.GenerateResearchOptions(isPlayerTurn, GameManager.researchOptionCount)
 	
 	## link pause button
 	userInterface.pauseCycleButton.toggled.connect(ResumeCycleProcess)
@@ -1257,6 +1258,7 @@ func StartTurn(isPlayer, isAttacking):
 	AddIncome(isPlayer)
 	
 	userInterface.GenerateReinforcementOptions(isPlayer, GameManager.reinforcementCount)
+	userInterface.GenerateResearchOptions(isPlayer, GameManager.researchOptionCount)
 	
 	userInterface.SetSlotAvailability(0, matrixWidth)
 	

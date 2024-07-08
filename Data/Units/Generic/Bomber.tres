@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dljbfxoxctonl"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://dljbfxoxctonl"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_vn3kl"]
+[ext_resource type="Texture2D" uid="uid://e8yqb6ormnme" path="res://Art/Units/Generic/he111.png" id="2_nxp2o"]
 
 [resource]
 script = ExtResource("1_vn3kl")
+unitTexture = ExtResource("2_nxp2o")
 name = "GENERIC_BOMBER_NAME"
 description = "GENERIC_BOMBER_DESC"
 disabled = false

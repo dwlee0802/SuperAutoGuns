@@ -1,9 +1,11 @@
-[gd_resource type="Resource" script_class="UnitData" load_steps=2 format=3 uid="uid://dkvuk2hsa686y"]
+[gd_resource type="Resource" script_class="UnitData" load_steps=3 format=3 uid="uid://dkvuk2hsa686y"]
 
 [ext_resource type="Script" path="res://Scripts/UnitData.gd" id="1_2rc7w"]
+[ext_resource type="Texture2D" uid="uid://ipb52pfl6xl1" path="res://Art/Units/wait_order.png" id="2_7pqt6"]
 
 [resource]
 script = ExtResource("1_2rc7w")
+unitTexture = ExtResource("2_7pqt6")
 name = "Wait Order"
 description = "Takes up space."
 disabled = true

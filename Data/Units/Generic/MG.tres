@@ -1,10 +1,12 @@
-[gd_resource type="Resource" script_class="MachineGunUnitData" load_steps=2 format=3 uid="uid://cjoyhjuke5m85"]
+[gd_resource type="Resource" script_class="MachineGunUnitData" load_steps=3 format=3 uid="uid://cjoyhjuke5m85"]
 
 [ext_resource type="Script" path="res://Scripts/MachinegunUnitData.gd" id="1_q6gbw"]
+[ext_resource type="Texture2D" uid="uid://b0xl4sctowmg8" path="res://Art/Units/Generic/mg42.png" id="2_xmyfh"]
 
 [resource]
 script = ExtResource("1_q6gbw")
 setUpTime = 4
+unitTexture = ExtResource("2_xmyfh")
 name = "GENERIC_MG_NAME"
 description = "GENERIC_MG_DESC"
 disabled = false
