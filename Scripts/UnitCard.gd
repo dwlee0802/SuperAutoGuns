@@ -279,7 +279,7 @@ func UpdateStatLabels():
 	var damageLabel: Label = $Stats/AttackDamage/Label
 	var moveLabel: Label = $Stats/MoveSpeed/Label
 	healthLabel.text = str(unit.currentHealthPoints)
-	damageLabel.text = str(unit.GetAttackDamage()) + "/" + str(unit.GetAttackCost())
+	damageLabel.text = str(unit.data.attackDamageMin) + "-" + str(unit.data.attackDamageMax) + "/" + str(unit.GetAttackCost())
 	moveLabel.text = str(unit.GetMovementCost())
 	
 	
