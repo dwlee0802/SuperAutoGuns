@@ -52,3 +52,18 @@ class_name UnitData
 @export var flankingDefenseModifier: float = 0
 
 @export var penetration: int = 0
+
+
+func ImportStats(statDict):
+	maxHealthPoints = statDict.HealthPoints
+	attackDamageMax = statDict.DamageMax
+	attackDamageMin = statDict.DamageMin
+	defense = statDict.Defense
+	penetration = statDict.Penetration
+	attackCost = statDict.AttackCost
+	movementCost = statDict.MovementCost
+	attackRange = statDict.Range
+	purchaseCost = statDict.Price
+	researchCost = statDict.ResearchCost
+
+

@@ -32,10 +32,7 @@ static func _static_init():
 	ImportUnits(Enums.Nation.Generic)
 		
 	for item in unitStats.records:
-		unitDict[item.ID].statDict = item
-		
-	for item in unitDict.keys():
-		print(item + ": " + str(unitDict[item].statDict.HealthPoints) + "\n")
+		unitDict[item.ID].ImportStats(item)
 	
 	ImportTerrain()
 	
@@ -69,10 +66,10 @@ static func ImportUnits(nation: Enums.Nation):
 	unitDict = germany_units
 	
 	if showImportConsoleOutput:
-		print("Imported " + str(unitDict[nation].size()) + " units for " + Enums.NationToString(nation))
+		print("Imported " + str(unitDict.size()) + " units")
 		
-		for item in unitDict[nation]:
-			print(item.name)
+		for item in unitDict.keys():
+			print(unitDict[item].name)
 
 
 static func ImportTerrain():
