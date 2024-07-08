@@ -97,5 +97,5 @@ func SetTerrain(data: TerrainData):
 	$TerrainLabel.self_modulate = data.color
 	#$TextureRect.self_modulate = data.color
 	$TerrainLabel.text = data.name
-	#$TextureRect.texture = data.slotTexture
+	$TextureRect.texture = data.slotTexture
 	tooltip_text = tr(data.description)

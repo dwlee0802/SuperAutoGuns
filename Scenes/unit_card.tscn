@@ -109,7 +109,7 @@ _data = {
 
 [node name="UnitCard" type="Control"]
 texture_filter = 1
-custom_minimum_size = Vector2(170, 90)
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -130,13 +130,13 @@ script = ExtResource("1_lsm36")
 material = SubResource("ShaderMaterial_t01gi")
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.023
-anchor_top = 0.591
-anchor_right = 0.023
-anchor_bottom = 0.591
-offset_top = -30.0
-offset_right = 110.0
-offset_bottom = 30.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = 33.0
+offset_right = -39.0
+offset_bottom = -23.0
+grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_y5uy0")
 expand_mode = 1
@@ -221,7 +221,8 @@ anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 6.0
+offset_top = -14.0
+offset_bottom = -4.0
 grow_horizontal = 2
 grow_vertical = 2
 value = 50.0
@@ -235,7 +236,7 @@ tint_progress = Color(1, 0.346577, 0.280009, 1)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-offset_top = -5.0
+offset_top = 10.0
 offset_bottom = 20.0
 grow_horizontal = 2
 theme_override_constants/h_separation = 2
@@ -330,88 +331,87 @@ autoplay = "star_light_effect_animation"
 
 [node name="Stats" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.9
-anchor_top = 0.3
-anchor_right = 0.9
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -16.8
-offset_top = -8.8
-offset_right = 3.2
-offset_bottom = -4.5
+offset_left = -25.0
 grow_horizontal = 0
 grow_vertical = 2
 alignment = 1
 
 [node name="Health" type="TextureRect" parent="Stats"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 texture = ExtResource("7_et4a6")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="Stats/Health"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.5
+anchors_preset = 15
 anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 5.0
-offset_top = -11.5
-offset_right = 40.0
-offset_bottom = 11.5
+anchor_bottom = 1.0
+grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_font_sizes/font_size = 12
 text = "100"
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="AttackDamage" type="TextureRect" parent="Stats"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 texture = ExtResource("8_vposh")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="Stats/AttackDamage"]
+custom_minimum_size = Vector2(25, 25)
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 5.0
+offset_left = -17.5
 offset_top = -11.5
-offset_right = 40.0
+offset_right = 17.5
 offset_bottom = 11.5
+grow_horizontal = 2
 grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_font_sizes/font_size = 12
 text = "10
 "
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="MoveSpeed" type="TextureRect" parent="Stats"]
-custom_minimum_size = Vector2(20, 20)
+custom_minimum_size = Vector2(25, 25)
 layout_mode = 2
 texture = ExtResource("8_dorte")
 expand_mode = 1
 
 [node name="Label" type="Label" parent="Stats/MoveSpeed"]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
+anchors_preset = 8
+anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 5.0
+offset_left = -17.5
 offset_top = -11.5
-offset_right = 40.0
+offset_right = 17.5
 offset_bottom = 11.5
+grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/outline_size = 1
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 12
 text = "10
 "
+horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SelectionIndicator" type="TextureRect" parent="."]

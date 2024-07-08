@@ -124,17 +124,15 @@ func _gui_input(event):
 			# should be constant with zoom
 			var prevCenter = unitMatrixEditor.global_position + (unitMatrixEditor.size * unitMatrixEditor.scale) / 2
 			
+			var tween = get_tree().create_tween()
 			#centerOffset += (get_global_mouse_position() - centerOffset) / 2
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				var tween = get_tree().create_tween()
 				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + Vector2.ONE / 10.0, 0.1)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				var tween = get_tree().create_tween()
 				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - Vector2.ONE / 10.0, 0.1)
 			
 			var newCenter = unitMatrixEditor.global_position + (unitMatrixEditor.size * unitMatrixEditor.scale) / 2
 			#unitMatrixEditor.global_position -= newCenter - prevCenter
-			var tween = get_tree().create_tween()
 			tween.tween_property(unitMatrixEditor, "global_position", unitMatrixEditor.global_position - newCenter + prevCenter, 0.1)
 			
 			print("prev: " + str(prevCenter))
@@ -271,7 +269,7 @@ func GenerateGrid(colCount: int, rowCount: int):
 	
 	for i in range(colCount):
 		var newCol = VBoxContainer.new()
-		newCol.add_theme_constant_override("separation", 20)
+		newCol.add_theme_constant_override("separation", 50)
 		newCol.alignment = BoxContainer.ALIGNMENT_CENTER
 		
 		for j in range(rowCount):

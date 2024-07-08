@@ -1,11 +1,11 @@
 [gd_resource type="Resource" script_class="TerrainData" load_steps=3 format=3 uid="uid://jgx0t5avukmt"]
 
 [ext_resource type="Script" path="res://Scripts/TerrainData.gd" id="1_vjfyb"]
-[ext_resource type="Texture2D" uid="uid://dcok1gh3b1epc" path="res://Art/32x32_white_square.png" id="2_ewpfn"]
+[ext_resource type="Texture2D" uid="uid://dykgbgkw5l7j3" path="res://Art/Terrain/plains_tile.png" id="2_d7ixj"]
 
 [resource]
 script = ExtResource("1_vjfyb")
-slotTexture = ExtResource("2_ewpfn")
+slotTexture = ExtResource("2_d7ixj")
 name = "PLAINS"
 description = "PLAINS_DESCRIPTION"
 disabled = false
