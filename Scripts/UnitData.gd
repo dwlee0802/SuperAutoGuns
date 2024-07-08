@@ -41,6 +41,9 @@ class_name UnitData
 @export var attackDamage: int = 3
 @export var flankingAttackModifier: float = 0
 
+@export var attackDamageMax: int = 0
+@export var attackDamageMin: int = 0
+
 @export var defense: int = 0
 @export var flankingDefenseModifier: float = 0
 
