@@ -126,16 +126,16 @@ func _gui_input(event):
 			
 			#centerOffset += (get_global_mouse_position() - centerOffset) / 2
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				#var tween = get_tree().create_tween()
-				#tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + Vector2.ONE / 10.0, 0)
-				unitMatrixEditor.scale += Vector2.ONE / 10.0
+				var tween = get_tree().create_tween()
+				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + Vector2.ONE / 10.0, 0.1)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				#var tween = get_tree().create_tween()
-				#tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - Vector2.ONE / 10.0, 0)
-				unitMatrixEditor.scale -= Vector2.ONE / 10.0
+				var tween = get_tree().create_tween()
+				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - Vector2.ONE / 10.0, 0.1)
 			
 			var newCenter = unitMatrixEditor.global_position + (unitMatrixEditor.size * unitMatrixEditor.scale) / 2
-			unitMatrixEditor.global_position -= newCenter - prevCenter
+			#unitMatrixEditor.global_position -= newCenter - prevCenter
+			var tween = get_tree().create_tween()
+			tween.tween_property(unitMatrixEditor, "global_position", unitMatrixEditor.global_position - newCenter + prevCenter, 0.1)
 			
 			print("prev: " + str(prevCenter))
 			print("current: " + str(newCenter))
