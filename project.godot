@@ -33,7 +33,7 @@ movie_writer/movie_file="/Users/CKIRUser/Videos/sdafasd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/graph_2d/plugin.cfg", "res://addons/radial_progress/plugin.cfg")
+enabled=PackedStringArray("res://addons/csv-data-importer/plugin.cfg", "res://addons/graph_2d/plugin.cfg", "res://addons/radial_progress/plugin.cfg")
 
 [input]
 

@@ -6,6 +6,9 @@ class_name UnitData
 
 @export var name: String = "Null"
 
+## letter code used to recognize this unit
+@export var code: String = "ZZZ"
+
 @export_multiline var description: String = ""
 
 # if true does not get added to data manager
@@ -25,6 +28,7 @@ class_name UnitData
 
 @export var onHitAbility: AbilityData = null
 
+@export var statDict = {}
 
 @export_group("Combat Stats")
 @export var maxHealthPoints: int = 10

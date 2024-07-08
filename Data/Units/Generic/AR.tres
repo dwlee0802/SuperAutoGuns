@@ -7,6 +7,7 @@
 script = ExtResource("1_x2p7a")
 unitTexture = ExtResource("2_5h5nv")
 name = "GENERIC_AR_NAME"
+code = "ARF"
 description = "GENERIC_AR_DESC"
 disabled = false
 type = 0
@@ -14,6 +15,7 @@ startingUnit = false
 researchCost = 6
 purchaseCost = 4
 color = Color(0.235697, 0.488765, 0.687134, 1)
+statDict = {}
 maxHealthPoints = 100
 movementCost = 2
 attackCost = 2
