@@ -230,10 +230,14 @@ func ChangeStats(what: Enums.StatType, amount):
 
 func GetAttackDamage(isFlank: bool = false):
 	if isFlank:
-		return (data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingAttackModifier) * (starCount + 1)
+		return (GetRandomDamageAmount() + statAdditionModifier[Enums.StatType.AttackDamage] + data.flankingAttackModifier) * (starCount + 1)
 	else:
-		return (data.attackDamage + statAdditionModifier[Enums.StatType.AttackDamage]) * (starCount + 1)
+		return (GetRandomDamageAmount() + statAdditionModifier[Enums.StatType.AttackDamage]) * (starCount + 1)
 
+
+func GetRandomDamageAmount():
+	return randi_range(data.attackDamageMin, data.attackDamageMax)
+	
 
 func GetMaxHealth():
 	return data.maxHealthPoints * stackCount
