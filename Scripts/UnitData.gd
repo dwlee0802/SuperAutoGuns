@@ -54,16 +54,16 @@ class_name UnitData
 @export var penetration: int = 0
 
 
-func ImportStats(statDict):
-	maxHealthPoints = statDict.HealthPoints
-	attackDamageMax = statDict.DamageMax
-	attackDamageMin = statDict.DamageMin
-	defense = statDict.Defense
-	penetration = statDict.Penetration
-	attackCost = statDict.AttackCost
-	movementCost = statDict.MovementCost
-	attackRange = statDict.Range
-	purchaseCost = statDict.Price
-	researchCost = statDict.ResearchCost
+func ImportStats(_statDict):
+	maxHealthPoints = _statDict.HealthPoints
+	attackDamageMax = _statDict.DamageMax
+	attackDamageMin = _statDict.DamageMin
+	defense = _statDict.Defense
+	penetration = _statDict.Penetration
+	attackCost = _statDict.AttackCost
+	movementCost = _statDict.MovementCost
+	attackRange = _statDict.Range
+	purchaseCost = _statDict.Price
+	researchCost = _statDict.ResearchCost
 
 

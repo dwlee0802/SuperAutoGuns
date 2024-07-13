@@ -325,8 +325,8 @@ func ProcessSingleCycle():
 	
 # called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
-	HealReserveUnits(true)
-	HealReserveUnits(false)
+	GameManager.HealReserveUnits(true)
+	GameManager.HealReserveUnits(false)
 	
 	userInterface.turnTimer.stop()
 
