@@ -325,6 +325,9 @@ func ProcessSingleCycle():
 	
 # called when player ends preparation phase and presses process battle button
 func _on_battle_process_button_pressed():
+	GameManager.HealReserveUnits(true)
+	GameManager.HealReserveUnits(false)
+	
 	userInterface.turnTimer.stop()
 
 	GameManager.isBattleRunning = true
@@ -1243,9 +1246,6 @@ func StartTurn(isPlayer, isAttacking):
 		userInterface.UpdateSlotTerrain(GameManager.playerTerrainMatrix, GameManager.enemyTerrainMatrix)
 	else:
 		userInterface.UpdateSlotTerrain(GameManager.enemyTerrainMatrix, GameManager.playerTerrainMatrix)
-	
-	# heal reserve units
-	GameManager.HealReserveUnits(isPlayer)
 	
 	# move dead units to reserve
 	# do this after StartTurn so they aren't healed 

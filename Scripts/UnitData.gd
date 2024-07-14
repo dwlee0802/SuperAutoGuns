@@ -6,6 +6,9 @@ class_name UnitData
 
 @export var name: String = "Null"
 
+## letter code used to recognize this unit
+@export var code: String = "ZZZ"
+
 @export_multiline var description: String = ""
 
 # if true does not get added to data manager
@@ -25,6 +28,7 @@ class_name UnitData
 
 @export var onHitAbility: AbilityData = null
 
+@export var statDict = {}
 
 @export_group("Combat Stats")
 @export var maxHealthPoints: int = 10
@@ -41,7 +45,25 @@ class_name UnitData
 @export var attackDamage: int = 3
 @export var flankingAttackModifier: float = 0
 
+@export var attackDamageMax: int = 0
+@export var attackDamageMin: int = 0
+
 @export var defense: int = 0
 @export var flankingDefenseModifier: float = 0
 
 @export var penetration: int = 0
+
+
+func ImportStats(_statDict):
+	maxHealthPoints = _statDict.HealthPoints
+	attackDamageMax = _statDict.DamageMax
+	attackDamageMin = _statDict.DamageMin
+	defense = _statDict.Defense
+	penetration = _statDict.Penetration
+	attackCost = _statDict.AttackCost
+	movementCost = _statDict.MovementCost
+	attackRange = _statDict.Range
+	purchaseCost = _statDict.Price
+	researchCost = _statDict.ResearchCost
+
+

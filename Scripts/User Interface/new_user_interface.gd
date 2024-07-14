@@ -161,7 +161,7 @@ func _InstantiateUnitCard() -> UnitCard:
 	
 	
 # populate reinforcement option buttons
-func GenerateReinforcementOptions(isPlayer: bool, optionCount: int, _nation: Enums.Nation = Enums.Nation.Generic):
+func GenerateReinforcementOptions(isPlayer: bool, optionCount: int):
 	# clear children
 	var children = reinforcementContainer.get_children()
 	for item in children:
