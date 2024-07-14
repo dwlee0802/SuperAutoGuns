@@ -143,6 +143,9 @@ static var debugDefenseWinCount: int = 0
 
 @onready var debugLabel = $DebugMenu/DebugLabel
 
+static var disableAttackAnimations: bool = true
+static var disableBattleOverAnimations: bool = true
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -258,11 +261,12 @@ func _on_cycle_timer_timeout():
 		# defending player goes first
 		StartTurn(isPlayerTurn, false)
 		
-		if playerCapturedSectorsCount == totalSectorsCount or playerCapturedSectorsCount == 0:
-			if !GameManager.debugNoGameOver:
-				PlayOperationOverOverlay(playerCapturedSectorsCount == totalSectorsCount)
-		else:
-			PlayBattleStartOverlay()
+		if !GameManager.disableBattleOverAnimations:
+			if playerCapturedSectorsCount == totalSectorsCount or playerCapturedSectorsCount == 0:
+				if !GameManager.debugNoGameOver:
+					PlayOperationOverOverlay(playerCapturedSectorsCount == totalSectorsCount)
+			else:
+				PlayBattleStartOverlay()
 		
 		battleCount += 1
 		userInterface.SetBattleCountLabel(battleCount)
@@ -1573,4 +1577,4 @@ static func BattleResultToString(result: int):
 
 
 func StartAutoProcess():
-	turnTime = 1
+	turnTime = 0.1

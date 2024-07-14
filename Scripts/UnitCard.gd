@@ -101,10 +101,13 @@ func SetUnit(_unit: Unit):
 			unit.firstAttackAfterMoving = false
 			
 		attackAnimationPlayer.animation_finished.connect(OnAttackAnimationFinished)
-		if unit.isPlayer:
-			attackAnimationPlayer.play("attack_animation_left")
+		if !GameManager.disableAttackAnimations:
+			if unit.isPlayer:
+				attackAnimationPlayer.play("attack_animation_left")
+			else:
+				attackAnimationPlayer.play("attack_animation_right")
 		else:
-			attackAnimationPlayer.play("attack_animation_right")
+			OnAttackAnimationFinished("attack_animation_left")
 			
 	UpdateDebugLabel()
 	UpdateStatLabels()

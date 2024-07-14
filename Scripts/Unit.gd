@@ -105,7 +105,7 @@ func ReceiveHit(attacker: Unit):
 		currentHealthPoints = 0
 		
 	# suppression
-	currentMoralePoints -= attacker.GetSuppressionAmount()
+	#currentMoralePoints -= attacker.GetSuppressionAmount()
 	if currentMoralePoints <= 0:
 		currentMoralePoints = 0
 		suppressed.emit()
