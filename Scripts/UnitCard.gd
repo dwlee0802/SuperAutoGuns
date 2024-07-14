@@ -81,6 +81,9 @@ func SetUnit(_unit: Unit):
 	unit.healed.connect(HealAnimation)
 	unit.healed.connect(UpdateHealthLabel)
 	
+	unit.suppressed.connect(UpdateMoraleBar)
+	unit.suppressed.connect(MakePopup.bind("Suppressed", Color.YELLOW.darkened(0.3)))
+	
 	unit.unit_died.connect(UnitDied)
 	
 	UpdateRadialUI(true)

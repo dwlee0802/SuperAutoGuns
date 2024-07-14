@@ -46,6 +46,8 @@ signal attacked
 
 signal was_attacked
 
+signal suppressed
+
 signal stat_changed
 
 
@@ -104,8 +106,9 @@ func ReceiveHit(attacker: Unit):
 		
 	# suppression
 	currentMoralePoints -= attacker.GetSuppressionAmount()
-	if currentMoralePoints < 0:
+	if currentMoralePoints <= 0:
 		currentMoralePoints = 0
+		suppressed.emit()
 		
 	# this calls UnitCard's hit animation
 	received_hit.emit(amount)
