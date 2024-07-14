@@ -145,6 +145,7 @@ static var debugDefenseWinCount: int = 0
 
 static var disableAttackAnimations: bool = true
 static var disableBattleOverAnimations: bool = true
+static var disablePopups: bool = true
 
 
 static func _static_init():

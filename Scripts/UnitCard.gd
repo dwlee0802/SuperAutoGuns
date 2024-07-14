@@ -199,6 +199,9 @@ func HealAnimation(amount):
 	
 # makes a popup that displays content
 func MakePopup(content, color = Color.WHITE, outline_color = Color.GRAY):
+	if GameManager.disablePopups:
+		return
+		
 	var newPopup = damagePopupScene.instantiate()
 	newPopup.global_position = global_position + Vector2(32, 32) + Vector2(randi_range(-10, 10), randi_range(-10, 10))
 	var label: Label = newPopup.get_node("Label")
