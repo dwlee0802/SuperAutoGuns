@@ -658,6 +658,11 @@ static func UnitBehaviorProcess(unitMatrix):
 				if unitMatrix[col][row] is WaitOrder:
 					unitMatrix[col][row].waitCycles -= 1
 				else:
+					# do nothing if morale is zero or lower
+					if unitMatrix[col][row].currentMoralePoints <= 0:
+						unitMatrix[col][row].currentMoralePoints = 50
+						continue
+						
 					# dont move if: is front column or front slot is occupied
 					# row based movement. cound down movement cycles left also if front unit is moving
 					if col == 0 or (unitMatrix[col - 1][row] != null and !unitMatrix[col - 1][row].IsMoving()):

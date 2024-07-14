@@ -48,6 +48,9 @@ class_name UnitData
 @export var attackDamageMax: int = 0
 @export var attackDamageMin: int = 0
 
+@export var suppressionMax: int = 0
+@export var suppressionMin: int = 0
+
 @export var defense: int = 0
 @export var flankingDefenseModifier: float = 0
 
@@ -58,6 +61,8 @@ func ImportStats(_statDict):
 	maxHealthPoints = _statDict.HealthPoints
 	attackDamageMax = _statDict.DamageMax
 	attackDamageMin = _statDict.DamageMin
+	suppressionMax = _statDict.SuppressionMax
+	suppressionMin = _statDict.SuppressionMin
 	defense = _statDict.Defense
 	penetration = _statDict.Penetration
 	attackCost = _statDict.AttackCost

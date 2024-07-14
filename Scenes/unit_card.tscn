@@ -224,6 +224,23 @@ texture_progress = ExtResource("1_oy87j")
 tint_under = Color(0, 0, 0, 1)
 tint_progress = Color(1, 0.346577, 0.280009, 1)
 
+[node name="MoraleBar" type="TextureProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = 7.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+nine_patch_stretch = true
+texture_under = ExtResource("1_oy87j")
+texture_progress = ExtResource("1_oy87j")
+tint_under = Color(0, 0, 0, 1)
+tint_progress = Color(0.858824, 0.65098, 0, 1)
+
 [node name="Stars" type="HFlowContainer" parent="."]
 layout_mode = 1
 anchors_preset = -1

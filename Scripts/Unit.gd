@@ -9,6 +9,8 @@ var data: UnitData
 
 var currentHealthPoints: int
 
+var currentMoralePoints: int = 100
+
 var lastReceivedDamage: int = 0
 
 var movementProgress: int = 0
@@ -99,7 +101,12 @@ func ReceiveHit(attacker: Unit):
 	else:
 		amount = currentHealthPoints
 		currentHealthPoints = 0
-	
+		
+	# suppression
+	currentMoralePoints -= attacker.GetSuppressionAmount()
+	if currentMoralePoints < 0:
+		currentMoralePoints = 0
+		
 	# this calls UnitCard's hit animation
 	received_hit.emit(amount)
 	
@@ -237,7 +244,11 @@ func GetAttackDamage(isFlank: bool = false):
 
 func GetRandomDamageAmount():
 	return randi_range(data.attackDamageMin, data.attackDamageMax)
-	
+
+
+func GetSuppressionAmount():
+	return randi_range(data.suppressionMin, data.suppressionMax)
+
 
 func GetMaxHealth():
 	return data.maxHealthPoints * stackCount

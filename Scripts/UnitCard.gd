@@ -7,6 +7,7 @@ static var rightClicked: UnitCard
 var unit: Unit
 
 @onready var healthBar: TextureProgressBar = $HealthBar
+@onready var moraleBar: TextureProgressBar = $MoraleBar
 
 static var attackLineScene = load("res://Scenes/attack_line_effect.tscn")
 
@@ -42,7 +43,8 @@ static func _static_init():
 func SetUnit(_unit: Unit):
 	unit = _unit
 	healthBar = $HealthBar
-	#
+	moraleBar = $MoraleBar
+	
 	if unit.data.unitTexture != null:
 		$Sprite.texture = unit.data.unitTexture
 		$Sprite.expand_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -50,6 +52,7 @@ func SetUnit(_unit: Unit):
 		$Sprite.self_modulate = unit.data.color
 	
 	UpdateHealthLabel(0)
+	UpdateMoraleBar()
 	
 	if unit.isPlayer:
 		SetSideIndicatorColor(GameManager.playerColor)
@@ -69,9 +72,11 @@ func SetUnit(_unit: Unit):
 	unit.stat_changed.connect(UpdateStatLabels)
 	
 	$Sprite/HitTextureRect/HitAnimaitonPlayer.animation_finished.connect(UpdateHealthLabel)
+	$Sprite/HitTextureRect/HitAnimaitonPlayer.animation_finished.connect(UpdateMoraleBar)
 	
 	unit.received_hit.connect(HitAnimation)
 	unit.received_hit.connect(UpdateHealthLabel)
+	unit.received_hit.connect(UpdateMoraleBar)
 	
 	unit.healed.connect(HealAnimation)
 	unit.healed.connect(UpdateHealthLabel)
@@ -167,6 +172,11 @@ func UpdateHealthLabel(_num = 0):
 	
 	healthBar.max_value = unit.GetMaxHealth()
 	healthBar.value = unit.currentHealthPoints
+
+
+func UpdateMoraleBar(_num = 0):
+	moraleBar.max_value = 100
+	moraleBar.value = unit.currentMoralePoints
 	
 	
 # plays when unit received damage
