@@ -11,7 +11,7 @@ static var currentCycleRatio: float = 0
 @onready var radialProcess = $Control/RadialProgress
 
 # time for each cycle in seconds
-static var cycleSpeeds = [1, 0.5, 0.3]
+static var cycleSpeeds = [0.5, 0.3, 0.2]
 
 
 func _process(_delta):

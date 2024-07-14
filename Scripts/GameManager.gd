@@ -136,6 +136,13 @@ static var researchUI
 
 static var trInstance
 
+static var debugNoGameOver: bool = true
+
+static var debugAttackWinCount: int = 0
+static var debugDefenseWinCount: int = 0
+
+@onready var debugLabel = $DebugMenu/DebugLabel
+
 
 static func _static_init():
 	InitializeMatrix()
@@ -213,6 +220,7 @@ func _ready():
 	
 	# link debug buttons
 	$DebugMenu/Add10FundsButton.pressed.connect(ChangeFunds.bind(10))
+	$DebugMenu/StartAutoProcess.pressed.connect(StartAutoProcess)
 
 
 func _process(_delta):
@@ -225,6 +233,8 @@ func _process(_delta):
 			GameManager.enemyAttackingUnitsCount = 0
 			waitingForAttackAnimaionFinish = false
 	
+	debugLabel.text = "ATK: " + str(GameManager.debugAttackWinCount) + "\nDFS: " + str(GameManager.debugDefenseWinCount)
+	
 	
 func _on_cycle_timer_timeout():
 	# if battle is finished, stop timer
@@ -232,6 +242,8 @@ func _on_cycle_timer_timeout():
 		GameManager.isBattleRunning = false
 		print("\n***End Battle Process***\n\n")
 		cycleTimer.stop()
+		
+		GameManager.HealUnits(1)
 		
 		# set machinegun units' value to true
 		var resetMG = func(unit):
@@ -247,7 +259,8 @@ func _on_cycle_timer_timeout():
 		StartTurn(isPlayerTurn, false)
 		
 		if playerCapturedSectorsCount == totalSectorsCount or playerCapturedSectorsCount == 0:
-			PlayOperationOverOverlay(playerCapturedSectorsCount == totalSectorsCount)
+			if !GameManager.debugNoGameOver:
+				PlayOperationOverOverlay(playerCapturedSectorsCount == totalSectorsCount)
 		else:
 			PlayBattleStartOverlay()
 		
@@ -539,15 +552,18 @@ static func InitializeMatrix():
 	# randomly assign terrainData
 	for col in playerTerrainMatrix:
 		for i in range(col.size()):
-			col[i] = DataManager.terrainData.pick_random()
+			#col[i] = DataManager.terrainData.pick_random()
+			col[i] = DataManager.terrainData[1]
 			
 	for col in enemyTerrainMatrix:
 		for i in range(col.size()):
-			col[i] = DataManager.terrainData.pick_random()
+			#col[i] = DataManager.terrainData.pick_random()
+			col[i] = DataManager.terrainData[1]
 			
 	middleTerrainList = []
 	for i in range(matrixHeight):
-		middleTerrainList.append(DataManager.terrainData.pick_random())
+		#middleTerrainList.append(DataManager.terrainData.pick_random())
+		middleTerrainList.append(DataManager.terrainData[1])
 	
 	
 	
@@ -607,22 +623,27 @@ static func CycleProcess():
 		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(false)
 		print("\nSuccessful Defensive")
+		GameManager.debugDefenseWinCount += 1
 	elif playerAttacking and enemyCount == 0:
 		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(true)
 		print("\nSuccessful Player Offensive")
+		GameManager.debugAttackWinCount += 1
 	elif !playerAttacking and playerCount == 0:
 		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(true)
 		print("\nSuccessful Enemy Offensive")
+		GameManager.debugAttackWinCount += 1
 	elif !playerAttacking and enemyCount == 0:
 		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(false)
 		print("\nSuccessful Player Defensive")
+		GameManager.debugDefenseWinCount += 1
 	elif playerAttacking and playerCount == 0:
 		GameManager.ImportUnitMatrixBackup()
 		BattleResultProcess(false)
 		print("\nSuccessful Enemy Defensive")
+		GameManager.debugDefenseWinCount += 1
 	
 	if playerCount == 0 or enemyCount == 0:
 		if playerCount == 0 and enemyCount == 0:
@@ -1549,3 +1570,7 @@ static func BattleResultToString(result: int):
 			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("OFFENSIVE") + " " +  tempNode.tr("VICTORY")
 		else:
 			return tempNode.tr("GENERIC_ENEMY_NAME") + " " + tempNode.tr("DEFENSIVE") + " " +  tempNode.tr("VICTORY")
+
+
+func StartAutoProcess():
+	turnTime = 1

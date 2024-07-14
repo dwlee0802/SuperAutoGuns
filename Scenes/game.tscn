@@ -219,6 +219,23 @@ offset_right = 8.0
 offset_bottom = 8.0
 text = "Add 10 Funds"
 
+[node name="StartAutoProcess" type="Button" parent="DebugMenu"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 28.0
+offset_right = 113.0
+offset_bottom = 59.0
+text = "Start Auto Process"
+
+[node name="DebugLabel" type="Label" parent="DebugMenu"]
+layout_mode = 0
+offset_left = 185.0
+offset_top = 3.0
+offset_right = 257.0
+offset_bottom = 52.0
+text = "ATK: 0
+DFS: 0"
+
 [node name="BattleStartOverlay" type="TextureRect" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0)

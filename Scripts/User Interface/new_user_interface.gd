@@ -136,8 +136,8 @@ func _gui_input(event):
 			#unitMatrixEditor.global_position -= newCenter - prevCenter
 			tween.tween_property(unitMatrixEditor, "global_position", unitMatrixEditor.global_position - newCenter + prevCenter, 0.1)
 			
-			print("prev: " + str(prevCenter))
-			print("current: " + str(newCenter))
+			#print("prev: " + str(prevCenter))
+			#print("current: " + str(newCenter))
 		
 # make new card and connect signals
 func _InstantiateUnitCard() -> UnitCard:
