@@ -105,10 +105,11 @@ func ReceiveHit(attacker: Unit):
 		currentHealthPoints = 0
 		
 	# suppression
-	#currentMoralePoints -= attacker.GetSuppressionAmount()
-	if currentMoralePoints <= 0:
-		currentMoralePoints = 0
-		suppressed.emit()
+	if !GameManager.disableMorale:
+		currentMoralePoints -= attacker.GetSuppressionAmount()
+		if currentMoralePoints <= 0:
+			currentMoralePoints = 0
+			suppressed.emit()
 		
 	# this calls UnitCard's hit animation
 	received_hit.emit(amount)
