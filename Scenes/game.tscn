@@ -78,6 +78,7 @@ grow_vertical = 2
 script = ExtResource("1_su57y")
 
 [node name="UserInterface" parent="." instance=ExtResource("2_rxj5d")]
+visible = false
 layout_mode = 1
 middleColor = Color(0.545098, 0, 0, 1)
 

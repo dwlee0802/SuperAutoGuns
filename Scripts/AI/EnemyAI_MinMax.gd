@@ -4,6 +4,8 @@ class_name EnemyAI_MinMax
 var units = []
 var unitsByType = []
 
+var unitsByTypeTemp = []
+
 static var lostLastBattle: bool = false
 
 	
@@ -12,6 +14,11 @@ func InitializeUnitTypeList():
 	for i in range(Enums.unitTypeCount):
 		var list = []
 		unitsByType.append(list)
+		
+	unitsByTypeTemp = []
+	for i in range(Enums.unitTypeCount):
+		var list = []
+		unitsByTypeTemp.append(list)
 		
 		
 func ImportUnits():
@@ -38,7 +45,7 @@ func ExportReserve():
 			
 			
 # returns the best unit matrix among the randomly generated options
-func GenerateUnitMatrix(tryCount: int = 1):
+func GenerateUnitMatrix(tryCount: int = 10):
 	print("***Starting Enemy AI MinMax Process***\n")
 	
 	# pick reinforcement option
@@ -61,6 +68,19 @@ func GenerateUnitMatrix(tryCount: int = 1):
 	# if a unit that is the same type already is there, merge
 	for i in range(tryCount):
 		# array to keep track of number of units in row
+		var currentMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth)
+		
+		# initialize array
+		unitsByTypeTemp = []
+		for ty in range(Enums.unitTypeCount):
+			var list = []
+			unitsByTypeTemp.append(list)
+			
+		# make deep copy of unit array
+		for type in range(Enums.unitTypeCount):
+			for unit in unitsByType[type]:
+				unitsByTypeTemp[type].append(unit.Duplicate())
+		
 		var rowUnitCount = []
 		rowUnitCount.resize(GameManager.matrixHeight)
 		rowUnitCount.fill(0)
@@ -71,11 +91,12 @@ func GenerateUnitMatrix(tryCount: int = 1):
 			if finishPlacingUnits:
 				break
 					
-			while unitsByType[type].size() > 0:
+			while unitsByTypeTemp[type].size() > 0:
 				if finishPlacingUnits:
 					break
 					
-				var unit: Unit = unitsByType[type].pop_back()
+				var unit: Unit = unitsByTypeTemp[type].pop_back()
+				
 				# pick random row
 				var randomRow = randi_range(0, GameManager.matrixHeight - 1)
 				# if randomRow's unitCount is above the limit, pick again
@@ -92,29 +113,33 @@ func GenerateUnitMatrix(tryCount: int = 1):
 							if fullRowCount >= GameManager.matrixHeight:
 								# cant place stuff anymore so finish placing units
 								finishPlacingUnits = true
+								break
 						else:
 							# not full. choose that row
 							break
 					
+				if finishPlacingUnits:
+					break
+					
 				# check if unit in front is same type
 				# if empty, just place it there
 				if rowUnitCount[randomRow] == 0:
-					unitMatrix[rowUnitCount[randomRow]][randomRow] = unit
+					currentMatrix[rowUnitCount[randomRow]][randomRow] = unit
 					rowUnitCount[randomRow] += 1
 				# if not empty, check type
-				elif unitMatrix[rowUnitCount[randomRow]][randomRow].data == unit.data:
+				elif currentMatrix[rowUnitCount[randomRow] - 1][randomRow].data == unit.data:
 					# same type. merge
-					unitMatrix[rowUnitCount[randomRow]][randomRow].Merge(unit)
+					currentMatrix[rowUnitCount[randomRow] - 1][randomRow].Merge(unit)
 				else:
 					# different type. place behind
-					unitMatrix[rowUnitCount[randomRow]][randomRow] = unit
+					currentMatrix[rowUnitCount[randomRow]][randomRow] = unit
 					rowUnitCount[randomRow] += 1
 				
 		# assess their value and update bestScore if needed
+		
+		GameManager.PrintUnitMatrix(currentMatrix)
 	
 	print("***Finished Enemy AI Process***\n\n")
-	
-	GameManager.PrintUnitMatrix(unitMatrix)
 	
 	return unitMatrix
 

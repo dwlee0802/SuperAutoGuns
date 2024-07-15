@@ -75,7 +75,7 @@ static var enemyTotalFundsHistory = []
 static var playerIncomeHistory = []
 static var enemyIncomeHistory = []
 
-static var baseIncomeAmount: int = 100
+static var baseIncomeAmount: int = 1000
 
 static var autoHealRatio: float = 0.6
 static var autoHealAmount: int = 1
@@ -1416,9 +1416,9 @@ static func PrintUnitMatrix(unitMatrix):
 		var line = str(count)
 		for item in col:
 			if item != null:
-				line += "o"
+				line += "(" + item.data.code + str(item.stackCount) + ")"
 			else:
-				line += "x"
+				line += "(____)"
 		output += line + "\n"
 	
 	print(output)

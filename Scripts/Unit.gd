@@ -65,8 +65,23 @@ func _init(_player, _data, _coord, _stack: int = 1):
 	
 	ResetStats()
 	ResetStatModifiers()
-	
 
+	
+func Duplicate():
+	var clone = Unit.new(isPlayer, data, coords, stackCount)
+	clone.currentHealthPoints = currentHealthPoints
+	clone.currentMoralePoints = currentMoralePoints
+	clone.boughtThisTurn = boughtThisTurn
+	clone.lastReceivedDamage = lastReceivedDamage
+	clone.isDead = isDead
+	clone.isMoving = isMoving
+	clone.attackTarget = attackTarget
+	clone.movementProgress = movementProgress
+	clone.attackProgress = attackProgress
+	
+	return clone
+	
+	
 func ResetStats():
 	movementProgress = 0
 	attackProgress = 0
@@ -222,14 +237,6 @@ func Merge(otherUnit: Unit):
 func _to_string():
 	var output = data.name + str(stackCount)
 	return output
-
-
-func Duplicate():
-	var clone = Unit.new(isPlayer, data, coords, stackCount)
-	clone.currentHealthPoints = currentHealthPoints
-	clone.boughtThisTurn = boughtThisTurn
-	
-	return clone
 	
 	
 func ChangeStats(what: Enums.StatType, amount):
