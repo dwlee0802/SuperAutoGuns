@@ -60,19 +60,59 @@ func GenerateUnitMatrix(tryCount: int = 100):
 	var bestScore: float = 0
 	var bestLayout
 	
-	# array to keep track of number of units in row
-	var rowUnitCount = []
-	rowUnitCount.resize(GameManager.matrixHeight)
-	
 	# for all units starting from armor, randomly pick a row and place them there
 	# if a unit that is the same type already is there, merge
 	for i in range(tryCount):
+		# array to keep track of number of units in row
+		var rowUnitCount = []
+		rowUnitCount.resize(GameManager.matrixHeight)
+		rowUnitCount.fill(0)
+		
+		var finishPlacingUnits: bool = false
+		
 		for type in range(Enums.unitTypeCount):
-			for unit in unitsByType[type]:
+			if finishPlacingUnits:
+				break
+					
+			while unitsByType[type].size() > 0:
+				if finishPlacingUnits:
+					break
+					
+				var unit: Unit = unitsByType[type].pop_back()
 				# pick random row
 				var randomRow = randi_range(0, GameManager.matrixHeight)
+				# if randomRow's unitCount is above the limit, pick again
+				if rowUnitCount[randomRow] >= GameManager.matrixWidth:
+					var fullRowCount: int = 1
+					while true:
+						randomRow += 1
+						randomRow = randomRow % GameManager.matrixHeight
+						# check if new random row is full
+						if rowUnitCount[randomRow] >= GameManager.matrixWidth:
+							# its full
+							fullRowCount += 1
+							# we reached our max row limit. all rows are full.
+							if fullRowCount >= GameManager.matrixHeight:
+								# cant place stuff anymore so finish placing units
+								finishPlacingUnits = true
+						else:
+							# not full. choose that row
+							break
+					
 				# check if unit in front is same type
-				if unitMatrix[][randomRow]
+				# if empty, just place it there
+				if rowUnitCount[randomRow] == 0:
+					unitMatrix[rowUnitCount[randomRow]][randomRow] = unit
+					rowUnitCount[randomRow] += 1
+				# if not empty, check type
+				elif unitMatrix[rowUnitCount[randomRow]][randomRow].data == unit.data:
+					# same type. merge
+					unitMatrix[rowUnitCount[randomRow]][randomRow].Merge(unit)
+				else:
+					# different type. place behind
+					unitMatrix[rowUnitCount[randomRow]][randomRow] = unit
+					rowUnitCount[randomRow] += 1
+				
 		# assess their value and update bestScore if needed
 	
 	print("***Finished Enemy AI Process***\n\n")

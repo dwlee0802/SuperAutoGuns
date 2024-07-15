@@ -1448,8 +1448,8 @@ static func UpdateUnitPositions():
 	
 func UpdateCTKLabel():
 	var label = $CTKLabel
-	label.text = "player: " + str(EnemyAI_MinMax.CalculateWholeCTK(playerUnitMatrix, enemyUnitMatrix))
-	label.text += "\nenemy: " + str(EnemyAI_MinMax.CalculateWholeCTK(enemyUnitMatrix, playerUnitMatrix))
+	label.text = "player: " + str(EnemyAI_MinMax.CalculateTotalCTK(playerUnitMatrix, enemyUnitMatrix))
+	label.text += "\nenemy: " + str(EnemyAI_MinMax.CalculateTotalCTK(enemyUnitMatrix, playerUnitMatrix))
 
 
 # take a snap shot of current funds n record it
