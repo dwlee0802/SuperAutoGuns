@@ -66,6 +66,7 @@ func GenerateUnitMatrix(tryCount: int = 10):
 	
 	# for all units starting from armor, randomly pick a row and place them there
 	# if a unit that is the same type already is there, merge
+	#TODO before placing unit behind, make sure that the front row is full first?
 	for i in range(tryCount):
 		# array to keep track of number of units in row
 		var currentMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth)
