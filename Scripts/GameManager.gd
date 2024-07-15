@@ -143,10 +143,11 @@ static var debugDefenseWinCount: int = 0
 
 @onready var debugLabel = $DebugMenu/DebugLabel
 
-static var disableAttackAnimations: bool = true
-static var disableBattleOverAnimations: bool = true
-static var disablePopups: bool = true
+static var disableAttackAnimations: bool = false
+static var disableBattleOverAnimations: bool = false
+static var disablePopups: bool = false
 static var disableMorale: bool = false
+static var disableRandomTerrain: bool = false
 
 
 static func _static_init():
@@ -558,21 +559,25 @@ static func InitializeMatrix():
 	# randomly assign terrainData
 	for col in playerTerrainMatrix:
 		for i in range(col.size()):
-			#col[i] = DataManager.terrainData.pick_random()
-			col[i] = DataManager.terrainData[1]
+			if GameManager.disableRandomTerrain:
+				col[i] = DataManager.terrainData[1]
+			else:
+				col[i] = DataManager.terrainData.pick_random()
 			
 	for col in enemyTerrainMatrix:
 		for i in range(col.size()):
-			#col[i] = DataManager.terrainData.pick_random()
-			col[i] = DataManager.terrainData[1]
+			if GameManager.disableRandomTerrain:
+				col[i] = DataManager.terrainData[1]
+			else:
+				col[i] = DataManager.terrainData.pick_random()
 			
 	middleTerrainList = []
 	for i in range(matrixHeight):
-		#middleTerrainList.append(DataManager.terrainData.pick_random())
-		middleTerrainList.append(DataManager.terrainData[1])
-	
-	
-	
+		if GameManager.disableRandomTerrain:
+			middleTerrainList.append(DataManager.terrainData[1])
+		else:
+			middleTerrainList.append(DataManager.terrainData.pick_random())
+
 
 # returns true if battle is over
 static func CycleProcess():
