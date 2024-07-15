@@ -467,3 +467,7 @@ theme_override_font_sizes/font_size = 8
 text = "asdf"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AttackTargetIndicator" type="Line2D" parent="."]
+points = PackedVector2Array(98, 87, 656, -94)
+default_color = Color(0.473976, 0.473976, 0.473976, 1)

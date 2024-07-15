@@ -55,11 +55,11 @@ static var playerFunds: int = 5
 static var enemyFunds: int = 5
 
 static var interestRate: float = 0.1
-static var maxInterest: int = 10
+static var maxInterest: int = 100
 
 static var bonusPerCapture: float = 0.5
 
-static var fundsMaxAmount: int = 100
+static var fundsMaxAmount: int = 1000
 
 static var rerollCost: int = 1
 
@@ -143,7 +143,7 @@ static var debugDefenseWinCount: int = 0
 
 @onready var debugLabel = $DebugMenu/DebugLabel
 
-static var disableAttackAnimations: bool = false
+static var disableAttackAnimations: bool = true
 static var disableBattleOverAnimations: bool = false
 static var disablePopups: bool = false
 static var disableMorale: bool = false

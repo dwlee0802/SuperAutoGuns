@@ -18,7 +18,7 @@ var menuButtonsGroup: ButtonGroup
 
 @onready var editorBackground = $EditorBackground
 @onready var unitMatrixEditor = $EditorBackground/UnitMatrixEditor/HBoxContainer
-var zoomSpeed: float = 1.5
+var zoomSpeed: float = 1.2
 
 @onready var captureStatusUI = $TopScreen/CaptureStatusUI
 
@@ -128,9 +128,9 @@ func _gui_input(event):
 			var tween = get_tree().create_tween()
 			#centerOffset += (get_global_mouse_position() - centerOffset) / 2
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + zoomSpeed * Vector2.ONE / 10.0, 0.1)
+				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale + zoomSpeed * Vector2.ONE / 15.0, 0.1)
 			if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - zoomSpeed * Vector2.ONE / 10.0, 0.1)
+				tween.tween_property(unitMatrixEditor, "scale", unitMatrixEditor.scale - zoomSpeed * Vector2.ONE / 15.0, 0.1)
 			
 			var newCenter = unitMatrixEditor.global_position + (unitMatrixEditor.size * unitMatrixEditor.scale) / 2
 			#unitMatrixEditor.global_position -= newCenter - prevCenter

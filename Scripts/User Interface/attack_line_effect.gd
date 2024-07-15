@@ -7,8 +7,8 @@ func SetValues(startPos: Vector2, endPos: Vector2, color: Color):
 	set_point_position(1, endPos)
 	default_color = color
 	
-	print(startPos)
-	print(endPos)
+	#print(startPos)
+	#print(endPos)
 	
 	
 # Called when the node enters the scene tree for the first time.

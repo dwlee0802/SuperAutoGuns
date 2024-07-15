@@ -29,6 +29,8 @@ static var deathEffect
 static var goldStarImage = load("res://Art/gold_star.png")
 static var greyStarImage = load("res://Art/grey_star.png")
 
+var attackTargetLine: Line2D
+
 signal clicked
 
 signal was_right_clicked(clicked_thing)
@@ -87,6 +89,16 @@ func SetUnit(_unit: Unit):
 	unit.unit_died.connect(UnitDied)
 	
 	UpdateRadialUI(true)
+	
+	#attackTargetLine = $AttackTargetIndicator
+	#if unit.attackTarget == null:
+		#attackTargetLine.visible = false
+	#else:
+		#attackTargetLine.visible = true
+		#var targetCard: UnitCard = GameManager.userInterface.FindUnitCard(unit.attackTarget)
+		#attackTargetLine.set_point_position(0, size/2)
+		#attackTargetLine.set_point_position(1, targetCard.size / 2 + (targetCard.global_position - global_position) / GameManager.userInterface.unitMatrixEditor.scale)
+		#
 	
 	if unit is WaitOrder:
 		if unit.waitCycles <= 0:
