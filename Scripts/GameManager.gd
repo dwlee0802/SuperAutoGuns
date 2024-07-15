@@ -170,6 +170,10 @@ func _ready():
 	userInterface.commitButton.pressed.connect(CommitButtonPressed)
 	userInterface.passButton.pressed.connect(PassButtonPressed)
 	
+	# set up AI
+	enemyAI = EnemyAI_MinMax.new(GameManager.enemyUnitMatrix, GameManager.enemyReserves, userInterface)
+	$DebugMenu/AIGenerateMatrixButton.pressed.connect(enemyAI.GenerateUnitMatrix)
+	
 	# unit matrix editor set up
 	userInterface.GenerateGrid(GameManager.matrixWidth * 2 + 1, GameManager.matrixHeight)
 	userInterface.SetSlotAvailability(0, 3)

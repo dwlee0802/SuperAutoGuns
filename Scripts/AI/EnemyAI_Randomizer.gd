@@ -5,10 +5,6 @@ var unitsByPriority = []
 
 static var lostLastBattle: bool = false
 
-var unitMatrix
-var reserve
-var editor
-
 
 func InitializeUnitPriorityList():
 	unitsByPriority = []

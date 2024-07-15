@@ -6,10 +6,6 @@ var unitsByType = []
 
 static var lostLastBattle: bool = false
 
-var unitMatrix
-var reserve
-var editor
-
 	
 func InitializeUnitTypeList():
 	unitsByType = []
@@ -32,8 +28,9 @@ func ImportUnits():
 
 func AddReserveUnits():
 	# keep adding units as long as we have space
-	units.append_array(reserve)
-
+	for item: Unit in reserve:
+		unitsByType[item.data.type].append(item)
+		
 
 # place the units leftover into reserve
 func ExportReserve():
@@ -41,7 +38,7 @@ func ExportReserve():
 			
 			
 # returns the best unit matrix among the randomly generated options
-func GenerateUnitMatrix(tryCount: int = 100):
+func GenerateUnitMatrix(tryCount: int = 1):
 	print("***Starting Enemy AI MinMax Process***\n")
 	
 	# pick reinforcement option
@@ -80,7 +77,7 @@ func GenerateUnitMatrix(tryCount: int = 100):
 					
 				var unit: Unit = unitsByType[type].pop_back()
 				# pick random row
-				var randomRow = randi_range(0, GameManager.matrixHeight)
+				var randomRow = randi_range(0, GameManager.matrixHeight - 1)
 				# if randomRow's unitCount is above the limit, pick again
 				if rowUnitCount[randomRow] >= GameManager.matrixWidth:
 					var fullRowCount: int = 1
@@ -116,6 +113,8 @@ func GenerateUnitMatrix(tryCount: int = 100):
 		# assess their value and update bestScore if needed
 	
 	print("***Finished Enemy AI Process***\n\n")
+	
+	GameManager.PrintUnitMatrix(unitMatrix)
 	
 	return unitMatrix
 

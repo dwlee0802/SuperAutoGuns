@@ -236,6 +236,14 @@ offset_bottom = 52.0
 text = "ATK: 0
 DFS: 0"
 
+[node name="AIGenerateMatrixButton" type="Button" parent="DebugMenu"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 63.0
+offset_right = 183.0
+offset_bottom = 94.0
+text = "Generate Random UM"
+
 [node name="BattleStartOverlay" type="TextureRect" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0)
