@@ -1,7 +1,8 @@
 extends EnemyAI
 class_name EnemyAI_MinMax
 
-var unitsByPriority = []
+var units = []
+var unitsByType = []
 
 static var lostLastBattle: bool = false
 
@@ -9,81 +10,70 @@ var unitMatrix
 var reserve
 var editor
 
-
-func InitializeUnitPriorityList():
-	unitsByPriority = []
+	
+func InitializeUnitTypeList():
+	unitsByType = []
 	for i in range(Enums.unitTypeCount):
 		var list = []
-		unitsByPriority.append(list)
-	
-	
+		unitsByType.append(list)
+		
+		
 func ImportUnits():
-	InitializeUnitPriorityList()
+	InitializeUnitTypeList()
 	
 	# this makes it so the order is kept
 	for col in range(len(unitMatrix)):
 		for row in range(len(unitMatrix[col])):
 			if unitMatrix[col][row] != null:
 				var unit: Unit = unitMatrix[col][row]
-				unitsByPriority[unit.data.type].append(unit)
+				unitsByType[unit.data.type].append(unit)
+				units.append(unit)
 
 
 func AddReserveUnits():
 	# keep adding units as long as we have space
-	for item: Unit in reserve:
-		unitsByPriority[item.data.type].append(item)
-	
+	units.append_array(reserve)
+
 
 # place the units leftover into reserve
 func ExportReserve():
-	for type in range(unitsByPriority.size()):
-		for unit: Unit in unitsByPriority[type]:
-			GameManager.enemyReserves.append(unit)
+	reserve.append_array(units)
 			
 			
-# returns a 2D array of units
-func GenerateUnitMatrix():
-	print("***Starting Enemy AI Process***\n")
+# returns the best unit matrix among the randomly generated options
+func GenerateUnitMatrix(tryCount: int = 100):
+	print("***Starting Enemy AI MinMax Process***\n")
 	
 	# pick reinforcement option
 	print("Enemy AI: Picking reinforcement options\n")
 	ChooseReinforcementOption()
 	
-	print("Enemy AI: Getting current unit matrix\n")
+	print("Enemy AI: Getting units\n")
 	ImportUnits()
-	
+	AddReserveUnits()
+
 	# reset enemy unit matrix
 	unitMatrix = GameManager.Make2DArray(GameManager.matrixHeight, GameManager.matrixWidth)
+	reserve = []
 	
 	print("Enemy AI: Generating unit matrix\n")
-	# if lost last time, add new units and shuffle list
-	AddReserveUnits()
+	var bestScore: float = 0
+	var bestLayout
 	
-	if lostLastBattle:
-		ShuffleUnits()
+	# array to keep track of number of units in row
+	var rowUnitCount = []
+	rowUnitCount.resize(GameManager.matrixHeight)
 	
-	var unitPlacedCount: int = 0
-	# if won last time, keep unit list and add new units at the back
-	for type in range(unitsByPriority.size()):
-		for unit: Unit in unitsByPriority[type]:
-			var col: int = unitPlacedCount / GameManager.matrixHeight
-			var row: int = unitPlacedCount % GameManager.matrixHeight
-			
-			if col >= GameManager.matrixHeight:
-				break
-			if unitPlacedCount >= GameManager.matrixHeight * GameManager.matrixWidth:
-				break
-				
-			unitMatrix[col][row] = unit
-			unit.coords = Vector2(col, row)
-			
-			var index = reserve.find(unit)
-			if index >= 0:
-				reserve.remove_at(index)
-			
-			unitPlacedCount += 1
-				
-	# repeat this for set number of times and return best option
+	# for all units starting from armor, randomly pick a row and place them there
+	# if a unit that is the same type already is there, merge
+	for i in range(tryCount):
+		for type in range(Enums.unitTypeCount):
+			for unit in unitsByType[type]:
+				# pick random row
+				var randomRow = randi_range(0, GameManager.matrixHeight)
+				# check if unit in front is same type
+				if unitMatrix[][randomRow]
+		# assess their value and update bestScore if needed
 	
 	print("***Finished Enemy AI Process***\n\n")
 	
@@ -92,12 +82,7 @@ func GenerateUnitMatrix():
 
 # randomizes the units inside each priority level list
 func ShuffleUnits():
-	if unitsByPriority == null:
-		print("ERROR! Unit priority list empty but calling shuffle.")
-		return
-		
-	for i in range(len(unitsByPriority)):
-		unitsByPriority[i].shuffle()
+	pass
 
 
 # just pick a random unit
@@ -105,6 +90,7 @@ func ChooseReinforcementOption():
 	var options = editor.GetReinforcementOptions()
 	options.shuffle()
 	
+	# buy until out of money or out of options
 	for item: ReinforcementOptionButton in options:
 		if !item.PurchseUnit():
 			return
@@ -131,7 +117,7 @@ static func CalculateCTK(attackerMatrix, defenderMatrix):
 	return totalCTK
 
 
-static func CalculateWholeCTK(attackerMatrix, defenderMatrix):
+static func CalculateTotalCTK(attackerMatrix, defenderMatrix):
 	var totalHP: float = 0
 	var totalDPC: float = 0
 	

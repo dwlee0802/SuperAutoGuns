@@ -177,6 +177,11 @@ func GenerateReinforcementOptions(isPlayer: bool, optionCount: int):
 		reinforcementContainer.add_child(newOption)
 		
 
+# returns an array of current reinforcement options
+func GetReinforcementOptions():
+	return reinforcementContainer.get_children()
+	
+	
 func RerollButtonPressed():
 	if GameManager.CheckFunds(GameManager.rerollCost):
 		GenerateReinforcementOptions(GameManager.isPlayerTurn, GameManager.reinforcementCount)
